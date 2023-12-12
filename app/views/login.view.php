@@ -166,7 +166,7 @@
         border: none;
         border-radius: 5px;
         background-color: var(--light);
-        font-size: 0.8rem;
+        font-size: 1rem;
         /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
     }
 
@@ -289,17 +289,17 @@
     <div class="auth-page">
         <div class="auth-container">
             <h2>Sign In</h2>
-            <form id="loginForm">
-                <p class="validate-mzg">this is validate mzg</p>
-                <input type="email" placeholder="Email" required>
+            <form method="post" id="loginForm">
+                <p class="validate-mzg">this is a validate mzg</p>
+                <input type="email" name="email" placeholder="Email" required1>
 
-                <p class="validate-mzg">this is validate mzg</p>
-                <input type="password" placeholder="Password" required>
+                <p class="validate-mzg">this is a validate mzg</p>
+                <input type="password" name="password" placeholder="Password" required1>
                 <!-- <div class="remember-me">
                 <input type="checkbox" id="remember">
                 <label for="remember">Remember me</label>
             </div> -->
-                <button type="submit">Log In</button>
+                <button type="submit" id="loginButton">Log In</button>
 
                 <p>Don't have an account? <a href="<?php echo ROOT ?>/signup">Sign Up</a></p>
 
@@ -309,6 +309,21 @@
                 </div> -->
 
             </form>
+
+            <!-- <script>
+                const loginButton = document.getElementById("loginButton");
+                const loginForm = document.getElementById("loginForm");
+
+                loginButton.addEventListener("click", () => {
+                    // Retrieve form data
+                    const formData = new FormData(loginForm);
+                    const formValues = Object.fromEntries(formData.entries());
+
+                    // Display form details
+                    console.log(formValues);
+                    // You can replace the console.log with your desired logic to display the form details
+                });
+            </script> -->
         </div>
     </div>
 </body>

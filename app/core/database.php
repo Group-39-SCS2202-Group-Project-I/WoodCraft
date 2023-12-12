@@ -43,6 +43,17 @@ class Database
 		return false;
 	}
 
+	public function select($table,$where = null,$data = [],$type = 'object')
+	{
+		$query = "SELECT * FROM $table";
+		if($where != null)
+		{
+			$query .= " WHERE $where";
+		}
+
+		return $this->query($query,$data,$type);
+	}
+
 	// public function create_tables()
 	// {
 	// 	//users table

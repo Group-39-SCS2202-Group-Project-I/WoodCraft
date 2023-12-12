@@ -31,6 +31,6 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 	define('DBDRIVER', 'mysql');
 
 	//root path e.g https://www.yourwebsite.com
-	define('ROOT', 'http://');
+	// define('ROOT', 'http://');
 }
 

@@ -158,7 +158,7 @@
         border: none;
         border-radius: 5px;
         background-color: var(--light);
-        font-size: 0.8rem;
+        font-size: 1rem;
         /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
     }
 
@@ -285,45 +285,47 @@
     <div class="auth-page">
         <div class="auth-container">
             <h2>Sign Up</h2>
-            <form id="signupForm">
+            <form method="post"  id="signupForm">
                 <div id="initialSection">
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="text" placeholder="First Name" required>
+                    <input value="<?= set_value('first_name') ?>" type="text" name="first_name" placeholder="First Name" required1>
 
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="text" placeholder="Last Name" required>
+                    <input value="<?= set_value('last_name') ?>" type="text" name="last_name" placeholder="Last Name" required1>
 
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="email" placeholder="Email" required>
+                    <input value="<?= set_value('email') ?>" type="email" name="email" placeholder="Email" required1>
 
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="password" placeholder="Password" required>
+                    <input value="<?= set_value('password') ?>" type="password" name="password" placeholder="Password" required1>
 
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="password" placeholder="Confirm Password" required>
+                    <input value="<?= set_value('confirm_password') ?>" type="password" name="confirm_password" placeholder="Confirm Password" required1>
                     <button type="button" id="nextButton">Next</button>
 
                 </div>
                 <div id="contactSection" style="display: none;">
                     <p class="validate-mzg">this is validate mzg</p>
-                    <input type="tel" placeholder="Contact Number">
+                    <input value="<?= set_value('telephone') ?>" type="tel" name="telephone" placeholder="Contact Number">
 
                     <p class="validate-mzg">this is validate mzg</p>
                     <section>
-                        <input type="text" placeholder="Street Address">
-                        <input type="text" placeholder="City">
-                        <input type="text" placeholder="District">
-                        <input type="text" placeholder="Zip Code">
+                        <input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1" placeholder="Address Line 1">
+                        <input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2" placeholder="Address Line 2">
+                        <input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
+                        <input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
                         <!-- <div class="default-address">
                             <input type="checkbox" id="shipping">
                             <label for="shipping">Set as default shipping address</label>
                         </div> -->
                     </section>
-                    <p>By creating an account you agree with our <a href="">Terms of Service</a> , <a href="">Privacy
-                            Policy</a></p>
+                    <p>By creating an account you agree with our <a >Terms of Service, Privacy
+                            Policy.</a></p>
                     <div style="width: 100%;">
                         <button type="button" id="backButton" style="float: left; width: 29%;">Back</button>
-                        <button type="submit" style="float: right; width: 70%">Sign Up</button>
+                        <button type="submit" style="float: right; width: 70%" id="signupButton">Sign Up</button>
+
+                        
                     </div>
                 </div>
                 <p>Do you have an account? <a href="<?php echo ROOT ?>/login">Log In</a></p>
