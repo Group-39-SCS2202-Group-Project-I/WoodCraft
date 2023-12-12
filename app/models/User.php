@@ -3,27 +3,37 @@
 /**
  * users model
  */
-class User
+class User extends Model
 {
 	
 	public $errors = [];
 	protected $table = "user";
 
+	protected $allowedColumns = [
+		"email",
+		"password",
+		"role",
+		"created_at",
+		"updated_at"
+	];
+
 	
-
-
-
 	public function validate($data)
 	{
 		$this->errors = [];
 
-		if (empty($data['email'])) 
+		
+		if(!filter_var($data['email'],FILTER_VALIDATE_EMAIL))
+		{
+			$this->errors['email'] = "Email is not valid";
+		}
+		else if (empty($data['email'])) 
 		{
 			$this->errors['email'] = "Email is required";
 		}
-		else if(!filter_var($data['email'],FILTER_VALIDATE_EMAIL))
+		else if($this->where(['email'=>$data['email']]))
 		{
-			$this->errors['email'] = "Email is invalid";
+			$this->errors['email'] = "That email already exists";
 		}
 		// else if($this->exists($data['email']))
 		// {

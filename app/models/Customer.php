@@ -3,11 +3,19 @@
 /**
  * users model
  */
-class Customer
+class Customer extends Model
 {
 	
 	public $errors = [];
 	protected $table = "customer";
+
+    protected $allowedColumns = [
+        "user_id", 
+        "address_id",
+        "first_name",
+        "last_name",
+        "telephone"
+    ];
 
 	public function validate($data)
 	{

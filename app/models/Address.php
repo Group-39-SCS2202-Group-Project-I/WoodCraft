@@ -9,6 +9,14 @@ class Address
 	public $errors = [];
 	protected $table = "address";
 
+    protected $allowedColumns = [
+        "address_line_1",
+        "address_line_2",
+        "city",
+        "state",
+        "zip_code"
+    ];
+
 	public function validate($data)
 	{
 		$this->errors = [];
