@@ -263,7 +263,19 @@
         font-size: 0.8rem;
         margin: 0;
         padding: 0;
-        display: none;
+        /* display: none; */
+    }
+
+    .message {
+        color: var(--primary);
+        font-size: 1rem;
+        margin: 0;
+        padding: 1rem;
+        padding-bottom: 2rem;
+        /* center */
+        text-align: center;
+
+
     }
 
 
@@ -288,12 +300,16 @@
 <body>
     <div class="auth-page">
         <div class="auth-container">
+            <?php if (message()) : ?>
+                <div class="messege"><?= message('', true) ?></div>
+            <?php endif; ?>
             <h2>Sign In</h2>
+
             <form method="post" id="loginForm">
-                <p class="validate-mzg">this is a validate mzg</p>
+                <!-- <p class="validate-mzg">this is a validate mzg</p> -->
                 <input type="email" name="email" placeholder="Email" required1>
 
-                <p class="validate-mzg">this is a validate mzg</p>
+                <!-- <p class="validate-mzg">this is a validate mzg</p> -->
                 <input type="password" name="password" placeholder="Password" required1>
                 <!-- <div class="remember-me">
                 <input type="checkbox" id="remember">

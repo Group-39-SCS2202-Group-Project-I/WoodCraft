@@ -324,8 +324,8 @@
 
                 </div>
                 <div id="contactSection" style="display: none;">
-                    <?php if (!empty($errors['last_name'])) : ?>
-                        <p class="validate-mzg "><?= $errors['last_name'] ?></p>
+                    <?php if (!empty($errors['telephone'])) : ?>
+                        <p class="validate-mzg "><?= $errors['telephone'] ?></p>
                     <?php endif; ?>
                     <input value="<?= set_value('telephone') ?>" type="tel" name="telephone" placeholder="Contact Number">
 
