@@ -25,11 +25,14 @@ class User extends Model
 		
 		if(!filter_var($data['email'],FILTER_VALIDATE_EMAIL))
 		{
-			$this->errors['email'] = "Email is not valid";
-		}
-		else if (empty($data['email'])) 
-		{
-			$this->errors['email'] = "Email is required";
+			if(empty($data['email']))
+			{
+				$this->errors['email'] = "Email is required";
+			}
+			else
+			{
+				$this->errors['email'] = "Email is not valid";
+			}
 		}
 		else if($this->where(['email'=>$data['email']]))
 		{
@@ -92,6 +95,8 @@ class User extends Model
 	// 	}
 	// 	return false;
 	// }
+
+	
 
 
 

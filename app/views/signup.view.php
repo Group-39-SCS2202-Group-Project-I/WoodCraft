@@ -255,8 +255,16 @@
         font-size: 0.8rem;
         margin: 0;
         padding: 0;
+        /* display: none; */
+    }
+
+    .hidden {
         display: none;
     }
+
+    /* .border-validate {
+        border: 2px solid var(--danger);
+    } */
 
 
     @media (max-width: 760px) {
@@ -285,53 +293,83 @@
     <div class="auth-page">
         <div class="auth-container">
             <h2>Sign Up</h2>
-            <form method="post"  id="signupForm">
+            <form method="post" id="signupForm">
                 <div id="initialSection">
-                    <p class="validate-mzg">this is validate mzg</p>
-                    <input value="<?= set_value('first_name') ?>" type="text" name="first_name" placeholder="First Name" required1>
+                    <!-- <p class="validate-mzg">this is validate mzg</p> -->
+                    <?php if (!empty($errors['first_name'])) : ?>
+                        <p class="validate-mzg "><?= $errors['first_name'] ?></p>
+                    <?php endif; ?>
+                    <input value="<?= set_value('first_name') ?>" type="text" name="first_name" placeholder="First Name" > 
 
-                    <p class="validate-mzg">this is validate mzg</p>
+                    <?php if (!empty($errors['last_name'])) : ?>
+                        <p class="validate-mzg "><?= $errors['last_name'] ?></p>
+                    <?php endif; ?>
                     <input value="<?= set_value('last_name') ?>" type="text" name="last_name" placeholder="Last Name" required1>
 
-                    <p class="validate-mzg">this is validate mzg</p>
+                    <?php if (!empty($errors['email'])) : ?>
+                        <p class="validate-mzg "><?= $errors['email'] ?></p>
+                    <?php endif; ?>
                     <input value="<?= set_value('email') ?>" type="email" name="email" placeholder="Email" required1>
 
-                    <p class="validate-mzg">this is validate mzg</p>
+                    <?php if (!empty($errors['password'])) : ?>
+                        <p class="validate-mzg "><?= $errors['password'] ?></p>
+                    <?php endif; ?>
                     <input value="<?= set_value('password') ?>" type="password" name="password" placeholder="Password" required1>
 
-                    <p class="validate-mzg">this is validate mzg</p>
+                    <?php if (!empty($errors['confirm_password'])) : ?>
+                        <p class="validate-mzg "><?= $errors['confirm_password'] ?></p>
+                    <?php endif; ?>
                     <input value="<?= set_value('confirm_password') ?>" type="password" name="confirm_password" placeholder="Confirm Password" required1>
                     <button type="button" id="nextButton">Next</button>
 
                 </div>
                 <div id="contactSection" style="display: none;">
-                    <p class="validate-mzg">this is validate mzg</p>
+                    <?php if (!empty($errors['last_name'])) : ?>
+                        <p class="validate-mzg "><?= $errors['last_name'] ?></p>
+                    <?php endif; ?>
                     <input value="<?= set_value('telephone') ?>" type="tel" name="telephone" placeholder="Contact Number">
 
-                    <p class="validate-mzg">this is validate mzg</p>
+
                     <section>
+                        <?php if (!empty($errors['address_line_1'])) : ?>
+                            <p class="validate-mzg "><?= $errors['address_line_1'] ?></p>
+                        <?php endif; ?>
                         <input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1" placeholder="Address Line 1">
+                        <?php if (!empty($errors['address_line_2'])) : ?>
+                            <p class="validate-mzg "><?= $errors['address_line_2'] ?></p>
+                        <?php endif; ?>
                         <input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2" placeholder="Address Line 2">
+                        <?php if (!empty($errors['city'])) : ?>
+                            <p class="validate-mzg "><?= $errors['city'] ?></p>
+                        <?php endif; ?>
                         <input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
+                        <?php if (!empty($errors['zip_code'])) : ?>
+                            <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
+                        <?php endif; ?>
                         <input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
                         <!-- <div class="default-address">
                             <input type="checkbox" id="shipping">
                             <label for="shipping">Set as default shipping address</label>
                         </div> -->
                     </section>
-                    <p>By creating an account you agree with our <a >Terms of Service, Privacy
+                    <p>By creating an account you agree with our <a>Terms of Service, Privacy
                             Policy.</a></p>
                     <div style="width: 100%;">
                         <button type="button" id="backButton" style="float: left; width: 29%;">Back</button>
                         <button type="submit" style="float: right; width: 70%" id="signupButton">Sign Up</button>
 
-                        
+
                     </div>
                 </div>
                 <p>Do you have an account? <a href="<?php echo ROOT ?>/login">Log In</a></p>
             </form>
         </div>
     </div>
+  
+        </div>
+    </div>
+   
+        
     <script>
         const initialSection = document.getElementById("initialSection");
         const contactSection = document.getElementById("contactSection");
