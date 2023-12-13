@@ -309,7 +309,7 @@
                     <?php if (!empty($errors['email'])) : ?>
                         <p class="validate-mzg "><?= $errors['email'] ?></p>
                     <?php endif; ?>
-                    <input value="<?= set_value('email') ?>" type="email" name="email" placeholder="Email" required1>
+                    <input value="<?= set_value('email') ?>" type="text" name="email" placeholder="Email" required1>
 
                     <?php if (!empty($errors['password'])) : ?>
                         <p class="validate-mzg "><?= $errors['password'] ?></p>

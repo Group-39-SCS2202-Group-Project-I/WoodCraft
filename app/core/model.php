@@ -69,6 +69,8 @@ class Model extends Database
  		$query = trim($query,"&& ");
  		$query .= " order by id desc limit 1";
 
+		// show($query);
+
 		$res = $this->query($query,$data);
 
 		if(is_array($res))

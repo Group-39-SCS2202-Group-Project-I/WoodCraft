@@ -267,20 +267,20 @@
     }
 
     .message {
-        color: var(--primary);
+        color: var(--blk);
         font-size: 1rem;
         margin: 0;
         padding: 1rem;
-        padding-bottom: 2rem;
+        /* padding-bottom: 2rem; */
         /* center */
         text-align: center;
-
-
     }
 
-
-
-
+    .mzg-box {
+        background-color: var(--primary);
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
 
     @media (max-width: 760px) {
         .container {
@@ -300,21 +300,29 @@
 <body>
     <div class="auth-page">
         <div class="auth-container">
+
+
             <?php if (message()) : ?>
-                <div class="messege"><?= message('', true) ?></div>
+                <div class="mzg-box">
+                    <div class="messege"><?= message('', true) ?></div>
+                </div>
             <?php endif; ?>
             <h2>Sign In</h2>
 
             <form method="post" id="loginForm">
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
-                <input type="email" name="email" placeholder="Email" required1>
+                <input type="email" name="email" placeholder="Email">
 
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
-                <input type="password" name="password" placeholder="Password" required1>
+                <input type="password" name="password" placeholder="Password">
                 <!-- <div class="remember-me">
                 <input type="checkbox" id="remember">
                 <label for="remember">Remember me</label>
             </div> -->
+
+                <?php if (!empty($errors['email'])) : ?>
+                    <p class="validate-mzg"><?= $errors['email'] ?></p>
+                <?php endif; ?>
                 <button type="submit" id="loginButton">Log In</button>
 
                 <p>Don't have an account? <a href="<?php echo ROOT ?>/signup">Sign Up</a></p>
