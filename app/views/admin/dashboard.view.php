@@ -83,11 +83,18 @@
                     <span class="material-icons-outlined">settings</span> Settings
                 </a>
             </li> -->
-                <li class="sidebar-list-item sidebar-logout">
-                    <a href="#">
+                <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
+                    <a>
                         <span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span>
                     </a>
                 </li>
+
+                <script>
+                     const logoutBtn = document.getElementById('logoutBtn');
+                                logoutBtn.addEventListener('click', () => {
+                                    window.location.href = '<?=ROOT?>/login';  
+                                });
+                </script>
             </ul>
 
 

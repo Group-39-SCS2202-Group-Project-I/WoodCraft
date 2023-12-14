@@ -13,5 +13,12 @@ class Home extends Controller
 
 		$this->view('home',$data);
 	}
+
+	public function about()
+	{
+		$data['title'] = "About";
+
+		$this->view('about',$data);
+	}
 	
 }

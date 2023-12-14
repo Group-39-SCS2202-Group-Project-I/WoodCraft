@@ -311,7 +311,7 @@
 
             <form method="post" id="loginForm">
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
-                <input type="email" name="email" placeholder="Email">
+                <input type="text" value="<?= set_value('email') ?>" name="email" placeholder="Email">
 
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
                 <input type="password" name="password" placeholder="Password">
