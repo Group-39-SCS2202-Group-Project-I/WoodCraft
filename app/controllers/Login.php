@@ -27,8 +27,8 @@ class Login extends Controller
 			{
 				// show($a->password);
 				
-				// if (password_verify($_POST['password'], $a->password)) 
-				if ($_POST['password'] == $a->password) 
+				if (password_verify($_POST['password'], $a->password)) 
+				// if ($_POST['password'] == $a->password) 
 				{
 					// $_SESSION['USER_DATA'] = $a;
 					Auth::authenticate($a);

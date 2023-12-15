@@ -46,3 +46,14 @@ function message($msg = '',$erase = false)
 
 	return false;
 }
+
+function isInURL($link)
+{
+	
+	if('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] == ROOT.$link)
+	{
+		return true;
+	}
+
+	return false;
+}

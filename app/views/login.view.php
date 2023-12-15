@@ -280,6 +280,8 @@
         background-color: var(--primary);
         border-radius: 5px;
         margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+
     }
 
     @media (max-width: 760px) {
@@ -301,6 +303,9 @@
     <div class="auth-page">
         <div class="auth-container">
 
+        <!-- <div class="mzg-box">
+                    <div class="messege">hello</div>
+                </div> -->
 
             <?php if (message()) : ?>
                 <div class="mzg-box">

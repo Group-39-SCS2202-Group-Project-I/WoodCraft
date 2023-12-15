@@ -26,7 +26,8 @@ class Signup extends Controller
 				$db = new Database;
 
 				$user_arr['email'] = $_POST['email'];
-				$user_arr['password'] = $_POST['password'];
+				// $user_arr['password'] = $_POST['password'];
+				$user_arr['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$user_arr['role'] = "customer";
 
 				$user_query = "INSERT INTO user (email,password,role) VALUES (:email,:password,:role)";
