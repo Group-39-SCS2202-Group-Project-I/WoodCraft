@@ -54,6 +54,9 @@ class Database
 		return $this->query($query,$data,$type);
 	}
 
+	// $db = new Database;
+	// $users = $db->select('users','id = 1');
+
 	// public function create_tables()
 	// {
 	// 	//users table

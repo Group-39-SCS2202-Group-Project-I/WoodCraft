@@ -42,8 +42,12 @@ class Admin extends Controller
 	{
 		
 		$data['title'] = "Customers";
-
 		$this->view('admin/customers',$data);
+
+		
+		// echo json_encode($data['customers']);
+
+		
 	}
 
 	public function staff()
