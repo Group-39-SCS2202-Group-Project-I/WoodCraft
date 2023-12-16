@@ -3,8 +3,8 @@
 <div class="table-section">
     <h2 class="table-section__title">Table Section</h2>
 
-    <div class="table-section__add" onclick="openPopup('add-item-popup')">
-        <a href="#" class="table-section__add-link">Add New Item</a>
+    <div class="table-section__add" >
+        <a href="#" class="table-section__add-link" onclick="openPopup('add-item-popup')">Add New Item</a>
     </div>
 
     <div class="table-section__search">

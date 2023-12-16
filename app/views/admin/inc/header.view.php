@@ -41,37 +41,37 @@
                 <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
             </div>
 
-            
+
             <ul class="sidebar-list">
-                <li class="sidebar-list-item selected" id="dash-nav">
+                <li class="sidebar-list-item nav-btn selected def-selected" id="dash-nav">
                     <a>
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item" id="products-nav">
+                <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
                         <span class="material-icons-outlined">chair</span>
                         <span style="margin-left: 5px;">Products</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item" id="customers-nav">
+                <li class="sidebar-list-item nav-btn" id="customers-nav">
                     <a>
                         <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Customers</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item" id="workers-nav">
+                <li class="sidebar-list-item nav-btn" id="workers-nav">
                     <a>
-                        <span class="material-icons-outlined" >engineering</span> <span style="margin-left: 5px;">Workers</span>
+                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Workers</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item" id="staff-nav">
+                <li class="sidebar-list-item nav-btn" id="staff-nav">
                     <a>
-                        <span class="material-icons-outlined" >supervised_user_circle</span> <span style="margin-left: 5px;">Staff Members</span>
+                        <span class="material-icons-outlined">supervised_user_circle</span> <span style="margin-left: 5px;">Staff Members</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item" id="delivery-nav">
+                <li class="sidebar-list-item nav-btn" id="delivery-nav">
                     <a>
-                        <span class="material-icons-outlined" >local_shipping</span><span style="margin-left: 5px;">Delivery</span>
+                        <span class="material-icons-outlined">local_shipping</span><span style="margin-left: 5px;">Delivery</span>
                     </a>
                 </li>
                 <!-- <li class="sidebar-list-item">
@@ -127,12 +127,6 @@
                                 break;
                         }
                     });
-
-                  
-                    const logoutBtn = document.getElementById('logoutBtn');
-                    logoutBtn.addEventListener('click', () => {
-                        window.location.href = '<?= ROOT ?>/logout';
-                    });
                 </script>
             </ul>
 
@@ -140,7 +134,7 @@
 
 
             <script>
-                const listItems = document.querySelectorAll('.sidebar-list-item');
+                const listItems = document.querySelectorAll('.nav-btn');
 
                 listItems.forEach(item => {
                     item.addEventListener('click', () => {
@@ -150,7 +144,6 @@
                     });
                 });
 
-                // Check if a selected item is stored in the session
                 const selectedItem = sessionStorage.getItem('selectedItem');
                 if (selectedItem) {
                     const selectedSidebarItem = document.getElementById(selectedItem);
@@ -163,7 +156,22 @@
                             }
                         });
                     }
+
                 }
+                
+
+                const logoutBtn = document.getElementById('logoutBtn');
+                logoutBtn.addEventListener('click', () => {
+                    window.location.href = '<?= ROOT ?>/logout';
+                    for (let i = 0; i < sessionStorage.length; i++) {
+                        const key = sessionStorage.key(i);
+                        sessionStorage.removeItem(key);
+                    }
+
+                    const defaultSelected = document.querySelector('.def-selected');
+                    defaultSelected.classList.add('selected');
+
+                });
             </script>
         </aside>
         <!-- End Sidebar -->

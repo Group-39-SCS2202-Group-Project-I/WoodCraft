@@ -28,7 +28,7 @@ class Adduser extends Controller
 			}
             else
             {
-                show("kes");
+                // show("kes");
                 show($user->errors);
             }
 		}
