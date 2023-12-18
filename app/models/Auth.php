@@ -110,6 +110,19 @@ class Auth
         return false;
     }
 
-
+    public static function customerDetails()
+    {
+        // show($_SESSION['USER_DATA']);
+        if($_SESSION['USER_DATA']->role == 'customer'){
+            $db = new Database;
+            $customer = $db->select('customer','user_id = '.$_SESSION['USER_DATA']->user_id);
+            // show($customer[0]);
+            return $customer[0];
+        }
+        // $db = new Database;
+        // $customer = $db->select('customer','user_id = '.$_SESSION['USER_DATA']->user_id);
+        // // show($customer[0]);
+        // return $customer[0];
+    }
 	
 }

@@ -1,9 +1,16 @@
 <?php $this->view('includes/header', $data) ?>
 <?php $this->view('includes/nav', $data) ?>
 
+<!-- <?php $cus = Auth::customerDetails();
+    echo $cus->first_name;
+
+    echo $data;
+ ?> -->
+
 <!-- home -->
 <!-- Craft Component -->
 <section class="craft">
+
     <h2>Products</h2>
     <div class="craft-card">
         <div class="craft__image">
