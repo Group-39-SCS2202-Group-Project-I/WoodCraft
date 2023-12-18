@@ -38,17 +38,20 @@ class Admin extends Controller
 		$this->view('admin/workers',$data);
 	}
 
-	public function customers()
+	public function customers($id = '')
 	{
 		
-		$data['title'] = "Customers";
-		$this->view('admin/customers',$data);
-
-		
-		// echo json_encode($data['customers']);
-
-		
+		$data['id'] = $id;
+		if ($id != '') {
+			$data['title'] = "Customer";
+			$this->view('admin/customer',$data);
+		}
+		else{
+			$data['title'] = "Customers";
+			$this->view('admin/customers',$data);
+		}
 	}
+	
 
 	public function staff()
 	{
