@@ -62,10 +62,10 @@ class Worker extends Model
         {
             $this->errors['mobile_number'] = "Mobile number must be 10 digits";
         }
-        else if($this->where(['mobile_number'=>$data['mobile_number']]))
-        {
-            $this->errors['mobile_number'] = "That mobile number already exists";
-        }
+        // else if($this->where(['mobile_number'=>$data['mobile_number']]))
+        // {
+        //     $this->errors['mobile_number'] = "That mobile number already exists";
+        // }
         else if(substr($data['mobile_number'],0,1) != 0)
         {
             $this->errors['mobile_number'] = "Mobile number must start with 0";

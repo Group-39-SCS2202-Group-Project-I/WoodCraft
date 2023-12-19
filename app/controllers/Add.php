@@ -11,9 +11,6 @@ class Add extends Controller
     public function workers()
     {
         // show($_POST);
-
-
-
         $address = [
             'address_line_1' => $_POST['address_line_1'],
             'address_line_2' => $_POST['address_line_1'],
