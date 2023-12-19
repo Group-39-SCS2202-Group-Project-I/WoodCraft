@@ -4,7 +4,7 @@
 
 <?php
 $id = $data['id']; 
-$url = ROOT."/fetch/customer/$id";
+$url = ROOT."/fetch/customers/$id";
 $response = file_get_contents($url);
 $customer = json_decode($response);
 
