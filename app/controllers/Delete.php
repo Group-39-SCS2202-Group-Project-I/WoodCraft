@@ -19,7 +19,7 @@ class Delete extends Controller
         $db->query("DELETE FROM user WHERE user_id = $user_id");
         $db->query("DELETE FROM address WHERE address_id = $address_id");
 
-        message("Customer deleted successfully");
+        message("Customer deleted successfully!");
         redirect('admin/customers');
     }
 
@@ -31,7 +31,7 @@ class Delete extends Controller
         $address_id = $worker[0]->address_id;
         $db->query("DELETE FROM worker WHERE worker_id = $id");
         $db->query("DELETE FROM address WHERE address_id = $address_id");
-        message("Worker deleted successfully");
+        message("Worker deleted successfully!");
         redirect('admin/workers');
     }
 

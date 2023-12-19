@@ -641,3 +641,21 @@ h6 {
 .hidden {
     display: none;
 }
+
+.message {
+    color: var(--blk);
+    font-size: 1rem;
+    margin: 0;
+    padding: 1rem;
+    /* padding-bottom: 2rem; */
+    /* center */
+    text-align: center;
+}
+
+.mzg-box {
+    background-color: var(--primary);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+
+}

@@ -19,6 +19,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 </script>
 
 <div class="table-section">
+    <?php if (message()) : ?>
+        <div class="mzg-box">
+            <div class="messege"><?= message('', true) ?></div>
+        </div>
+    <?php endif; ?>
+
     <h2 class="table-section__title">Workers</h2>
 
     <div class="table-section__add">
