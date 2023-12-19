@@ -1,5 +1,23 @@
 <?php include "inc/header.view.php"; ?>
 
+<?php
+if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSION['form_id'])) {
+    $errors = $_SESSION['errors'];
+    $form_data = $_SESSION['form_data'];
+    $form_id = $_SESSION['form_id'];
+    // unset the session variables so they don't persist on page refresh
+    unset($_SESSION['errors']);
+    unset($_SESSION['form_data']);
+    unset($_SESSION['form_id']);
+    // display the errors and repopulate the form with the data
+    // show($form_data);
+}
+?>
+
+
+
+</script>
+
 <div class="table-section">
     <h2 class="table-section__title">Workers</h2>
 
@@ -79,7 +97,7 @@
 
     <div class="popup-form" id="delete-item-popup">
         <div class="popup-form__content">
-            <form action="#" method="POST" class="form">
+            <form action="" method="POST" class="form">
                 <!-- <h2 class="popup-form-title">Delete Item</h2> -->
                 <!-- <p>Are you sure you want to delete this item?</p> -->
                 <p class="confirmation-text">Are you sure you want to delete </p>
@@ -107,37 +125,65 @@
     <!-- Add new item popup form -->
     <div class="popup-form" id="add-item-popup">
         <div class="popup-form__content">
-            <form action="<?php echo ROOT ?>/add/workers"  method="POST" class="form">
+            <form action="<?php echo ROOT ?>/add/workers" method="POST" class="form">
                 <h2 class="popup-form-title">Add New Worker</h2>
 
                 <!-- first_name	last_name	mobile_number	address_line_1	address_line_2	city	zip_code -->
+
+                <?php if (!empty($errors['first_name'])) : ?>
+                    <p class="validate-mzg"><?= $errors['first_name'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="first_name" class="form-label label-popup">First Name</label>
-                    <input type="text" id="first_name" name="first_name" class="form-input input-popup">
+                    <input value="<?php echo $form_data['first_name'] ?>" type="text" id="first_name" name="first_name" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['last_name'])) : ?>
+                    <p class="validate-mzg"><?= $errors['last_name'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="last_name" class="form-label label-popup">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" class="form-input input-popup">
+                    <input value="<?php echo $form_data['last_name'] ?>" type="text" id="last_name" name="last_name" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['mobile_number'])) : ?>
+                    <p class="validate-mzg"><?= $errors['mobile_number'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="mobile_number" class="form-label label-popup">Mobile Number</label>
-                    <input type="text" id="mobile_number" name="mobile_number" class="form-input input-popup">
+                    <input value="<?php echo $form_data['mobile_number'] ?>" type="text" id="mobile_number" name="mobile_number" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['address_line_1'])) : ?>
+                    <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="address_line_1" class="form-label label-popup">Address Line 1</label>
-                    <input type="text" id="address_line_1" name="address_line_1" class="form-input input-popup">
+                    <input value="<?php echo $form_data['address_line_1'] ?>" type="text" id="address_line_1" name="address_line_1" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['address_line_2'])) : ?>
+                    <p class="validate-mzg"><?= $errors['address_line_2'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="address_line_2" class="form-label label-popup">Address Line 2</label>
-                    <input type="text" id="address_line_2" name="address_line_2" class="form-input input-popup">
+                    <input value="<?php echo $form_data['address_line_2'] ?>" type="text" id="address_line_2" name="address_line_2" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['city'])) : ?>
+                    <p class="validate-mzg"><?= $errors['city'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
-                    <input type="text" id="city" name="city" class="form-input input-popup">
+                    <input value="<?php echo $form_data['city'] ?>" type="text" id="city" name="city" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['zip_code'])) : ?>
+                    <p class="validate-mzg"><?= $errors['zip_code'] ?></p>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="zip_code" class="form-label label-popup">Zip Code</label>
-                    <input type="text" id="zip_code" name="zip_code" class="form-input input-popup">
+                    <input value="<?php echo $form_data['zip_code'] ?>" type="text" id="zip_code" name="zip_code" class="form-input input-popup">
                 </div>
 
                 <div class="form-group form-btns">
@@ -173,6 +219,16 @@
                 popup.classList.remove('popup-form--open');
             });
         }
+    </script>
+
+    <script>
+        <?php if (!empty($errors)) : ?>
+            if ('<?php echo $form_id; ?>' === 'form1') {
+                openPopup('add-item-popup');
+            } else if ('<?php echo $form_id; ?>' === 'form2') {
+                // code to open your second popup goes here
+            }
+        <?php endif; ?>
     </script>
 
 </div>

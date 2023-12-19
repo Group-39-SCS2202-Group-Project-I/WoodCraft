@@ -627,3 +627,17 @@ h6 {
 .input-popup {
     font-size: 16px;
 }
+
+/*  */
+.validate-mzg {
+    color: var(--danger);
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+    align-self: start;
+    /* display: none; */
+}
+
+.hidden {
+    display: none;
+}
