@@ -4,7 +4,7 @@
     <h2 class="table-section__title">Workers</h2>
 
     <div class="table-section__add">
-        <a href="#" class="table-section__add-link" onclick="openPopup('add-item-popup')">Add A Worker</a>
+        <a href="#" class="table-section__add-link" onclick="openPopup('add-item-popup')">Add New Worker</a>
     </div>
 
     <div class="table-section__search">
@@ -60,7 +60,7 @@
                                     row.insertCell().innerHTML = availability;
                                     row.insertCell().innerHTML = date_added;
 
-                                    row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/admin/workers/${item.worker_id}">View</a> | <a href="<?php echo ROOT ?>/delete/workers/${item.worker_id}">Delete</a>`;
+                                    row.insertCell().innerHTML = `<a class="table-section__button" href="<?php echo ROOT ?>/admin/workers/${item.worker_id}">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
 
                                 });
                             })
@@ -74,46 +74,74 @@
                     setInterval(updateTable, 5000); // Update every 5 seconds
                 });
             </script>
-
-
-
-
         </tbody>
     </table>
+
+    <div class="popup-form" id="delete-item-popup">
+        <div class="popup-form__content">
+            <form action="#" method="POST" class="form">
+                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+                <!-- <p>Are you sure you want to delete this item?</p> -->
+                <p class="confirmation-text">Are you sure you want to delete </p>
+
+                <div class="form-group frm-btns">
+                    <button type="submit" class="form-btn submit-btn">Yes</button>
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        openDeletePopup = (id) => {
+            const popup = document.getElementById('delete-item-popup');
+            const confirmationText = document.querySelector('.confirmation-text');
+            x = "WRK-" + String(id).padStart(3, '0');
+            confirmationText.innerHTML += "Worker ID: " + x + "?";
+            popup.classList.add('popup-form--open');
+            popup.querySelector('form').action = "<?php echo ROOT ?>/delete/workers/" + id;
+        }
+    </script>
 
 
     <!-- Add new item popup form -->
     <div class="popup-form" id="add-item-popup">
         <div class="popup-form__content">
-            <form action="#" method="POST" class="form">
-                <h2 class="popup-form-title">Add New Item</h2>
+            <form action="<?php echo ROOT ?>/add/workers"  method="POST" class="form">
+                <h2 class="popup-form-title">Add New Worker</h2>
+
+                <!-- first_name	last_name	mobile_number	address_line_1	address_line_2	city	zip_code -->
                 <div class="form-group">
-                    <label for="item-name" class="form-label label-popup">Item Name</label>
-                    <input type="text" id="item-name" name="item-name" class="form-input input-popup" required>
+                    <label for="first_name" class="form-label label-popup">First Name</label>
+                    <input type="text" id="first_name" name="first_name" class="form-input input-popup">
                 </div>
                 <div class="form-group">
-                    <label for="item-image" class="form-label label-popup">Item Image</label>
-                    <input type="file" id="item-image" name="item-image" class="form-input input-popup" required>
+                    <label for="last_name" class="form-label label-popup">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" class="form-input input-popup">
                 </div>
                 <div class="form-group">
-                    <label for="item-category" class="form-label label-popup">Item Category</label>
-                    <select id="item-category" name="item-category" class="form-select input-popup" required>
-                        <option value="">Select a category</option>
-                        <option value="category1">Category 1</option>
-                        <option value="category2">Category 2</option>
-                        <option value="category3">Category 3</option>
-                    </select>
+                    <label for="mobile_number" class="form-label label-popup">Mobile Number</label>
+                    <input type="text" id="mobile_number" name="mobile_number" class="form-input input-popup">
                 </div>
                 <div class="form-group">
-                    <label for="item-price" class="form-label label-popup">Item Price</label>
-                    <input type="number" id="item-price" name="item-price" class="form-input input-popup" required>
+                    <label for="address_line_1" class="form-label label-popup">Address Line 1</label>
+                    <input type="text" id="address_line_1" name="address_line_1" class="form-input input-popup">
                 </div>
                 <div class="form-group">
-                    <label for="item-details" class="form-label label-popup">Item Details</label>
-                    <textarea id="item-details" name="item-details" class="form-textarea input-popup" required></textarea>
+                    <label for="address_line_2" class="form-label label-popup">Address Line 2</label>
+                    <input type="text" id="address_line_2" name="address_line_2" class="form-input input-popup">
                 </div>
+                <div class="form-group">
+                    <label for="city" class="form-label label-popup">City</label>
+                    <input type="text" id="city" name="city" class="form-input input-popup">
+                </div>
+                <div class="form-group">
+                    <label for="zip_code" class="form-label label-popup">Zip Code</label>
+                    <input type="text" id="zip_code" name="zip_code" class="form-input input-popup">
+                </div>
+
                 <div class="form-group form-btns">
-                    <button type="submit" class="form-btn submit-btn">Add Item</button>
+                    <button type="submit" class="form-btn submit-btn">Add New Worker</button>
                     <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Cancel</button>
                 </div>
             </form>
@@ -124,21 +152,8 @@
     <!-- Update item popup form -->
 
 
-    <!-- Delete item popup form -->
-    <!-- Delete item popup form -->
-    <div class="popup-form" id="delete-item-popup">
-        <div class="popup-form__content">
-            <form action="#" method="POST" class="form">
-                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
-                <p>Are you sure you want to delete this item?</p>
 
-                <div class="form-group frm-btns">
-                    <button type="submit" class="form-btn submit-btn">Yes</button>
-                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 
     <!-- <button onclick="openPopup('delete-item-popup')">Delete Item</button> -->
 
@@ -152,6 +167,8 @@
         // Function to close popup form
         function closePopup() {
             const popups = document.querySelectorAll('.popup-form');
+            confirmText = document.querySelector('.confirmation-text');
+            confirmText.innerHTML = "Are you sure you want to delete ";
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
