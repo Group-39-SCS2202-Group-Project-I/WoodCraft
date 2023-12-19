@@ -44,7 +44,7 @@
                             row.insertCell().innerHTML = addressId;
                             row.insertCell().innerHTML = zipCode;
 
-                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/admin/customers/${item.customer_id}">View</a> | <a href="<?php echo ROOT ?>/admin/customers/delete/${item.customer_id}">Delete</a>`;
+                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/admin/customers/${item.customer_id}">View</a> | <a href="<?php echo ROOT ?>/delete/customers/${item.customer_id}">Delete</a>`;
 
                         });
                     })

@@ -39,9 +39,9 @@ class Admin extends Controller
 	}
 
 	public function customers($id = '')
-	{
-		
+	{	
 		$data['id'] = $id;
+
 		if ($id != '') {
 			$data['title'] = "Customer";
 			$this->view('admin/customer',$data);

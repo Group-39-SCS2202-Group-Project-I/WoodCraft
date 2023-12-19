@@ -82,5 +82,24 @@ class Database
 	// 	$this->query($query);
 	// }
 
+	//delete
+
+	public function delete($table,$where = null,$data = [])
+	{
+		$query = "DELETE FROM $table";
+		if($where != null)
+		{
+			$query .= " WHERE $where";
+		}
+
+		return $this->query($query,$data);
+	}
+
+	public function lastInsertId()
+	{
+		$con = $this->connect();
+		return $con->lastInsertId();
+	}
+
 	
 }
