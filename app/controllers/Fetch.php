@@ -90,6 +90,11 @@ class Fetch extends Controller
                 }
             }
 
+            // sort ($data['workers']) desc order by updated_at;
+            usort($data['workers'], function ($a, $b) {
+                return $a->updated_at < $b->updated_at;
+            });
+
             header("Content-Type: application/json");
             echo json_encode($data['workers']);
         }

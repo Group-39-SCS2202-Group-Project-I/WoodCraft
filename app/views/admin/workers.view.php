@@ -22,6 +22,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         </div>
     <?php endif; ?>
 
+
     <h2 class="table-section__title">Workers</h2>
 
     <div class="table-section__add">
@@ -29,7 +30,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     </div>
 
     <div class="table-section__search">
-        <input type="text" id="search" placeholder="Search..." class="table-section__search-input">
+        <input type="text" id="searchWorkers" placeholder="Search Workers..." class="table-section__search-input">
     </div>
 
 
@@ -37,12 +38,13 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <!-- worker_id	first_name	last_name	mobile_number	address_id	availability	created_at	updated_at	deleted_at	 -->
         <thead>
             <tr>
-                <th>Worker ID</th>
-                <th>Name</th>
-                <th>Mobile Number</th>
-                <th>Address</th>
-                <th>Availability</th>
-                <th>Date Added</th>
+                <th onclick="sortTable(0)">Worker ID</th>
+                <th onclick="sortTable(1)" >Name</th>
+                <th onclick="sortTable(2)">Mobile Number</th>
+                <th onclick="sortTable(3)">Address</th>
+                <!-- <th>Availability</th> -->
+                <th onclick="sortTable(4)">Date Added</th>
+                <th onclick="sortTable(5)">Date Updated</th>
 
                 <th>Actions</th>
             </tr>
@@ -73,13 +75,15 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let availability = item.availability;
                                     availability = availability.charAt(0).toUpperCase() + availability.slice(1);
                                     let date_added = item.created_at;
+                                    let date_updated = item.updated_at;
 
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
                                     row.insertCell().innerHTML = address;
-                                    row.insertCell().innerHTML = availability;
+                                    // row.insertCell().innerHTML = availability;
                                     row.insertCell().innerHTML = date_added;
+                                    row.insertCell().innerHTML = date_updated;
 
                                     row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.worker_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
 
@@ -92,7 +96,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     updateTable();
 
                     // Schedule periodic table updates
-                    setInterval(updateTable, 5000); // Update every 5 seconds
+                    // setInterval(updateTable, 5000); // Update every 5 seconds
                 });
             </script>
         </tbody>
@@ -289,6 +293,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     document.getElementById('address_line_2_update').value = data.address_line_2;
                     document.getElementById('city_update').value = data.city;
                     document.getElementById('zip_code_update').value = data.zip_code;
+                    // document.getElementById('zip_code_update').disabled = true;
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
@@ -335,61 +340,65 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 </div>
 
 <script>
-    const searchInput = document.querySelector('#search');
-    const tableRows = document.querySelectorAll('#table-section__tbody tr');
-    const tableHeaders = document.querySelectorAll('.table-section__table th');
+    document.getElementById('searchWorkers').addEventListener('keyup', function() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchWorkers');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('workers_table');
+        tr = table.getElementsByTagName('tr');
 
-    let sortColumn = null;
-    let sortDirection = 'asc';
+        for (i = 0; i < tr.length; i++) {
+            var idTd = tr[i].getElementsByTagName('td')[0];
+            var nameTd = tr[i].getElementsByTagName('td')[1];
 
-    function sortTable(column) {
-        const rows = Array.from(tableRows);
+            if (idTd || nameTd) {
+                var idTxtValue = idTd ? idTd.textContent || idTd.innerText : '';
+                var nameTxtValue = nameTd ? nameTd.textContent || nameTd.innerText : '';
 
-        rows.sort((a, b) => {
-            const aValue = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
-            const bValue = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
-
-            if (aValue < bValue) {
-                return sortDirection === 'asc' ? -1 : 1;
-            } else if (aValue > bValue) {
-                return sortDirection === 'asc' ? 1 : -1;
-            } else {
-                return 0;
+                if (idTxtValue.toUpperCase().indexOf(filter) > -1 || nameTxtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
             }
+        }
+    });
+
+
+    // Keep track of the current sort direction for each column
+    var sortDirections = Array.from(document.getElementsByTagName('th')).map(() => 'asc');
+
+    function sortTable(n) {
+        var table = document.getElementById("workers_table");
+        var rows = Array.from(table.rows).slice(1); // Get all rows, excluding the header
+
+        // Sort rows based on the content of the nth column
+        rows.sort((rowA, rowB) => {
+            var textA = rowA.cells[n].textContent;
+            var textB = rowB.cells[n].textContent;
+
+            // If the content of the cells are numbers, convert them
+            if (!isNaN(textA) && !isNaN(textB)) {
+                textA = Number(textA);
+                textB = Number(textB);
+            }
+
+            return (textA < textB ? -1 : (textA > textB ? 1 : 0)) * (sortDirections[n] === 'asc' ? 1 : -1);
         });
 
-        rows.forEach(row => {
-            document.querySelector('#table-section__tbody').appendChild(row);
-        });
+        // Reverse sort direction
+        sortDirections[n] = sortDirections[n] === 'asc' ? 'desc' : 'asc';
+
+        // Remove all rows from the table, then append the sorted rows
+        for (var i = table.rows.length - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
+        for (var row of rows) {
+            table.appendChild(row);
+        }
     }
-
-    tableHeaders.forEach((header, index) => {
-        header.addEventListener('click', () => {
-            if (sortColumn === index) {
-                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-            } else {
-                sortColumn = index;
-                sortDirection = 'asc';
-            }
-
-            sortTable(sortColumn);
-        });
-    });
-
-    searchInput.addEventListener('keyup', function(event) {
-        const searchTerm = event.target.value.toLowerCase();
-
-        tableRows.forEach(function(row) {
-            const itemName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            const itemId = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-
-            if (itemName.includes(searchTerm) || itemId.includes(searchTerm)) {
-                row.style.display = 'table-row';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
 </script>
+
+
 
 <?php include "inc/footer.view.php"; ?>
