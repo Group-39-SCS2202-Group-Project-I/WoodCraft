@@ -253,6 +253,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
+                    <?php if (!empty($errors['city'])) : ?>
+                    <p class="validate-mzg"><?= $errors['city'] ?></p>
+                <?php endif; ?>
                     <input value="<?php echo $form_data['city'] ?>" type="text" id="city_update" name="city" class="form-input input-popup">
                 </div>
 

@@ -102,7 +102,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = address;
                                     // row.insertCell(6).innerHTML = created_at;
                                     row.insertCell().innerHTML = updated_at;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Edit</a><a href="#" class="table-section__delete-link" onclick="openPopup('delete-item-popup', ${item.staff_id})">Delete</a>`;
+                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Edit</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.staff_id})">Delete</a>`;
                                 })
                             })
 
@@ -420,6 +420,33 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             }
         <?php endif; ?>
     </script>
+
+<div class="popup-form" id="delete-item-popup">
+        <div class="popup-form__content">
+            <form action="" method="POST" class="form">
+                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+                <!-- <p>Are you sure you want to delete this item?</p> -->
+                <p class="confirmation-text">Are you sure you want to delete </p>
+
+                <div class="form-group frm-btns">
+                    <button type="submit" class="form-btn submit-btn">Yes</button>
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        openDeletePopup = (id) => {
+            const popup = document.getElementById('delete-item-popup');
+            const confirmationText = document.querySelector('.confirmation-text');
+            x = "STF-" + String(id).padStart(3, '0');
+            confirmationText.innerHTML += "Staff ID: " + x + "?";
+            popup.classList.add('popup-form--open');
+            popup.querySelector('form').action = "<?php echo ROOT ?>/delete/staff/" + id;
+        }
+    </script>
+
 
 
 

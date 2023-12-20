@@ -35,4 +35,19 @@ class Delete extends Controller
         redirect('admin/workers');
     }
 
+    public function staff($id)
+    {
+        $db = new Database();
+
+        $staff = $db->query("SELECT * FROM staff WHERE staff_id = $id");
+        $address_id = $staff[0]->address_id;
+        $user_id = $staff[0]->user_id;
+        $db->query("DELETE FROM staff WHERE staff_id = $id");
+        $db->query("DELETE FROM user WHERE user_id = $user_id");
+        $db->query("DELETE FROM address WHERE address_id = $address_id");
+
+        message("Staff deleted successfully!");
+        redirect('admin/staff');
+    }
+
 }
