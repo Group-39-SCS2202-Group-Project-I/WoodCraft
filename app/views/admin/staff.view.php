@@ -102,7 +102,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = address;
                                     // row.insertCell(6).innerHTML = created_at;
                                     row.insertCell().innerHTML = updated_at;
-                                    row.insertCell().innerHTML = `<a href="#" class="table-section__edit-link" onclick="openPopup('edit-item-popup', ${item.staff_id})">Edit</a> | <a href="#" class="table-section__delete-link" onclick="openPopup('delete-item-popup', ${item.staff_id})">Delete</a>`;
+                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Edit</a><a href="#" class="table-section__delete-link" onclick="openPopup('delete-item-popup', ${item.staff_id})">Delete</a>`;
                                 })
                             })
 
@@ -239,10 +239,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
         </div>
     </div>
-
-
-
-
     <script>
         // Function to open popup form
         function openPopup(popupId) {
@@ -258,6 +254,159 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
+        }
+    </script>
+
+
+
+    <!-- Update item popup form -->
+    <div class="popup-form" id="update-item-popup">
+        <div class="popup-form__content">
+            <form action="<?php echo ROOT ?>/update/staff" method="POST" class="form">
+                <h2 class="popup-form-title" id="update_title">Update Staff Member</h2>
+
+                <?php if (!empty($errors['first_name'])) : ?>
+                    <p class="validate-mzg"><?= $errors['first_name'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="first_name" class="form-label label-popup">First Name</label>
+                    <input value="<?php echo $form_data['first_name'] ?>" type="text" id="first_name_update" name="first_name" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['last_name'])) : ?>
+                    <p class="validate-mzg"><?= $errors['last_name'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="last_name" class="form-label label-popup">Last Name</label>
+                    <input value="<?php echo $form_data['last_name'] ?>" type="text" id="last_name_update" name="last_name" class="form-input input-popup">
+                </div>
+
+                <!-- email -->
+                <?php if (!empty($errors['email'])) : ?>
+                    <p class="validate-mzg"><?= $errors['email'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="email" class="form-label label-popup">Email</label>
+                    <input disabled value="<?php echo $form_data['email'] ?>" type="text" id="email_update" name="email" class="form-input input-popup" disabled>
+                </div>
+
+                <!-- password -->
+               
+
+                <!-- role -->
+                <?php if (!empty($errors['role'])) : ?>
+                    <p class="validate-mzg"><?= $errors['role'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="role" class="form-label label-popup">Role</label>
+                    <select id="role_update" name="role" class="form-select input-popup">
+                        <?php if (empty($form_data['role'])) : ?>
+                            <option value="" selected disabled>Select Role</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Role</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['role'] === 'osr') : ?>
+                            <option value="osr" selected>Online Sales Representative</option>
+                        <?php else : ?>
+                            <option value="osr">Online Sales Representative</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['role'] === 'gm') : ?>
+                            <option value="gm" selected>General Manager</option>
+                        <?php else : ?>
+                            <option value="gm">General Manager</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['role'] === 'pm') : ?>
+                            <option value="pm" selected>Production Manager</option>
+                        <?php else : ?>
+                            <option value="pm">Production Manager</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['role'] === 'sk') : ?>
+                            <option value="sk" selected>Stock Keeper</option>
+                        <?php else : ?>
+                            <option value="sk">Stock Keeper</option>
+                        <?php endif; ?>
+
+                    </select>
+                </div>
+
+
+                <?php if (!empty($errors['mobile_number'])) : ?>
+                    <p class="validate-mzg"><?= $errors['mobile_number'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="mobile_number" class="form-label label-popup">Mobile Number</label>
+                    <input value="<?php echo $form_data['mobile_number'] ?>" type="text" id="mobile_number_update" name="mobile_number" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['address_line_1'])) : ?>
+                    <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="address_line_1" class="form-label label-popup">Address Line 1</label>
+                    <input value="<?php echo $form_data['address_line_1'] ?>" type="text" id="address_line_1_update" name="address_line_1" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['address_line_2'])) : ?>
+                    <p class="validate-mzg"><?= $errors['address_line_2'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="address_line_2" class="form-label label-popup">Address Line 2</label>
+                    <input value="<?php echo $form_data['address_line_2'] ?>" type="text" id="address_line_2_update" name="address_line_2" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['city'])) : ?>
+                    <p class="validate-mzg"><?= $errors['city'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="city" class="form-label label-popup">City</label>
+                    <input value="<?php echo $form_data['city'] ?>" type="text" id="city_update" name="city" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['zip_code'])) : ?>
+                    <p class="validate-mzg"><?= $errors['zip_code'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="zip_code" class="form-label label-popup">Zip Code</label>
+                    <input value="<?php echo $form_data['zip_code'] ?>" type="text" id="zip_code_update" name="zip_code" class="form-input input-popup">
+                </div>
+
+
+                <div class="form-group form-btns">
+                    <button type="submit" class="form-btn submit-btn">Update Staff Member</button>
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        openUpdatePopup = (id) => {
+            const popupTitle = document.getElementById('update_title');
+            popupTitle.innerHTML = "Update Staff Member (ID: STF-" + String(id).padStart(3, '0') + ")";
+
+            const popup = document.getElementById('update-item-popup');
+            // fetch data from database as json
+            fetch('<?php echo ROOT ?>/fetch/staff/' + id)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // populate form with data
+                    document.getElementById('first_name_update').value = data.first_name;
+                    document.getElementById('last_name_update').value = data.last_name;
+                    document.getElementById('email_update').value = data.email;
+                    // document.getElementById('password_update').value = data.password;
+                    document.getElementById('role_update').value = data.role;
+                    document.getElementById('mobile_number_update').value = data.mobile_number;
+                    document.getElementById('address_line_1_update').value = data.address_line_1;
+                    document.getElementById('address_line_2_update').value = data.address_line_2;
+                    document.getElementById('city_update').value = data.city;
+                    document.getElementById('zip_code_update').value = data.zip_code;
+
+                })
+                .catch(error => console.error(error));
+            popup.classList.add('popup-form--open');
+            popup.querySelector('form').action = "<?php echo ROOT ?>/update/staff/" + id;
         }
     </script>
 
