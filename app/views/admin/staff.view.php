@@ -287,7 +287,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="email" class="form-label label-popup">Email</label>
-                    <input disabled value="<?php echo $form_data['email'] ?>" type="text" id="email_update" name="email" class="form-input input-popup" disabled>
+                    <input disabled value="<?php echo $form_data['email'] ?>" type="text" id="email_update" name="email" class="form-input input-popup disabled-input" disabled>
                 </div>
 
                 <!-- password -->

@@ -209,6 +209,11 @@ h6 {
     border: 0.1rem solid var(--primary);
 }
 
+.disabled-input {
+    background-color: #ddd;
+    color: #666;
+}
+
 .form-btn {
     width: 100%;
     padding: 0.5rem;
