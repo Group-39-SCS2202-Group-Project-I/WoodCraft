@@ -136,7 +136,7 @@ h6 {
     justify-content: center;
     width: 100%;
     max-width: 1000px;
-    padding: 2rem;
+    padding: 1rem 2rem;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -585,12 +585,16 @@ h6 {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     /* text-align: center; */
     color: var(--blk);
 }
 
 .popup-form__content {
+    max-height: 97vh;
+    /* center */
+    overflow-y: auto;
+    scroll-behavior: smooth;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
