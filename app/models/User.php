@@ -74,6 +74,14 @@ class User extends Model
 		{
 			$this->errors['confirm_password'] = "Confirm password does not match";
 		}
+		if (empty($data['role'])) 
+		{
+			$this->errors['role'] = "Role is required";
+		}
+		else if(!in_array($data['role'], ['osr','gm','pm','admin','sk','customer']))
+		{
+			$this->errors['role'] = "Role is not valid";
+		}
 
 
 

@@ -90,8 +90,63 @@ class Fetch extends Controller
                 }
             }
 
+            // sort ($data['workers']) desc order by updated_at;
+            usort($data['workers'], function ($a, $b) {
+                return $a->updated_at < $b->updated_at;
+            });
+
             header("Content-Type: application/json");
             echo json_encode($data['workers']);
+        }
+    }
+
+    public function staff($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['staff'] = $db->query("SELECT * FROM staff WHERE staff_id = $id");
+
+            $address_id = $data['staff'][0]->address_id;
+            $data['address'] = $db->query("SELECT * FROM address WHERE address_id = $address_id");
+
+            $user_id = $data['staff'][0]->user_id;
+            $data['user'] = $db->query("SELECT * FROM user WHERE user_id = $user_id");
+
+            $staff_data = array_merge((array) $data['staff'][0], (array) $data['address'][0], (array) $data['user'][0]);
+
+            header("Content-Type: application/json");
+            echo json_encode($staff_data);
+        } else {
+            $db = new Database();
+            $data['staff'] = $db->query("SELECT * FROM staff");
+
+            $user_ids = array_column($data['staff'], 'user_id');
+            $user_ids = implode(',', $user_ids);
+            $data['users'] = $db->query("SELECT * FROM user WHERE user_id IN ($user_ids)");
+
+            $address_ids = array_column($data['staff'], 'address_id');
+            $address_ids = implode(',', $address_ids);
+            $data['addresses'] = $db->query("SELECT * FROM address WHERE address_id IN ($address_ids)");
+
+            foreach ($data['staff'] as $key => $staff) {
+                foreach ($data['users'] as $user) {
+                    if ($staff->user_id == $user->user_id) {
+                        $data['staff'][$key]->email = $user->email;
+                        $data['staff'][$key]->role = $user->role;
+                    }
+                }
+                foreach ($data['addresses'] as $address) {
+                    if ($staff->address_id == $address->address_id) {
+                        $data['staff'][$key]->address_line_1 = $address->address_line_1;
+                        $data['staff'][$key]->address_line_2 = $address->address_line_2;
+                        $data['staff'][$key]->city = $address->city;
+                        $data['staff'][$key]->zip_code = $address->zip_code;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['staff']);
         }
     }
 }

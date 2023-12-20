@@ -88,6 +88,7 @@ select {
 html {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
+    /* font-weight: 400; */
     color: var(--blk);
 }
 
@@ -134,8 +135,8 @@ h6 {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 700px;
-    padding: 2rem;
+    max-width: 1000px;
+    padding: 1rem 2rem;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -145,6 +146,7 @@ h6 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    min-width: 550px;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -205,6 +207,11 @@ h6 {
 .form-select:focus {
     outline: none;
     border: 0.1rem solid var(--primary);
+}
+
+.disabled-input {
+    background-color: #ddd;
+    color: #666;
 }
 
 .form-btn {
@@ -583,12 +590,16 @@ h6 {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     /* text-align: center; */
     color: var(--blk);
 }
 
 .popup-form__content {
+    max-height: 97vh;
+    /* center */
+    overflow-y: auto;
+    scroll-behavior: smooth;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
@@ -625,4 +636,36 @@ h6 {
 
 .input-popup {
     font-size: 16px;
+}
+
+/*  */
+.validate-mzg {
+    color: var(--danger);
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+    align-self: start;
+    /* display: none; */
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
+    color: var(--blk);
+    font-size: 1rem;
+    margin: 0;
+    padding: 1rem;
+    /* padding-bottom: 2rem; */
+    /* center */
+    text-align: center;
+}
+
+.mzg-box {
+    background-color: var(--primary);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+
 }
