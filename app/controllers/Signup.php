@@ -16,11 +16,15 @@ class Signup extends Controller
 
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+			$_POST['role'] = "customer";
+
 			$result = $user->validate($_POST);
 
 			$result2 = $address->validate($_POST);
 
 			$result3 = $customer->validate($_POST);
+
+			show($_POST);
 
 			if ($result && $result2 && $result3) {
 				$db = new Database;
@@ -29,6 +33,8 @@ class Signup extends Controller
 				// $user_arr['password'] = $_POST['password'];
 				$user_arr['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$user_arr['role'] = "customer";
+
+				show(1);
 
 				$user_query = "INSERT INTO user (email,password,role) VALUES (:email,:password,:role)";
 				$db->query($user_query, $user_arr);
@@ -67,6 +73,8 @@ class Signup extends Controller
 				$customer_query = "INSERT INTO customer (user_id, first_name, last_name, telephone, address_id) VALUES (:user_id, :first_name, :last_name, :telephone, :address_id)";
 				$db->query($customer_query, $customer_arr);
 
+				
+
 
 				message("Your profile was successfuly created. Please login");
 				redirect('login');
@@ -88,6 +96,8 @@ class Signup extends Controller
 		$data['errors'] = $user->errors;
 		$data['errors'] = array_merge($data['errors'], $address->errors);
 		$data['errors'] = array_merge($data['errors'], $customer->errors);
+
+		// show($data['errors']);
 
 		$data['title'] = "Signup";
 
