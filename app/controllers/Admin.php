@@ -22,12 +22,29 @@ class Admin extends Controller
 		$this->view('admin/dashboard',$data);
 	}
 
-	public function products()
+	public function products($x = '')
 	{
-		
-		$data['title'] = "Products";
+		$y = explode('/', $x);
+		$data['x'] = $y[0];
+		if ($x != '') {
+			if ($x == 'categories') {
+				$data['title'] = "Product Category";
 
-		$this->view('admin/products',$data);
+				$this->view('admin/product_categories',$data);
+			}
+			else{
+				$data['title'] = "Product";
+
+				$this->view('admin/product',$data);
+			}
+		}
+		else{
+			$data['title'] = "Products";
+
+			$this->view('admin/products',$data);
+		}
+		
+		
 	}
 
 	public function workers()
@@ -68,4 +85,6 @@ class Admin extends Controller
 
 		$this->view('admin/delivery',$data);
 	}
+
+	
 }

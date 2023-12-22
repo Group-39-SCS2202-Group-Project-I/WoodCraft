@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 /**
  * main model class
  */
 class Model extends Database
 {
-	
+
 	protected $table = "";
 	protected $allowedColumns = [];
 
@@ -13,11 +13,9 @@ class Model extends Database
 	{
 
 		//remove unwanted columns
-		if(!empty($this->allowedColumns))
-		{
+		if (!empty($this->allowedColumns)) {
 			foreach ($data as $key => $value) {
-				if(!in_array($key, $this->allowedColumns))
-				{
+				if (!in_array($key, $this->allowedColumns)) {
 					unset($data[$key]);
 				}
 			}
@@ -26,10 +24,9 @@ class Model extends Database
 		$keys = array_keys($data);
 
 		$query = "insert into " . $this->table;
-		$query .= " (".implode(",", $keys) .") values (:".implode(",:", $keys) .")";
+		$query .= " (" . implode(",", $keys) . ") values (:" . implode(",:", $keys) . ")";
 
-		$this->query($query,$data);
-
+		$this->query($query, $data);
 	}
 
 	public function where($data)
@@ -37,22 +34,20 @@ class Model extends Database
 
 		$keys = array_keys($data);
 
-		$query = "select * from ".$this->table." where ";
+		$query = "select * from " . $this->table . " where ";
 
 		foreach ($keys as $key) {
 			$query .= $key . "=:" . $key . " && ";
 		}
- 
- 		$query = trim($query,"&& ");
-		$res = $this->query($query,$data);
 
-		if(is_array($res))
-		{
+		$query = trim($query, "&& ");
+		$res = $this->query($query, $data);
+
+		if (is_array($res)) {
 			return $res;
 		}
 
 		return false;
-
 	}
 
 	public function first($data)
@@ -60,28 +55,24 @@ class Model extends Database
 
 		$keys = array_keys($data);
 
-		$query = "select * from ".$this->table." where ";
+		$query = "select * from " . $this->table . " where ";
 
 		foreach ($keys as $key) {
 			$query .= $key . "=:" . $key . " && ";
 		}
- 
- 		$query = trim($query,"&& ");
- 		$query .= " order by id desc limit 1";
+
+		$query = trim($query, "&& ");
+		$query .= " order by id desc limit 1";
 
 		// show($query);
 
-		$res = $this->query($query,$data);
+		$res = $this->query($query, $data);
 
-		if(is_array($res))
-		{
+		if (is_array($res)) {
 			return $res[0];
 		}
 
 		return false;
-
 	}
-
-	
 
 }

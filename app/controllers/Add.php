@@ -191,4 +191,50 @@ class Add extends Controller
             redirect('admin/staff');
         }
     }
+
+    public function product_category()
+    {
+        show($_POST);
+
+        $product_category = [
+            'name' => $_POST['name'],
+        ];
+
+        $data['errors'] = [];
+
+        $product_category = new ProductCategory;
+
+        $result = $product_category->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $product_category = [
+                'name' => $_POST['name'],
+            ];
+
+            $db->query("INSERT INTO product_category (name) VALUES (:name)", $product_category);
+            show(3);
+
+            message("Product category added successfully!");
+            redirect('admin/products/categories');
+        } else {
+            show("kes");
+            // show($worker->errors);
+            $data['errors'] = array_merge($product_category->errors);
+            // show($data['errors']);
+            show($data['errors']);
+
+            //how to keep popup open and show errors
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
+            redirect('admin/products/categories');
+        }
+    }
 }

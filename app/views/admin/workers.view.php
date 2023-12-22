@@ -248,9 +248,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <input value="<?php echo $form_data['address_line_2'] ?>" type="text" id="address_line_2_update" name="address_line_2" class="form-input input-popup">
                 </div>
 
-                <?php if (!empty($errors['city'])) : ?>
-                    <p class="validate-mzg"><?= $errors['city'] ?></p>
-                <?php endif; ?>
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
                     <?php if (!empty($errors['city'])) : ?>
@@ -326,6 +323,13 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
+
+            // Clear validation messages
+            const validationMessages = document.querySelectorAll('.validate-mzg');
+            validationMessages.forEach(message => {
+                message.innerHTML = '';
+            });
+            
         }
     </script>
 

@@ -140,4 +140,40 @@ class Update extends Controller
             redirect('admin/staff');
         }
     }
+
+    public function product_category($id)
+    {
+            
+            $data['errors'] = [];
+    
+            $product_category = new ProductCategory;
+    
+            $result = $product_category->validate($_POST);
+    
+            show(1);
+    
+            if ($result) {
+                $db = new Database;
+    
+                show(2);
+    
+                $product_category_arr = [
+                    'name' => $_POST['name'],
+                ];
+    
+                $db->query("UPDATE product_category SET name = :name WHERE product_category_id = $id", $product_category_arr);
+                show(3);
+                message("Product category updated successfully!");
+                redirect('admin/products/categories');
+            } else {
+                show(4);
+                $data['errors'] = array_merge($product_category->errors);
+                show($data['errors']);
+    
+                $_SESSION['errors'] = $data['errors'];
+                $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+                $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+                redirect('admin/products/categories');
+            }
+    }
 }

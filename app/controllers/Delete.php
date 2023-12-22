@@ -50,4 +50,14 @@ class Delete extends Controller
         redirect('admin/staff');
     }
 
+    public function product_categories($id)
+    {
+        $db = new Database();
+
+        $db->query("DELETE FROM product_category WHERE product_category_id = $id");
+
+        message("Product category deleted successfully!");
+        redirect('admin/products/categories');
+    }
+
 }
