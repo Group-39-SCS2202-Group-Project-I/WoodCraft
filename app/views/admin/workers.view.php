@@ -248,9 +248,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <input value="<?php echo $form_data['address_line_2'] ?>" type="text" id="address_line_2_update" name="address_line_2" class="form-input input-popup">
                 </div>
 
-                <?php if (!empty($errors['city'])) : ?>
-                    <p class="validate-mzg"><?= $errors['city'] ?></p>
-                <?php endif; ?>
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
                     <?php if (!empty($errors['city'])) : ?>
@@ -278,6 +275,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
     <script>
         openUpdatePopup = (id) => {
+            sessionStorage.setItem('worker_id', id);
+
             const popupTitle = document.getElementById('update_title');
             popupTitle.innerHTML = "Update Worker (ID: WRK-" + String(id).padStart(3, '0') + ")";
 
@@ -326,6 +325,16 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
+
+            // Clear validation messages
+            const validationMessages = document.querySelectorAll('.validate-mzg');
+            validationMessages.forEach(message => {
+                message.innerHTML = '';
+            });
+
+            // Session storage
+            sessionStorage.removeItem('worker_id');
+            
         }
     </script>
 
@@ -335,7 +344,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 openPopup('add-item-popup');
             } else if ('<?php echo $form_id; ?>' === 'form2') {
                 // code to open your second popup goes here
-                openPopup('update-item-popup');
+                worker_id = sessionStorage.getItem('worker_id');
+                openUpdatePopup(worker_id);
+                //print id
             }
         <?php endif; ?>
     </script>

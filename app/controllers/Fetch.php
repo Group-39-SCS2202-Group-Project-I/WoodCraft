@@ -149,4 +149,21 @@ class Fetch extends Controller
             echo json_encode($data['staff']);
         }
     }
+
+    public function product_categories($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['product_category'] = $db->query("SELECT * FROM product_category WHERE product_category_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_category'][0]);
+        } else {
+            $db = new Database();
+            $data['product_categories'] = $db->query("SELECT * FROM product_category");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_categories']);
+        }
+    }
 }

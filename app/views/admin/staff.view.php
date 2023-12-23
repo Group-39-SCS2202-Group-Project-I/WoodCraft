@@ -254,6 +254,15 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
+
+            // Clear validation messages
+            const validationMessages = document.querySelectorAll('.validate-mzg');
+            validationMessages.forEach(message => {
+                message.innerHTML = '';
+            });
+
+           
+
         }
     </script>
 
@@ -299,31 +308,31 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="role" class="form-label label-popup">Role</label>
-                    <select id="role_update" name="role" class="form-select input-popup">
+                    <select id="role_update" name="role" class="form-select input-popup disabled-input">
                         <?php if (empty($form_data['role'])) : ?>
                             <option value="" selected disabled>Select Role</option>
                         <?php else : ?>
                             <option value="" disabled>Select Role</option>
                         <?php endif; ?>
                         <?php if ($form_data['role'] === 'osr') : ?>
-                            <option value="osr" selected>Online Sales Representative</option>
+                            <option value="osr" disabled selected>Online Sales Representative</option>
                         <?php else : ?>
-                            <option value="osr">Online Sales Representative</option>
+                            <option value="osr" disabled>Online Sales Representative</option>
                         <?php endif; ?>
                         <?php if ($form_data['role'] === 'gm') : ?>
-                            <option value="gm" selected>General Manager</option>
+                            <option value="gm" disabled selected>General Manager</option>
                         <?php else : ?>
-                            <option value="gm">General Manager</option>
+                            <option value="gm" disabled>General Manager</option>
                         <?php endif; ?>
                         <?php if ($form_data['role'] === 'pm') : ?>
-                            <option value="pm" selected>Production Manager</option>
+                            <option value="pm" disabled selected>Production Manager</option>
                         <?php else : ?>
-                            <option value="pm">Production Manager</option>
+                            <option value="pm" disabled>Production Manager</option>
                         <?php endif; ?>
                         <?php if ($form_data['role'] === 'sk') : ?>
-                            <option value="sk" selected>Stock Keeper</option>
+                            <option value="sk" disabled selected>Stock Keeper</option>
                         <?php else : ?>
-                            <option value="sk">Stock Keeper</option>
+                            <option value="sk" disabled>Stock Keeper</option>
                         <?php endif; ?>
 
                     </select>
@@ -382,6 +391,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
     <script>
         openUpdatePopup = (id) => {
+            sessionStorage.setItem('staff_id', id);
             const popupTitle = document.getElementById('update_title');
             popupTitle.innerHTML = "Update Staff Member (ID: STF-" + String(id).padStart(3, '0') + ")";
 
@@ -406,6 +416,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
+            
             popup.querySelector('form').action = "<?php echo ROOT ?>/update/staff/" + id;
         }
     </script>
@@ -416,7 +427,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 openPopup('add-item-popup');
             } else if ('<?php echo $form_id; ?>' === 'form2') {
                 // code to open your second popup goes here
-                openPopup('update-item-popup');
+                staff_id = sessionStorage.getItem('staff_id');
+                openUpdatePopup(staff_id);
             }
         <?php endif; ?>
     </script>
