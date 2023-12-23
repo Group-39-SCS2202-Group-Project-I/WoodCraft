@@ -17,6 +17,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 <h1>Product Categories</h1>
 <!-- form to add product category -->
 <form action="<?php echo ROOT ?>/add/product_category" method="post" id="category_form">
+
     <?php if (message()) : ?>
         <div class="mzg-box">
             <div class="messege"><?= message('', true) ?></div>
@@ -24,21 +25,16 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     <?php endif; ?>
 
     <div class="form-group">
-        <!-- validate-mzg -->
-        <div class="error">
-            <?php echo $errors['name'] ?? '' ?>
-        </div>
-        <label for="name">Name</label>
-        <input type="text" name="name" placeholder="Product Category Name" class="form-control" value="<?php echo $_SESSION['form_data']['name'] ?? '' ?>">
-        <div class="error">
-            <?php echo $_SESSION['errors']['name'] ?? '' ?>
-        </div>
+        <label for="category_name">Category Name</label>
+        <input type="text" name="category_name" id="category_name" class="form-control" value="<?php echo isset($form_data['category_name']) ? $form_data['category_name'] : ''; ?>">
+        <span class="text-danger"><?php echo isset($errors['category_name']) ? $errors['category_name'] : ''; ?></span>
     </div>
     <div class="form-group">
-        <!-- button -->
-        <button type="submit" class="btn btn-primary">Add Product Category</button>
+        <input type="submit" value="Add Category" class="btn btn-primary">
     </div>
 </form>
+
+
 
 <!-- fetch and display product categories in a list-->
 <div class="category-list">
@@ -49,7 +45,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     // show($data);
     $categories = [];
     foreach ($data as $item) {
-        $categories[strtoupper(substr($item['name'], 0, 1))][] = $item;
+        $categories[strtoupper(substr($item['category_name'], 0, 1))][] = $item;
     }
     ksort($categories);
     ?>
@@ -60,7 +56,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <?php foreach ($categoryList as $category) : ?>
                     <li>
                         <span class="category-id">CAT-<?php echo str_pad($category['product_category_id'], 3, '0', STR_PAD_LEFT); ?></span>
-                        <span class="category-name"><?php echo $category['name']; ?></span>
+                        <span class="category-name"><?php echo $category['category_name']; ?></span>
                         <span class="category-actions">
                             <a href="<?php echo ROOT ?>/delete/product_categories/<?php echo $category['product_category_id'] ?>" class="btn btn-danger">Delete</a>
                         </span>

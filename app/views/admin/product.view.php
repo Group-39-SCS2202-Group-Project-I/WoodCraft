@@ -1,3 +1,11 @@
-<h1>product</h1>
-<!-- display product id -->
-<h2>Product ID: <?php echo $data['x'] ?></h2>
+<?php include "inc/header.view.php"; ?>
+
+<!-- fetch and display data -->
+<?php
+$url = ROOT . "/fetch/product/" . $data['x'];
+$response = file_get_contents($url);
+$data = json_decode($response, true);
+show($data);
+?>
+
+<?php include "inc/footer.view.php"; ?>

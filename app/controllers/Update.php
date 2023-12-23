@@ -158,10 +158,10 @@ class Update extends Controller
                 show(2);
     
                 $product_category_arr = [
-                    'name' => $_POST['name'],
+                    'category_name' => $_POST['category_name'],
                 ];
     
-                $db->query("UPDATE product_category SET name = :name WHERE product_category_id = $id", $product_category_arr);
+                $db->query("UPDATE product_category SET category_name = :category_name WHERE product_category_id = $id", $product_category_arr);
                 show(3);
                 message("Product category updated successfully!");
                 redirect('admin/products/categories');

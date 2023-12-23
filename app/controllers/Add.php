@@ -197,7 +197,7 @@ class Add extends Controller
         show($_POST);
 
         $product_category = [
-            'name' => $_POST['name'],
+            'category_name' => $_POST['name']
         ];
 
         $data['errors'] = [];
@@ -214,10 +214,13 @@ class Add extends Controller
             show(2);
 
             $product_category = [
-                'name' => $_POST['name'],
+                'category_name' => $_POST['category_name']
             ];
 
-            $db->query("INSERT INTO product_category (name) VALUES (:name)", $product_category);
+            show($product_category);
+
+            $db->query("INSERT INTO product_category (category_name) VALUES (:category_name)", $product_category);
+
             show(3);
 
             message("Product category added successfully!");
