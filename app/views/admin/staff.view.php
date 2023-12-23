@@ -391,6 +391,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
     <script>
         openUpdatePopup = (id) => {
+            sessionStorage.setItem('staff_id', id);
             const popupTitle = document.getElementById('update_title');
             popupTitle.innerHTML = "Update Staff Member (ID: STF-" + String(id).padStart(3, '0') + ")";
 
@@ -415,6 +416,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
+            
             popup.querySelector('form').action = "<?php echo ROOT ?>/update/staff/" + id;
         }
     </script>
@@ -425,7 +427,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 openPopup('add-item-popup');
             } else if ('<?php echo $form_id; ?>' === 'form2') {
                 // code to open your second popup goes here
-                openPopup('update-item-popup');
+                staff_id = sessionStorage.getItem('staff_id');
+                openUpdatePopup(staff_id);
             }
         <?php endif; ?>
     </script>

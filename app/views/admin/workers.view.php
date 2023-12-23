@@ -275,6 +275,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
     <script>
         openUpdatePopup = (id) => {
+            sessionStorage.setItem('worker_id', id);
+
             const popupTitle = document.getElementById('update_title');
             popupTitle.innerHTML = "Update Worker (ID: WRK-" + String(id).padStart(3, '0') + ")";
 
@@ -329,6 +331,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             validationMessages.forEach(message => {
                 message.innerHTML = '';
             });
+
+            // Session storage
+            sessionStorage.removeItem('worker_id');
             
         }
     </script>
@@ -339,7 +344,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 openPopup('add-item-popup');
             } else if ('<?php echo $form_id; ?>' === 'form2') {
                 // code to open your second popup goes here
-                openPopup('update-item-popup');
+                worker_id = sessionStorage.getItem('worker_id');
+                openUpdatePopup(worker_id);
+                //print id
             }
         <?php endif; ?>
     </script>
