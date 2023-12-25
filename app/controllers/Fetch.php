@@ -166,4 +166,118 @@ class Fetch extends Controller
             echo json_encode($data['product_categories']);
         }
     }
+
+    public function product_inventory($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['product_inventory'] = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_inventory'][0]);
+        } else {
+            $db = new Database();
+            $data['product_inventories'] = $db->query("SELECT * FROM product_inventory");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_inventories']);
+        }
+    }
+
+    public function product_measurement($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['product_measurement'] = $db->query("SELECT * FROM product_measurement WHERE product_measurement_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_measurement'][0]);
+        } else {
+            $db = new Database();
+            $data['product_measurements'] = $db->query("SELECT * FROM product_measurement");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_measurements']);
+        }
+    }
+
+
+
+    public function product($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['product'] = $db->query("SELECT * FROM product WHERE product_id = $id");
+
+            $product_category_id = $data['product'][0]->product_category_id;
+            $data['product_category'] = $db->query("SELECT * FROM product_category WHERE product_category_id = $product_category_id");
+
+            $product_inventory_id = $data['product'][0]->product_inventory_id;
+            $data['product_inventory'] = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+
+            $product_measurement_id = $data['product'][0]->product_measurement_id;
+            $data['product_measurement'] = $db->query("SELECT * FROM product_measurement WHERE product_measurement_id = $product_measurement_id");
+
+            $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
+
+
+            header("Content-Type: application/json");
+            echo json_encode($product_data);
+        } else {
+            $db = new Database();
+            $data['products'] = $db->query("SELECT * FROM product");
+
+            $product_category_ids = array_column($data['products'], 'product_category_id');
+            $product_category_ids = implode(',', $product_category_ids);
+            $data['product_categories'] = $db->query("SELECT * FROM product_category WHERE product_category_id IN ($product_category_ids)");
+
+
+            $product_inventory_ids = array_column($data['products'], 'product_inventory_id');
+            $product_inventory_ids = implode(',', $product_inventory_ids);
+            $data['product_inventories'] = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id IN ($product_inventory_ids)");
+
+            $product_measurement_ids = array_column($data['products'], 'product_measurement_id');
+            $product_measurement_ids = implode(',', $product_measurement_ids);
+            $data['product_measurements'] = $db->query("SELECT * FROM product_measurement WHERE product_measurement_id IN ($product_measurement_ids)");
+
+            foreach ($data['products'] as $key => $product) {
+                foreach ($data['product_categories'] as $product_category) {
+                    if ($product->product_category_id == $product_category->product_category_id) {
+                        $data['products'][$key]->category_name = $product_category->category_name;
+                    }
+                }
+                foreach ($data['product_inventories'] as $product_inventory) {
+                    if ($product->product_inventory_id == $product_inventory->product_inventory_id) {
+                        $data['products'][$key]->quantity = $product_inventory->quantity;
+                    }
+                }
+                foreach ($data['product_measurements'] as $product_measurement) {
+                    if ($product->product_measurement_id == $product_measurement->product_measurement_id) {
+                        $height = $product_measurement->height;
+                        $width = $product_measurement->width;
+                        $length = $product_measurement->length;
+                        $weight = $product_measurement->weight;
+                        $product_measurement->measurement = [
+                            'height' => $height,
+                            'width' => $width,
+                            'length' => $length,
+                            'weight' => $weight
+                        ];
+
+                        $data['products'][$key]->measurement = $product_measurement->measurement;
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+            header("Content-Type: application/json");
+            echo json_encode($data);
+        }
+    }
 }

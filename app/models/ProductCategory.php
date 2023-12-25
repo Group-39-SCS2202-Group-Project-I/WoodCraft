@@ -7,32 +7,32 @@ class ProductCategory extends Model
     protected $table = "product_category";
 
     protected $allowedColumns = [
-        "name",
+        "category_name",
     ];
 
     public function validate($data)
     {
         $this->errors = [];
 
-        if(empty($data['name']))
+        if(empty($data['category_name']))
         {
-            $this->errors['name'] = "Name is required";
+            $this->errors['category_name'] = "Category name is required";
         }
-        else if(!preg_match("/^[a-zA-Z0-9 ]*$/",$data['name']))
+        else if(!preg_match("/^[a-zA-Z0-9 ]*$/",$data['category_name']))
         {
-            $this->errors['name'] = "Name must contain only letters, numbers, and spaces";
+            $this->errors['category_name'] = "Category name must contain only letters, numbers, and spaces";
         }
-        else if(strlen($data['name']) < 2)
+        else if(strlen($data['category_name']) < 2)
         {
-            $this->errors['name'] = "Name must be at least 2 characters";
+            $this->errors['category_name'] = "Category name must be at least 2 characters";
         }
-        else if(strlen($data['name']) > 100)
+        else if(strlen($data['category_name']) > 100)
         {
-            $this->errors['name'] = "Name must be less than 100 characters";
+            $this->errors['category_name'] = "Category name must be less than 100 characters";
         }
-        else if ($this->where(['name'=>$data['name']]))
+        else if ($this->where(['category_name'=>$data['category_name']]))
         {
-            $this->errors['name'] = "That category already exists";
+            $this->errors['category_name'] = "That category already exists";
         }
         
        

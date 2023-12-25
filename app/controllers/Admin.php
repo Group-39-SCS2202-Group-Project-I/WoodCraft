@@ -22,19 +22,37 @@ class Admin extends Controller
 		$this->view('admin/dashboard',$data);
 	}
 
-	public function products($x = '')
+	public function products($x = '',$z = '')
 	{
+		
 		$y = explode('/', $x);
 		$data['x'] = $y[0];
+
+		$z = explode('/', $z);
+		$data['z'] = $z[0];
+
+		// show($data['z']);
+		
+		// show($data['z']);
+		
 		if ($x != '') {
+			
 			if ($x == 'categories') {
 				$data['title'] = "Product Category";
 
 				$this->view('admin/product_categories',$data);
 			}
+			else if ($x == 'add') {
+				$data['title'] = "Add Product";
+				$this->view('admin/add_product',$data);
+			}
+			else if ($x == 'update') {
+					$data['title'] = "Update Product";
+					$this->view('admin/update_product',$data);
+				
+			}
 			else{
 				$data['title'] = "Product";
-
 				$this->view('admin/product',$data);
 			}
 		}
