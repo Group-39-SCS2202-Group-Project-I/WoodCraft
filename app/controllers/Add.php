@@ -240,4 +240,84 @@ class Add extends Controller
             redirect('admin/products/categories');
         }
     }
+
+    public function product()
+    {
+        
+
+        $data['errors'] = [];
+
+        $db = new Database;
+       
+        $product_inventory = new ProductInventory;
+        $product_measurement = new ProductMeasurement;
+        $product = new Product;
+
+        $_POST['quantity'] = 0;
+
+        $result = $product->validate($_POST);
+        // $result2 = $product_inventory->validate($_POST);
+        $result2 = $product_measurement->validate($_POST);
+
+        show($_POST);
+
+        if($result && $result2)
+        {
+            
+
+            $product_inventory = [
+                'quantity' => $_POST['quantity']
+            ];
+
+            // show(2);
+            $db->query("INSERT INTO product_inventory (quantity) VALUES (:quantity)", $product_inventory);
+            $product_inventory_id = $db->query("SELECT product_inventory_id FROM product_inventory WHERE product_inventory_id = (SELECT MAX(product_inventory_id) FROM product_inventory)")[0]->product_inventory_id;
+            
+            show(1);
+            // show($product_inventory_id);
+
+            $product_measurement = [
+                'length' => $_POST['length'],
+                'width' => $_POST['width'],
+                'height' => $_POST['height'],
+                'weight' => $_POST['weight']
+            ];
+            $db->query("INSERT INTO product_measurement (length, width, height, weight) VALUES (:length, :width, :height, :weight)", $product_measurement);
+            $product_measurement_id = $db->query("SELECT product_measurement_id FROM product_measurement WHERE product_measurement_id = (SELECT MAX(product_measurement_id) FROM product_measurement)")[0]->product_measurement_id;
+
+            show(2);
+            // show($product_measurement_id);
+
+            $product = [
+                'name' => $_POST['name'],
+                'description' => $_POST['description'],
+                'price' => $_POST['price'],
+                'product_category_id' => $_POST['product_category_id'],
+                'product_inventory_id' => $product_inventory_id,
+                'product_measurement_id' => $product_measurement_id
+            ];
+
+            show($product);
+
+            $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id)", $product);
+
+            show(3);
+
+            message("Product added successfully!");
+            redirect('admin/products');
+
+        }
+        else
+        {
+            show(3);
+            $data['errors'] = array_merge($product->errors, $product_measurement->errors);
+            show($data['errors']);
+
+
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; 
+        }
+        
+    }
 }

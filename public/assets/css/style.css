@@ -669,3 +669,70 @@ h6 {
     padding: 0.5rem 1rem;
 
 }
+
+.form-section {
+    margin: 0 auto;
+    /* max-width: 800px; */
+    padding: 20px;
+    background-color: var(--light);
+    border-radius: 10px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+}
+
+.page-input {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: var(--blk);
+    font-size: 1.2rem;
+}
+
+.page-input:focus {
+    outline: none;
+    border: 0.1rem solid var(--primary);
+
+}
+
+.page-textarea {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: var(--blk);
+    font-size: 1rem;
+    resize: none;
+}
+
+.page-textarea:focus {
+    outline: none;
+    border: 0.1rem solid var(--primary);
+}
+
+.page-select {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: var(--blk);
+    font-size: 1rem;
+}
+
+.page-select:focus {
+    outline: none;
+    border: 0.1rem solid var(--primary);
+}
+
+.page-label {
+    font-size: 1rem;
+    /* margin-bottom: 0.5rem; */
+    color: var(--blk);
+    width: 20%;
+}
+
