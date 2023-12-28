@@ -301,10 +301,12 @@ class Add extends Controller
 
             $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id)", $product);
 
+            $product_id = $db->query("SELECT product_id FROM product WHERE product_id = (SELECT MAX(product_id) FROM product)")[0]->product_id;
+
             show(3);
 
             message("Product added successfully!");
-            redirect('admin/products');
+            redirect('admin/products/' . $product_id);
 
         }
         else
@@ -313,11 +315,12 @@ class Add extends Controller
             $data['errors'] = array_merge($product->errors, $product_measurement->errors);
             show($data['errors']);
 
-
-
             $_SESSION['errors'] = $data['errors'];
             $_SESSION['form_data'] = $_POST; 
+
+            redirect('admin/products/add');
         }
+
         
     }
 }

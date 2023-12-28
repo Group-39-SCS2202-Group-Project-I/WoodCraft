@@ -8,6 +8,12 @@ $data = json_decode($response, true);
 // show($data);
 ?>
 
+<?php if (message()) : ?>
+    <div class="mzg-box">
+        <div class="messege"><?= message('', true) ?></div>
+    </div>
+<?php endif; ?>
+
 
 
 <!DOCTYPE html>

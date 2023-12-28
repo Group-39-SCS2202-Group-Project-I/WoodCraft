@@ -1,12 +1,27 @@
 <?php include "inc/header.view.php"; ?>
 
-<!-- button to navigate categories -->
+<?php
+if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSION['form_id'])) {
+    $errors = $_SESSION['errors'];
+    $form_data = $_SESSION['form_data'];
+    $form_id = $_SESSION['form_id'];
+    // unset the session variables so they don't persist on page refresh
+    unset($_SESSION['errors']);
+    unset($_SESSION['form_data']);
+    unset($_SESSION['form_id']);
+    // display the errors and repopulate the form with the data
+    // show($form_data);
+}
+?>
+
 
 
 <!-- <h1>Products</h1> -->
 <div class="table-section">
 
     <h2 class="table-section__title">Products</h2>
+
+    
 
     <div class="table-section__add">
         <a href="<?php echo ROOT ?>/admin/products/categories" class="table-section__add-link">Product Categories</a>
