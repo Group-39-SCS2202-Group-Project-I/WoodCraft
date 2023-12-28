@@ -151,7 +151,7 @@ class Add extends Controller
             show(3);
             $user = [
                 'email' => $_POST['email'],
-                'password' => $_POST['password'],
+                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
                 'role' => $_POST['role']
             ];
 
