@@ -30,9 +30,7 @@ class Product extends Model
             $this->errors['name'] = "Product name must be at least 2 characters";
         } else if (strlen($data['name']) > 100) {
             $this->errors['name'] = "Product name must be less than 100 characters";
-        } else if ($this->where(['name' => $data['name']])) {
-            $this->errors['name'] = "That product already exists";
-        }
+        } 
         if (empty($data['description'])) {
             $this->errors['description'] = "Product description is required";
         }
