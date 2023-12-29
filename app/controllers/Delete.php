@@ -76,29 +76,20 @@ class Delete extends Controller
     {
         $db = new Database();
 
-        $product_measurement = $db->query("SELECT * FROM product_measurement WHERE product_id = $id");
-        $product_measurement_id = $product_measurement[0]->product_measurement_id;
-
-        $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_id = $id");
-        $product_inventory_id = $product_inventory[0]->product_inventory_id;
+        $product_id = $db->query("SELECT product_id FROM product WHERE product_id = $id")[0]->product_id;
 
         //get all product images
-        $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $id");
+        $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
 
         //delete all product images
         foreach ($product_images as $product_image) {
-            $product_image_id = $product_image->product_image_id;
-            $db->query("DELETE FROM product_image WHERE product_image_id = $product_image_id");
+            $db->query("DELETE FROM product_image WHERE product_image_id = $product_image->product_image_id");
         }
 
-        $db->query("DELETE FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
-
-        $db->query("DELETE FROM product_measurement WHERE product_measurement_id = $product_measurement_id");
-
         $db->query("DELETE FROM product WHERE product_id = $id");
+
 
         message("Product deleted successfully!");
         redirect('admin/products');
     }
-
 }

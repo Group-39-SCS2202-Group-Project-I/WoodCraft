@@ -14,6 +14,11 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 }
 ?>
 
+<?php if (message()) : ?>
+    <div class="mzg-box">
+        <div class="messege"><?= message('', true) ?></div>
+    </div>
+<?php endif; ?>
 
 
 <!-- <h1>Products</h1> -->

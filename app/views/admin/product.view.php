@@ -65,6 +65,11 @@ $data = json_decode($response, true);
         transition: background-color 0.3s ease;
     }
 
+    .carousel-left-btn:hover,
+    .carousel-right-btn:hover {
+        color: var(--primary);
+    }
+
 
     .carousel-image {
         width: 400px;
@@ -132,8 +137,8 @@ $data = json_decode($response, true);
     }
 
     #drop_zone:hover {
-        border: 2px solid var(--primary);
-        color: var(--blk);
+        border: 1.5px solid var(--primary);
+        color: var(--primary);
         cursor: pointer;
     }
 
@@ -142,6 +147,8 @@ $data = json_decode($response, true);
         display: none;
         max-width: 300px;
         max-height: 300px;
+        /* min-width: 300px;
+        min-height: 300px; */
         /* padding: 1rem; */
         object-fit: cover;
         text-align: center;
@@ -173,6 +180,7 @@ $data = json_decode($response, true);
                 <div class="table-section">
                     <div style=" text-align: right;">
                         <a href="<?php echo ROOT ?>/admin/products/update/<?= $data['product_id'] ?>" class="table-section__add-link">Update Product Details</a>
+                        <a onclick="openDeletePopup(<?= $data['product_id'] ?>)" class="table-section__add-link">Delete Product</a>
                     </div>
                 </div>
                 <h1 class="list-section__title">Product Details </span></h1>
@@ -284,8 +292,6 @@ $data = json_decode($response, true);
                     reader.readAsDataURL(file);
                 }
 
-                // Add event listeners for file selection and drop here
-                // Event listener for file selection
                 fileInput.addEventListener('change', function(e) {
                     handleFiles(this.files);
                 }, false);
@@ -342,28 +348,21 @@ $data = json_decode($response, true);
 
         </div>
         <script>
-
-            
-            // Carousel
             const carouselImages = document.getElementById('carouselImages');
             const imageCount = document.querySelector('.image-count');
 
             let images = <?php echo json_encode($images) ?>;
             let currentImage = 0;
 
-            // Populate carousel images
             images.forEach(image => {
                 carouselImages.innerHTML += `
                 <img src="<?php echo ROOT . '/' ?>${image.image_url}" alt="Product Image-${image.product_image_id}" class="carousel-image">
             `;
             });
 
-            // Show image count
             imageCount.innerHTML = `${currentImage + 1}/${images.length}`;
 
-            // Add event listeners to carousel buttons
-            // show one image at a time
-            // and when click next or prev button, show next or prev image
+
 
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
@@ -376,7 +375,6 @@ $data = json_decode($response, true);
                 if (currentImage < 0) {
                     currentImage = images.length - 1;
                 }
-                // Update carousel and image count
                 updateCarousel();
             });
 
@@ -388,11 +386,9 @@ $data = json_decode($response, true);
                 updateCarousel();
             });
 
-            // Function to update carousel and image count
             function updateCarousel() {
-                // Clear carousel images
+
                 carouselImages.innerHTML = '';
-                // Add current image to carousel
                 carouselImages.innerHTML += `
         <img src="<?php echo ROOT . '/' ?>${images[currentImage].image_url}" alt="Product Image-${images[currentImage].product_image_id}" class="carousel-image">
     `;
@@ -421,6 +417,43 @@ $data = json_decode($response, true);
             }
         </script>
     </div>
+
+    <div class="popup-form" id="delete-item-popup">
+        <div class="popup-form__content">
+            <form action="" method="POST" class="form">
+                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+                <!-- <p>Are you sure you want to delete this item?</p> -->
+                <p class="confirmation-text">Are you sure you want to delete </p>
+
+                <div class="form-group frm-btns">
+                    <button type="submit" class="form-btn submit-btn">Yes</button>
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        openDeletePopup = (id) => {
+            const popup = document.getElementById('delete-item-popup');
+            const confirmationText = document.querySelector('.confirmation-text');
+            x = "PRD-" + String(id).padStart(3, '0');
+            confirmationText.innerHTML += "Product ID: " + x + "?";
+            popup.classList.add('popup-form--open');
+            popup.querySelector('form').action = "<?php echo ROOT ?>/delete/products/" + id;
+            // console.log(id);
+        }
+
+        function closePopup() {
+            const popups = document.querySelectorAll('.popup-form');
+            confirmText = document.querySelector('.confirmation-text');
+            confirmText.innerHTML = "Are you sure you want to delete ";
+            popups.forEach(popup => {
+                popup.classList.remove('popup-form--open');
+            });
+            
+        }
+    </script>
 
 
 </body>
