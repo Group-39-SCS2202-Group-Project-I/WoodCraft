@@ -40,7 +40,8 @@ $data = json_decode($response, true);
                         <span><?php echo $data['name'] ?></span>
                     </div>
                     <div class="detail-item">
-                        <label>Description : </label>
+                        <label style="width:100%">Description : </label>
+                        
                         <span><?php echo $data['description'] ?></span>
                     </div>
                     <div class="detail-item">
