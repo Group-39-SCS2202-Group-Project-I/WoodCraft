@@ -25,7 +25,7 @@ else
 }
 
 
-show($product_id);
+// show($product_id);
 // show($form_data);
 // show($errors);
 // show($form_id);
@@ -45,7 +45,7 @@ show($product_id);
 </style>
 
 <form action="<?php echo ROOT ?>/update/product/<?= $product_id ?>" method="POST" class="form-section">
-    <h2 class="table-section__title">Update Product (<?php echo sprintf('PRD-%03d', $product['product_id']) ?>)</h2>
+    <h2 class="table-section__title">Update Product (<?php echo sprintf('PRD-%03d', $product_id) ?>)</h2>
     <div class="form-container">
 
 
