@@ -50,19 +50,19 @@ class Login extends Controller
 					}
 					else if(Auth::is_osr())
 					{
-						redirect("home"); //
+						redirect("osr");
 					}
 					elseif(Auth::is_sk())
 					{
-						redirect("home");
+						redirect("sk");
 					}
 					elseif(Auth::is_gm())
 					{
-						redirect("home");
+						redirect("gm");
 					}
 					elseif(Auth::is_pm())
 					{
-						redirect("home");
+						redirect("pm");
 					}
 					else
 					{

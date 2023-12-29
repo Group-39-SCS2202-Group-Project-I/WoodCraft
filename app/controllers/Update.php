@@ -143,37 +143,110 @@ class Update extends Controller
 
     public function product_category($id)
     {
-            
-            $data['errors'] = [];
-    
-            $product_category = new ProductCategory;
-    
-            $result = $product_category->validate($_POST);
-    
-            show(1);
-    
-            if ($result) {
-                $db = new Database;
-    
-                show(2);
-    
-                $product_category_arr = [
-                    'category_name' => $_POST['category_name'],
-                ];
-    
-                $db->query("UPDATE product_category SET category_name = :category_name WHERE product_category_id = $id", $product_category_arr);
-                show(3);
-                message("Product category updated successfully!");
-                redirect('admin/products/categories');
-            } else {
-                show(4);
-                $data['errors'] = array_merge($product_category->errors);
-                show($data['errors']);
-    
-                $_SESSION['errors'] = $data['errors'];
-                $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
-                $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
-                redirect('admin/products/categories');
-            }
+
+        $data['errors'] = [];
+
+        $product_category = new ProductCategory;
+
+        $result = $product_category->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $product_category_arr = [
+                'category_name' => $_POST['category_name'],
+            ];
+
+            $db->query("UPDATE product_category SET category_name = :category_name WHERE product_category_id = $id", $product_category_arr);
+            show(3);
+            message("Product category updated successfully!");
+            redirect('admin/products/categories');
+        } else {
+            show(4);
+            $data['errors'] = array_merge($product_category->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('admin/products/categories');
+        }
+    }
+
+    public function product($id)
+    {
+        $data['errors'] = [];
+
+        $db = new Database;
+
+        $product_inventory = new ProductInventory;
+        $product_measurement = new ProductMeasurement;
+        $product = new Product;
+
+        $product_id = $id;
+        $product_measurement_id = $db->query("SELECT product_measurement_id FROM product WHERE product_id = $product_id")[0]->product_measurement_id;
+
+        show($product_measurement_id);
+
+        $result = $product->validate($_POST);
+        // $result2 = $product_inventory->validate($_POST);
+        $result2 = $product_measurement->validate($_POST);
+
+        show($_POST);
+//         Array
+// (
+//     [name] => Chair
+//     [description] => paadadadda
+//     [product_category_id] => 2
+//     [price] => 131313.00
+//     [height] => 12.00
+//     [width] => 32.00
+//     [length] => 32.00
+//     [weight] => 12.00
+// )
+
+        if ($result && $result2) {
+            $product_arr = [
+                'name' => $_POST['name'],
+                'description' => $_POST['description'],
+                'product_category_id' => $_POST['product_category_id'],
+                'price' => $_POST['price'],
+            ];
+
+            $product_measurement_arr = [
+                'height' => $_POST['height'],
+                'width' => $_POST['width'],
+                'length' => $_POST['length'],
+                'weight' => $_POST['weight'],
+            ];
+
+            // update product
+
+            $db->query("UPDATE product SET name = :name, description = :description, product_category_id = :product_category_id, price = :price WHERE product_id = $product_id", $product_arr);
+            show("product updated");
+
+            // update product measurement
+            $db->query("UPDATE product_measurement SET height = :height, width = :width, length = :length, weight = :weight WHERE product_measurement_id = $product_measurement_id", $product_measurement_arr);
+            show("product measurement updated");
+
+            message("Product updated successfully!");
+            redirect('admin/products/'. $product_id);
+
+        } else {
+            show(4);
+            $data['errors'] = array_merge($product->errors, $product_measurement->errors);
+            show($data['errors']);
+
+            $_POST['product_id'] = $product_id;
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('admin/products/update/'. $product_id);
+        }
     }
 }

@@ -14,59 +14,178 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 }
 ?>
 
-<h1>Product Categories</h1>
-<!-- form to add product category -->
-<form action="<?php echo ROOT ?>/add/product_category" method="post" id="category_form">
+<style>
+    #cat-inp {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        font-size: 1rem;
+        width: 60%;
+        /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+    }
 
+    #cat-inp:focus {
+        outline: none;
+        border: 2px solid var(--primary);
+    }
+
+    .cat-add-btn {
+        margin-right: 0px;
+        width: 30%;
+    }
+
+    /*  */
+
+    .category-group {
+        margin-bottom: 20px;
+        /* background-color: var(--light); */
+        background-color: white;
+        border-radius: 5px;
+        padding: 15px;
+        /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
+        /* border: 1.2px solid var(--blk); */
+    }
+
+    .category-group h2 {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        /* color: #333; */
+    }
+
+    .category-group ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .cat-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 0.5rem;
+        background-color: var(--light);
+        border-radius: 5px;
+        /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
+    }
+
+    .cat-list-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .delete-cat-btn {
+        color: var(--blk);
+        cursor: pointer;
+    }
+
+    
+
+    .cat-list-item:hover {
+        background-color: var(--blk);
+        color: var(--light);
+    }
+
+    .cat-list-item:hover .delete-cat-btn {
+        color: var(--light);
+    }
+
+    .cat-list-item:hover .delete-cat-btn:hover {
+        color: var(--danger);
+    }
+    
+
+
+    .category-name {
+        font-size: 1.2em;
+        /* font-weight: bold; */
+    }
+
+    .category-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    
+    .category-actions a {
+        /* color: var(--blk); */
+        text-decoration: none;
+    }
+
+    .material-symbols-outlined {
+        margin-left: 5px;
+    }
+</style>
+
+
+<div class="table-section">
+
+    <!-- form to add product category -->
     <?php if (message()) : ?>
         <div class="mzg-box">
             <div class="messege"><?= message('', true) ?></div>
         </div>
     <?php endif; ?>
 
-    <div class="form-group">
-        <label for="category_name">Category Name</label>
-        <input type="text" name="category_name" id="category_name" class="form-control" value="<?php echo isset($form_data['category_name']) ? $form_data['category_name'] : ''; ?>">
-        <span class="text-danger"><?php echo isset($errors['category_name']) ? $errors['category_name'] : ''; ?></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Add Category" class="btn btn-primary">
-    </div>
-</form>
+    <div style="display: flex;">
+        <div class="flex-half"></div>
+        <div class="flex-half">
 
+            <?php if (!empty($errors['category_name'])) : ?>
+                <p style="display: flex; justify-content: flex-end; padding:0; margin-bottom: 0.5rem" class="validate-mzg"><?= $errors['category_name'] ?></p>
+            <?php endif; ?>
+            <form action="<?php echo ROOT ?>/add/product_category" method="post" id="category_form" style="display: flex; justify-content: flex-end; padding:0">
 
-
-<!-- fetch and display product categories in a list-->
-<div class="category-list">
-    <?php
-    $url = ROOT . "/fetch/product_categories";
-    $response = file_get_contents($url);
-    $data = json_decode($response, true);
-    // show($data);
-    $categories = [];
-    foreach ($data as $item) {
-        $categories[strtoupper(substr($item['category_name'], 0, 1))][] = $item;
-    }
-    ksort($categories);
-    ?>
-    <?php foreach ($categories as $letter => $categoryList) : ?>
-        <div class="category-group">
-            <h2><?php echo $letter; ?></h2>
-            <ul>
-                <?php foreach ($categoryList as $category) : ?>
-                    <li>
-                        <span class="category-id">CAT-<?php echo str_pad($category['product_category_id'], 3, '0', STR_PAD_LEFT); ?></span>
-                        <span class="category-name"><?php echo $category['category_name']; ?></span>
-                        <span class="category-actions">
-                            <a href="<?php echo ROOT ?>/delete/product_categories/<?php echo $category['product_category_id'] ?>" class="btn btn-danger">Delete</a>
-                        </span>
-
-
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+                <input type="text" value="<?= set_value('category_name') ?>" name="category_name" placeholder="Enter Category Name" id="cat-inp">
+                <span style="margin-left: 10px;"></span>
+                <Button type="submit" class="form-btn submit-btn cat-add-btn" style="height: 44px;">Add Category</Button>
+            </form>
         </div>
-    <?php endforeach; ?>
-</div>
+    </div>
 
-<?php include "inc/footer.view.php"; ?>
+    <h1 class="list-section__title">Product Categories </span></h1>
+
+
+    <div class="table-section__search">
+        <input type="text" id="searchCategories" placeholder="Search Categories..." class="table-section__search-input">
+        <!-- hidden submit button to avoid -->
+        <input type="submit" id="hiddenSubmit" style="display: none;">
+    </div>
+
+
+
+    <!-- fetch and display product categories in a list-->
+
+    <div class="category-list" style="column-count: 4; column-gap: 20px;">
+        <?php
+        $url = ROOT . "/fetch/product_categories";
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        $categories = [];
+        foreach ($data as $item) {
+            $categories[strtoupper(substr($item['category_name'], 0, 1))][] = $item;
+        }
+        ksort($categories);
+        ?>
+        <?php foreach ($categories as $letter => $categoryList) : ?>
+            <div class="category-group" style="break-inside: avoid;">
+                <h2><?php echo $letter; ?></h2>
+                <ul>
+                    <?php foreach ($categoryList as $category) : ?>
+                        <li class="cat-list-item">
+                            <span class="category-name"><?php echo $category['category_name']; ?></span>
+                            <span class="category-actions">
+                                <a href="<?php echo ROOT ?>/delete/product_categories/<?php echo $category['product_category_id'] ?>">
+                                    <span class="material-symbols-outlined delete-cat-btn">
+                                        delete
+                                    </span>
+                                </a>
+                            </span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <?php include "inc/footer.view.php"; ?>

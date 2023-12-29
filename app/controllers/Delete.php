@@ -60,4 +60,36 @@ class Delete extends Controller
         redirect('admin/products/categories');
     }
 
+    public function product_images($id)
+    {
+        $db = new Database();
+
+        $product_id = $db->query("SELECT product_id FROM product_image WHERE product_image_id = $id")[0]->product_id;
+
+        $db->query("DELETE FROM product_image WHERE product_image_id = $id");
+
+        message("Product image deleted successfully!");
+        redirect('admin/products/' . $product_id);
+    }
+
+    public function products($id)
+    {
+        $db = new Database();
+
+        $product_id = $db->query("SELECT product_id FROM product WHERE product_id = $id")[0]->product_id;
+
+        //get all product images
+        $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+
+        //delete all product images
+        foreach ($product_images as $product_image) {
+            $db->query("DELETE FROM product_image WHERE product_image_id = $product_image->product_image_id");
+        }
+
+        $db->query("DELETE FROM product WHERE product_id = $id");
+
+
+        message("Product deleted successfully!");
+        redirect('admin/products');
+    }
 }
