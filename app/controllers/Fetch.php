@@ -270,14 +270,25 @@ class Fetch extends Controller
             }
 
 
-
-
-
-
-
-
             header("Content-Type: application/json");
             echo json_encode($data);
+        }
+    }
+
+    public function product_images($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['product_images'] = $db->query("SELECT * FROM product_image WHERE product_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_images']);
+        } else {
+            $db = new Database();
+            $data['product_images'] = $db->query("SELECT * FROM product_image");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_images']);
         }
     }
 }

@@ -60,4 +60,45 @@ class Delete extends Controller
         redirect('admin/products/categories');
     }
 
+    public function product_images($id)
+    {
+        $db = new Database();
+
+        $product_id = $db->query("SELECT product_id FROM product_image WHERE product_image_id = $id")[0]->product_id;
+
+        $db->query("DELETE FROM product_image WHERE product_image_id = $id");
+
+        message("Product image deleted successfully!");
+        redirect('admin/products/' . $product_id);
+    }
+
+    public function products($id)
+    {
+        $db = new Database();
+
+        $product_measurement = $db->query("SELECT * FROM product_measurement WHERE product_id = $id");
+        $product_measurement_id = $product_measurement[0]->product_measurement_id;
+
+        $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_id = $id");
+        $product_inventory_id = $product_inventory[0]->product_inventory_id;
+
+        //get all product images
+        $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $id");
+
+        //delete all product images
+        foreach ($product_images as $product_image) {
+            $product_image_id = $product_image->product_image_id;
+            $db->query("DELETE FROM product_image WHERE product_image_id = $product_image_id");
+        }
+
+        $db->query("DELETE FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+
+        $db->query("DELETE FROM product_measurement WHERE product_measurement_id = $product_measurement_id");
+
+        $db->query("DELETE FROM product WHERE product_id = $id");
+
+        message("Product deleted successfully!");
+        redirect('admin/products');
+    }
+
 }

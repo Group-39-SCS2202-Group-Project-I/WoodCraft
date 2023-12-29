@@ -66,19 +66,24 @@ $data = json_decode($response, true);
     }
 
 
-
-    #carouselImages {
-        flex-grow: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .carousel-image {
+        width: 400px;
+        height: 400px;
+        min-width: 400px;
+        min-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin-top: 0.5rem;
     }
 
     .image-count {
-        font-size: 16px;
-        font-weight: bold;
+        font-size: 1.2rem;
+        /* font-weight: bold; */
         text-align: center;
-        margin-top: 10px;
+        /* margin-top: 10px; */
     }
 
     .detail-item {
@@ -118,9 +123,18 @@ $data = json_decode($response, true);
     #drop_zone {
         margin-top: 2rem;
         margin-bottom: 1rem;
-        border: 1px solid black;
+        /* border: 1px solid black; */
         text-align: center;
         padding: 40px;
+        border-radius: 10px;
+        background-color: white;
+        color: var(--blk);
+    }
+
+    #drop_zone:hover {
+        border: 2px solid var(--primary);
+        color: var(--blk);
+        cursor: pointer;
     }
 
 
@@ -131,7 +145,20 @@ $data = json_decode($response, true);
         /* padding: 1rem; */
         object-fit: cover;
         text-align: center;
+        /* background-color: white; */
 
+    }
+
+    .delete-image-btn {
+        font-size: 2rem;
+        color: var(--blk);
+        cursor: pointer;
+        text-align: center;
+        margin: 0.5rem;
+    }
+
+    .delete-image-btn:hover {
+        color: var(--danger);
     }
 </style>
 
@@ -213,7 +240,7 @@ $data = json_decode($response, true);
                 <div id="imageForm" style="display: none;" class="center-items">
                     <form action="<?php echo ROOT ?>/add/product_image" method="post" enctype="multipart/form-data">
                         <div id="drop_zone">Drag and drop your image here, or click to select image</div>
-                        <img id="preview" style="display: block; margin: 0 auto; margin-bottom:0.8rem;">
+                        <img id="preview" style="display: block; margin: 0 auto; margin-bottom:0.8rem; background-color:white; border-radius:10px;">
                         <input name="image" type="file" id="file_input" style="display: none;" accept="image/*">
                         <input name="product_id" type="hidden" id="product_id" value="<?php echo $data['product_id'] ?>">
                         <button class="form-btn submit-btn" style="width: 50%;">Upload</button>
@@ -277,6 +304,14 @@ $data = json_decode($response, true);
                 }, false);
             </script>
             <h1 class="list-section__title">Product Images</h1>
+            <!-- fetch product images -->
+            <?php
+            $url = ROOT . "/fetch/product_images/" . $data['product_id'];
+            $response = file_get_contents($url);
+            $images = json_decode($response, true);
+            // show($images);
+
+            ?>
             <div class="carousel">
                 <button class="carousel-left-btn" id="prevBtn">
                     <span class="material-symbols-outlined">
@@ -293,8 +328,98 @@ $data = json_decode($response, true);
                 </button>
             </div>
             <!-- show number of images and current image like 4/5 -->
-            <div class="image-count">4/5</div>
+            <div style="text-align: center;">
+                <a onclick="deleteImage()">
+                    <span class="material-symbols-outlined delete-image-btn">
+                        delete
+                    </span>
+                </a>
+
+            </div>
+
+            <div class="image-count"></div>
+
+
         </div>
+        <script>
+
+            
+            // Carousel
+            const carouselImages = document.getElementById('carouselImages');
+            const imageCount = document.querySelector('.image-count');
+
+            let images = <?php echo json_encode($images) ?>;
+            let currentImage = 0;
+
+            // Populate carousel images
+            images.forEach(image => {
+                carouselImages.innerHTML += `
+                <img src="<?php echo ROOT . '/' ?>${image.image_url}" alt="Product Image-${image.product_image_id}" class="carousel-image">
+            `;
+            });
+
+            // Show image count
+            imageCount.innerHTML = `${currentImage + 1}/${images.length}`;
+
+            // Add event listeners to carousel buttons
+            // show one image at a time
+            // and when click next or prev button, show next or prev image
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Add event listeners to carousel buttons
+            prevBtn.addEventListener('click', () => {
+                // Decrease currentImage index
+                currentImage--;
+                // If currentImage is less than 0, set it to the last image
+                if (currentImage < 0) {
+                    currentImage = images.length - 1;
+                }
+                // Update carousel and image count
+                updateCarousel();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentImage++;
+                if (currentImage >= images.length) {
+                    currentImage = 0;
+                }
+                updateCarousel();
+            });
+
+            // Function to update carousel and image count
+            function updateCarousel() {
+                // Clear carousel images
+                carouselImages.innerHTML = '';
+                // Add current image to carousel
+                carouselImages.innerHTML += `
+        <img src="<?php echo ROOT . '/' ?>${images[currentImage].image_url}" alt="Product Image-${images[currentImage].product_image_id}" class="carousel-image">
+    `;
+                // Update image count
+                imageCount.innerHTML = `${currentImage + 1}/${images.length}`;
+            }
+
+            // Initial carousel update
+            updateCarousel();
+
+            // Delete image
+            function deleteImage() {
+                // Get image id
+                let imageId = images[currentImage].product_image_id;
+                console.log(imageId);
+                // Send delete request
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', '<?php echo ROOT . '/delete/product_images/' ?>' + imageId, true);
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        // Reload page
+                        location.reload();
+                    }
+                }
+                xhr.send();
+            }
+        </script>
     </div>
 
 
