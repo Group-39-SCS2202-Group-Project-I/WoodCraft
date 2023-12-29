@@ -63,7 +63,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             foreach ($products as $item) :
             ?>
                 <tr>
-                    <td><?php echo $item['product_id']; ?></td>
+                    <td><?php echo sprintf('PRD-%03d', $item['product_id']); ?></td>
                     <td><?php echo $item['name']; ?></td>
                     <td><?php echo $item['description']; ?></td>
                     <td><?php echo $item['category_name']; ?></td>

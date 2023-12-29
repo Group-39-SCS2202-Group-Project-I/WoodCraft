@@ -243,12 +243,12 @@ class Add extends Controller
 
     public function product()
     {
-        
+
 
         $data['errors'] = [];
 
         $db = new Database;
-       
+
         $product_inventory = new ProductInventory;
         $product_measurement = new ProductMeasurement;
         $product = new Product;
@@ -261,9 +261,8 @@ class Add extends Controller
 
         show($_POST);
 
-        if($result && $result2)
-        {
-            
+        if ($result && $result2) {
+
 
             $product_inventory = [
                 'quantity' => $_POST['quantity']
@@ -272,7 +271,7 @@ class Add extends Controller
             // show(2);
             $db->query("INSERT INTO product_inventory (quantity) VALUES (:quantity)", $product_inventory);
             $product_inventory_id = $db->query("SELECT product_inventory_id FROM product_inventory WHERE product_inventory_id = (SELECT MAX(product_inventory_id) FROM product_inventory)")[0]->product_inventory_id;
-            
+
             show(1);
             // show($product_inventory_id);
 
@@ -307,20 +306,90 @@ class Add extends Controller
 
             message("Product added successfully!");
             redirect('admin/products/' . $product_id);
-
-        }
-        else
-        {
+        } else {
             show(3);
             $data['errors'] = array_merge($product->errors, $product_measurement->errors);
             show($data['errors']);
 
             $_SESSION['errors'] = $data['errors'];
-            $_SESSION['form_data'] = $_POST; 
+            $_SESSION['form_data'] = $_POST;
 
             redirect('admin/products/add');
         }
+    }
 
+    public function product_image()
+    {
+        show($_POST);
+        show($_FILES);
+
+        $folder = "uploads/images/";
+        $a = 2;
+        if (!file_exists($folder)) {
+            $a  = 1;
+            mkdir($folder, 0777, true);
+
+            file_put_contents($folder . "index.php", "<?php //silence");
+            file_put_contents("uploads/index.php", "<?php //silence");
+            //display folder contains
+
+        }
         
+        $files = scandir($folder);
+        show($files);
+
+
+
+        show($a);
+
+        $errors = [];
+
+        $db = new Database;
+
+        $product_image = new ProductImage;
+
+
+        $allowed = ['image/jpeg', 'image/png'];
+
+        if (!empty($_FILES['image']['name'])) {
+
+            if ($_FILES['image']['error'] == 0) {
+
+                if (in_array($_FILES['image']['type'], $allowed)) {
+                    //everything good
+                    $destination = $folder . time() . $_FILES['image']['name'];
+                    move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+
+
+
+                    $_POST['image_url'] = $destination;
+                } else {
+                    $product_image->$errors['image'] = "Image type not allowed";
+                }
+            } else {
+                $product_image->errors['image'] = "Could not upload image";
+            }
+        }
+
+        if (empty($product_image->errors)) {
+            $product_image_arr = [
+                'image_url' => $_POST['image_url'],
+                'product_id' => $_POST['product_id']
+            ];
+            show($product_image_arr);
+
+            $db->query("INSERT INTO product_image (image_url, product_id) VALUES (:image_url, :product_id)", $product_image_arr);
+
+            message("Product image added successfully!");
+            redirect('admin/products/' . $_POST['product_id']);
+        }
+        else
+        {
+            show($product_image->errors);
+            $_SESSION['errors'] = $product_image->errors;
+            $_SESSION['form_data'] = $_POST;
+
+            redirect('admin/products/' . $_POST['product_id']);
+        }
     }
 }
