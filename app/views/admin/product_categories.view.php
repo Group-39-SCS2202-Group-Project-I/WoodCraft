@@ -35,6 +35,86 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         margin-right: 0px;
         width: 30%;
     }
+
+    /*  */
+
+    .category-group {
+        margin-bottom: 20px;
+        /* background-color: var(--light); */
+        background-color: white;
+        border-radius: 5px;
+        padding: 15px;
+        /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
+        /* border: 1.2px solid var(--blk); */
+    }
+
+    .category-group h2 {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        /* color: #333; */
+    }
+
+    .category-group ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .cat-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 0.5rem;
+        background-color: var(--light);
+        border-radius: 5px;
+        /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
+    }
+
+    .cat-list-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .delete-cat-btn {
+        color: var(--blk);
+        cursor: pointer;
+    }
+
+    
+
+    .cat-list-item:hover {
+        background-color: var(--blk);
+        color: var(--light);
+    }
+
+    .cat-list-item:hover .delete-cat-btn {
+        color: var(--light);
+    }
+
+    .cat-list-item:hover .delete-cat-btn:hover {
+        color: var(--danger);
+    }
+    
+
+
+    .category-name {
+        font-size: 1.2em;
+        /* font-weight: bold; */
+    }
+
+    .category-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    
+    .category-actions a {
+        /* color: var(--blk); */
+        text-decoration: none;
+    }
+
+    .material-symbols-outlined {
+        margin-left: 5px;
+    }
 </style>
 
 
@@ -75,12 +155,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
 
     <!-- fetch and display product categories in a list-->
-    <div class="category-list">
+
+    <div class="category-list" style="column-count: 4; column-gap: 20px;">
         <?php
         $url = ROOT . "/fetch/product_categories";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
-        // show($data);
         $categories = [];
         foreach ($data as $item) {
             $categories[strtoupper(substr($item['category_name'], 0, 1))][] = $item;
@@ -88,24 +168,24 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         ksort($categories);
         ?>
         <?php foreach ($categories as $letter => $categoryList) : ?>
-            <div class="category-group">
+            <div class="category-group" style="break-inside: avoid;">
                 <h2><?php echo $letter; ?></h2>
                 <ul>
                     <?php foreach ($categoryList as $category) : ?>
-                        <li>
-                            <span class="category-id">CAT-<?php echo str_pad($category['product_category_id'], 3, '0', STR_PAD_LEFT); ?></span>
+                        <li class="cat-list-item">
                             <span class="category-name"><?php echo $category['category_name']; ?></span>
                             <span class="category-actions">
-                                <a href="<?php echo ROOT ?>/delete/product_categories/<?php echo $category['product_category_id'] ?>" class="btn btn-danger">Delete</a>
+                                <a href="<?php echo ROOT ?>/delete/product_categories/<?php echo $category['product_category_id'] ?>">
+                                    <span class="material-symbols-outlined delete-cat-btn">
+                                        delete
+                                    </span>
+                                </a>
                             </span>
-
-
                         </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         <?php endforeach; ?>
     </div>
-</div>
 
-<?php include "inc/footer.view.php"; ?>
+    <?php include "inc/footer.view.php"; ?>
