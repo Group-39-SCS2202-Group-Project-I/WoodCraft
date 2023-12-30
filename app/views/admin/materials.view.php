@@ -1,3 +1,5 @@
 <?php include "inc/header.view.php"; ?>
-<?php echo "PM Dashboard" ?>
+
+<h1>Materials</h1>
+
 <?php include "inc/footer.view.php"; ?>
