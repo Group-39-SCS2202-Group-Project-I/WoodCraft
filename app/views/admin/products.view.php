@@ -45,7 +45,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             <tr>
                 <th>Product ID</th>
                 <th>Product Name</th>
-                <th>Product Description</th>
+                <!-- <th>Product Description</th> -->
                 <th>Category</th>
                 <th>Stocks Available</th>
                 <th>Product Measurement</th>
@@ -70,7 +70,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <tr>
                     <td><?php echo sprintf('PRD-%03d', $item['product_id']); ?></td>
                     <td><?php echo $item['name']; ?></td>
-                    <td><?php echo $item['description']; ?></td>
+                    <!-- <td><?php echo $item['description']; ?></td> -->
                     <td><?php echo $item['category_name']; ?></td>
                     <td><?php echo $item['quantity']; ?></td>
                     <td><?php

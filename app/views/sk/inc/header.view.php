@@ -25,8 +25,10 @@
             <div class="header-right" style="display: flex; align-items: center; justify-content: center;">
                 <!-- <span class="material-icons-outlined">notifications</span>
           <span class="material-icons-outlined">email</span> -->
-                <span style="padding-right:5px">Admin </span>
-                <span class="material-icons-outlined">manage_accounts</span>
+                <span style="padding-right:5px">Stock Keeper <?php echo sprintf('(STF-%03d', AUTH::getStaffID()).")"?> </span>
+                <span class="material-icons-outlined">
+                    engineering
+                </span>
             </div>
         </header>
 
@@ -48,48 +50,25 @@
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
+
+                <!-- products -->
+
                 <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
-                        <span class="material-icons-outlined">chair</span>
-                        <span style="margin-left: 5px;">Products</span>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Products</span>
                     </a>
                 </li>
+
+                <!-- materials -->
+
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
-                        <span class="material-icons-outlined">
-                            handyman
-                        </span> <span style="margin-left: 5px;">Materials</span>
-                    </a>
-                <li class="sidebar-list-item nav-btn" id="customers-nav">
-                    <a>
-                        <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Customers</span>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Materials</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="workers-nav">
-                    <a>
-                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Workers</span>
-                    </a>
-                </li>
-                <li class="sidebar-list-item nav-btn" id="staff-nav">
-                    <a>
-                        <span class="material-icons-outlined">supervised_user_circle</span> <span style="margin-left: 5px;">Staff Members</span>
-                    </a>
-                </li>
-                <li class="sidebar-list-item nav-btn" id="delivery-nav">
-                    <a>
-                        <span class="material-icons-outlined">local_shipping</span><span style="margin-left: 5px;">Delivery</span>
-                    </a>
-                </li>
-                <!-- <li class="sidebar-list-item">
-                <a href="#" >
-                    <span class="material-icons-outlined">poll</span> Reports
-                </a>
-            </li>
-            <li class="sidebar-list-item">
-                <a href="#" >
-                    <span class="material-icons-outlined">settings</span> Settings
-                </a>
-            </li> -->
+
+
+                
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                     <a>
                         <span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span>
@@ -99,11 +78,8 @@
                 <script>
                     const dashNav = document.getElementById('dash-nav');
                     const productsNav = document.getElementById('products-nav');
-                    const customersNav = document.getElementById('customers-nav');
-                    const workersNav = document.getElementById('workers-nav');
-                    const staffNav = document.getElementById('staff-nav');
-                    const deliveryNav = document.getElementById('delivery-nav');
                     const materialsNav = document.getElementById('materials-nav');
+                    
 
                     // Add event listener to the parent element
                     document.querySelector('.sidebar-list').addEventListener('click', (event) => {
@@ -113,25 +89,13 @@
                         // Handle different menu items based on their IDs
                         switch (id) {
                             case 'dash-nav':
-                                window.location.href = '<?= ROOT ?>/admin/dashboard';
+                                window.location.href = '<?= ROOT ?>/sk/dashboard';
                                 break;
                             case 'products-nav':
-                                window.location.href = '<?= ROOT ?>/admin/products';
-                                break;
-                            case 'customers-nav':
-                                window.location.href = '<?= ROOT ?>/admin/customers';
-                                break;
-                            case 'workers-nav':
-                                window.location.href = '<?= ROOT ?>/admin/workers';
-                                break;
-                            case 'staff-nav':
-                                window.location.href = '<?= ROOT ?>/admin/staff';
-                                break;
-                            case 'delivery-nav':
-                                window.location.href = '<?= ROOT ?>/admin/delivery';
+                                window.location.href = '<?= ROOT ?>/sk/products';
                                 break;
                             case 'materials-nav':
-                                window.location.href = '<?= ROOT ?>/admin/materials';
+                                window.location.href = '<?= ROOT ?>/sk/materials';
                                 break;
                             default:
                                 break;

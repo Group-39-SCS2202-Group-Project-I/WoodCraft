@@ -1,5 +1,3 @@
 <?php include "inc/header.view.php"; ?>
-
-<h1>SK dash</h1>
-
+<?php echo "Com" ?>
 <?php include "inc/footer.view.php"; ?>

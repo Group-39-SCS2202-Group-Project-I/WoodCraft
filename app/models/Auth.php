@@ -124,5 +124,15 @@ class Auth
         // // show($customer[0]);
         // return $customer[0];
     }
+
+    public static function getStaffID()
+    {
+        //get staff id based on user id
+        $db = new Database;
+        $query = "SELECT * FROM staff WHERE user_id = ".$_SESSION['USER_DATA']->user_id;
+        $staff = $db->query($query);
+        // show($staff);
+        return $staff[0]->staff_id;
+    }
 	
 }

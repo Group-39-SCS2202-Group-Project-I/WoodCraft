@@ -291,4 +291,22 @@ class Fetch extends Controller
             echo json_encode($data['product_images']);
         }
     }
+
+    public function materials($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['material'] = $db->query("SELECT * FROM material WHERE material_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material'][0]);
+        } else {
+            $db = new Database();
+            $data['materials'] = $db->query("SELECT * FROM material");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['materials']);
+        }
+        
+    }
 }

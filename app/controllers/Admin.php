@@ -104,5 +104,13 @@ class Admin extends Controller
 		$this->view('admin/delivery',$data);
 	}
 
+	public function materials()
+	{
+		
+		$data['title'] = "Materials";
+
+		$this->view('admin/materials',$data);
+	}
+
 	
 }

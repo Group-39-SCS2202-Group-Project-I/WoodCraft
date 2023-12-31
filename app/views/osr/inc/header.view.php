@@ -25,8 +25,10 @@
             <div class="header-right" style="display: flex; align-items: center; justify-content: center;">
                 <!-- <span class="material-icons-outlined">notifications</span>
           <span class="material-icons-outlined">email</span> -->
-                <span style="padding-right:5px">Admin </span>
-                <span class="material-icons-outlined">manage_accounts</span>
+                <span style="padding-right:5px">Online Sales Representative <?php echo sprintf('(STF-%03d', AUTH::getStaffID()).")"?> </span>
+                <span class="material-icons-outlined">
+                    engineering
+                </span>
             </div>
         </header>
 
@@ -48,36 +50,35 @@
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="products-nav">
+                <!-- Ongoing Productions -->
+                <li class="sidebar-list-item nav-btn" id="on_prod-nav">
                     <a>
                         <span class="material-icons-outlined">chair</span>
-                        <span style="margin-left: 5px;">Products</span>
+                        <span style="margin-left: 5px;">Ongoing Productions</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="materials-nav">
+                <!-- Completed Productions -->
+                <li class="sidebar-list-item nav-btn" id="cm_prod-nav">
                     <a>
-                        <span class="material-icons-outlined">
-                            handyman
-                        </span> <span style="margin-left: 5px;">Materials</span>
-                    </a>
-                <li class="sidebar-list-item nav-btn" id="customers-nav">
-                    <a>
-                        <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Customers</span>
+                        <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Completed Productions</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="workers-nav">
+                <!-- Add Production -->
+                <li class="sidebar-list-item nav-btn" id="add_prod-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Workers</span>
+                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Add Production</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="staff-nav">
+                <!-- Approved Bulk Orders -->
+                <li class="sidebar-list-item nav-btn" id="app_bulk-nav">
                     <a>
-                        <span class="material-icons-outlined">supervised_user_circle</span> <span style="margin-left: 5px;">Staff Members</span>
+                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Approved Bulk Orders</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item nav-btn" id="delivery-nav">
+                <!-- Product Materials -->
+                <li class="sidebar-list-item nav-btn" id="prod_mat-nav">
                     <a>
-                        <span class="material-icons-outlined">local_shipping</span><span style="margin-left: 5px;">Delivery</span>
+                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Product Materials</span>
                     </a>
                 </li>
                 <!-- <li class="sidebar-list-item">
@@ -98,12 +99,17 @@
 
                 <script>
                     const dashNav = document.getElementById('dash-nav');
-                    const productsNav = document.getElementById('products-nav');
-                    const customersNav = document.getElementById('customers-nav');
-                    const workersNav = document.getElementById('workers-nav');
-                    const staffNav = document.getElementById('staff-nav');
-                    const deliveryNav = document.getElementById('delivery-nav');
-                    const materialsNav = document.getElementById('materials-nav');
+                    // const productsNav = document.getElementById('products-nav');
+                    // const customersNav = document.getElementById('customers-nav');
+                    // const workersNav = document.getElementById('workers-nav');
+                    // const staffNav = document.getElementById('staff-nav');
+                    // const deliveryNav = document.getElementById('delivery-nav');
+                    const on_prodNav = document.getElementById('on_prod-nav');
+                    const cm_prodNav = document.getElementById('cm_prod-nav');
+                    const add_prodNav = document.getElementById('add_prod-nav');
+                    const app_bulkNav = document.getElementById('app_bulk-nav');
+                    const prod_matNav = document.getElementById('prod_mat-nav');
+
 
                     // Add event listener to the parent element
                     document.querySelector('.sidebar-list').addEventListener('click', (event) => {
@@ -113,25 +119,37 @@
                         // Handle different menu items based on their IDs
                         switch (id) {
                             case 'dash-nav':
-                                window.location.href = '<?= ROOT ?>/admin/dashboard';
+                                window.location.href = '<?= ROOT ?>/pm/dashboard';
                                 break;
-                            case 'products-nav':
-                                window.location.href = '<?= ROOT ?>/admin/products';
+                            // case 'products-nav':
+                            //     window.location.href = '<?= ROOT ?>/admin/products';
+                            //     break;
+                            // case 'customers-nav':
+                            //     window.location.href = '<?= ROOT ?>/admin/customers';
+                            //     break;
+                            // case 'workers-nav':
+                            //     window.location.href = '<?= ROOT ?>/admin/workers';
+                            //     break;
+                            // case 'staff-nav':
+                            //     window.location.href = '<?= ROOT ?>/admin/staff';
+                            //     break;
+                            // case 'delivery-nav':
+                            //     window.location.href = '<?= ROOT ?>/admin/delivery';
+                            //     break;
+                            case 'on_prod-nav':
+                                window.location.href = '<?= ROOT ?>/pm/ongoing_productions';
                                 break;
-                            case 'customers-nav':
-                                window.location.href = '<?= ROOT ?>/admin/customers';
+                            case 'cm_prod-nav':
+                                window.location.href = '<?= ROOT ?>/pm/completed_productions';
                                 break;
-                            case 'workers-nav':
-                                window.location.href = '<?= ROOT ?>/admin/workers';
+                            case 'add_prod-nav':
+                                window.location.href = '<?= ROOT ?>/pm/add_production';
                                 break;
-                            case 'staff-nav':
-                                window.location.href = '<?= ROOT ?>/admin/staff';
+                            case 'app_bulk-nav':
+                                window.location.href = '<?= ROOT ?>/pm/approved_bulk_orders';
                                 break;
-                            case 'delivery-nav':
-                                window.location.href = '<?= ROOT ?>/admin/delivery';
-                                break;
-                            case 'materials-nav':
-                                window.location.href = '<?= ROOT ?>/admin/materials';
+                            case 'prod_mat-nav':
+                                window.location.href = '<?= ROOT ?>/pm/product_materials';
                                 break;
                             default:
                                 break;

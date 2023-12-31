@@ -1,5 +1,3 @@
 <?php include "inc/header.view.php"; ?>
-
-<h1>SK dash</h1>
-
+<?php echo "Approved Bulk Orders" ?>
 <?php include "inc/footer.view.php"; ?>

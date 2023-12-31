@@ -392,4 +392,16 @@ class Add extends Controller
             redirect('admin/products/' . $_POST['product_id']);
         }
     }
+
+    public function material()
+    {
+        show($_POST);
+        
+        $data['errors'] = [];
+
+        $material = new Material;
+
+    }
+
+
 }
