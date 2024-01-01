@@ -184,7 +184,7 @@ $materials = json_decode($response, true);
         <form action="" method="POST" class="form">
             <!-- <h2 class="popup-form-title">Delete Item</h2> -->
             <!-- <p>Are you sure you want to delete this item?</p> -->
-            <p class="confirmation-text">Are you sure you want to delete </p>
+            <p class="confirmation-text">Are you sure you want to delete this material?</p>
 
             <div class="form-group frm-btns">
                 <button type="submit" class="form-btn submit-btn">Yes</button>
