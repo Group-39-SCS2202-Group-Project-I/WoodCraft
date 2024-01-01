@@ -401,6 +401,43 @@ class Add extends Controller
 
         $material = new Material;
 
+        $result = $material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $material = [
+                'material_name' => $_POST['name'],
+                'material_description' => $_POST['description']
+            ];
+
+            show($material);
+
+            $db->query("INSERT INTO material (material_name, material_description) VALUES (:material_name, :material_description)", $material);
+
+            show(3);
+
+            message("Material added successfully!");
+            redirect('admin/materials');
+        } else {
+            show("kes");
+            // show($worker->errors);
+            $data['errors'] = array_merge($material->errors);
+            // show($data['errors']);
+            show($data['errors']);
+
+            //how to keep popup open and show errors
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
+            redirect('admin/materials');
+        }
+
     }
 
 

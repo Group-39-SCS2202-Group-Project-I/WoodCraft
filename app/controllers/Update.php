@@ -249,4 +249,40 @@ class Update extends Controller
             redirect('admin/products/update/'. $product_id);
         }
     }
+
+    public function material($id)
+    {
+        $data['errors'] = [];
+
+        $material = new Material;
+
+        $result = $material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $material_arr = [
+                'material_name' => $_POST['name'],
+                'material_description' => $_POST['description'],
+            ];
+
+            $db->query("UPDATE material SET material_name = :material_name, material_description = :material_description WHERE material_id = $id", $material_arr);
+            show(3);
+            message("Material updated successfully!");
+            redirect('admin/materials');
+        } else {
+            show(4);
+            $data['errors'] = array_merge($material->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('admin/materials');
+        }
+    }
 }

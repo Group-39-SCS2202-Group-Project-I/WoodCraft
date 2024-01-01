@@ -321,11 +321,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         function closePopup() {
             const popups = document.querySelectorAll('.popup-form');
             confirmText = document.querySelector('.confirmation-text');
-            confirmText.innerHTML = "Are you sure you want to delete ";
+            
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
 
+            confirmText.innerHTML = "Are you sure you want to delete ";
             // Clear validation messages
             const validationMessages = document.querySelectorAll('.validate-mzg');
             validationMessages.forEach(message => {
