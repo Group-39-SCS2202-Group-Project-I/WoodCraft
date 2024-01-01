@@ -142,6 +142,7 @@ $materials = json_decode($response, true);
                 <select id="material_id" name="material_id" class="form-select input-popup">
                     <?php
                     $x = false;
+
                     foreach ($materials as $material) {
                         if ($form_data['material_id'] == $material['material_id']) {
                             $x = true;
@@ -153,8 +154,24 @@ $materials = json_decode($response, true);
                     }
                     ?>
 
+                    <!-- check material id is already in $url = ROOT . "/fetch/product_materials/" . $product['product_id'];
+                 -->
+
+                    <?php
+                    $url = ROOT . "/fetch/product_materials/" . $product['product_id'];
+                    $response = file_get_contents($url);
+                    $productmat = json_decode($response, true);
+                    show($productmat);
+
+                    $material_ids = [];
+                    foreach ($productmat as $item) {
+                        $material_ids[] = $item['material_id'];
+                    }
+                    show($material_ids);
+                    ?>
+
                     <?php foreach ($materials as $material) : ?>
-                        <?php if ($material['material_id'] != $form_data['material_id']) : ?>
+                        <?php if (($material['material_id'] != $form_data['material_id']) && !in_array($material['material_id'], $material_ids)) : ?>
                             <option value="<?php echo $material['material_id'] ?>"><?php echo $material['material_name'] ?></option>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -234,6 +251,8 @@ $materials = json_decode($response, true);
 
     </div>
 </div>
+
+
 
 
 
@@ -378,7 +397,7 @@ $materials = json_decode($response, true);
                 input.type = 'hidden';
                 input.name = 'material_id';
                 input.value = data.material_id;
-                
+
                 updateform = document.querySelector('#update-item-popup form');
                 updateform.appendChild(input);
 
