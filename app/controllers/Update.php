@@ -249,4 +249,82 @@ class Update extends Controller
             redirect('admin/products/update/'. $product_id);
         }
     }
+
+    public function material($id)
+    {
+        $data['errors'] = [];
+
+        $material = new Material;
+
+        $result = $material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $material_arr = [
+                'material_name' => $_POST['name'],
+                'material_description' => $_POST['description'],
+            ];
+
+            $db->query("UPDATE material SET material_name = :material_name, material_description = :material_description WHERE material_id = $id", $material_arr);
+            show(3);
+            message("Material updated successfully!");
+            redirect('admin/materials');
+        } else {
+            show(4);
+            $data['errors'] = array_merge($material->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('admin/materials');
+        }
+    }
+
+    public function product_material($id)
+    {
+
+        show($_POST);
+        $data['errors'] = [];
+
+        $product_material = new ProductMaterial;
+
+        $result = $product_material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $product_material_arr = [
+                'product_id' => $_POST['product_id'],
+                'material_id' => $_POST['material_id'],
+                'quantity_needed' => $_POST['quantity_needed'],
+            ];
+
+            $db->query("UPDATE product_material SET product_id = :product_id, material_id = :material_id, quantity_needed = :quantity_needed WHERE product_material_id = $id", $product_material_arr);
+
+            show(3);
+            message("Product material updated successfully!");
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        } else {
+            show(4);
+            $data['errors'] = array_merge($product_material->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        }
+    }
+
+
 }

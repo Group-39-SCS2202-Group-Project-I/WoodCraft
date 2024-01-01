@@ -52,11 +52,16 @@ class PM extends Controller
         $this->view('pm/approved_bulk_orders', $data);
     }
 
-    public function product_materials()
+    public function product_materials($id = '')
     {
+        $data['id'] = $id;
 
-        $data['title'] = "Product Materials";
-
-        $this->view('pm/product_materials', $data);
+        if ($id != '') {
+            $data['title'] = "Product Materials";
+            $this->view('pm/product_mat', $data);
+        } else {
+            $data['title'] = "Product Materials";
+            $this->view('pm/product_materials', $data);
+        }
     }
 }

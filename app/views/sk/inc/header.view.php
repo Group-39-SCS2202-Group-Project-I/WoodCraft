@@ -1,3 +1,23 @@
+<?php
+// show($_SESSION);
+if (isset($_SESSION['USER_DATA'])) {
+    $role = $_SESSION['USER_DATA']->role;
+    // show($role);
+    if ($role != 'admin' && $role != 'customer') {
+        $db = new Database;
+        $staff = $db->select('staff', 'user_id = ' . $_SESSION['USER_DATA']->user_id);
+        // show($staff);
+        $staffID = $staff[0]->staff_id;
+
+        $staffID = "(STF-" . str_pad($staffID, 3, '0', STR_PAD_LEFT) . ")";
+    } else {
+        $staffID = '';
+    }
+} else {
+    $staffID = '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +45,7 @@
             <div class="header-right" style="display: flex; align-items: center; justify-content: center;">
                 <!-- <span class="material-icons-outlined">notifications</span>
           <span class="material-icons-outlined">email</span> -->
-                <span style="padding-right:5px">Stock Keeper <?php echo sprintf('(STF-%03d', AUTH::getStaffID()).")"?> </span>
+                <span style="padding-right:5px">Stock Keeper <?php echo $staffID ?> </span>
                 <span class="material-icons-outlined">
                     engineering
                 </span>

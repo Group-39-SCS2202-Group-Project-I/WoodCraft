@@ -1,3 +1,23 @@
+<?php
+// show($_SESSION);
+if (isset($_SESSION['USER_DATA'])) {
+    $role = $_SESSION['USER_DATA']->role;
+    // show($role);
+    if ($role != 'admin' && $role != 'customer') {
+        $db = new Database;
+        $staff = $db->select('staff', 'user_id = ' . $_SESSION['USER_DATA']->user_id);
+        // show($staff);
+        $staffID = $staff[0]->staff_id;
+
+        $staffID = "(STF-" . str_pad($staffID, 3, '0', STR_PAD_LEFT) . ")";
+    } else {
+        $staffID = '';
+    }
+} else {
+    $staffID = '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +45,7 @@
             <div class="header-right" style="display: flex; align-items: center; justify-content: center;">
                 <!-- <span class="material-icons-outlined">notifications</span>
           <span class="material-icons-outlined">email</span> -->
-                <span style="padding-right:5px">Production Manager <?php echo sprintf('(STF-%03d', AUTH::getStaffID()).")"?> </span>
+                <span style="padding-right:5px">Production Manager <?php echo $staffID ?> </span>
                 <span class="material-icons-outlined">
                     engineering
                 </span>
@@ -121,21 +141,21 @@
                             case 'dash-nav':
                                 window.location.href = '<?= ROOT ?>/pm/dashboard';
                                 break;
-                            // case 'products-nav':
-                            //     window.location.href = '<?= ROOT ?>/admin/products';
-                            //     break;
-                            // case 'customers-nav':
-                            //     window.location.href = '<?= ROOT ?>/admin/customers';
-                            //     break;
-                            // case 'workers-nav':
-                            //     window.location.href = '<?= ROOT ?>/admin/workers';
-                            //     break;
-                            // case 'staff-nav':
-                            //     window.location.href = '<?= ROOT ?>/admin/staff';
-                            //     break;
-                            // case 'delivery-nav':
-                            //     window.location.href = '<?= ROOT ?>/admin/delivery';
-                            //     break;
+                                // case 'products-nav':
+                                //     window.location.href = '<?= ROOT ?>/admin/products';
+                                //     break;
+                                // case 'customers-nav':
+                                //     window.location.href = '<?= ROOT ?>/admin/customers';
+                                //     break;
+                                // case 'workers-nav':
+                                //     window.location.href = '<?= ROOT ?>/admin/workers';
+                                //     break;
+                                // case 'staff-nav':
+                                //     window.location.href = '<?= ROOT ?>/admin/staff';
+                                //     break;
+                                // case 'delivery-nav':
+                                //     window.location.href = '<?= ROOT ?>/admin/delivery';
+                                //     break;
                             case 'on_prod-nav':
                                 window.location.href = '<?= ROOT ?>/pm/ongoing_productions';
                                 break;
