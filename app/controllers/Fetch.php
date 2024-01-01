@@ -307,6 +307,66 @@ class Fetch extends Controller
             header("Content-Type: application/json");
             echo json_encode($data['materials']);
         }
-        
+    }
+
+    public function product_materials($id = '')
+    {
+        if ($id != '') {
+            //select all product_materials with product_id = $id
+
+            $db = new Database();
+            $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_id = $id");
+
+            $material_ids = array_column($data['product_materials'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $data['materials'] = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            foreach ($data['product_materials'] as $key => $product_material) {
+                foreach ($data['materials'] as $material) {
+                    if ($product_material->material_id == $material->material_id) {
+                        $data['product_materials'][$key]->material_name = $material->material_name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_materials']);
+        } else {
+            $db = new Database();
+            $data['product_materials'] = $db->query("SELECT * FROM product_material");
+
+            $material_ids = array_column($data['product_materials'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $data['materials'] = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            foreach ($data['product_materials'] as $key => $product_material) {
+                foreach ($data['materials'] as $material) {
+                    if ($product_material->material_id == $material->material_id) {
+                        $data['product_materials'][$key]->material_name = $material->material_name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_materials']);
+        }
+    }
+
+    public function product_material($id = '')
+    {
+        if ($id != '') {
+            //select all product_materials with product_id = $id
+
+            $db = new Database();
+            $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_material_id = $id");
+
+            $material_id = $data['product_materials'][0]->material_id;
+            $data['material'] = $db->query("SELECT * FROM material WHERE material_id = $material_id");
+
+            $product_material_data = array_merge((array) $data['product_materials'][0], (array) $data['material'][0]);
+
+            header("Content-Type: application/json");
+            echo json_encode($product_material_data);
+        }
     }
 }

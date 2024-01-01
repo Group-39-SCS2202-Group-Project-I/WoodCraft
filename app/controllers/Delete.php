@@ -102,4 +102,18 @@ class Delete extends Controller
         message("Material deleted successfully!");
         redirect('admin/materials');
     }
+
+    public function product_materials($id)
+    {
+        $db = new Database();
+
+        $product_id = $db->query("SELECT product_id FROM product_material WHERE product_material_id = $id")[0]->product_id;
+
+        $db->query("DELETE FROM product_material WHERE product_material_id = $id");
+        
+        show($product_id);
+
+        message("Product material deleted successfully!");
+        redirect('pm/product_materials/' . $product_id);
+    }
 }

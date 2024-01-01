@@ -285,4 +285,46 @@ class Update extends Controller
             redirect('admin/materials');
         }
     }
+
+    public function product_material($id)
+    {
+
+        show($_POST);
+        $data['errors'] = [];
+
+        $product_material = new ProductMaterial;
+
+        $result = $product_material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $product_material_arr = [
+                'product_id' => $_POST['product_id'],
+                'material_id' => $_POST['material_id'],
+                'quantity_needed' => $_POST['quantity_needed'],
+            ];
+
+            $db->query("UPDATE product_material SET product_id = :product_id, material_id = :material_id, quantity_needed = :quantity_needed WHERE product_material_id = $id", $product_material_arr);
+
+            show(3);
+            message("Product material updated successfully!");
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        } else {
+            show(4);
+            $data['errors'] = array_merge($product_material->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        }
+    }
+
+
 }

@@ -440,5 +440,54 @@ class Add extends Controller
 
     }
 
+    public function product_material()
+    {
+        show($_POST);
+
+        $data['errors'] = [];
+
+        $db = new Database;
+
+        $product_material = new ProductMaterial;
+
+        $result = $product_material->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $product_material = [
+                'product_id' => $_POST['product_id'],
+                'material_id' => $_POST['material_id'],
+                'quantity_needed' => $_POST['quantity_needed']
+            ];
+
+            show($product_material);
+
+            $db->query("INSERT INTO product_material (product_id, material_id, quantity_needed) VALUES (:product_id, :material_id, :quantity_needed)", $product_material);
+
+            show(3);
+
+            message("Product material added successfully!");
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        } else {
+            show("kes");
+            // show($worker->errors);
+            $data['errors'] = array_merge($product_material->errors);
+            // show($data['errors']);
+            show($data['errors']);
+
+            //how to keep popup open and show errors
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
+            redirect('pm/product_materials/' . $_POST['product_id']);
+        }
+    }
+
 
 }
