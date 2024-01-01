@@ -382,7 +382,7 @@ $materials = json_decode($response, true);
                 updateform = document.querySelector('#update-item-popup form');
                 updateform.appendChild(input);
 
-                
+
 
 
 
@@ -428,7 +428,7 @@ $materials = json_decode($response, true);
             openPopup('add-item-popup');
         } else if ('<?php echo $form_id; ?>' === 'form2') {
             // code to open your second popup goes here
-            material_id = sessionStorage.getItem('product_material_id');
+            product_material_id = sessionStorage.getItem('product_material_id');
             openUpdatePopup(product_material_id);
             //print id
         }
