@@ -429,7 +429,7 @@ $materials = json_decode($response, true);
             popup.classList.remove('popup-form--open');
         });
 
-        confirmText.innerHTML = "Are you sure you want to delete ";
+        // confirmText.innerHTML = "Are you sure you want to delete ";
 
         // Clear validation messages
         const validationMessages = document.querySelectorAll('.validate-mzg');
