@@ -42,9 +42,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <th onclick="sortTable(1)" >Name</th>
                 <th onclick="sortTable(2)">Mobile Number</th>
                 <th onclick="sortTable(3)">Address</th>
-                <!-- <th>Availability</th> -->
-                <th onclick="sortTable(4)">Date Added</th>
-                <th onclick="sortTable(5)">Date Updated</th>
+                <th onclick="sortTable(4)">Availability</th>
+                <th onclick="sortTable(5)">Date Added</th>
+                <th onclick="sortTable(6)">Date Updated</th>
 
                 <th>Actions</th>
             </tr>
@@ -81,7 +81,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
                                     row.insertCell().innerHTML = address;
-                                    // row.insertCell().innerHTML = availability;
+                                    row.insertCell().innerHTML = availability;
                                     row.insertCell().innerHTML = date_added;
                                     row.insertCell().innerHTML = date_updated;
 
