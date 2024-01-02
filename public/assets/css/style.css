@@ -546,6 +546,32 @@ h6 {
     font-size: 14px;
     color: #666;
 } */
+.table-section__button {
+    margin-left: 10px;
+    color: var(--blk);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease-in-out;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: var(--light);
+    /* border: 1px solid var(--blk); */
+}
+
+.table-section__button:hover {
+    color: var(--light);
+    background-color: var(--primary);
+}
+
+.table-section__button-del:hover {
+    background-color: var(--danger);
+}
+
+
+
+
+
+
 
 
 .table-section__table td:last-child .table-section__button {
@@ -569,6 +595,30 @@ h6 {
     background-color: var(--danger);
 }
 /*  */
+
+.table-section__button-process {
+    background-color: yellow;
+}
+
+.table-section__button-comp {
+    background-color: green;
+}
+
+.table-section__button-pend{
+    background-color: orange;
+}
+
+.table-section__table td:last-child .table-section__button-process {
+    background-color: yellow;
+}
+
+.table-section__table td:last-child .table-section__button-comp {
+    background-color: green;
+}
+
+.table-section__table td:last-child .table-section__button-pend {
+    background-color: orange;
+}
 
 /* popup */
 .popup-form {
