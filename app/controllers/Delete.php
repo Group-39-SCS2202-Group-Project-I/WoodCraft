@@ -97,10 +97,21 @@ class Delete extends Controller
     {
         $db = new Database();
 
-        $db->query("DELETE FROM material WHERE material_id = $id");
+        show($id);
+        $product_material = $db->query("SELECT * FROM product_material WHERE material_id = $id");
 
-        message("Material deleted successfully!");
-        redirect('admin/materials');
+        if ($product_material) {
+
+            $message = sprintf("Material (MAT-%03d) cannot be deleted because it is used in a product!", $id);
+            message($message);
+            redirect('admin/materials');
+        }
+        else
+        {
+            $db->query("DELETE FROM material WHERE material_id = $id");
+            message("Material deleted successfully!");
+            redirect('admin/materials');
+        }
     }
 
     public function product_materials($id)
