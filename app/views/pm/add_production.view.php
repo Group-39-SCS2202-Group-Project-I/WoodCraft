@@ -55,6 +55,12 @@ $available_workers_count = count($available_workers);
     }
 </style>
 
+<?php if (message()) : ?>
+    <div class="mzg-box">
+        <div class="messege"><?= message('', true) ?></div>
+    </div>
+<?php endif; ?>
+
 <form action="<?php echo ROOT ?>/add/production" method="POST" class="form-section">
     <h2 class="table-section__title">Add Production</h2>
     <div class="form-container">
@@ -135,7 +141,7 @@ $available_workers_count = count($available_workers);
         document.getElementById('quantity').setAttribute('min', 0);
         document.getElementById('quantity').setAttribute('max', nop);
     }
-    
+
     function handleProductChange(e) {
         const product_id = e.value;
         const url = `<?php echo ROOT ?>/fetch/product_materials/${product_id}`;
@@ -145,12 +151,23 @@ $available_workers_count = count($available_workers);
                 console.log(data);
                 let nop = 0;
 
+                let arr = [];
                 data.forEach(element => {
+                    // nop = 0;
+
                     if (element.quantity_needed <= element.stock_available) {
                         nop = Math.floor(element.stock_available / element.quantity_needed);
+                        // console.log(nop);
+                        arr.push(nop);
                     } else {
                         nop = 0;
+                        arr.push(nop);
                     }
+
+                    nop = Math.min(...arr);
+                    // console.log(nop);
+
+
                 });
 
                 console.log(nop);
@@ -206,11 +223,6 @@ $available_workers_count = count($available_workers);
 
             // document.getElementById('awc').classList.remove('hidden');
         })
-
-        
-
-
-
 </script>
 
 

@@ -34,8 +34,9 @@ foreach ($productions as $production) {
                 <th>Product Name</th>
                 <th>Quantity</th>
                 <th>Status</th>
-                <th>Created At</th>
+                <!-- <th>Created At</th> -->
                 <th>Updated At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="table-section__tbody">
@@ -68,8 +69,9 @@ foreach ($productions as $production) {
                                         row.insertCell().innerHTML = product_name;
                                         row.insertCell().innerHTML = quantity;
                                         row.insertCell().innerHTML = status;
-                                        row.insertCell().innerHTML = created_at;
+                                        // row.insertCell().innerHTML = created_at;
                                         row.insertCell().innerHTML = updated_at;
+                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production_details/${item.production_id}" class="table-section__btn">View</a>`;
 
                                     }
                                 });
