@@ -489,5 +489,12 @@ class Add extends Controller
         }
     }
 
+    public function production()
+    {
+        show($_POST);
+
+        
+    }
+
 
 }

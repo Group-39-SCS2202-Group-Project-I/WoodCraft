@@ -325,6 +325,8 @@ class Fetch extends Controller
                 foreach ($data['materials'] as $material) {
                     if ($product_material->material_id == $material->material_id) {
                         $data['product_materials'][$key]->material_name = $material->material_name;
+                        $data['product_materials'][$key]->stock_available = $material->stock_available;
+                        
                     }
                 }
             }
@@ -355,7 +357,7 @@ class Fetch extends Controller
     public function product_material($id = '')
     {
         if ($id != '') {
-            //select all product_materials with product_id = $id
+            
 
             $db = new Database();
             $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_material_id = $id");
