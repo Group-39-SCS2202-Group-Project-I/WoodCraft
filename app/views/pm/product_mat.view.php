@@ -150,7 +150,7 @@ $materials = json_decode($response, true);
                         }
                     }
                     if ($x == false) {
-                        echo '<option value="" selected disabled>Select a category</option>';
+                        echo '<option value="" selected disabled>Select a material</option>';
                     }
                     ?>
 
