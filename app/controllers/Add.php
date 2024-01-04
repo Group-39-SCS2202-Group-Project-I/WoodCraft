@@ -224,6 +224,7 @@ class Add extends Controller
             show(3);
 
             message("Product category added successfully!");
+            $_SESSION['p'] = 1; 
             redirect('admin/products/categories');
         } else {
             show("kes");
@@ -334,7 +335,7 @@ class Add extends Controller
             //display folder contains
 
         }
-        
+
         $files = scandir($folder);
         show($files);
 
@@ -382,9 +383,7 @@ class Add extends Controller
 
             message("Product image added successfully!");
             redirect('admin/products/' . $_POST['product_id']);
-        }
-        else
-        {
+        } else {
             show($product_image->errors);
             $_SESSION['errors'] = $product_image->errors;
             $_SESSION['form_data'] = $_POST;
@@ -396,7 +395,7 @@ class Add extends Controller
     public function material()
     {
         show($_POST);
-        
+
         $data['errors'] = [];
 
         $material = new Material;
@@ -437,7 +436,6 @@ class Add extends Controller
             $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
             redirect('admin/materials');
         }
-
     }
 
     public function product_material()
@@ -489,5 +487,134 @@ class Add extends Controller
         }
     }
 
+    public function production()
+    {
 
+        $_POST['status'] = 'pending';
+        show($_POST);
+
+        $data['errors'] = [];
+
+        $db = new Database;
+
+        $production = new Production;
+
+        $result = $production->validate($_POST);
+
+        // show(1);
+
+        if ($result) {
+            //fetch materials needed for product
+            $url = ROOT . "/fetch/product_materials/" . $_POST['product_id'];
+            $response = file_get_contents($url);
+            $product_materials = json_decode($response, true);
+            // show($product_materials);
+
+            //fetch materials and update quantity by subtracting quantity needed*quantity produced
+            foreach ($product_materials as $product_material) {
+                $material_id = $product_material['material_id'];
+                $quantity_needed = $product_material['quantity_needed'];
+                $quantity_needed = $quantity_needed * $_POST['quantity'];
+                // show($material_id);
+                // show($quantity_needed);
+
+                $material = $db->query("SELECT * FROM material WHERE material_id = :material_id", ['material_id' => $material_id])[0];
+                show($material);
+
+                $stock_available = $material->stock_available;
+                show($stock_available);
+
+
+                $stock_available = $stock_available - $quantity_needed;
+                show($stock_available);
+
+                show("--------------------");
+
+                $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
+                show("Stock updated successfully!");
+
+            }
+
+            // add production
+            $production = [
+                'product_id' => $_POST['product_id'],
+                'quantity' => $_POST['quantity'],
+                'status' => $_POST['status']
+            ];
+
+            show($production);
+
+            $db->query("INSERT INTO production (product_id, quantity, status) VALUES (:product_id, :quantity, :status)", $production);
+
+            show(3);
+
+            show("Production added successfully!");
+
+            // fetch production id
+            $production_id = $db->query("SELECT production_id FROM production WHERE production_id = (SELECT MAX(production_id) FROM production)")[0]->production_id;
+
+
+            // get availabale workers
+            $url = ROOT . "/fetch/workers";
+            $response = file_get_contents($url);
+            $workers = json_decode($response, true);
+            // show($workers);
+
+            $available_workers = [];
+            foreach ($workers as $worker) {
+                if ($worker['availability'] == 'available') {
+                    $available_workers[] = $worker;
+                }
+            }
+            // show($available_workers);
+
+            //sort workers by updated_at and make a queue
+            usort($available_workers, function ($a, $b) {
+                return $a['updated_at'] <=> $b['updated_at'];
+            });
+            show($available_workers);
+
+            $number_of_workers_needed = $_POST['now'];
+            // show($number_of_workers_needed);
+
+            $workers_assigned = [];
+            for ($i = 0; $i < $number_of_workers_needed; $i++) {
+                $workers_assigned[] = $available_workers[$i];
+            }
+            show($workers_assigned);
+
+            //update worker availability
+            foreach ($workers_assigned as $worker_assigned) {
+                $worker_id = $worker_assigned['worker_id'];
+                $db->query("UPDATE worker SET availability = :availability WHERE worker_id = :worker_id", ['availability' => 'unavailable', 'worker_id' => $worker_id]);
+                show("Worker availability updated successfully!");
+            }
+
+            // add workers to production_worker table
+            foreach ($workers_assigned as $worker_assigned) {
+                $production_worker = [
+                    'production_id' => $production_id,
+                    'worker_id' => $worker_assigned['worker_id']
+                ];
+                // show($production_worker);
+
+                $db->query("INSERT INTO production_worker (production_id, worker_id) VALUES (:production_id, :worker_id)", $production_worker);
+                show("Worker added to production_worker table successfully!");
+            }
+
+            message("Production added successfully!");
+            redirect('pm/add_production');  
+        } else {
+            show("kes");
+            $data['errors'] = array_merge($production->errors);
+            show($data['errors']);
+
+            //how to keep popup open and show errors
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
+            redirect('pm/add_production');
+        }
+    }
 }

@@ -142,6 +142,7 @@ $materials = json_decode($response, true);
                 <select id="material_id" name="material_id" class="form-select input-popup">
                     <?php
                     $x = false;
+
                     foreach ($materials as $material) {
                         if ($form_data['material_id'] == $material['material_id']) {
                             $x = true;
@@ -149,12 +150,28 @@ $materials = json_decode($response, true);
                         }
                     }
                     if ($x == false) {
-                        echo '<option value="" selected disabled>Select a category</option>';
+                        echo '<option value="" selected disabled>Select a material</option>';
                     }
                     ?>
 
+                    <!-- check material id is already in $url = ROOT . "/fetch/product_materials/" . $product['product_id'];
+                 -->
+
+                    <?php
+                    $url = ROOT . "/fetch/product_materials/" . $product['product_id'];
+                    $response = file_get_contents($url);
+                    $productmat = json_decode($response, true);
+                    show($productmat);
+
+                    $material_ids = [];
+                    foreach ($productmat as $item) {
+                        $material_ids[] = $item['material_id'];
+                    }
+                    show($material_ids);
+                    ?>
+
                     <?php foreach ($materials as $material) : ?>
-                        <?php if ($material['material_id'] != $form_data['material_id']) : ?>
+                        <?php if (($material['material_id'] != $form_data['material_id']) && !in_array($material['material_id'], $material_ids)) : ?>
                             <option value="<?php echo $material['material_id'] ?>"><?php echo $material['material_name'] ?></option>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -184,7 +201,7 @@ $materials = json_decode($response, true);
         <form action="" method="POST" class="form">
             <!-- <h2 class="popup-form-title">Delete Item</h2> -->
             <!-- <p>Are you sure you want to delete this item?</p> -->
-            <p class="confirmation-text">Are you sure you want to delete </p>
+            <p class="confirmation-text">Are you sure you want to delete this material?</p>
 
             <div class="form-group frm-btns">
                 <button type="submit" class="form-btn submit-btn">Yes</button>
@@ -234,6 +251,8 @@ $materials = json_decode($response, true);
 
     </div>
 </div>
+
+
 
 
 
@@ -378,11 +397,11 @@ $materials = json_decode($response, true);
                 input.type = 'hidden';
                 input.name = 'material_id';
                 input.value = data.material_id;
-                
+
                 updateform = document.querySelector('#update-item-popup form');
                 updateform.appendChild(input);
 
-                
+
 
 
 
@@ -410,7 +429,7 @@ $materials = json_decode($response, true);
             popup.classList.remove('popup-form--open');
         });
 
-        confirmText.innerHTML = "Are you sure you want to delete ";
+        // confirmText.innerHTML = "Are you sure you want to delete ";
 
         // Clear validation messages
         const validationMessages = document.querySelectorAll('.validate-mzg');
@@ -428,7 +447,7 @@ $materials = json_decode($response, true);
             openPopup('add-item-popup');
         } else if ('<?php echo $form_id; ?>' === 'form2') {
             // code to open your second popup goes here
-            material_id = sessionStorage.getItem('product_material_id');
+            product_material_id = sessionStorage.getItem('product_material_id');
             openUpdatePopup(product_material_id);
             //print id
         }

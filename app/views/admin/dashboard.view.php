@@ -101,6 +101,10 @@
                     <a href="#" class="table-section__button">View</a>
                     <a href="#" class="table-section__button">Update</a>
                     <a href="#" class="table-section__button table-section__button-del">Delete</a>
+                    <a href="#" class="table-section__button table-section__button-pend">Delete</a>
+                    <a href="#" class="table-section__button table-section__button-process">Delete</a>
+                    <a href="#" class="table-section__button table-section__button-comp">Delete</a>
+
                 </td>
             </tr>
         </tbody>
@@ -140,6 +144,9 @@
                 <div class="form-group form-btns">
                     <button type="submit" class="form-btn submit-btn">Add Item</button>
                     <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Cancel</button>
+                    <button type="submit" class="form-btn pending-btn">Add Item</button>
+                    <button type="button" class="form-btn processing-btn" onclick="closePopup()">Cancel</button>
+                    <button type="button" class="form-btn completed-btn" onclick="closePopup()">Cancel</button>
                 </div>
             </form>
 

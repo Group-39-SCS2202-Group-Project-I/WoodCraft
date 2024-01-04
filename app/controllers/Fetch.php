@@ -325,6 +325,8 @@ class Fetch extends Controller
                 foreach ($data['materials'] as $material) {
                     if ($product_material->material_id == $material->material_id) {
                         $data['product_materials'][$key]->material_name = $material->material_name;
+                        $data['product_materials'][$key]->stock_available = $material->stock_available;
+                        
                     }
                 }
             }
@@ -355,7 +357,7 @@ class Fetch extends Controller
     public function product_material($id = '')
     {
         if ($id != '') {
-            //select all product_materials with product_id = $id
+            
 
             $db = new Database();
             $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_material_id = $id");
@@ -367,6 +369,42 @@ class Fetch extends Controller
 
             header("Content-Type: application/json");
             echo json_encode($product_material_data);
+        }
+    }
+
+    public function production($id = '')
+    {
+        if ($id != '') {
+            //select all product_materials with product_id = $id
+
+            $db = new Database();
+            $data['production'] = $db->query("SELECT * FROM production WHERE production_id = $id");
+
+            $product_id = $data['production'][0]->product_id;
+            $data['product'] = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+
+            $production_data = array_merge((array) $data['production'][0], (array) $data['product'][0]);
+
+            header("Content-Type: application/json");
+            echo json_encode($production_data);
+        } else {
+            $db = new Database();
+            $data['production'] = $db->query("SELECT * FROM production");
+
+            $product_ids = array_column($data['production'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $data['products'] = $db->query("SELECT * FROM product WHERE product_id IN ($product_ids)");
+
+            foreach ($data['production'] as $key => $production) {
+                foreach ($data['products'] as $product) {
+                    if ($production->product_id == $product->product_id) {
+                        $data['production'][$key]->product_name = $product->name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['production']);
         }
     }
 }
