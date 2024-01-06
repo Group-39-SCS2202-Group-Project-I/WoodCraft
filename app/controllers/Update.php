@@ -332,7 +332,7 @@ class Update extends Controller
         //update production status to processing
         $db = new Database;
         $db->query("UPDATE production SET status = 'processing' WHERE production_id = $id");
-        message("Material approved for PXN-" . str_pad($id, 3, '0', STR_PAD_LEFT) . " successfully!");
+        message("Materials approved for PXN-" . str_pad($id, 3, '0', STR_PAD_LEFT) . " successfully!");
         redirect('sk/material_requests');
     }
 }
