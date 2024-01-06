@@ -197,17 +197,17 @@ class Update extends Controller
         $result2 = $product_measurement->validate($_POST);
 
         show($_POST);
-//         Array
-// (
-//     [name] => Chair
-//     [description] => paadadadda
-//     [product_category_id] => 2
-//     [price] => 131313.00
-//     [height] => 12.00
-//     [width] => 32.00
-//     [length] => 32.00
-//     [weight] => 12.00
-// )
+        //         Array
+        // (
+        //     [name] => Chair
+        //     [description] => paadadadda
+        //     [product_category_id] => 2
+        //     [price] => 131313.00
+        //     [height] => 12.00
+        //     [width] => 32.00
+        //     [length] => 32.00
+        //     [weight] => 12.00
+        // )
 
         if ($result && $result2) {
             $product_arr = [
@@ -234,8 +234,7 @@ class Update extends Controller
             show("product measurement updated");
 
             message("Product updated successfully!");
-            redirect('admin/products/'. $product_id);
-
+            redirect('admin/products/' . $product_id);
         } else {
             show(4);
             $data['errors'] = array_merge($product->errors, $product_measurement->errors);
@@ -246,7 +245,7 @@ class Update extends Controller
             $_SESSION['errors'] = $data['errors'];
             $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
             $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
-            redirect('admin/products/update/'. $product_id);
+            redirect('admin/products/update/' . $product_id);
         }
     }
 
@@ -327,4 +326,13 @@ class Update extends Controller
     }
 
 
+    public function approve_mat($id)
+    {
+        show($id);
+        //update production status to processing
+        $db = new Database;
+        $db->query("UPDATE production SET status = 'processing' WHERE production_id = $id");
+        message("Materials approved for PXN-" . str_pad($id, 3, '0', STR_PAD_LEFT) . " successfully!");
+        redirect('sk/material_requests');
+    }
 }
