@@ -28,6 +28,19 @@ class SK extends Controller
         $this->view('sk/material_requests', $data);
     }
 
+    public function material_orders($x='')
+    {
+        if ($x == 'add') {
+            $data['title'] = "Material Order";
+            $this->view('sk/add_material_order', $data);
+        } else {
+            $data['title'] = "Material Orders";
+            $this->view('sk/material_orders', $data);
+        }
+    }
+
+
+
     public function materials()
     {
 

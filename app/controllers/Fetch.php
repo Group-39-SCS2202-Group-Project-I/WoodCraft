@@ -326,7 +326,6 @@ class Fetch extends Controller
                     if ($product_material->material_id == $material->material_id) {
                         $data['product_materials'][$key]->material_name = $material->material_name;
                         $data['product_materials'][$key]->stock_available = $material->stock_available;
-                        
                     }
                 }
             }
@@ -357,7 +356,7 @@ class Fetch extends Controller
     public function product_material($id = '')
     {
         if ($id != '') {
-            
+
 
             $db = new Database();
             $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_material_id = $id");
@@ -443,5 +442,24 @@ class Fetch extends Controller
             header("Content-Type: application/json");
             echo json_encode($data['suppliers']);
         }
+    }
+
+    public function material_orders($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_order'][0]);
+        } else {
+            $db = new Database();
+            $data['material_orders'] = $db->query("SELECT * FROM material_order");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_orders']);
+        }
+
+        
     }
 }

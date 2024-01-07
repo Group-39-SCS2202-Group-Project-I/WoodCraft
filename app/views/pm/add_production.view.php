@@ -77,7 +77,7 @@ $available_workers_count = count($available_workers);
         <?php endif; ?>
 
         <div class="form-group">
-            <label for="product_id" class="page-label">Product</label>
+            <label for="product_id" class="page-label">Product:</label>
             <select id="product_id" name="product_id" class="page-select" onchange="handleProductChange(this)">
                 <?php
                 $x = false;
