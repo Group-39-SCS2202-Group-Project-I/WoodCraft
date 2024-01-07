@@ -335,4 +335,65 @@ class Update extends Controller
         message("Materials approved for PXN-" . str_pad($id, 3, '0', STR_PAD_LEFT) . " successfully!");
         redirect('sk/material_requests');
     }
+
+    public function supplier($id)
+    {
+        $data['errors'] = [];
+
+        $supplier = new Supplier;
+        $address = new Address;
+
+        $result = $supplier->validate($_POST);
+        $result2 = $address->validate($_POST);
+
+        show(1);
+
+        if ($result && $result2) {
+            show(1);
+            $db = new Database;
+
+            show(2);
+
+            $address_arr = [
+                'address_line_1' => $_POST['address_line_1'],
+                'address_line_2' => $_POST['address_line_2'],
+                'city' => $_POST['city'],
+                'zip_code' => $_POST['zip_code']
+            ];
+
+
+            $address_id = $db->query("SELECT address_id FROM supplier_details WHERE supplier_id = $id")[0]->address_id;
+
+            show($address_id);
+
+            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+
+            show(3);
+
+            $supplier_arr = [
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'telephone' => $_POST['telephone'],
+                'brn' => $_POST['brn'],
+                'address_id' => $address_id
+            ];
+
+            $db->query("UPDATE supplier_details SET name = :name, email = :email, telephone = :telephone, brn = :brn, address_id = :address_id WHERE supplier_id = $id", $supplier_arr);
+
+            show(4);
+
+            message("Supplier updated successfully!");
+            redirect('sk/suppliers');
+        } else {
+            show(5);
+
+            $data['errors'] = array_merge($supplier->errors, $address->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form2'; // replace 'form2' with your form identifier
+            redirect('sk/suppliers');
+        }
+    }
 }
