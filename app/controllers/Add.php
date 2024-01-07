@@ -617,4 +617,67 @@ class Add extends Controller
             redirect('pm/add_production');
         }
     }
+
+    public function supplier()
+    {
+        show($_POST);
+
+        $data['errors'] = [];
+
+        $supplier = new Supplier;
+        $address = new Address;
+
+        $result = $supplier->validate($_POST);
+        $result2 = $address->validate($_POST);
+
+        if ($result && $result2) {
+
+            show(1);
+
+            $db = new Database;
+
+            $address = [
+                'address_line_1' => $_POST['address_line_1'],
+                'address_line_2' => $_POST['address_line_2'],
+                'city' => $_POST['city'],
+                'zip_code' => $_POST['zip_code']
+            ];
+
+            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+
+            $address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)")[0]->address_id;
+
+            show(2);
+
+            $supplier = [
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'telephone' => $_POST['telephone'],
+                'brn' => $_POST['brn'],
+                'address_id' => $address_id
+            ];
+
+            $db->query("INSERT INTO supplier_details (name, email, telephone, brn, address_id) VALUES (:name, :email, :telephone, :brn, :address_id)", $supplier);
+
+            show(3);
+
+            message("Supplier added successfully!");
+            redirect('sk/suppliers');
+        }
+        else
+        {
+            show("kes");
+            show($supplier->errors);
+            show($address->errors);
+
+            $data['errors'] = array_merge($supplier->errors, $address->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST;
+            $_SESSION['form_id'] = 'form1';
+
+            redirect('sk/suppliers');
+        }
+    }
 }

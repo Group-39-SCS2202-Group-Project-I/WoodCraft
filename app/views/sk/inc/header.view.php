@@ -27,7 +27,7 @@ if (isset($_SESSION['USER_DATA'])) {
     <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <title>WoodCraft Furniture - Admin</title>
+    <title>WoodCraft Furniture - Staff</title>
 </head>
 
 <body>
@@ -71,22 +71,43 @@ if (isset($_SESSION['USER_DATA'])) {
                     </a>
                 </li>
 
-                <!-- products -->
+              
 
-                <li class="sidebar-list-item nav-btn" id="products-nav">
+                <li class="sidebar-list-item nav-btn" id="mat_req-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Products</span>
+                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Material Requests</span>
                     </a>
                 </li>
-
-                <!-- materials -->
 
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Materials</span>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Material Stock</span>
                     </a>
                 </li>
 
+                <li class="sidebar-list-item nav-btn" id="products-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Product Stock</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-list-item nav-btn" id="fin_prod-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Finished Productions</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-list-item nav-btn" id="orders-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Orders</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-list-item nav-btn" id="sup-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Suppliers</span>
+                    </a>
+                </li>
 
                 
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
@@ -95,10 +116,17 @@ if (isset($_SESSION['USER_DATA'])) {
                     </a>
                 </li>
 
+
+
                 <script>
                     const dashNav = document.getElementById('dash-nav');
-                    const productsNav = document.getElementById('products-nav');
+                    const matReqNav = document.getElementById('mat_req-nav');
                     const materialsNav = document.getElementById('materials-nav');
+                    const productsNav = document.getElementById('products-nav');
+                    const finProdNav = document.getElementById('fin_prod-nav');
+                    const ordersNav = document.getElementById('orders-nav');
+                    const supNav = document.getElementById('sup-nav');
+
                     
 
                     // Add event listener to the parent element
@@ -111,12 +139,25 @@ if (isset($_SESSION['USER_DATA'])) {
                             case 'dash-nav':
                                 window.location.href = '<?= ROOT ?>/sk/dashboard';
                                 break;
-                            case 'products-nav':
-                                window.location.href = '<?= ROOT ?>/sk/products';
+                            case 'mat_req-nav':
+                                window.location.href = '<?= ROOT ?>/sk/material_requests';
                                 break;
                             case 'materials-nav':
                                 window.location.href = '<?= ROOT ?>/sk/materials';
                                 break;
+                            case 'products-nav':
+                                window.location.href = '<?= ROOT ?>/sk/products';
+                                break;
+                            case 'fin_prod-nav':
+                                window.location.href = '<?= ROOT ?>/sk/finished_productions';
+                                break;
+                            case 'orders-nav':
+                                window.location.href = '<?= ROOT ?>/sk/orders';
+                                break;
+                            case 'sup-nav':
+                                window.location.href = '<?= ROOT ?>/sk/suppliers';
+                                break;
+
                             default:
                                 break;
                         }

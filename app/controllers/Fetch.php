@@ -407,4 +407,41 @@ class Fetch extends Controller
             echo json_encode($data['production']);
         }
     }
+
+    public function suppliers($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['supplier'] = $db->query("SELECT * FROM supplier_details WHERE supplier_id = $id");
+
+            $address_id = $data['supplier'][0]->address_id;
+            $data['address'] = $db->query("SELECT * FROM address WHERE address_id = $address_id");
+
+            $supplier_data = array_merge((array) $data['supplier'][0], (array) $data['address'][0]);
+
+            header("Content-Type: application/json");
+            echo json_encode($supplier_data);
+        } else {
+            $db = new Database();
+            $data['suppliers'] = $db->query("SELECT * FROM supplier_details");
+
+            $address_ids = array_column($data['suppliers'], 'address_id');
+            $address_ids = implode(',', $address_ids);
+            $data['addresses'] = $db->query("SELECT * FROM address WHERE address_id IN ($address_ids)");
+
+            foreach ($data['suppliers'] as $key => $supplier) {
+                foreach ($data['addresses'] as $address) {
+                    if ($supplier->address_id == $address->address_id) {
+                        $data['suppliers'][$key]->address_line_1 = $address->address_line_1;
+                        $data['suppliers'][$key]->address_line_2 = $address->address_line_2;
+                        $data['suppliers'][$key]->city = $address->city;
+                        $data['suppliers'][$key]->zip_code = $address->zip_code;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['suppliers']);
+        }
+    }
 }

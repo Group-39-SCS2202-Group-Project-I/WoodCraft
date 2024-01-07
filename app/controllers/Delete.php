@@ -127,4 +127,22 @@ class Delete extends Controller
         message("Product material deleted successfully!");
         redirect('pm/product_materials/' . $product_id);
     }
+
+    public function supplier($id)
+    {   
+        $db = new Database();
+
+        // show($id);
+
+        $supplier = $db->query("SELECT * FROM supplier_details WHERE supplier_id = $id");
+        $address_id = $supplier[0]->address_id;
+
+        // show($address_id);
+        
+        $db->query("DELETE FROM supplier_details WHERE supplier_id = $id");
+        $db->query("DELETE FROM address WHERE address_id = $address_id");
+
+        message("Supplier deleted successfully!");
+        redirect('sk/suppliers');
+    }
 }
