@@ -10,9 +10,19 @@
 <!-- home -->
 <!-- Craft Component -->
 <section class="craft">
-
-    <h2>Products</h2>
-    <div class="craft-card">
+    <div class="cards-grid">
+        <h5 class="section-header">-Best Selling</h5>
+        <h2 class="section-title">Our Best Seller</h2>
+        <h2 class="section-title">Products</h2>
+        <div class="craft-card">
+            <div class="craft__image">
+                <div class="craft__image__content">
+                    <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
+                    <p class="craft__image__name">Nordic Chair</p>
+                    <h4 class="craft__image__price">Rs15000.00</h4>
+                </div>
+                <button class="craft-btn">View</button>
+        </div>
         <div class="craft__image">
             <div class="craft__image__content">
                 <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
@@ -20,7 +30,25 @@
                 <h4 class="craft__image__price">Rs15000.00</h4>
             </div>
             <button class="craft-btn">View</button>
-
+    
+        </div>
+        <div class="craft__image">
+            <div class="craft__image__content">
+                <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
+                <p class="craft__image__name">Nordic Chair</p>
+                <h4 class="craft__image__price">Rs15000.00</h4>
+            </div>
+            <button class="craft-btn">View</button>
+    
+        </div>
+        <div class="craft__image">
+            <div class="craft__image__content">
+                <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
+                <p class="craft__image__name">Nordic Chair</p>
+                <h4 class="craft__image__price">Rs15000.00</h4>
+            </div>
+            <button class="craft-btn">View</button>
+    
         </div>
         <div class="craft__image">
             <div class="craft__image__content">
@@ -29,7 +57,7 @@
                 <h4 class="craft__image__price">Rs.50000.00</h4>
             </div>
             <button class="craft-btn">View</button>
-
+    
         </div>
         <div class="craft__image">
             <div class="craft__image__content">
@@ -38,23 +66,44 @@
                 <h4 class="craft__image__price">Rs.33000.00</h4>
             </div>
             <button class="craft-btn">View</button>
-
+    
         </div>
-        <!-- <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-4.png" alt="craft" />
-                <p class="craft__image__name">Modern Chair</p>
-                <h4 class="craft__image__price">$80.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    </div> -->
+            <!-- <div class="craft__image">
+                <div class="craft__image__content">
+                    <img src="<?php echo ROOT; ?>/assets/images/craft-4.png" alt="craft" />
+                    <p class="craft__image__name">Modern Chair</p>
+                    <h4 class="craft__image__price">$80.00</h4>
+                </div>
+                <button class="craft-btn">View</button>
+        </div> -->
+    </div>
 </section>
 
 <!-- Craft Component Styles -->
 <style>
+    .section-header {
+        color: var(--green);
+        font-weight: 400;
+    }
+
+    .section-title {
+        font-weight: 500;
+    }
+
     /* General styles */
     .craft {
-        padding: 3rem 1rem;
+        display: flex;
+        flex-direction: column;
+        padding: 5rem 0;
+        justify-content: centre;
+        align-items: center;
+    }
+    
+    .cards-grid {
+        display: flex;
+        flex-direction: column;
+        width: 1200px;
+        justify-content: centre;
     }
 
     .craft-card {
@@ -92,7 +141,6 @@
         font-weight: 600;
         color: var(--text-dark);
     }
-
 
     .craft__image:hover .craft-btn {
         opacity: 1;
