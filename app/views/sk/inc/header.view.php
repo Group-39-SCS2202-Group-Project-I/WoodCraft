@@ -81,13 +81,13 @@ if (isset($_SESSION['USER_DATA'])) {
 
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Materials</span>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Material Stock</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Products</span>
+                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Product Stock</span>
                     </a>
                 </li>
 
@@ -155,7 +155,7 @@ if (isset($_SESSION['USER_DATA'])) {
                                 window.location.href = '<?= ROOT ?>/sk/orders';
                                 break;
                             case 'sup-nav':
-                                window.location.href = '<?= ROOT ?>/sk/supplier';
+                                window.location.href = '<?= ROOT ?>/sk/suppliers';
                                 break;
 
                             default:

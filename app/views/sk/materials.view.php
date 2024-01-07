@@ -8,9 +8,9 @@
     <?php endif; ?>
 
 
-    <h2 class="table-section__title">Materials</h2>
+    <h2 class="table-section__title">Material Stock</h2>
 
-   
+
 
     <div class="table-section__search">
         <input type="text" id="searchMaterials" placeholder="Search Materials..." class="table-section__search-input">
@@ -40,18 +40,21 @@
                                     table.deleteRow(1);
                                 }
 
-
-                                
-
-
-
                                 data.forEach(item => {
                                     let row = table.insertRow();
                                     let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
                                     row.insertCell().innerHTML = material_id;
                                     row.insertCell().innerHTML = item.material_name;
                                     row.insertCell().innerHTML = item.stock_available;
-                                   
+
+                                    var mat_id = item.material_id;
+                                    // console.log(mat_id);
+                                    // console.log("x")
+
+                                    
+
+                                    
+                                    // row.insertCell().innerHTML = pc;
                                     row.insertCell().innerHTML = item.updated_at;
                                 });
                             });
@@ -59,12 +62,16 @@
 
                     updateTable();
 
-                    
+
                 });
             </script>
 
-        
-   
+        </tbody>
+    </table>
+</div>
+
+
+
 
 
 <?php include "inc/footer.view.php"; ?>

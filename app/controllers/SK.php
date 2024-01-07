@@ -60,12 +60,12 @@ class SK extends Controller
         $this->view('sk/orders', $data);
     }
 
-    public function supplier()
+    public function suppliers()
     {
 
         $data['title'] = "Supplier";
 
-        $this->view('sk/supplier', $data);
+        $this->view('sk/suppliers', $data);
     }
 
 
