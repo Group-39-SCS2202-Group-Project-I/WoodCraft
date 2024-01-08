@@ -434,5 +434,42 @@ class Update extends Controller
         redirect('sk/finished_productions');
     }
 
+    public function complete_production($id)
+    {
+        show($id);
+
+        //fetch production workers where production_id = $id
+        $db = new Database();
+        $data['production_workers'] = $db->query("SELECT * FROM production_worker WHERE production_id = $id");
+
+        // show($data['production_workers']);
+
+        // get worker ids      
+        $worker_ids = [];
+        foreach ($data['production_workers'] as $production_worker) {
+            $worker_ids[] = $production_worker->worker_id;
+        }
+
+        // show($worker_ids);
+
+        // update worker availability to available
+
+        foreach ($worker_ids as $worker_id) {
+            $db->query("UPDATE worker SET availability = 'available' WHERE worker_id = $worker_id");
+        }
+
+        //worker availability updated
+
+        // update production status to completed
+        $db->query("UPDATE production SET status = 'completed' WHERE production_id = $id");
+
+        message("Production completed successfully!");
+        redirect('pm/processing_productions');
+
+        
+    }
+
+
+
 
 }

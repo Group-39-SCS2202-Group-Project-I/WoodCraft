@@ -17,8 +17,28 @@ foreach ($productions as $production) {
 
 ?>
 
+<?php
+if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSION['form_id'])) {
+    $errors = $_SESSION['errors'];
+    $form_data = $_SESSION['form_data'];
+    $form_id = $_SESSION['form_id'];
+    // unset the session variables so they don't persist on page refresh
+    unset($_SESSION['errors']);
+    unset($_SESSION['form_data']);
+    unset($_SESSION['form_id']);
+    // display the errors and repopulate the form with the data
+    // show($form_data);
+}
+?>
+
+
 <div class="table-section">
-<h2 class="table-section__title">Pending Productions</h2>
+    <?php if (message()) : ?>
+        <div class="mzg-box">
+            <div class="messege"><?= message('', true) ?></div>
+        </div>
+    <?php endif; ?>
+    <h2 class="table-section__title">Pending Productions</h2>
     <div class="table-section__search">
         <input type="text" id="searchPenProductions" placeholder="Search Pending Productions..." class="table-section__search-input">
     </div>
@@ -74,7 +94,8 @@ foreach ($productions as $production) {
                                         row.insertCell().innerHTML = status;
                                         // row.insertCell().innerHTML = created_at;
                                         row.insertCell().innerHTML = updated_at;
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__btn">View</a>`;
+                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a>`;
+
 
                                     }
                                 });

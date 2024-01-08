@@ -194,7 +194,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             });
 
             // Session storage
-            sessionStorage.removeItem('worker_id');
+            // sessionStorage.removeItem('worker_id');
 
         }
     </script>

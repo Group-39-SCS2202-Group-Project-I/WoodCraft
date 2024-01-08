@@ -17,8 +17,28 @@ foreach ($productions as $production) {
 
 ?>
 
+<?php
+if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSION['form_id'])) {
+    $errors = $_SESSION['errors'];
+    $form_data = $_SESSION['form_data'];
+    $form_id = $_SESSION['form_id'];
+    // unset the session variables so they don't persist on page refresh
+    unset($_SESSION['errors']);
+    unset($_SESSION['form_data']);
+    unset($_SESSION['form_id']);
+    // display the errors and repopulate the form with the data
+    // show($form_data);
+}
+?>
+
+
 <div class="table-section">
-<h2 class="table-section__title">Processing Productions</h2>
+    <?php if (message()) : ?>
+        <div class="mzg-box">
+            <div class="messege"><?= message('', true) ?></div>
+        </div>
+    <?php endif; ?>
+    <h2 class="table-section__title">Processing Productions</h2>
     <div class="table-section__search">
         <input type="text" id="searchProProductions" placeholder="Search Processing Productions..." class="table-section__search-input">
     </div>
@@ -74,7 +94,7 @@ foreach ($productions as $production) {
                                         row.insertCell().innerHTML = status;
                                         // row.insertCell().innerHTML = created_at;
                                         row.insertCell().innerHTML = updated_at;
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__btn">View</a>`;
+                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a> <a  onclick="openUpdatePopup(${item.production_id})" class="table-section__button">Complete</a>`;
 
                                     }
                                 });
@@ -86,7 +106,68 @@ foreach ($productions as $production) {
             </script>
         </tbody>
     </table>
+
+    <div class="popup-form" id="complete-item-popup">
+        <div class="popup-form__content">
+            <form action="" method="POST" class="form">
+                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+                <!-- <p>Are you sure you want to delete this item?</p> -->
+                <p class="confirmation-text">Complete Production </p>
+
+                <div class="form-group frm-btns">
+                    <button type="submit" class="form-btn submit-btn">Yes</button>
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        openUpdatePopup = (id) => {
+            const popup = document.getElementById('complete-item-popup');
+            const confirmationText = document.querySelector('.confirmation-text');
+            x = "PXN-" + String(id).padStart(3, '0');
+            confirmationText.innerHTML += x + "?";
+            popup.classList.add('popup-form--open');
+            popup.querySelector('form').action = "<?php echo ROOT ?>/update/complete_production/" + id;
+        }
+    </script>
+
+    <script>
+        // Function to open popup form
+        function openPopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.classList.add('popup-form--open');
+        }
+
+        // Function to close popup form
+        function closePopup() {
+            const popups = document.querySelectorAll('.popup-form');
+            confirmText = document.querySelector('.confirmation-text');
+
+            popups.forEach(popup => {
+                popup.classList.remove('popup-form--open');
+            });
+
+            confirmText.innerHTML = "Approve Materials for ";
+            // Clear validation messages
+            const validationMessages = document.querySelectorAll('.validate-mzg');
+            validationMessages.forEach(message => {
+                message.innerHTML = '';
+            });
+
+            // Session storage
+            // sessionStorage.removeItem('worker_id');
+
+        }
+    </script>
+
+
 </div>
+
+
+
+
 
 
 
