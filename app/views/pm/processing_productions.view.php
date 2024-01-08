@@ -84,6 +84,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                         let product_name = item.product_name;
                                         let quantity = item.quantity;
                                         let status = item.status;
+                                        status = status.charAt(0).toUpperCase() + status.slice(1);
                                         let created_at = item.created_at;
                                         let updated_at = item.updated_at;
 
@@ -91,7 +92,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                         row.insertCell().innerHTML = product_id;
                                         row.insertCell().innerHTML = product_name;
                                         row.insertCell().innerHTML = quantity;
-                                        row.insertCell().innerHTML = status;
+                                        row.insertCell().innerHTML = `<a class="table-section__button processing table-section__button-processing">${status}</a>`;
                                         // row.insertCell().innerHTML = created_at;
                                         row.insertCell().innerHTML = updated_at;
                                         row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a> <a  onclick="openUpdatePopup(${item.production_id})" class="table-section__button">Complete</a>`;
