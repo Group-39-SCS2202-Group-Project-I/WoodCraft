@@ -326,7 +326,6 @@ class Fetch extends Controller
                     if ($product_material->material_id == $material->material_id) {
                         $data['product_materials'][$key]->material_name = $material->material_name;
                         $data['product_materials'][$key]->stock_available = $material->stock_available;
-                        
                     }
                 }
             }
@@ -357,7 +356,7 @@ class Fetch extends Controller
     public function product_material($id = '')
     {
         if ($id != '') {
-            
+
 
             $db = new Database();
             $data['product_materials'] = $db->query("SELECT * FROM product_material WHERE product_material_id = $id");
@@ -444,4 +443,102 @@ class Fetch extends Controller
             echo json_encode($data['suppliers']);
         }
     }
+
+    public function material_orders($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_order'][0]);
+        } else {
+            $db = new Database();
+            $data['material_orders'] = $db->query("SELECT * FROM material_order");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_orders']);
+        }
+
+        
+    }
+
+    public function finished_productions($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['finished_production'] = $db->query("SELECT * FROM finished_production WHERE finished_production_id = $id");
+
+            $production_id = $data['finished_production'][0]->production_id;
+            $data['production'] = $db->query("SELECT * FROM production WHERE production_id = $production_id");
+
+            $product_id = $data['production'][0]->product_id;
+            $data['product'] = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+
+            $finished_production_data = array_merge((array) $data['finished_production'][0], (array) $data['production'][0], (array) $data['product'][0]);
+
+            header("Content-Type: application/json");
+            echo json_encode($finished_production_data);
+        } else {
+            $db = new Database();
+            $data['finished_productions'] = $db->query("SELECT * FROM finished_production");
+
+            $production_ids = array_column($data['finished_productions'], 'production_id');
+            $production_ids = implode(',', $production_ids);
+            $data['productions'] = $db->query("SELECT * FROM production WHERE production_id IN ($production_ids)");
+
+            $product_ids = array_column($data['productions'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $data['products'] = $db->query("SELECT * FROM product WHERE product_id IN ($product_ids)");
+
+            foreach ($data['finished_productions'] as $key => $finished_production) {
+                foreach ($data['productions'] as $production) {
+                    if ($finished_production->production_id == $production->production_id) {
+                        $data['finished_productions'][$key]->product_id = $production->product_id;
+                        $data['finished_productions'][$key]->quantity = $production->quantity;
+                        $data['finished_productions'][$key]->status = $production->status;
+                    }
+                }
+                foreach ($data['products'] as $product) {
+                    if ($finished_production->product_id == $product->product_id) {
+                        $data['finished_productions'][$key]->product_name = $product->name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['finished_productions']);
+
+          
+
+        }
+    }
+
+    public function production_workers($production_id = '')
+    {
+        if ($production_id != '') {
+            $db = new Database();
+            $data['production_workers'] = $db->query("SELECT * FROM production_worker WHERE production_id = $production_id");
+
+            $worker_ids = array_column($data['production_workers'], 'worker_id');
+            $worker_ids = implode(',', $worker_ids);
+            $data['workers'] = $db->query("SELECT * FROM worker WHERE worker_id IN ($worker_ids)");
+
+            foreach ($data['production_workers'] as $key => $production_worker) {
+                foreach ($data['workers'] as $worker) {
+                    if ($production_worker->worker_id == $worker->worker_id) {
+                        $data['production_workers'][$key]->first_name = $worker->first_name;
+                        $data['production_workers'][$key]->last_name = $worker->last_name;
+
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['production_workers']);
+        }
+
+    }
+
+
 }

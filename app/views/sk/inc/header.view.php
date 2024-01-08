@@ -70,15 +70,6 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
-
-              
-
-                <li class="sidebar-list-item nav-btn" id="mat_req-nav">
-                    <a>
-                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Material Requests</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
                         <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Material Stock</span>
@@ -90,6 +81,24 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Product Stock</span>
                     </a>
                 </li>
+
+
+
+                <li class="sidebar-list-item nav-btn" id="mat_req-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Material Requests</span>
+                    </a>
+                </li>
+
+                
+
+                <li class="sidebar-list-item nav-btn" id="mat_ord-nav">
+                    <a>
+                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Received Material Orders</span>
+                    </a>
+                </li>
+
+                
 
                 <li class="sidebar-list-item nav-btn" id="fin_prod-nav">
                     <a>
@@ -109,7 +118,7 @@ if (isset($_SESSION['USER_DATA'])) {
                     </a>
                 </li>
 
-                
+
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                     <a>
                         <span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span>
@@ -126,8 +135,9 @@ if (isset($_SESSION['USER_DATA'])) {
                     const finProdNav = document.getElementById('fin_prod-nav');
                     const ordersNav = document.getElementById('orders-nav');
                     const supNav = document.getElementById('sup-nav');
+                    const ReceivedMatOrdersNav = document.getElementById('mat_ord-nav');
 
-                    
+
 
                     // Add event listener to the parent element
                     document.querySelector('.sidebar-list').addEventListener('click', (event) => {
@@ -136,11 +146,9 @@ if (isset($_SESSION['USER_DATA'])) {
 
                         // Handle different menu items based on their IDs
                         switch (id) {
+
                             case 'dash-nav':
                                 window.location.href = '<?= ROOT ?>/sk/dashboard';
-                                break;
-                            case 'mat_req-nav':
-                                window.location.href = '<?= ROOT ?>/sk/material_requests';
                                 break;
                             case 'materials-nav':
                                 window.location.href = '<?= ROOT ?>/sk/materials';
@@ -148,6 +156,14 @@ if (isset($_SESSION['USER_DATA'])) {
                             case 'products-nav':
                                 window.location.href = '<?= ROOT ?>/sk/products';
                                 break;
+                            case 'mat_req-nav':
+                                window.location.href = '<?= ROOT ?>/sk/material_requests';
+                                break;
+
+                            case 'mat_ord-nav':
+                                window.location.href = '<?= ROOT ?>/sk/material_orders';
+                                break;
+
                             case 'fin_prod-nav':
                                 window.location.href = '<?= ROOT ?>/sk/finished_productions';
                                 break;

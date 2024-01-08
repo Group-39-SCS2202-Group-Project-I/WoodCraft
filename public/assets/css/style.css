@@ -82,6 +82,10 @@ select {
     --light: #F6F6F6;
 
     --danger: #DD4A48;
+
+    --pending: #FCEEBA;
+    --processing: #D5E9C5;
+    --completed: #C1E5ED;
 }
 
 /* Base */
@@ -586,6 +590,8 @@ h6 {
     /* border: 1px solid var(--blk); */
 }
 
+
+
 .table-section__table td:last-child .table-section__button:hover {
     color: var(--light);
     background-color: var(--primary);
@@ -596,29 +602,47 @@ h6 {
 }
 /*  */
 
-.table-section__button-process {
+.table-section__button-processing {
+    background-color: var(--processing);
+}
+
+.table-section__button-completed {
+    background-color: var(--completed);
+}
+
+.table-section__button-pending{
+    background-color: var(--pending);
+}
+
+.table-section__button-processing:hover {
+    background-color: var(--processing);
+    color: var(--blk);
+}
+
+.table-section__button-completed:hover {
+    background-color: var(--completed);
+    color: var(--blk);
+
+}
+
+.table-section__button-pending:hover{
+    background-color: var(--pending);
+    color: var(--blk);
+}
+
+.table-section__table td:last-child .table-section__button-processing {
     background-color: yellow;
 }
 
-.table-section__button-comp {
+.table-section__table td:last-child .table-section__button-completed {
     background-color: green;
 }
 
-.table-section__button-pend{
+.table-section__table td:last-child .table-section__button-pending {
     background-color: orange;
 }
 
-.table-section__table td:last-child .table-section__button-process {
-    background-color: yellow;
-}
 
-.table-section__table td:last-child .table-section__button-comp {
-    background-color: green;
-}
-
-.table-section__table td:last-child .table-section__button-pend {
-    background-color: orange;
-}
 
 /* popup */
 .popup-form {

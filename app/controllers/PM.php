@@ -28,13 +28,22 @@ class PM extends Controller
         $this->view('pm/add_production', $data);
     }
 
-    public function ongoing_productions()
+    public function pending_productions()
     {
 
-        $data['title'] = "Ongoing Productions";
+        $data['title'] = "Pending Productions";
 
-        $this->view('pm/ongoing_productions', $data);
+        $this->view('pm/pending_productions', $data);
     }
+    public function processing_productions()
+    {
+
+        $data['title'] = "Processing Productions";
+
+        $this->view('pm/processing_productions', $data);
+    }
+
+    
 
     public function completed_productions()
     {
@@ -62,6 +71,19 @@ class PM extends Controller
         } else {
             $data['title'] = "Product Materials";
             $this->view('pm/product_materials', $data);
+        }
+    }
+
+    public function production($id = '')
+    {
+        $data['id'] = $id;
+
+        if ($id != '') {
+            $data['title'] = "Production";
+            $this->view('pm/production', $data);
+        } else {
+            $data['title'] = "Production";
+            // $this->view('pm/production', $data);
         }
     }
 }

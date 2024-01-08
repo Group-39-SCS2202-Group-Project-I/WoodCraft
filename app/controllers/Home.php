@@ -20,5 +20,18 @@ class Home extends Controller
 
 		$this->view('about',$data);
 	}
+
+	public function contact()
+	{
+		$data['title'] = "Contact";
+
+		$this->view('contact',$data);
+	}
+
+	
+
+	
+
+
 	
 }

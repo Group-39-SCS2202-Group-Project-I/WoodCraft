@@ -603,7 +603,7 @@ class Add extends Controller
             }
 
             message("Production added successfully!");
-            redirect('pm/add_production');  
+            redirect('pm/pending_productions');  
         } else {
             show("kes");
             $data['errors'] = array_merge($production->errors);
@@ -678,6 +678,71 @@ class Add extends Controller
             $_SESSION['form_id'] = 'form1';
 
             redirect('sk/suppliers');
+        }
+    }
+
+    public function material_order()
+    {
+        show($_POST);
+
+        $data['errors'] = [];
+
+        $material_order = new MaterialOrder;
+
+        $result = $material_order->validate($_POST);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $material_order = [
+                'material_id' => $_POST['material_id'], 
+                'supplier_id' => $_POST['supplier_id'],
+                'quantity' => $_POST['quantity'],
+                'price_per_unit' => $_POST['price_per_unit'],
+                'total' => $_POST['total']
+            ];
+
+            show($material_order);
+
+            $db->query("INSERT INTO material_order (material_id, supplier_id, quantity, price_per_unit, total) VALUES (:material_id, :supplier_id, :quantity, :price_per_unit, :total)", $material_order);
+
+            show(3);
+
+            // update material stock available
+            $material_id = $_POST['material_id'];
+            $quantity = $_POST['quantity'];
+
+            $material = $db->query("SELECT * FROM material WHERE material_id = :material_id", ['material_id' => $material_id])[0];
+            // show($material);
+
+            $stock_available = $material->stock_available;
+            // show($stock_available);
+
+            $stock_available = $stock_available + $quantity;
+            // show($stock_available);
+
+            $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
+
+
+            message("Material order added successfully and material stock updated!");
+            redirect('sk/material_orders');
+        } else {
+            show("kes");
+            // show($worker->errors);
+            $data['errors'] = array_merge($material_order->errors);
+            // show($data['errors']);
+            show($data['errors']);
+
+            //how to keep popup open and show errors
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
+            $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
+            redirect('sk/material_orders/add');
         }
     }
 }
