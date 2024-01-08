@@ -513,4 +513,32 @@ class Fetch extends Controller
 
         }
     }
+
+    public function production_workers($production_id = '')
+    {
+        if ($production_id != '') {
+            $db = new Database();
+            $data['production_workers'] = $db->query("SELECT * FROM production_worker WHERE production_id = $production_id");
+
+            $worker_ids = array_column($data['production_workers'], 'worker_id');
+            $worker_ids = implode(',', $worker_ids);
+            $data['workers'] = $db->query("SELECT * FROM worker WHERE worker_id IN ($worker_ids)");
+
+            foreach ($data['production_workers'] as $key => $production_worker) {
+                foreach ($data['workers'] as $worker) {
+                    if ($production_worker->worker_id == $worker->worker_id) {
+                        $data['production_workers'][$key]->first_name = $worker->first_name;
+                        $data['production_workers'][$key]->last_name = $worker->last_name;
+
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['production_workers']);
+        }
+
+    }
+
+
 }

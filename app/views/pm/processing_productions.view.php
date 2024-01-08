@@ -1,26 +1,28 @@
 <?php include "inc/header.view.php"; ?>
+
+<!-- fetch productions and display them here -->
 <?php
 $url = ROOT . "/fetch/production";
 $response = file_get_contents($url);
 $productions = json_decode($response, true);
 // show($productions);
 
-$finished_productions = [];
+$ongoing_productions = [];
 foreach ($productions as $production) {
-    if ($production['status'] == 'completed') {
-        $finished_productions[] = $production;
+    if ($production['status'] != 'completed') {
+        $ongoing_productions[] = $production;
     }
 }
-// show($finished_productions);
+// show($ongoing_productions);
+
 ?>
 
 <div class="table-section">
-<h2 class="table-section__title">Completed Productions</h2>
+<h2 class="table-section__title">Processing Productions</h2>
     <div class="table-section__search">
-        <input type="text" id="searchFinProductions" placeholder="Search Completed Productions..." class="table-section__search-input">
+        <input type="text" id="searchProProductions" placeholder="Search Processing Productions..." class="table-section__search-input">
     </div>
-
-    <table class="table-section__table" id="fin-productions-table">
+    <table class="table-section__table" id="pro-productions-table">
         <!-- [production_id] => 2
             [product_id] => 7
             [quantity] => 1
@@ -48,14 +50,14 @@ foreach ($productions as $production) {
                             .then(response => response.json())
                             .then(data => {
                                 // console.log(data);
-                                let table = document.getElementById('fin-productions-table');
+                                let table = document.getElementById('pro-productions-table');
 
                                 while (table.rows.length > 1) {
                                     table.deleteRow(1);
                                 }
 
                                 data.forEach(item => {
-                                    if (item.status == 'completed') {
+                                    if (item.status == 'processing') {
                                         let row = table.insertRow();
                                         let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
                                         let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
@@ -85,6 +87,7 @@ foreach ($productions as $production) {
         </tbody>
     </table>
 </div>
+
 
 
 

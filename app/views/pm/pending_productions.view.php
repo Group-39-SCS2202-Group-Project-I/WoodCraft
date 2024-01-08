@@ -18,10 +18,11 @@ foreach ($productions as $production) {
 ?>
 
 <div class="table-section">
+<h2 class="table-section__title">Pending Productions</h2>
     <div class="table-section__search">
-        <input type="text" id="searchOngProductions" placeholder="Search Ongoing Productions..." class="table-section__search-input">
+        <input type="text" id="searchPenProductions" placeholder="Search Pending Productions..." class="table-section__search-input">
     </div>
-    <table class="table-section__table" id="ong-productions-table">
+    <table class="table-section__table" id="pen-productions-table">
         <!-- [production_id] => 2
             [product_id] => 7
             [quantity] => 1
@@ -49,14 +50,14 @@ foreach ($productions as $production) {
                             .then(response => response.json())
                             .then(data => {
                                 // console.log(data);
-                                let table = document.getElementById('ong-productions-table');
+                                let table = document.getElementById('pen-productions-table');
 
                                 while (table.rows.length > 1) {
                                     table.deleteRow(1);
                                 }
 
                                 data.forEach(item => {
-                                    if (item.status != 'completed') {
+                                    if (item.status == 'pending') {
                                         let row = table.insertRow();
                                         let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
                                         let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
@@ -73,7 +74,7 @@ foreach ($productions as $production) {
                                         row.insertCell().innerHTML = status;
                                         // row.insertCell().innerHTML = created_at;
                                         row.insertCell().innerHTML = updated_at;
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production_details/${item.production_id}" class="table-section__btn">View</a>`;
+                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__btn">View</a>`;
 
                                     }
                                 });
