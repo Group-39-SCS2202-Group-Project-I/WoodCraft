@@ -396,4 +396,80 @@ class Update extends Controller
             redirect('sk/suppliers');
         }
     }
+
+    public function add_fin_pxn($id)
+    {
+        show($id);
+
+        // change finished production added to A
+        $db = new Database;
+        $db->query("UPDATE finished_production SET added = 'A' WHERE finished_production_id = $id");
+
+        // get production id
+        $production_id = $db->query("SELECT production_id FROM finished_production WHERE finished_production_id = $id")[0]->production_id;
+        show($production_id);
+
+        // get no_of_products from production
+
+        $no_of_products = $db->query("SELECT quantity FROM production WHERE production_id = $production_id")[0]->quantity;
+        show($no_of_products);
+
+        // get product id
+        $product_id = $db->query("SELECT product_id FROM production WHERE production_id = $production_id")[0]->product_id;
+        show($product_id);
+
+        // get product inventory id
+        $product_inventory_id = $db->query("SELECT product_inventory_id FROM product WHERE product_id = $product_id")[0]->product_inventory_id;
+        show($product_inventory_id);
+
+        // get quantity
+        $q = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0]->quantity;
+        show($q);
+
+        $q = $q + $no_of_products;
+        //set quantity product inventory
+        $db->query("UPDATE product_inventory SET quantity = $q WHERE product_inventory_id = $product_inventory_id");
+
+        message("Product added to stock successfully!");
+        redirect('sk/finished_productions');
+    }
+
+    public function complete_production($id)
+    {
+        show($id);
+
+        //fetch production workers where production_id = $id
+        $db = new Database();
+        $data['production_workers'] = $db->query("SELECT * FROM production_worker WHERE production_id = $id");
+
+        // show($data['production_workers']);
+
+        // get worker ids      
+        $worker_ids = [];
+        foreach ($data['production_workers'] as $production_worker) {
+            $worker_ids[] = $production_worker->worker_id;
+        }
+
+        // show($worker_ids);
+
+        // update worker availability to available
+
+        foreach ($worker_ids as $worker_id) {
+            $db->query("UPDATE worker SET availability = 'available' WHERE worker_id = $worker_id");
+        }
+
+        //worker availability updated
+
+        // update production status to completed
+        $db->query("UPDATE production SET status = 'completed' WHERE production_id = $id");
+
+        message("Production completed successfully!");
+        redirect('pm/processing_productions');
+
+        
+    }
+
+
+
+
 }

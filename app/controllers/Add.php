@@ -603,7 +603,7 @@ class Add extends Controller
             }
 
             message("Production added successfully!");
-            redirect('pm/add_production');  
+            redirect('pm/pending_productions');  
         } else {
             show("kes");
             $data['errors'] = array_merge($production->errors);
