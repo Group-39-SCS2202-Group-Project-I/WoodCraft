@@ -24,7 +24,7 @@ class Signup extends Controller
 
 			$result3 = $customer->validate($_POST);
 
-			show($_POST);
+			// show($_POST);
 
 			if ($result && $result2 && $result3) {
 				$db = new Database;

@@ -350,7 +350,7 @@ class Add extends Controller
         $product_image = new ProductImage;
 
 
-        $allowed = ['image/jpeg', 'image/png'];
+        $allowed = ['image/jpeg', 'image/png', 'image/avif', 'image/gif', 'image/webp'];
 
         if (!empty($_FILES['image']['name'])) {
 

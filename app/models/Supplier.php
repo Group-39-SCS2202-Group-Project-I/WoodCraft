@@ -49,8 +49,8 @@ class Supplier extends Model
         }
         if (empty($data['brn'])) {
             $this->errors['brn'] = "BRN is required";
-        } else if (!preg_match("/^[0-9a-zA-Z]*$/", $data['brn'])) {
-            $this->errors['brn'] = "BRN must contain only numbers and letters";
+        } else if (!preg_match("/^[0-9a-zA-Z ]*$/", $data['brn'])) {
+            $this->errors['brn'] = "BRN must contain only numbers and letters ";
         }
         // if (empty($data['address_id'])) {
         //     $this->errors['address_id'] = "Supplier address is required";

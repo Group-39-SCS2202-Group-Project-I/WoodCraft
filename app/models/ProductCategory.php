@@ -18,9 +18,9 @@ class ProductCategory extends Model
         {
             $this->errors['category_name'] = "Category name is required";
         }
-        else if(!preg_match("/^[a-zA-Z0-9 ]*$/",$data['category_name']))
+        else if(!preg_match("/^[a-zA-Z0-9&' ]*$/",$data['category_name']))
         {
-            $this->errors['category_name'] = "Category name must contain only letters, numbers, and spaces";
+            $this->errors['category_name'] = "Category name must contain only letters, numbers, and spaces and &";
         }
         else if(strlen($data['category_name']) < 2)
         {
