@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    --white: #fff;
+    --red: #e40202;
+    --bg1: #9A9A9A;
+    --bg2: #F0EEED;
+    --green: #688272;
+    --coal_black: #262626;
+    --coal_black_light: #2f2f2f;
+    --coal_black_lighter: #3b3b3b;
+
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+footer {
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    color: var(--white);
+    background-color: var(--coal_black);
+    padding: 6rem;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  hr {
+    border-color: var(--bg1);
+    display: block;
+    border-style: inset;
+    border-width: 1px;
+    width: 90%;
+  }
+  
+  .footer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+    align-content: center;
+    gap: 35px;
+  }
+
+  .footer-subcontainer {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 200px;
+  }
+
+  .footer-subcontainer p {
+    width: 350px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    color: var(--bg1)
+  }
+  
+  .footer-logo {
+    flex: 20 20 100;
+    margin-bottom: 20px;
+  }
+
+  .footer-logo img{
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .footer-nav {
+    flex: 1;
+    margin-bottom: 20px;
+  }
+  
+  .footer-nav h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .footer-nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-nav li {
+    margin-bottom: 5px;
+  }
+  
+  .footer-nav a {
+    text-decoration: none;
+    color: var(--bg1);
+  }
+
+  .footer-nav-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .footer-info img {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  .footer-copyright {
+    width: 100%;
+    display: flex;
+    height: auto;
+    justify-content: space-between;
+  }
+  
+  .footer-copyright p {
+    margin-bottom: 5px;
+  }
+
+  .footer-copyright .terms a {
+    text-decoration: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--bg1)
+  }
+
+  .footer-copyright .terms {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-socialmedia {
+    cursor: pointer;
+  }
+
+  
+  /* Media Query for MacBook Air 2 */
+  @media screen and (max-width: 1440px) {
+    .footer-subcontainer {
+      gap: 50px;
+    }
+    .footer-subcontainer p {
+      max-width: 350px; /* Full width for text */
+    }
+
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .footer-container {
+      width: 800px;
+    }
+    .footer-nav-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+  }
+  
+  @media screen and (max-width: 800px) {
+    .footer-subcontainer {
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+    }
+    .footer-container {
+      width: 600px;
+    }
+    .footer-copyright{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .footer-nav {
+      flex: 0 0 50%;
+      margin-left: 30%;
+    }
+    .footer-description {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-info {
+        align-items: center;
+    }
+    .footer-copyright {
+        gap: 10px;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .footer-nav {
+        margin:  0;
+    }
+    .footer-nav-container{
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr;;
+    }
+    .footer-nav-container ul li {
+        display: flex;
+        justify-content: center;
+    }
+    .footer-nav-container h2 {
+        display: flex;
+        justify-content: center;
+    }
+    .footer-description p {
+        width: 100%;
+    }
+    .footer-copyright p {
+        text-align: center;
+    }
+    .terms p {
+        display: none;
+    }
+    .terms {
+        display: flex;
+        flex-direction: column;
+    }
+    .terms a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+  }
+  

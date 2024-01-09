@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    --white: #fff;
+    --red: #e40202;
+    --bg1: #9A9A9A;
+    --bg2: #F0EEED;
+    --green: #6D9886;
+    /* --green: #688272; */
+    /* --coal_black: #262626; */
+    --coal_black: #212121;
+    --coal_black_light: #2f2f2f;
+    --coal_black_lighter: #3b3b3b;
+
+    --primary: #6D9886;
+    --secondary: #D9CAB3;
+    --blk: #212121;
+    --light: #F6F6F6;
+
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+nav{
+    background: #262626;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 100px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    position: fixed;
+}
+
+nav .logo img{
+    max-height: 50px;
+    min-height: 30px;
+    padding: 10px;
+}
+
+nav .nav-item,
+nav .nav-items-right{
+    display: flex;
+    flex: 1;
+    list-style: none;
+    padding: 0 0 0 40px;
+    align-items: center;
+}
+
+nav .nav-item li{
+    padding: 0 15px;
+}
+
+nav .nav-item li a,
+nav .nav-items-right li a {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+nav .nav-items-right li a{
+    padding: 0 15px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+nav .nav-item li a:hover,
+nav .nav-items-right li a:hover,
+.search-icon-hidden:hover{
+    color: var(--green);
+}
+
+.search{
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 28px;
+    background: var(--coal_black_light);
+    transition: background 0.25s;
+}
+
+.search:focus-within{
+    background: var(--coal_black_lighter);
+}
+
+.search.hidden{
+    display: none;
+}
+
+.search-hidden {
+  display: none;
+}
+
+.search-item{
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--bg1);
+    margin-left: 14px;
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 400px;
+}
+
+.search-item::placeholder,
+.search-icon{
+    color: var(--bg1);
+}
+
+.search-icon-hidden {
+  color: var(--white);
+  cursor: pointer;
+  padding: 0 15px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    min-width: 200px;
+    background-color: var(--bg2);
+    color: var(--coal_black);
+    border: none;
+    border-radius: 10px;
+    list-style: none;
+    margin: 30px 0 0 0;
+    padding: 10px;
+  }
+
+.dropdown-menu.hidden {
+    display: none;
+}
+
+  .dropdown-menu li{
+    display: block;
+    align-items: center;
+    justify-items: center;
+    font-size: 16px;
+    color: var(--coal_black);
+    text-decoration: none; 
+  }
+
+  nav .nav-items-right li ul li a{
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+    color: var(--coal_black_light);
+    text-decoration: none;
+    background-color: var(--bg2);
+  }
+
+  .dropdown-menu li button {
+    border: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    background-color: var(--green);
+    color: var(--coal_black);
+    text-decoration: none;
+  }
+
+  .dropdown-menu li span {
+    border: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--coal_black);
+    text-decoration: none;
+  }
+
+  nav .nav-items-right li ul li a:hover{
+    color: var(--white);
+    background-color: var(--coal_black_light);
+  }
+
+  hr {
+    display: block;
+    margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+  }
+  
+  .cart-badge {
+    position: relative;
+    top: -2px;
+    font-size: 12px;
+    background-color: var(--red);
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 50%;
+  }
+
+  @media screen and (max-width: 1540px) {
+    .search {
+      position: absolute;
+      margin: 30px 0 0 0;
+
+    }
+
+    .search-hidden {
+      display: contents;
+    }
+  }
+  

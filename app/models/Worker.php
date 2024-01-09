@@ -15,6 +15,7 @@ class Worker extends Model
         "mobile_number",
         "address_id",
         "availability",
+        "worker_role",
         "created_at",
         "updated_at",
         "deleted_at"
@@ -69,6 +70,10 @@ class Worker extends Model
         else if(substr($data['mobile_number'],0,1) != 0)
         {
             $this->errors['mobile_number'] = "Mobile number must start with 0";
+        }
+        if(empty($data['worker_role']))
+        {
+            $this->errors['worker_role'] = "Worker role is required";
         }
 
         if(empty($this->errors))
