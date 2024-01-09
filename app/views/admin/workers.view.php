@@ -76,6 +76,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
                                     let availability = item.availability;
                                     let worker_role = item.worker_role;
+                                    worker_role = worker_role.charAt(0).toUpperCase() + worker_role.slice(1);
                                     availability = availability.charAt(0).toUpperCase() + availability.slice(1);
                                     let date_added = item.created_at;
                                     let date_updated = item.updated_at;
@@ -283,25 +284,26 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                             <option value="" disabled>Select Role</option>
                         <?php endif; ?>
                         <?php if ($form_data['worker_role'] === 'carpenter') : ?>
-                            <option value="carpenter" selected>Carpenter</option>
+                            <option value="carpenter" disabled selected>Carpenter</option>
                         <?php else : ?>
-                            <option value="carpenter">Carpenter</option>
+                            <option value="carpenter" disabled>Carpenter</option>
                         <?php endif; ?>
-                        <!-- painter -->
                         <?php if ($form_data['worker_role'] === 'painter') : ?>
-                            <option value="painter" selected>Painter</option>
+                            <option value="painter" disabled selected>Painter</option>
                         <?php else : ?>
-                            <option value="painter">Painter</option>
+                            <option value="painter" disabled>Painter</option>
                         <?php endif; ?>
-                        <!-- supervisor -->
                         <?php if ($form_data['worker_role'] === 'supervisor') : ?>
-                            <option value="supervisor" selected>Supervisor</option>
+                            <option value="supervisor" disabled selected>Supervisor</option>
                         <?php else : ?>
-                            <option value="supervisor">Supervisor</option>
+                            <option value="supervisor" disabled>Supervisor</option>
                         <?php endif; ?>
+                        
 
                     </select>
                 </div>
+
+                
 
                 <?php if (!empty($errors['address_line_1'])) : ?>
                     <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
@@ -368,6 +370,10 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     document.getElementById('city_update').value = data.city;
                     document.getElementById('zip_code_update').value = data.zip_code;
                     // document.getElementById('zip_code_update').disabled = true;
+
+
+                    // document.getElementById('worker_role-u').value = data.worker_role;
+                    
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
