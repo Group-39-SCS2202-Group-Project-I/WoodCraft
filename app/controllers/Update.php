@@ -49,10 +49,12 @@ class Update extends Controller
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'mobile_number' => $_POST['mobile_number'],
-                'address_id' => $address_id
+                'address_id' => $address_id,
+                'worker_role' => $_POST['worker_role'],
             ];
 
-            $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id WHERE worker_id = $id", $worker);
+            // $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id WHERE worker_id = $id", $worker);
+            $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id, worker_role = :worker_role WHERE worker_id = $id", $worker);
 
             show(4);
 

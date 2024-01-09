@@ -22,6 +22,7 @@ class Add extends Controller
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
             'mobile_number' => $_POST['mobile_number'],
+            'worker_role' => $_POST['worker_role']
         ];
 
         $data['errors'] = [];
@@ -58,14 +59,16 @@ class Add extends Controller
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'mobile_number' => $_POST['mobile_number'],
-                'address_id' => $address_id
+                'address_id' => $address_id,
+                'worker_role' => $_POST['worker_role']
             ];
 
             show($worker);
             // show ($address);
 
 
-            $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id) VALUES (:first_name, :last_name, :mobile_number, :address_id)", $worker);
+            // $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id) VALUES (:first_name, :last_name, :mobile_number, :address_id)", $worker);
+            $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id, worker_role) VALUES (:first_name, :last_name, :mobile_number, :address_id, :worker_role)", $worker);
             show(4);
 
             message("Worker added successfully!");
