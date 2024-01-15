@@ -110,13 +110,31 @@ $available_workers_count = count($available_workers);
             <input value="<?php echo $form_data['quantity'] ?>" class="page-input" type="number" id="quantity" name="quantity">
         </div>
 
-        <p class="validate-mzg" id="awc"></p>
-        <?php if (!empty($errors['quantity'])) : ?>
+        <!-- <p class="validate-mzg" id="awc"></p> -->
+        <!-- <?php if (!empty($errors['quantity'])) : ?>
             <p class="validate-mzg"><?= $errors['quantity'] ?></p>
-        <?php endif; ?>
-        <div class="form-group">
+        <?php endif; ?> -->
+        <!-- <div class="form-group">
             <label class="page-label" for="now">Number of workers:</label>
             <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="now" name="now">
+        </div> -->
+
+        <p class="validate-mzg" id="awcar"></p>
+        <div class="form-group">
+            <label class="page-label" for="now">Number of Carpenters:</label>
+            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nocar" name="nocar">
+        </div>
+
+        <p class="validate-mzg" id="awpain"></p>
+        <div class="form-group">
+            <label class="page-label" for="now">Number of Painters:</label>
+            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nopain" name="nopain">
+        </div>
+
+        <p class="validate-mzg" id="awsup"></p>
+        <div class="form-group">
+            <label class="page-label" for="now">Number of Supervisors:</label>
+            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nosup" name="nosup">
         </div>
 
 
@@ -200,26 +218,66 @@ $available_workers_count = count($available_workers);
             console.log(data);
             let awc = 0;
 
+            let awcar = 0;
+            let awpain = 0;
+            let awsup = 0;
+
             data.forEach(element => {
                 if (element.availability == 'available') {
                     awc++;
+                    if (element.worker_role == 'carpenter') {
+                        awcar++;
+                    } else if (element.worker_role == 'painter') {
+                        awpain++;
+                    } else if (element.worker_role == 'supervisor') {
+                        awsup++;
+                    }
                 }
             });
 
-            console.log(awc);
-            document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
+            // console.log(awc);
+            // document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
+            // document.getElementById('awc').classList.remove('hidden');
+
+            document.getElementById('awcar').innerHTML = `Number of available carpenters: ${awcar}`;
+            // document.getElementById('awcar').classList.remove('hidden');
+
+            document.getElementById('awpain').innerHTML = `Number of available painters: ${awpain}`;
+            // document.getElementById('awpain').classList.remove('hidden');
+
+            document.getElementById('awsup').innerHTML = `Number of available supervisors: ${awsup}`;
+            // document.getElementById('awsup').classList.remove('hidden');
+
 
             // set input value of now to minimum 0 and maximum awc
-            document.getElementById('now').setAttribute('min', 0);
-            document.getElementById('now').setAttribute('max', awc);
+            // document.getElementById('now').setAttribute('min', 0);
+            // document.getElementById('now').setAttribute('max', awc);
+
+            document.getElementById('nocar').setAttribute('min', 0);
+            document.getElementById('nocar').setAttribute('max', awcar);
+
+            document.getElementById('nopain').setAttribute('min', 0);
+            document.getElementById('nopain').setAttribute('max', awpain);
+
+            document.getElementById('nosup').setAttribute('min', 0);
+            document.getElementById('nosup').setAttribute('max', awsup);
 
         }).catch(err => {
             console.log(err);
             awc = 0;
-            document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
+            // document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
 
-            document.getElementById('now').setAttribute('min', 0);
-            document.getElementById('now').setAttribute('max', awc);
+            // document.getElementById('now').setAttribute('min', 0);
+            // document.getElementById('now').setAttribute('max', awc);
+
+            document.getElementById('nocar').setAttribute('min', 0);
+            document.getElementById('nocar').setAttribute('max', awc);
+
+            document.getElementById('nopain').setAttribute('min', 0);
+            document.getElementById('nopain').setAttribute('max', awc);
+
+            document.getElementById('nosup').setAttribute('min', 0);
+            document.getElementById('nosup').setAttribute('max', awc);
 
             // document.getElementById('awc').classList.remove('hidden');
         })

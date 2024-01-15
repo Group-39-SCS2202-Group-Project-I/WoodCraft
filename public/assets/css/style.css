@@ -499,7 +499,8 @@ h6 {
 .table-section__table th,
 .table-section__table td {
     padding: 10px;
-    text-align: left;
+    /* text-align: left; */
+    text-align: center;
     /* border-bottom: 1px solid #ddd; */
 }
 
@@ -509,6 +510,8 @@ h6 {
     text-align:center;
     /* border-bottom: 1px solid #ddd; */
 }
+
+
 
 .table-section__table th:first-child,
 .table-section__table td:first-child {

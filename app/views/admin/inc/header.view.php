@@ -54,12 +54,24 @@
                         <span style="margin-left: 5px;">Products</span>
                     </a>
                 </li>
+                <!-- product categories -->
+                <li class="sidebar-list-item nav-btn" id="cat-nav">
+                    <a>
+                        <span class="material-icons-outlined">
+                            handyman
+                        </span> <span style="margin-left: 5px;">Categories</span>
+                    </a>
+                </li>
+               
+
+                    
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
                         <span class="material-icons-outlined">
                             handyman
                         </span> <span style="margin-left: 5px;">Materials</span>
                     </a>
+                </li>
                 <li class="sidebar-list-item nav-btn" id="customers-nav">
                     <a>
                         <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Customers</span>
@@ -100,10 +112,12 @@
                     const dashNav = document.getElementById('dash-nav');
                     const productsNav = document.getElementById('products-nav');
                     const customersNav = document.getElementById('customers-nav');
+                    const catNav = document.getElementById('cat-nav');
                     const workersNav = document.getElementById('workers-nav');
                     const staffNav = document.getElementById('staff-nav');
                     const deliveryNav = document.getElementById('delivery-nav');
                     const materialsNav = document.getElementById('materials-nav');
+
 
                     // Add event listener to the parent element
                     document.querySelector('.sidebar-list').addEventListener('click', (event) => {
@@ -117,6 +131,9 @@
                                 break;
                             case 'products-nav':
                                 window.location.href = '<?= ROOT ?>/admin/products';
+                                break;
+                            case 'cat-nav':
+                                window.location.href = '<?= ROOT ?>/admin/categories';
                                 break;
                             case 'customers-nav':
                                 window.location.href = '<?= ROOT ?>/admin/customers';

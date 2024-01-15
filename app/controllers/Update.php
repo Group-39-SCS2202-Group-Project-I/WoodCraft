@@ -19,6 +19,8 @@ class Update extends Controller
         show($data['worker'][0]);
         $address_id = $data['worker'][0]->address_id;
 
+        $_POST['worker_role'] = $data['worker'][0]->worker_role;
+
         $data['errors'] = [];
 
         $worker = new Worker;
@@ -79,7 +81,7 @@ class Update extends Controller
         $db = new Database();
         $data['staff'] = $db->query("SELECT * FROM staff WHERE staff_id = $id");
 
-        show($data['staff'][0]);
+        // show($data['staff'][0]);
         $address_id = $data['staff'][0]->address_id;
         $user_id = $data['staff'][0]->user_id;
         $email = $db->query("SELECT email FROM user WHERE user_id = $user_id")[0]->email;
