@@ -84,7 +84,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
-                                    row.insertCell().innerHTML = address;
+                                    row.insertCell().innerHTML = `<td class="tdleft">${address}</td>`
                                     row.insertCell().innerHTML = availability;
                                     row.insertCell().innerHTML = worker_role;
                                     row.insertCell().innerHTML = date_added;

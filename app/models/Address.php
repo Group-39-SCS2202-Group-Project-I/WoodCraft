@@ -25,10 +25,10 @@ class Address
         {
             $this->errors['address_line_1'] = "Address line 1 is required";
         }
-        if(empty($data['address_line_2']))
-        {
-            $this->errors['address_line_2'] = "Address line 2 is required";
-        }
+        // if(empty($data['address_line_2']))
+        // {
+        //     $this->errors['address_line_2'] = "Address line 2 is required";
+        // }
         if(empty($data['city']))
         {
             $this->errors['city'] = "City is required";

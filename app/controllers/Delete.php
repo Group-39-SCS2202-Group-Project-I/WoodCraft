@@ -29,10 +29,25 @@ class Delete extends Controller
 
         $worker = $db->query("SELECT * FROM worker WHERE worker_id = $id");
         $address_id = $worker[0]->address_id;
-        $db->query("DELETE FROM worker WHERE worker_id = $id");
-        $db->query("DELETE FROM address WHERE address_id = $address_id");
-        message("Worker deleted successfully!");
-        redirect('admin/workers');
+
+        show($address_id);
+        show($worker);
+
+        //fetch all production workers
+        $production_workers = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
+
+        //if worker is a production worker dont delete
+        if ($production_workers) {
+            $message = sprintf("Worker (WRK-%03d) cannot be deleted because he is assigned for a production!", $id);
+            message($message);
+            redirect('admin/workers');
+        } else {
+            $db->query("DELETE FROM worker WHERE worker_id = $id");
+            $db->query("DELETE FROM address WHERE address_id = $address_id");
+            show(3);
+            message("Worker deleted successfully!");
+            redirect('admin/workers');
+        }
     }
 
     public function staff($id)
@@ -105,9 +120,7 @@ class Delete extends Controller
             $message = sprintf("Material (MAT-%03d) cannot be deleted because it is used in a product!", $id);
             message($message);
             redirect('admin/materials');
-        }
-        else
-        {
+        } else {
             $db->query("DELETE FROM material WHERE material_id = $id");
             message("Material deleted successfully!");
             redirect('admin/materials');
@@ -121,7 +134,7 @@ class Delete extends Controller
         $product_id = $db->query("SELECT product_id FROM product_material WHERE product_material_id = $id")[0]->product_id;
 
         $db->query("DELETE FROM product_material WHERE product_material_id = $id");
-        
+
         show($product_id);
 
         message("Product material deleted successfully!");
@@ -129,7 +142,7 @@ class Delete extends Controller
     }
 
     public function supplier($id)
-    {   
+    {
         $db = new Database();
 
         // show($id);
@@ -138,7 +151,7 @@ class Delete extends Controller
         $address_id = $supplier[0]->address_id;
 
         // show($address_id);
-        
+
         $db->query("DELETE FROM supplier_details WHERE supplier_id = $id");
         $db->query("DELETE FROM address WHERE address_id = $address_id");
 
