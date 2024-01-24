@@ -467,8 +467,14 @@ class Update extends Controller
         // update production status to completed
         $db->query("UPDATE production SET status = 'completed' WHERE production_id = $id");
 
+        //add data to finished_production table
+        $db->query("INSERT INTO finished_production (production_id, added) VALUES ($id, 'NA')");
+        // show("finished_production added");
+        
+
+
         message("Production completed successfully!");
-        redirect('pm/processing_productions');
+        redirect('pm/productions');
 
         
     }

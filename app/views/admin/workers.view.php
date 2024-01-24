@@ -45,8 +45,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <th onclick="sortTable(4)">Availability</th>
                 <th onclick="sortTable(5)">Role</th>
                 
-                <th onclick="sortTable(6)">Date Added</th>
-                <th onclick="sortTable(7)">Date Updated</th>
+                <!-- <th onclick="sortTable(6)">Date Added</th> -->
+                <!-- <th onclick="sortTable(7)">Date Updated</th> -->
 
                 <th>Actions</th>
             </tr>
@@ -84,11 +84,11 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
-                                    row.insertCell().innerHTML = `<td class="tdleft">${address}</td>`
+                                    row.insertCell().innerHTML = `<p style="text-align: left;">${address}</p>`
                                     row.insertCell().innerHTML = availability;
                                     row.insertCell().innerHTML = worker_role;
-                                    row.insertCell().innerHTML = date_added;
-                                    row.insertCell().innerHTML = date_updated;
+                                    // row.insertCell().innerHTML = date_added;
+                                    // row.insertCell().innerHTML = date_updated;
 
                                     row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.worker_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
 
