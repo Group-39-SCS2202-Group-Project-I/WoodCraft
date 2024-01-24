@@ -51,10 +51,10 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     </div>
 
     <div class="buttons-container">
-        <a class="table-section__add-link top-btn-all top-btn-selected" id="all-btn">All Productions</a>
-        <a class="table-section__add-link top-btn-pending" id="pen-btn">Pending Productions</a>
-        <a class="table-section__add-link top-btn-processing" id="pro-btn">Processing Productions</a>
-        <a class="table-section__add-link top-btn-completed" id="com-btn">Completed Productions</a>
+        <a class="btn-section__add-link top-btn-all top-btn-selected" id="all-btn">All Productions</a>
+        <a class="btn-section__add-link top-btn-pending" id="pen-btn">Pending Productions</a>
+        <a class="btn-section__add-link top-btn-processing" id="pro-btn">Processing Productions</a>
+        <a class="btn-section__add-link top-btn-completed" id="com-btn">Completed Productions</a>
     </div>
 
     <table class="table-section__table" id="pen-productions-table">

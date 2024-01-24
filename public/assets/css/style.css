@@ -652,7 +652,7 @@ h6 {
     padding: 20px 0 14px 0;
 }
 
-.table-section__add-link {
+.btn-section__add-link {
     text-decoration: none;
     /* font-size: 16px; */
     padding: 10px 20px;
@@ -665,7 +665,7 @@ h6 {
     text-align: center;  /* Add this line to center the text */
 }
 
-.table-section__add-link:hover {
+.btn-section__add-link:hover {
     background-color: var(--blk);
     color: var(--light);
 }
