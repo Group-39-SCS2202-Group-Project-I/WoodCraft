@@ -633,7 +633,7 @@ h6 {
     color: var(--blk);
 }
 
-.table-section__table td:last-child .table-section__button-processing {
+/* .table-section__table td:last-child .table-section__button-processing {
     background-color: yellow;
 }
 
@@ -643,7 +643,51 @@ h6 {
 
 .table-section__table td:last-child .table-section__button-pending {
     background-color: orange;
+} */
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+
+    padding: 20px 0 14px 0;
 }
+
+.table-section__add-link {
+    text-decoration: none;
+    /* font-size: 16px; */
+    padding: 10px 20px;
+    border-radius: 5px;
+    /* color: #fff; */
+    color : var(--blk);
+    /* background-color: #007BFF; */
+    transition: background-color 0.3s ease;
+    width: 23%;  /* Add this line */
+    text-align: center;  /* Add this line to center the text */
+}
+
+.table-section__add-link:hover {
+    background-color: var(--blk);
+    color: var(--light);
+}
+
+.top-btn-pending {
+    background-color: var(--pending)
+}
+
+.top-btn-processing {
+    background-color: var(--processing);
+}
+
+.top-btn-completed {
+    background-color: var(--completed);
+}
+
+.top-btn-all {
+    background-color: white;
+}
+
+
+
 
 
 

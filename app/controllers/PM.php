@@ -53,6 +53,14 @@ class PM extends Controller
         $this->view('pm/completed_productions', $data);
     }
 
+    public function productions()
+    {
+            
+            $data['title'] = "Productions";
+    
+            $this->view('pm/productions', $data);
+    }
+
     public function approved_bulk_orders()
     {
 
