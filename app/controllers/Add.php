@@ -496,6 +496,26 @@ class Add extends Controller
         $_POST['status'] = 'pending';
         show($_POST);
 
+        if (isset($_POST['nocar'])) {
+            $_POST['nocar'] = $_POST['nocar'];
+        } else {
+            $_POST['nocar'] = 0;
+        }
+
+        if (isset($_POST['nosup'])) {
+            $_POST['nosup'] = $_POST['nosup'];
+        } else {
+            $_POST['nosup'] = 0;
+        }
+
+        if (isset($_POST['nopain'])) {
+            $_POST['nopain'] = $_POST['nopain'];
+        } else {
+            $_POST['nopain'] = 0;
+        }
+
+        show($_POST);
+
         $data['errors'] = [];
 
         $db = new Database;
@@ -578,9 +598,19 @@ class Add extends Controller
             show($available_workers);
 
             // $number_of_workers_needed = $_POST['nocar']+$_POST['nosup']+$_POST['nopain'];
-            $number_of_carpenters_needed = $_POST['nocar'] || 0;
-            $number_of_supervisors_needed = $_POST['nosup'] || 0;
-            $number_of_painters_needed = $_POST['nopain'] || 0;
+            $number_of_carpenters_needed = 0;
+            $number_of_supervisors_needed = 0;
+            $number_of_painters_needed = 0;
+
+            if(isset($_POST['nocar'])){
+                $number_of_carpenters_needed = $_POST['nocar'];
+            }
+            if(isset($_POST['nosup'])){
+                $number_of_supervisors_needed = $_POST['nosup'];
+            }
+            if(isset($_POST['nopain'])){
+                $number_of_painters_needed = $_POST['nopain'];
+            }
 
             // show($number_of_workers_needed);
             show($number_of_carpenters_needed);
@@ -669,7 +699,7 @@ class Add extends Controller
             show(4);
             message("Production added successfully!");
             show(5);
-            redirect('pm/add_production');
+            redirect('pm/productions');
         } else {
             show("kes");
             $data['errors'] = array_merge($production->errors);
