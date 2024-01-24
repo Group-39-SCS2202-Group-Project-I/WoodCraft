@@ -661,7 +661,7 @@ h6 {
     color : var(--blk);
     /* background-color: #007BFF; */
     transition: background-color 0.3s ease;
-    width: 23%;  /* Add this line */
+    width: 24%;  /* Add this line */
     text-align: center;  /* Add this line to center the text */
 }
 

@@ -32,6 +32,13 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 ?>
 
 
+<style>
+    .top-btn-selected {
+        background-color: var(--blk);
+        color: white;
+    }
+</style>
+
 <div class="table-section">
     <?php if (message()) : ?>
         <div class="mzg-box">
@@ -44,7 +51,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     </div>
 
     <div class="buttons-container">
-        <a class="table-section__add-link top-btn-all btn-selected" id="all-btn">All Productions</a>
+        <a class="table-section__add-link top-btn-all top-btn-selected" id="all-btn">All Productions</a>
         <a class="table-section__add-link top-btn-pending" id="pen-btn">Pending Productions</a>
         <a class="table-section__add-link top-btn-processing" id="pro-btn">Processing Productions</a>
         <a class="table-section__add-link top-btn-completed" id="com-btn">Completed Productions</a>
@@ -93,7 +100,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     status = status.charAt(0).toUpperCase() + status.slice(1);
                                     let created_at = item.created_at;
                                     let updated_at = item.updated_at;
-                                   
+
                                     if (filter === 'pending' && status !== 'Pending') {
                                         return; // Skip this row if filter is 'pending' and status is not 'Pending'
                                     }
@@ -130,24 +137,47 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                             }).catch(error => console.error(error));
                     }
 
-                    updateTable('all'); 
+                    updateTable('all');
 
                     // Button click event handlers
                     document.getElementById('pen-btn').addEventListener('click', function() {
                         updateTable('pending');
+
+                        document.getElementById('pen-btn').classList.add('top-btn-selected');
+                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                        document.getElementById('com-btn').classList.remove('top-btn-selected');
+                        document.getElementById('all-btn').classList.remove('top-btn-selected');
+
                     });
 
                     document.getElementById('pro-btn').addEventListener('click', function() {
                         updateTable('processing');
+
+                        document.getElementById('pro-btn').classList.add('top-btn-selected');
+                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                        document.getElementById('com-btn').classList.remove('top-btn-selected');
+                        document.getElementById('all-btn').classList.remove('top-btn-selected');
                     });
 
                     document.getElementById('com-btn').addEventListener('click', function() {
                         updateTable('completed');
+
+                        document.getElementById('com-btn').classList.add('top-btn-selected');
+                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                        document.getElementById('all-btn').classList.remove('top-btn-selected');
                     });
 
                     document.getElementById('all-btn').addEventListener('click', function() {
                         updateTable('all');
+
+                        document.getElementById('all-btn').classList.add('top-btn-selected');
+                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                        document.getElementById('com-btn').classList.remove('top-btn-selected');
                     });
+
+
                 });
             </script>
         </tbody>
