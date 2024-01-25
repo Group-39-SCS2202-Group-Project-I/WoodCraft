@@ -662,7 +662,7 @@ h6 {
     color : var(--blk);
     /* background-color: #007BFF; */
     transition: background-color 0.3s ease;
-    width: 24%;  /* Add this line */
+    width: 24.8%;  /* Add this line */
     text-align: center;  /* Add this line to center the text */
 }
 
@@ -672,19 +672,24 @@ h6 {
 }
 
 .top-btn-pending {
-    background-color: var(--pending)
+    /* background-color: var(--pending) */
+    background-color: var(--secondary);
 }
 
 .top-btn-processing {
-    background-color: var(--processing);
+    /* background-color: var(--processing); */
+    background-color: var(--secondary);
 }
 
 .top-btn-completed {
-    background-color: var(--completed);
+    /* background-color: var(--completed); */
+    background-color: var(--secondary);
 }
 
 .top-btn-all {
-    background-color: white;
+    /* background-color: white; */
+    background-color: var(--secondary);
+    
 }
 
 
