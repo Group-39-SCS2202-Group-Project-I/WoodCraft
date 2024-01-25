@@ -494,27 +494,10 @@ class Add extends Controller
     {
 
         $_POST['status'] = 'pending';
-        show($_POST);
+        // show($_POST);
 
-        if (isset($_POST['nocar'])) {
-            $_POST['nocar'] = $_POST['nocar'];
-        } else {
-            $_POST['nocar'] = 0;
-        }
-
-        if (isset($_POST['nosup'])) {
-            $_POST['nosup'] = $_POST['nosup'];
-        } else {
-            $_POST['nosup'] = 0;
-        }
-
-        if (isset($_POST['nopain'])) {
-            $_POST['nopain'] = $_POST['nopain'];
-        } else {
-            $_POST['nopain'] = 0;
-        }
-
-        show($_POST);
+        
+        // show($_POST);
 
         $data['errors'] = [];
 
@@ -542,16 +525,16 @@ class Add extends Controller
                 // show($quantity_needed);
 
                 $material = $db->query("SELECT * FROM material WHERE material_id = :material_id", ['material_id' => $material_id])[0];
-                show($material);
+                // show($material);
 
                 $stock_available = $material->stock_available;
-                show($stock_available);
+                // show($stock_available);
 
 
                 $stock_available = $stock_available - $quantity_needed;
-                show($stock_available);
+                // show($stock_available);
 
-                show("--------------------");
+                // show("--------------------");
 
                 $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
                 show("Stock updated successfully!");
@@ -565,7 +548,7 @@ class Add extends Controller
                 'status' => $_POST['status']
             ];
 
-            show($production);
+            // show($production);
 
             $db->query("INSERT INTO production (product_id, quantity, status) VALUES (:product_id, :quantity, :status)", $production);
 
@@ -595,7 +578,7 @@ class Add extends Controller
             usort($available_workers, function ($a, $b) {
                 return $a['updated_at'] <=> $b['updated_at'];
             });
-            show($available_workers);
+            // show($available_workers);
 
             // $number_of_workers_needed = $_POST['nocar']+$_POST['nosup']+$_POST['nopain'];
             $number_of_carpenters_needed = 0;
@@ -613,9 +596,9 @@ class Add extends Controller
             }
 
             // show($number_of_workers_needed);
-            show($number_of_carpenters_needed);
-            show($number_of_supervisors_needed);
-            show($number_of_painters_needed);
+            // show($number_of_carpenters_needed);
+            // show($number_of_supervisors_needed);
+            // show($number_of_painters_needed);
 
             $available_carpenters = [];
             $available_supervisors = [];
@@ -633,7 +616,7 @@ class Add extends Controller
                 }
             }
 
-            show($available_carpenters);
+            // show($available_carpenters);
 
             
 
@@ -699,6 +682,7 @@ class Add extends Controller
             show(4);
             message("Production added successfully!");
             show(5);
+            
             redirect('pm/productions');
         } else {
             show("kes");
