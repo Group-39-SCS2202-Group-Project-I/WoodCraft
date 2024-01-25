@@ -63,49 +63,7 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
 ?>
 
 <style>
-    .dashboard {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px;
-        box-sizing: border-box;
-        /* background-color: var(--light) */
-    }
-
-    .dashboard2 {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
-        gap: 20px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .card {
-        background: white;
-        color: var(--blk);
-        border-radius: 10px;
-        padding: 20px;
-        /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05); */
-        /* transition: all 0.3s ease; */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
-    }
-
-
-
-    .card-title {
-        margin: 0;
-        margin-bottom: 5px;
-        font-size: 20px;
-        font-weight: 400;
-
-        /* text-transform: uppercase; */
-    }
-
-    .card-icon {
+     .card-icon {
         font-size: 70px;
         /* color: #333; */
         font-variation-settings:
@@ -114,57 +72,14 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
             'GRAD' 0,
             'opsz' 24;
     }
-
-    .card-text {
-        font-size: 36px;
-        font-weight: bold;
-        /* color: #333; */
-        /* margin-top: 10px; */
-    }
-
-    .card:hover {
-        background-color: var(--blk);
-        color: var(--light);
-        /* transform: scale(1.05); */
-        /* box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1); */
-    }
-
-    .card:hover .card-title {
-        color: var(--light);
-    }
-
-    .col-danger {
-        background-color: var(--secondary);
-        /* color: var(--danger); */
-        color: var(--blk);
-    }
-
-    /* charts */
-    .charts-card {
-        background-color: #ffffff;
-        margin-bottom: 20px;
-        padding: 25px;
-        /* box-sizing: border-box; */
-        -webkit-column-break-inside: avoid;
-        /* border: 1px solid #d2d2d3; */
-        border-radius: 10px;
-        /* box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2); */
-    }
-
-    .chart-title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* font-size: 2px; */
-        font-weight: 500;
-    }
 </style>
+
 <div class="table-section" style=" padding-bottom:0">
     <h2 class="table-section__title" style=" margin-bottom:0">Dashboard</h2>
 </div>
 
 <div class="dashboard">
-    <a href="<?= ROOT . '/admin/products' ?>" style="text-decoration:none">
+    <a href="<?= ROOT . '/admin/products' ?>" style="text-decoration:none" onclick="navfunc('products-nav')">
         <div class="card">
             <h3 class="card-title">No of Products</h3>
             <span class="material-icons-outlined card-icon">chair</span>
@@ -172,7 +87,7 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
         </div>
     </a>
 
-    <a href="<?= ROOT . '/admin/materials' ?>" style="text-decoration:none">
+    <a href="<?= ROOT . '/admin/materials' ?>" style="text-decoration:none" onclick="navfunc('materials-nav')">
         <div class="card">
             <h3 class="card-title">No of Materials</h3>
             <span class="material-icons-outlined card-icon">
@@ -182,7 +97,7 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
         </div>
     </a>
 
-    <a href="<?= ROOT . '/admin/staff' ?>" style="text-decoration:none">
+    <a href="<?= ROOT . '/admin/staff' ?>" style="text-decoration:none" onclick="navfunc('staff-nav')">
         <div class="card">
             <h3 class="card-title">No of Staff Members</h3>
             <span class="material-icons-outlined card-icon">supervised_user_circle</span> 
@@ -190,7 +105,7 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
         </div>
     </a>
 
-    <a href="<?= ROOT . '/admin/workers' ?>" style="text-decoration:none">
+    <a href="<?= ROOT . '/admin/workers' ?>" style="text-decoration:none" onclick="navfunc('workers-nav')">
         <div class="card">
             <h3 class="card-title">No of Workers</h3>
             <span class="material-icons-outlined card-icon">engineering</span> 
@@ -321,6 +236,13 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
         areaChartOptions
     );
     areaChart.render();
+</script>
+
+<script>
+    navfunc = (id) => {
+        let nav = document.getElementById(id);
+        nav.click();
+    }
 </script>
 
 
