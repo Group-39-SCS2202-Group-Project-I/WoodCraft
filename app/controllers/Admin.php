@@ -37,12 +37,13 @@ class Admin extends Controller
 		
 		if ($x != '') {
 			
-			if ($x == 'categories') {
-				$data['title'] = "Product Category";
+			// if ($x == 'categories') {
+			// 	$data['title'] = "Product Category";
 
-				$this->view('admin/product_categories',$data);
-			}
-			else if ($x == 'add') {
+			// 	$this->view('admin/product_categories',$data);
+			// }
+			// else 
+			if ($x == 'add') {
 				$data['title'] = "Add Product";
 				$this->view('admin/add_product',$data);
 			}
@@ -63,6 +64,15 @@ class Admin extends Controller
 		}
 		
 		
+	}
+
+	public function categories()
+	{
+		
+		$data['title'] = "Product Categories";
+
+		$this->view('admin/product_categories',$data);
+	
 	}
 
 	public function workers()

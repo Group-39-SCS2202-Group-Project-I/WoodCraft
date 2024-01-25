@@ -70,8 +70,14 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-list-item nav-btn" id="prod-nav">
+                    <a>
+                        <span class="material-icons-outlined">chair</span>
+                        <span style="margin-left: 5px;">Productions</span>
+                    </a>
+                </li>
                 <!-- Ongoing Productions -->
-                <li class="sidebar-list-item nav-btn" id="pen_prod-nav">
+                <!-- <li class="sidebar-list-item nav-btn" id="pen_prod-nav">
                     <a>
                         <span class="material-icons-outlined">chair</span>
                         <span style="margin-left: 5px;">Pending Productions</span>
@@ -83,12 +89,12 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span style="margin-left: 5px;">Processing Productions</span>
                     </a>
                 </li>
-                <!-- Completed Productions -->
-                <li class="sidebar-list-item nav-btn" id="cm_prod-nav">
+                Completed Productions -->
+                <!-- <li class="sidebar-list-item nav-btn" id="cm_prod-nav">
                     <a>
                         <span class="material-icons-outlined">people</span> <span style="margin-left: 5px;">Finished Productions</span>
                     </a>
-                </li>
+                </li> -->
                 <!-- Add Production -->
                 <li class="sidebar-list-item nav-btn" id="add_prod-nav">
                     <a>
@@ -131,6 +137,7 @@ if (isset($_SESSION['USER_DATA'])) {
                     // const staffNav = document.getElementById('staff-nav');
                     // const deliveryNav = document.getElementById('delivery-nav');
                     // const on_prodNav = document.getElementById('on_prod-nav');
+                    const prodNav = document.getElementById('prod-nav');
                     const pen_prodNav = document.getElementById('pen_prod-nav');
                     const pro_prodNav = document.getElementById('pro_prod-nav');
                     const cm_prodNav = document.getElementById('cm_prod-nav');
@@ -167,6 +174,9 @@ if (isset($_SESSION['USER_DATA'])) {
                             // case 'on_prod-nav':
                             //     window.location.href = '<?= ROOT ?>/pm/ongoing_productions';
                             //     break;
+                            case 'prod-nav':
+                                window.location.href = '<?= ROOT ?>/pm/productions';
+                                break;
                             case 'pen_prod-nav':
                                 window.location.href = '<?= ROOT ?>/pm/pending_productions';
                                 break;

@@ -82,6 +82,7 @@ select {
     --light: #F6F6F6;
 
     --danger: #DD4A48;
+    --dangerlight: #F2B6A0;
 
     --pending: #FCEEBA;
     --processing: #D5E9C5;
@@ -499,7 +500,8 @@ h6 {
 .table-section__table th,
 .table-section__table td {
     padding: 10px;
-    text-align: left;
+    /* text-align: left; */
+    text-align: center;
     /* border-bottom: 1px solid #ddd; */
 }
 
@@ -509,6 +511,8 @@ h6 {
     text-align:center;
     /* border-bottom: 1px solid #ddd; */
 }
+
+
 
 .table-section__table th:first-child,
 .table-section__table td:first-child {
@@ -630,7 +634,7 @@ h6 {
     color: var(--blk);
 }
 
-.table-section__table td:last-child .table-section__button-processing {
+/* .table-section__table td:last-child .table-section__button-processing {
     background-color: yellow;
 }
 
@@ -640,7 +644,51 @@ h6 {
 
 .table-section__table td:last-child .table-section__button-pending {
     background-color: orange;
+} */
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+
+    padding: 20px 0 14px 0;
 }
+
+.btn-section__add-link {
+    text-decoration: none;
+    /* font-size: 16px; */
+    padding: 10px 20px;
+    border-radius: 5px;
+    /* color: #fff; */
+    color : var(--blk);
+    /* background-color: #007BFF; */
+    transition: background-color 0.3s ease;
+    width: 24%;  /* Add this line */
+    text-align: center;  /* Add this line to center the text */
+}
+
+.btn-section__add-link:hover {
+    background-color: var(--blk);
+    color: var(--light);
+}
+
+.top-btn-pending {
+    background-color: var(--pending)
+}
+
+.top-btn-processing {
+    background-color: var(--processing);
+}
+
+.top-btn-completed {
+    background-color: var(--completed);
+}
+
+.top-btn-all {
+    background-color: white;
+}
+
+
+
 
 
 
@@ -965,6 +1013,105 @@ h6 {
 
     .delete-image-btn:hover {
         color: var(--danger);
+    }
+    /*  */
+
+
+    /* dash */
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        /* background-color: var(--light) */
+    }
+
+    .dashboard2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .card {
+        background: white;
+        color: var(--blk);
+        border-radius: 10px;
+        padding: 20px;
+        /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05); */
+        /* transition: all 0.3s ease; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+    }
+
+
+
+    .card-title {
+        margin: 0;
+        margin-bottom: 5px;
+        font-size: 20px;
+        font-weight: 400;
+
+        /* text-transform: uppercase; */
+    }
+
+    .card-icon {
+        font-size: 70px;
+        /* color: #333; */
+        font-variation-settings:
+            'FILL' 0,
+            'wght' 100,
+            'GRAD' 0,
+            'opsz' 24;
+    }
+
+    .card-text {
+        font-size: 36px;
+        font-weight: bold;
+        /* color: #333; */
+        /* margin-top: 10px; */
+    }
+
+    .card:hover {
+        background-color: var(--blk);
+        color: var(--light);
+        /* transform: scale(1.05); */
+        /* box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1); */
+    }
+
+    .card:hover .card-title {
+        color: var(--light);
+    }
+
+    .col-danger {
+        background-color: var(--secondary);
+        /* color: var(--danger); */
+        color: var(--blk);
+    }
+
+    /* charts */
+    .charts-card {
+        background-color: #ffffff;
+        margin-bottom: 20px;
+        padding: 25px;
+        /* box-sizing: border-box; */
+        -webkit-column-break-inside: avoid;
+        /* border: 1px solid #d2d2d3; */
+        border-radius: 10px;
+        /* box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2); */
+    }
+
+    .chart-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* font-size: 2px; */
+        font-weight: 500;
     }
     /*  */
 

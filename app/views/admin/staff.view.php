@@ -44,7 +44,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <th>Mobile Number</th>
                 <th>Address</th>
                 <!-- <th>Created At</th> -->
-                <th>Updated At</th>
+                <!-- <th>Updated At</th> -->
 
                 <th>Actions</th>
             </tr>
@@ -92,7 +92,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let email = item.email;
                                     let mobile_number = item.mobile_number;
                                     let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> " + item.zip_code;
-                                    let updated_at = item.updated_at;
+                                    // let updated_at = item.updated_at;
 
                                     row.insertCell().innerHTML = staff_id;
                                     row.insertCell().innerHTML = name;
@@ -101,7 +101,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = mobile_number;
                                     row.insertCell().innerHTML = address;
                                     // row.insertCell(6).innerHTML = created_at;
-                                    row.insertCell().innerHTML = updated_at;
+                                    // row.insertCell().innerHTML = updated_at;
                                     row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.staff_id})">Delete</a>`;
                                 })
                             })

@@ -56,7 +56,7 @@
                                     row.insertCell().innerHTML = name;
                                     
                                     row.insertCell().innerHTML = email;
-                                    row.insertCell().innerHTML = address;
+                                    row.insertCell().innerHTML = `<p style="text-align: left;">${address}</p>`
                                     row.insertCell().innerHTML = telephone;
                                     // row.insertCell().innerHTML = addressId;
                                     // row.insertCell().innerHTML = zipCode;

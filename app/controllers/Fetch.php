@@ -369,6 +369,26 @@ class Fetch extends Controller
             header("Content-Type: application/json");
             echo json_encode($product_material_data);
         }
+        else
+        {
+            $db = new Database();
+            $data['product_materials'] = $db->query("SELECT * FROM product_material");
+
+            $material_ids = array_column($data['product_materials'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $data['materials'] = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            foreach ($data['product_materials'] as $key => $product_material) {
+                foreach ($data['materials'] as $material) {
+                    if ($product_material->material_id == $material->material_id) {
+                        $data['product_materials'][$key]->material_name = $material->material_name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_materials']);
+        }
     }
 
     public function production($id = '')
@@ -540,5 +560,63 @@ class Fetch extends Controller
 
     }
 
+    public function user_cus ()
+    {
+        $db = new Database();
+        $data['users'] = $db->query("SELECT * FROM user WHERE role = 'customer'");
+
+        //sort by created_at desc
+        usort($data['users'], function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+        //get current year and month
+        $current_year = date('Y');
+        $current_month = date('m');
+
+        //get last 6 months with year
+        $last_6_months = [];
+        for ($i = 0; $i < 6; $i++) {
+            $last_6_months[] = date('Y-m', strtotime("-$i month"));
+        }
+        // show($last_6_months);
+
+        //get number of users registered in last 6 months
+        $users_count = [];
+        foreach ($last_6_months as $month) {
+            $users_count[] = count(array_filter($data['users'], function ($user) use ($month) {
+                return date('Y-m', strtotime($user->created_at)) == $month;
+            }));
+        }
+        // show($users_count);
+
+        // append month and year to $users_count
+        $users_count = array_combine($last_6_months, $users_count);
+        // show($users_count);
+
+        //get month name from month number
+        $month_names = [];
+        foreach ($users_count as $key => $value) {
+            $month_names[] = date('F', strtotime($key));
+        }
+
+        // append month name with year to last_6_months then append to $users_count
+        $users_count_with_month_year = [];
+        foreach ($users_count as $key => $value) {
+            $month_year = date('F Y', strtotime($key));
+            $users_count_with_month_year[$month_year] = $value;
+        }
+        // show($users_count_with_month_year);
+
+        // reverse $users_count_with_month_year
+        $users_count_with_month_year = array_reverse($users_count_with_month_year);
+
+
+        header("Content-Type: application/json");
+        echo json_encode($users_count_with_month_year);
+    }
+
 
 }
+
+

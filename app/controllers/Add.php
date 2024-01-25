@@ -22,6 +22,7 @@ class Add extends Controller
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
             'mobile_number' => $_POST['mobile_number'],
+            'worker_role' => $_POST['worker_role']
         ];
 
         $data['errors'] = [];
@@ -58,14 +59,16 @@ class Add extends Controller
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'mobile_number' => $_POST['mobile_number'],
-                'address_id' => $address_id
+                'address_id' => $address_id,
+                'worker_role' => $_POST['worker_role']
             ];
 
             show($worker);
             // show ($address);
 
 
-            $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id) VALUES (:first_name, :last_name, :mobile_number, :address_id)", $worker);
+            // $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id) VALUES (:first_name, :last_name, :mobile_number, :address_id)", $worker);
+            $db->query("INSERT INTO worker (first_name, last_name, mobile_number, address_id, worker_role) VALUES (:first_name, :last_name, :mobile_number, :address_id, :worker_role)", $worker);
             show(4);
 
             message("Worker added successfully!");
@@ -493,6 +496,26 @@ class Add extends Controller
         $_POST['status'] = 'pending';
         show($_POST);
 
+        if (isset($_POST['nocar'])) {
+            $_POST['nocar'] = $_POST['nocar'];
+        } else {
+            $_POST['nocar'] = 0;
+        }
+
+        if (isset($_POST['nosup'])) {
+            $_POST['nosup'] = $_POST['nosup'];
+        } else {
+            $_POST['nosup'] = 0;
+        }
+
+        if (isset($_POST['nopain'])) {
+            $_POST['nopain'] = $_POST['nopain'];
+        } else {
+            $_POST['nopain'] = 0;
+        }
+
+        show($_POST);
+
         $data['errors'] = [];
 
         $db = new Database;
@@ -574,14 +597,85 @@ class Add extends Controller
             });
             show($available_workers);
 
-            $number_of_workers_needed = $_POST['now'];
+            // $number_of_workers_needed = $_POST['nocar']+$_POST['nosup']+$_POST['nopain'];
+            $number_of_carpenters_needed = 0;
+            $number_of_supervisors_needed = 0;
+            $number_of_painters_needed = 0;
+
+            if(isset($_POST['nocar'])){
+                $number_of_carpenters_needed = $_POST['nocar'];
+            }
+            if(isset($_POST['nosup'])){
+                $number_of_supervisors_needed = $_POST['nosup'];
+            }
+            if(isset($_POST['nopain'])){
+                $number_of_painters_needed = $_POST['nopain'];
+            }
+
+            // show($number_of_workers_needed);
+            show($number_of_carpenters_needed);
+            show($number_of_supervisors_needed);
+            show($number_of_painters_needed);
+
+            $available_carpenters = [];
+            $available_supervisors = [];
+            $available_painters = [];
+
+            foreach ($available_workers as $available_worker) {
+                if ($available_worker['worker_role'] == 'carpenter') {
+                    $available_carpenters[] = $available_worker;
+                }
+                if ($available_worker['worker_role'] == 'supervisor') {
+                    $available_supervisors[] = $available_worker;
+                }
+                if ($available_worker['worker_role'] == 'painter') {
+                    $available_painters[] = $available_worker;
+                }
+            }
+
+            show($available_carpenters);
+
+            
+
             // show($number_of_workers_needed);
 
             $workers_assigned = [];
-            for ($i = 0; $i < $number_of_workers_needed; $i++) {
-                $workers_assigned[] = $available_workers[$i];
+            $carpenters_assigned = [];
+            $supervisors_assigned = [];
+            $painters_assigned = [];
+
+            //assign carpenters
+            if (isset($number_of_carpenters_needed)) {
+                for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
+                    $carpenters_assigned[] = $available_carpenters[$i];
+                    $workers_assigned[] = $available_carpenters[$i];
+                }
             }
+            // show($carpenters_assigned);
+
+            //assign supervisors
+            
+            if (isset($number_of_supervisors_needed)) {
+                for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
+                    $supervisors_assigned[] = $available_supervisors[$i];
+                    $workers_assigned[] = $available_supervisors[$i];
+                }
+            }
+
+            //assign painters
+            if (isset($number_of_painters_needed)) {
+                for ($i = 0; $i < $number_of_painters_needed; $i++) {
+                    $painters_assigned[] = $available_painters[$i];
+                    $workers_assigned[] = $available_painters[$i];
+                }
+            }
+
+            // for ($i = 0; $i < $number_of_workers_needed; $i++) {
+            //     // $workers_assigned[] = $available_workers[$i];
+                
+            // }
             show($workers_assigned);
+            
 
             //update worker availability
             foreach ($workers_assigned as $worker_assigned) {
@@ -602,8 +696,10 @@ class Add extends Controller
                 show("Worker added to production_worker table successfully!");
             }
 
+            show(4);
             message("Production added successfully!");
-            redirect('pm/pending_productions');  
+            show(5);
+            redirect('pm/productions');
         } else {
             show("kes");
             $data['errors'] = array_merge($production->errors);

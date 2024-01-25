@@ -43,8 +43,10 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <th onclick="sortTable(2)">Mobile Number</th>
                 <th onclick="sortTable(3)">Address</th>
                 <th onclick="sortTable(4)">Availability</th>
-                <th onclick="sortTable(5)">Date Added</th>
-                <th onclick="sortTable(6)">Date Updated</th>
+                <th onclick="sortTable(5)">Role</th>
+                
+                <!-- <th onclick="sortTable(6)">Date Added</th> -->
+                <!-- <th onclick="sortTable(7)">Date Updated</th> -->
 
                 <th>Actions</th>
             </tr>
@@ -73,6 +75,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let mobile_number = item.mobile_number;
                                     let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
                                     let availability = item.availability;
+                                    let worker_role = item.worker_role;
+                                    worker_role = worker_role.charAt(0).toUpperCase() + worker_role.slice(1);
                                     availability = availability.charAt(0).toUpperCase() + availability.slice(1);
                                     let date_added = item.created_at;
                                     let date_updated = item.updated_at;
@@ -80,10 +84,11 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
-                                    row.insertCell().innerHTML = address;
+                                    row.insertCell().innerHTML = `<p style="text-align: left;">${address}</p>`
                                     row.insertCell().innerHTML = availability;
-                                    row.insertCell().innerHTML = date_added;
-                                    row.insertCell().innerHTML = date_updated;
+                                    row.insertCell().innerHTML = worker_role;
+                                    // row.insertCell().innerHTML = date_added;
+                                    // row.insertCell().innerHTML = date_updated;
 
                                     row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.worker_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
 
@@ -161,6 +166,41 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <input value="<?php echo $form_data['mobile_number'] ?>" type="text" id="mobile_number" name="mobile_number" class="form-input input-popup">
                 </div>
 
+                <?php if (!empty($errors['worker_role'])) : ?>
+                    <p class="validate-mzg"><?= $errors['worker_role'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="worker_role" class="form-label label-popup">Role</label>
+                    <select id="worker_role" name="worker_role" class="form-select input-popup">
+
+                        <?php if (empty($form_data['worker_role'])) : ?>
+                            <option value="" selected disabled>Select Role</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Role</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['worker_role'] === 'carpenter') : ?>
+                            <option value="carpenter" selected>Carpenter</option>
+                        <?php else : ?>
+                            <option value="carpenter">Carpenter</option>
+                        <?php endif; ?>
+                        <!-- painter -->
+                        <?php if ($form_data['worker_role'] === 'painter') : ?>
+                            <option value="painter" selected>Painter</option>
+                        <?php else : ?>
+                            <option value="painter">Painter</option>
+                        <?php endif; ?>
+                        <!-- supervisor -->
+                        <?php if ($form_data['worker_role'] === 'supervisor') : ?>
+                            <option value="supervisor" selected>Supervisor</option>
+                        <?php else : ?>
+                            <option value="supervisor">Supervisor</option>
+                        <?php endif; ?>
+                       
+
+                    </select>
+                </div>
+
+
                 <?php if (!empty($errors['address_line_1'])) : ?>
                     <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
                 <?php endif; ?>
@@ -232,6 +272,39 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <input value="<?php echo $form_data['mobile_number'] ?>" type="text" id="mobile_number_update" name="mobile_number" class="form-input input-popup">
                 </div>
 
+                <?php if (!empty($errors['worker_role'])) : ?>
+                    <p class="validate-mzg"><?= $errors['worker_role'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="worker_role" class="form-label label-popup">Role</label>
+                    <select id="worker_role_update" name="worker_role" class="form-select input-popup disabled-input">
+                        <?php if (empty($form_data['worker_role'])) : ?>
+                            <option value="" selected disabled>Select Role</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Role</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['worker_role'] === 'carpenter') : ?>
+                            <option value="carpenter" disabled selected>Carpenter</option>
+                        <?php else : ?>
+                            <option value="carpenter" disabled>Carpenter</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['worker_role'] === 'painter') : ?>
+                            <option value="painter" disabled selected>Painter</option>
+                        <?php else : ?>
+                            <option value="painter" disabled>Painter</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['worker_role'] === 'supervisor') : ?>
+                            <option value="supervisor" disabled selected>Supervisor</option>
+                        <?php else : ?>
+                            <option value="supervisor" disabled>Supervisor</option>
+                        <?php endif; ?>
+                        
+
+                    </select>
+                </div>
+
+                
+
                 <?php if (!empty($errors['address_line_1'])) : ?>
                     <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
                 <?php endif; ?>
@@ -291,11 +364,16 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     document.getElementById('first_name_update').value = data.first_name;
                     document.getElementById('last_name_update').value = data.last_name;
                     document.getElementById('mobile_number_update').value = data.mobile_number;
+                    document.getElementById('worker_role_update').value = data.worker_role;
                     document.getElementById('address_line_1_update').value = data.address_line_1;
                     document.getElementById('address_line_2_update').value = data.address_line_2;
                     document.getElementById('city_update').value = data.city;
                     document.getElementById('zip_code_update').value = data.zip_code;
                     // document.getElementById('zip_code_update').disabled = true;
+
+
+                    // document.getElementById('worker_role-u').value = data.worker_role;
+                    
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');

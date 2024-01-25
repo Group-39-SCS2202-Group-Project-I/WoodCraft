@@ -29,7 +29,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     
 
     <div class="table-section__add">
-        <a href="<?php echo ROOT ?>/admin/products/categories" class="table-section__add-link">Product Categories</a>
+        <!-- <a href="<?php echo ROOT ?>/admin/products/categories" class="table-section__add-link">Product Categories</a> -->
         <a href="<?php echo ROOT ?>/admin/products/add" class="table-section__add-link">Add New Product</a>
     </div>
 

@@ -19,4 +19,21 @@ class GM extends Controller
 
         $this->view('gm/dashboard', $data);
     }
+
+    public function orders()
+    {
+
+        $data['title'] = "GM Orders";
+
+        $this->view('gm/orders', $data);
+    }
+
+    public function productions()
+    {
+
+        $data['title'] = "GM Production";
+
+        $this->view('gm/productions', $data);
+    }
+    
 }

@@ -19,6 +19,8 @@ class Update extends Controller
         show($data['worker'][0]);
         $address_id = $data['worker'][0]->address_id;
 
+        $_POST['worker_role'] = $data['worker'][0]->worker_role;
+
         $data['errors'] = [];
 
         $worker = new Worker;
@@ -49,10 +51,12 @@ class Update extends Controller
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'mobile_number' => $_POST['mobile_number'],
-                'address_id' => $address_id
+                'address_id' => $address_id,
+                'worker_role' => $_POST['worker_role'],
             ];
 
-            $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id WHERE worker_id = $id", $worker);
+            // $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id WHERE worker_id = $id", $worker);
+            $db->query("UPDATE worker SET first_name = :first_name, last_name = :last_name, mobile_number = :mobile_number, address_id = :address_id, worker_role = :worker_role WHERE worker_id = $id", $worker);
 
             show(4);
 
@@ -77,7 +81,7 @@ class Update extends Controller
         $db = new Database();
         $data['staff'] = $db->query("SELECT * FROM staff WHERE staff_id = $id");
 
-        show($data['staff'][0]);
+        // show($data['staff'][0]);
         $address_id = $data['staff'][0]->address_id;
         $user_id = $data['staff'][0]->user_id;
         $email = $db->query("SELECT email FROM user WHERE user_id = $user_id")[0]->email;
@@ -463,8 +467,14 @@ class Update extends Controller
         // update production status to completed
         $db->query("UPDATE production SET status = 'completed' WHERE production_id = $id");
 
+        //add data to finished_production table
+        $db->query("INSERT INTO finished_production (production_id, added) VALUES ($id, 'NA')");
+        // show("finished_production added");
+        
+
+
         message("Production completed successfully!");
-        redirect('pm/processing_productions');
+        redirect('pm/productions');
 
         
     }
