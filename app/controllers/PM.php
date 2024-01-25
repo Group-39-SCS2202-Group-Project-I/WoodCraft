@@ -28,30 +28,30 @@ class PM extends Controller
         $this->view('pm/add_production', $data);
     }
 
-    public function pending_productions()
-    {
+    // public function pending_productions()
+    // {
 
-        $data['title'] = "Pending Productions";
+    //     $data['title'] = "Pending Productions";
 
-        $this->view('pm/pending_productions', $data);
-    }
-    public function processing_productions()
-    {
+    //     $this->view('pm/pending_productions', $data);
+    // }
+    // public function processing_productions()
+    // {
 
-        $data['title'] = "Processing Productions";
+    //     $data['title'] = "Processing Productions";
 
-        $this->view('pm/processing_productions', $data);
-    }
+    //     $this->view('pm/processing_productions', $data);
+    // }
 
     
 
-    public function completed_productions()
-    {
+    // public function completed_productions()
+    // {
 
-        $data['title'] = "Completed Productions";
+    //     $data['title'] = "Completed Productions";
 
-        $this->view('pm/completed_productions', $data);
-    }
+    //     $this->view('pm/completed_productions', $data);
+    // }
 
     public function productions()
     {

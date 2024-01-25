@@ -17,6 +17,7 @@ foreach ($productions as $production) {
 
 ?>
 
+
 <?php
 if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSION['form_id'])) {
     $errors = $_SESSION['errors'];
