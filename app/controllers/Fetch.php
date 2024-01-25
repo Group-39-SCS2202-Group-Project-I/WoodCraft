@@ -369,6 +369,26 @@ class Fetch extends Controller
             header("Content-Type: application/json");
             echo json_encode($product_material_data);
         }
+        else
+        {
+            $db = new Database();
+            $data['product_materials'] = $db->query("SELECT * FROM product_material");
+
+            $material_ids = array_column($data['product_materials'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $data['materials'] = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            foreach ($data['product_materials'] as $key => $product_material) {
+                foreach ($data['materials'] as $material) {
+                    if ($product_material->material_id == $material->material_id) {
+                        $data['product_materials'][$key]->material_name = $material->material_name;
+                    }
+                }
+            }
+
+            header("Content-Type: application/json");
+            echo json_encode($data['product_materials']);
+        }
     }
 
     public function production($id = '')
