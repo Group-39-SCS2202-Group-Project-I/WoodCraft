@@ -57,14 +57,14 @@
                 <!-- product categories -->
                 <li class="sidebar-list-item nav-btn" id="cat-nav">
                     <a>
-                        <span class="material-icons-outlined">
-                            handyman
+                        <span class="material-symbols-outlined">
+                            chair_alt
                         </span> <span style="margin-left: 5px;">Categories</span>
                     </a>
                 </li>
-               
 
-                    
+
+
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
                         <span class="material-icons-outlined">

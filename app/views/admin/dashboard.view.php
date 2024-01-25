@@ -52,6 +52,14 @@ foreach ($products['products'] as $product) {
 // show($products_without_images);
 $products_without_images_count = count($products_without_images);
 // show($products_without_images_count);
+
+
+//last6monthCustomers
+$last6monthCustomers_url = ROOT . "/fetch/user_cus";
+$last6monthCustomers_response = file_get_contents($last6monthCustomers_url);
+$last6monthCustomers = json_decode($last6monthCustomers_response, true);
+// show($last6monthCustomers);
+
 ?>
 
 <style>
@@ -130,6 +138,26 @@ $products_without_images_count = count($products_without_images);
         /* color: var(--danger); */
         color: var(--blk);
     }
+
+    /* charts */
+    .charts-card {
+        background-color: #ffffff;
+        margin-bottom: 20px;
+        padding: 25px;
+        /* box-sizing: border-box; */
+        -webkit-column-break-inside: avoid;
+        /* border: 1px solid #d2d2d3; */
+        border-radius: 10px;
+        /* box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2); */
+    }
+
+    .chart-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* font-size: 2px; */
+        font-weight: 500;
+    }
 </style>
 <div class="table-section" style=" padding-bottom:0">
     <h2 class="table-section__title" style=" margin-bottom:0">Dashboard</h2>
@@ -139,7 +167,7 @@ $products_without_images_count = count($products_without_images);
     <a href="<?= ROOT . '/admin/products' ?>" style="text-decoration:none">
         <div class="card">
             <h3 class="card-title">No of Products</h3>
-            <span class="material-icons-outlined card-icon">inventory_2</span>
+            <span class="material-icons-outlined card-icon">chair</span>
             <p class="card-text"><?= $products_count ?></p>
         </div>
     </a>
@@ -147,7 +175,9 @@ $products_without_images_count = count($products_without_images);
     <a href="<?= ROOT . '/admin/materials' ?>" style="text-decoration:none">
         <div class="card">
             <h3 class="card-title">No of Materials</h3>
-            <span class="material-icons-outlined card-icon">inventory_2</span>
+            <span class="material-icons-outlined card-icon">
+                handyman
+            </span>
             <p class="card-text"><?= $materials_count ?></p>
         </div>
     </a>
@@ -155,7 +185,7 @@ $products_without_images_count = count($products_without_images);
     <a href="<?= ROOT . '/admin/staff' ?>" style="text-decoration:none">
         <div class="card">
             <h3 class="card-title">No of Staff Members</h3>
-            <span class="material-icons-outlined card-icon">inventory_2</span>
+            <span class="material-icons-outlined card-icon">supervised_user_circle</span> 
             <p class="card-text"><?= $staff_count ?></p>
         </div>
     </a>
@@ -163,7 +193,7 @@ $products_without_images_count = count($products_without_images);
     <a href="<?= ROOT . '/admin/workers' ?>" style="text-decoration:none">
         <div class="card">
             <h3 class="card-title">No of Workers</h3>
-            <span class="material-icons-outlined card-icon">inventory_2</span>
+            <span class="material-icons-outlined card-icon">engineering</span> 
             <p class="card-text"><?= $workers_count ?></p>
         </div>
     </a>
@@ -171,7 +201,15 @@ $products_without_images_count = count($products_without_images);
 </div>
 
 <div class="dashboard2" id="pwc-table">
-    <div>hello</div>
+    <div>
+        <div class="charts-card">
+            <p class="chart-title">Customers registered in last 6 months</p>
+            <div id="area-chart"></div>
+        </div>
+    </div>
+
+    <!--  -->
+
     <?php if ($products_without_images_count > 0) : ?>
         <div class="table-section" style="width: 100%;margin:0; padding:0% ">
             <div class="mzg-box col-danger">
@@ -205,6 +243,85 @@ $products_without_images_count = count($products_without_images);
 
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
+<script>
+    let last6monthCustomers = <?= json_encode($last6monthCustomers) ?>;
+    console.log(last6monthCustomers);
+    let yearMonthCount = [];
+    for (const [key, value] of Object.entries(last6monthCustomers)) {
+        // console.log(`${key}: ${value}`);
+        let yearMonth = key.split(" ");
+        let year = yearMonth[1];
+        let month = yearMonth[0];
+        let count = value;
+        yearMonthCount.push({
+            year,
+            month,
+            count
+        });
+    }
+
+    console.log(yearMonthCount);
+
+
+
+
+    const areaChartOptions = {
+        series: [{
+                name: 'No of customers',
+                // data: [31, 40, 28, 51, 42, 109, 100],
+                //set count as data in yearMonthCount
+                data: yearMonthCount.map(({
+                    count
+                }) => count)
+            },
+
+        ],
+        chart: {
+            height: 300,
+            type: 'area',
+            toolbar: {
+                show: false,
+            },
+        },
+        fill: {
+            type: 'gradient',
+            opacity: 0.9
+        },
+        colors: ['var(--blk)'],
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: 'smooth',
+        },
+        // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        //set month and year as labels in yearMonthCount
+        labels: yearMonthCount.map(({
+            month,
+            year
+        }) => month + "\n" + year),
+
+        markers: {
+            size: 0,
+        },
+        yaxis: [{
+            title: {
+                text: 'No of customers',
+            },
+        }, ],
+        tooltip: {
+            shared: true,
+            intersect: false,
+        },
+    };
+
+    const areaChart = new ApexCharts(
+        document.querySelector('#area-chart'),
+        areaChartOptions
+    );
+    areaChart.render();
+</script>
 
 
 
