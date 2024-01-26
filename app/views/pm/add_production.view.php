@@ -122,27 +122,24 @@ $available_workers_count = count($available_workers);
         <p class="validate-mzg" id="awcar"></p>
         <div class="form-group">
             <label class="page-label" for="now">Number of Carpenters:</label>
-            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nocar" name="nocar">
+            <input class="page-input" type="number" id="nocar" name="nocar">
         </div>
 
         <p class="validate-mzg" id="awpain"></p>
         <div class="form-group">
             <label class="page-label" for="now">Number of Painters:</label>
-            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nopain" name="nopain">
+            <input class="page-input" type="number" id="nopain" name="nopain">
         </div>
 
         <p class="validate-mzg" id="awsup"></p>
         <div class="form-group">
             <label class="page-label" for="now">Number of Supervisors:</label>
-            <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="nosup" name="nosup">
+            <input class="page-input" type="number" id="nosup" name="nosup">
         </div>
-
 
         <div style="display: flex; justify-content: center; width:100%">
             <button type="submit" class="form-btn submit-btn" style="max-width: 400px;">Add New Production</button>
         </div>
-
-
 
     </div>
 </form>
@@ -161,6 +158,21 @@ $available_workers_count = count($available_workers);
     }
 
     function handleProductChange(e) {
+        const nocarInput = document.getElementById('nocar');
+        const nopainInput = document.getElementById('nopain');
+        const nosupInput = document.getElementById('nosup');
+
+        // Check if any input field is empty and set its value to zero
+        if (nocarInput.value === '') {
+            nocarInput.value = 0;
+        }
+        if (nopainInput.value === '') {
+            nopainInput.value = 0;
+        }
+        if (nosupInput.value === '') {
+            nosupInput.value = 0;
+        }
+
         const product_id = e.value;
         const url = `<?php echo ROOT ?>/fetch/product_materials/${product_id}`;
         fetch(url)

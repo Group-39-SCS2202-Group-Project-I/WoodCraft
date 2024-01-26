@@ -25,6 +25,7 @@
             <tr>
                 <th>Material Order ID</th>
                 <th>Material ID</th>
+                <th>Material Name</th>
                 <th>Supplier ID</th>
                 <th>Quantity</th>
                 <th>Price Per Unit</th>
@@ -52,6 +53,7 @@
                                     let supplier_id = "SUP-" + String(item.supplier_id).padStart(3, '0');
                                     row.insertCell().innerHTML = material_order_id;
                                     row.insertCell().innerHTML = material_id;
+                                    row.insertCell().innerHTML = item.material_name;
                                     row.insertCell().innerHTML = supplier_id;
                                     row.insertCell().innerHTML = item.quantity;
                                     row.insertCell().innerHTML = item.price_per_unit;
