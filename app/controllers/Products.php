@@ -17,9 +17,4 @@ class Products extends Controller
 			$this->view('product',$data);
 		}
 	}
-	
-	
-
-
-	
 }

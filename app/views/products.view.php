@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 $url = ROOT . "/fetch/product";
 $response = file_get_contents($url);
 $data = json_decode($response, true);
@@ -32,5 +31,6 @@ foreach ($data['products'] as $product) {
 }
 
 show($listed_products);
+
 
 
