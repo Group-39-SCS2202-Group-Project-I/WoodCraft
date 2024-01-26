@@ -24,6 +24,13 @@ foreach ($data['products'] as $key => $product) {
     }
 }
 
-show($data);
+$listed_products = [];
+foreach ($data['products'] as $product) {
+    if ($product['listed'] == 1) {
+        $listed_products[] = $product;
+    }
+}
+
+show($listed_products);
 
 
