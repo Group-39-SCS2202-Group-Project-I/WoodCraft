@@ -6,7 +6,7 @@
 class About extends Controller
 {
 	
-	public function about()
+	public function index()
 	{
 		$data['title'] = "About";
 

@@ -173,6 +173,15 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   #REUSED STYLE
 \*-----------------------------------*/
 
+.section-header {
+  color: var(--green);
+  font-weight: 400;
+}
+
+.section-title {
+  font-weight: 500;
+}
+
 .container { padding: 0 15px; }
 
 .has-scrollbar { padding-bottom: 5px; }

@@ -6,7 +6,7 @@
 class Contact extends Controller
 {
 	
-	public function contact()
+	public function index()
 	{
 		$data['title'] = "Contact";
 

@@ -4,7 +4,9 @@
 
           <div class="product-main">
 
-            <h2 class="title">New Products</h2>
+          <h5 class="section-header">-Best Selling</h5>
+          <h2 class="section-title">Our Best Seller</h2>
+          <h2 class="section-title">Products</h2>
 
             <div class="product-grid">
 
