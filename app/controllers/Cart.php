@@ -6,7 +6,7 @@
 class Cart extends Controller
 {
 	
-	public function cart($id)
+	public function index($id)
 	{
 		$data['id'] = $id;
 		$data['title'] = "Cart";
