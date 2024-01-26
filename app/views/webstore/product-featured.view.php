@@ -4,7 +4,8 @@
 
           <div class="product-featured">
 
-            <h2 class="title">Deal of the day</h2>
+            <h5 class="section-header">-Deals</h5>
+            <h2 class="section-title">Deal of the day</h2>
 
             <div class="showcase-wrapper has-scrollbar">
 

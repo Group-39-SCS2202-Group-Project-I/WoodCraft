@@ -1,250 +1,684 @@
 <?php $this->view('includes/header', $data) ?>
-<?php $this->view('includes/nav', $data) ?>
 
-<!-- <?php $cus = Auth::customerDetails();
-    echo $cus->first_name;
+  <div class="overlay" data-overlay></div>
+    <?php $this->view('webstore/notification-toast', $data) ?>
 
-    echo $data;
- ?> -->
+    <!--
+    - HEADER
+    -->
 
-<!-- home -->
-<!-- Craft Component -->
-<section class="craft">
-    <div class="cards-grid">
-        <h5 class="section-header">-Best Selling</h5>
-        <h2 class="section-title">Our Best Seller</h2>
-        <h2 class="section-title">Products</h2>
-        <div class="craft-card">
-            <div class="craft__image">
-                <div class="craft__image__content">
-                    <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
-                    <p class="craft__image__name">Nordic Chair</p>
-                    <h4 class="craft__image__price">Rs15000.00</h4>
+  <header>
+    <?php $this->view('includes/nav', $data) ?>
+    <?php $this->view('webstore/header-section', $data) ?>
+  </header>
+
+  <!--
+    - MAIN
+  -->
+
+  <main>
+    <!--
+      - PRODUCT
+    -->
+
+    <div class="product-container">
+        <div class="container-outer">
+            <h2 class="page-title">-Our Products</h2>
+                <div class="container">
+                    <?php $this->view('webstore/sidebar', $data) ?>
+
+
+      <div class="product-box">
+
+        
+                <!--
+            - PRODUCT GRID
+          -->
+
+          <div class="product-main">
+
+            <div class="product-grid">
+
+              <div class="showcase">
+
+                <div class="showcase-banner">
+
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-3.jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-4.jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover">
+
+                  <p class="showcase-badge">15%</p>
+
+                  <div class="showcase-actions">
+
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
                 </div>
-                <button class="craft-btn">View</button>
-        </div>
-        <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
-                <p class="craft__image__name">Nordic Chair</p>
-                <h4 class="craft__image__price">Rs15000.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    
-        </div>
-        <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
-                <p class="craft__image__name">Nordic Chair</p>
-                <h4 class="craft__image__price">Rs15000.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    
-        </div>
-        <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-1.png" alt="craft" />
-                <p class="craft__image__name">Nordic Chair</p>
-                <h4 class="craft__image__price">Rs15000.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    
-        </div>
-        <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-2.png" alt="craft" />
-                <p class="craft__image__name">Wingback Chair</p>
-                <h4 class="craft__image__price">Rs.50000.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    
-        </div>
-        <div class="craft__image">
-            <div class="craft__image__content">
-                <img src="<?php echo ROOT; ?>/assets/images/craft-3.png" alt="craft" />
-                <p class="craft__image__name">Accent Chair</p>
-                <h4 class="craft__image__price">Rs.33000.00</h4>
-            </div>
-            <button class="craft-btn">View</button>
-    
-        </div>
-            <!-- <div class="craft__image">
-                <div class="craft__image__content">
-                    <img src="<?php echo ROOT; ?>/assets/images/craft-4.png" alt="craft" />
-                    <p class="craft__image__name">Modern Chair</p>
-                    <h4 class="craft__image__price">$80.00</h4>
+
+                <div class="showcase-content">
+
+                  <a href="#" class="showcase-category">jacket</a>
+
+                  <a href="#">
+                    <h3 class="showcase-title">Mens Winter Leathers Jackets</h3>
+                  </a>
+
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+
+                  <div class="price-box">
+                    <p class="price">$48.00</p>
+                    <del>$75.00</del>
+                  </div>
+
                 </div>
-                <button class="craft-btn">View</button>
-        </div> -->
+
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shirt-1.jpg" alt="Pure Garment Dyed Cotton Shirt" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shirt-2.jpg" alt="Pure Garment Dyed Cotton Shirt" class="product-img hover"
+                    width="300">
+              
+                  <p class="showcase-badge angle black">sale</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">shirt</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Pure Garment Dyed Cotton Shirt</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$45.00</p>
+                    <del>$56.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-5.jpg" alt="MEN Yarn Fleece Full-Zip Jacket" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-6.jpg" alt="MEN Yarn Fleece Full-Zip Jacket" class="product-img hover"
+                    width="300">
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">Jacket</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">MEN Yarn Fleece Full-Zip Jacket</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$58.00</p>
+                    <del>$65.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/clothes-3.jpg" alt="Black Floral Wrap Midi Skirt" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/clothes-4.jpg" alt="Black Floral Wrap Midi Skirt" class="product-img hover"
+                    width="300">
+              
+                  <p class="showcase-badge angle pink">new</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">skirt</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Black Floral Wrap Midi Skirt</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$25.00</p>
+                    <del>$35.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shoe-2.jpg" alt="Casual Men's Brown shoes" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shoe-2_1.jpg" alt="Casual Men's Brown shoes" class="product-img hover"
+                    width="300">
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">casual</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Casual Men's Brown shoes</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$99.00</p>
+                    <del>$105.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/watch-3.jpg" alt="Pocket Watch Leather Pouch" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/watch-4.jpg" alt="Pocket Watch Leather Pouch" class="product-img hover"
+                    width="300">
+              
+                  <p class="showcase-badge angle black">sale</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">watches</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Pocket Watch Leather Pouch</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$150.00</p>
+                    <del>$170.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/watch-1.jpg" alt="Smart watche Vital Plus" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/watch-2.jpg" alt="Smart watche Vital Plus" class="product-img hover" width="300">
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">watches</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Smart watche Vital Plus</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$100.00</p>
+                    <del>$120.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/party-wear-1.jpg" alt="Womens Party Wear Shoes" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/party-wear-2.jpg" alt="Womens Party Wear Shoes" class="product-img hover"
+                    width="300">
+              
+                  <p class="showcase-badge angle black">sale</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">party wear</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Womens Party Wear Shoes</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$25.00</p>
+                    <del>$30.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-1.jpg" alt="Mens Winter Leathers Jackets" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/jacket-2.jpg" alt="Mens Winter Leathers Jackets" class="product-img hover"
+                    width="300">
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">jacket</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Mens Winter Leathers Jackets</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$32.00</p>
+                    <del>$45.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/sports-2.jpg" alt="Trekking & Running Shoes - black" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/sports-4.jpg" alt="Trekking & Running Shoes - black" class="product-img hover"
+                    width="300">
+              
+                  <p class="showcase-badge angle black">sale</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">sports</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Trekking & Running Shoes - black</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$58.00</p>
+                    <del>$64.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shoe-1.jpg" alt="Men's Leather Formal Wear shoes" class="product-img default"
+                    width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shoe-1_1.jpg" alt="Men's Leather Formal Wear shoes" class="product-img hover"
+                    width="300">
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">formal</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Men's Leather Formal Wear shoes</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$50.00</p>
+                    <del>$65.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+              <div class="showcase">
+              
+                <div class="showcase-banner">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shorts-1.jpg" alt="Better Basics French Terry Sweatshorts"
+                    class="product-img default" width="300">
+                  <img src="<?php echo ROOT; ?>/assets/images2/products/shorts-2.jpg" alt="Better Basics French Terry Sweatshorts"
+                    class="product-img hover" width="300">
+              
+                  <p class="showcase-badge angle black">sale</p>
+              
+                  <div class="showcase-actions">
+                    <button class="btn-action">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="eye-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="repeat-outline"></ion-icon>
+                    </button>
+              
+                    <button class="btn-action">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              
+                <div class="showcase-content">
+                  <a href="#" class="showcase-category">shorts</a>
+              
+                  <h3>
+                    <a href="#" class="showcase-title">Better Basics French Terry Sweatshorts</a>
+                  </h3>
+              
+                  <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                    <ion-icon name="star-outline"></ion-icon>
+                  </div>
+              
+                  <div class="price-box">
+                    <p class="price">$78.00</p>
+                    <del>$85.00</del>
+                  </div>
+              
+                </div>
+              
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      </div>
+
     </div>
-</section>
 
-<!-- Craft Component Styles -->
-<style>
-    .section-header {
-        color: var(--green);
-        font-weight: 400;
-    }
+  </main>
 
-    .section-title {
-        font-weight: 500;
-    }
-
-    /* General styles */
-    .craft {
-        display: flex;
-        flex-direction: column;
-        padding: 5rem 0;
-        justify-content: centre;
-        align-items: center;
-    }
-    
-    .cards-grid {
-        display: flex;
-        flex-direction: column;
-        width: 1200px;
-        justify-content: centre;
-    }
-
-    .craft-card {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 3rem;
-        margin-top: 4rem;
-    }
-
-    .craft__image {
-        position: relative;
-        isolation: isolate;
-    }
-
-    .craft__image__content {
-        padding-bottom: 2rem;
-        text-align: center;
-        transition: 0.3s;
-    }
-
-    .craft__image__content img {
-        margin-bottom: 1rem;
-        max-width: 250px;
-        margin: auto;
-    }
-
-    .craft__image__name {
-        font-size: 1rem;
-        font-weight: 500;
-        color: var(--text-dark);
-    }
-
-    .craft__image__price {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--text-dark);
-    }
-
-    .craft__image:hover .craft-btn {
-        opacity: 1;
-    }
-
-    .craft__image__content {
-        padding-bottom: 2rem;
-        text-align: center;
-        transition: 0.3s;
-        position: relative;
-    }
-
-    .craft-btn {
-        opacity: 0;
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: var(--blk);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: opacity 0.3s ease-in;
-        width: 100%;
-        border-radius: 0 0 15px 15px;
-    }
-
-    .craft-btn:hover {
-        background-color: var(--primary);
-    }
-
-    /* Styles for the hover effect */
-    .craft__image::before {
-        position: absolute;
-        content: "";
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background-color: #ebf1f1;
-        border-radius: 15px;
-        transition: 0.3s;
-        z-index: -1;
-    }
-
-    .craft__image:hover::before {
-        height: 80%;
-    }
-
-    .craft__image:hover .craft__image__content {
-        transform: translateY(-2rem);
-    }
-
-    /* Media queries */
-    @media (max-width: 1200px) {
-        .craft-card {
-            gap: 1rem;
-        }
-    }
-
-    @media (max-width: 900px) {
-        .craft-card {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 600px) {
-        .craft__header {
-            font-size: 2rem;
-        }
-
-        .craft__subheader {
-            font-size: 1rem;
-        }
-
-        .craft__btn {
-            font-size: 1rem;
-        }
-
-        .craft__image__name {
-            font-size: 0.8rem;
-        }
-
-        .craft__image__price {
-            font-size: 1rem;
-        }
-    }
-</style>
-<style>
-    /* Styles for tablet */
-    @media (max-width: 960px) {
-        .craft-card {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    /* Styles for mobile */
-    @media (max-width: 760px) {
-        .craft-card {
-            grid-template-columns: repeat(1, 1fr);
-        }
-    }
-</style>
-
-<?php $this->view('includes/footer', $data) ?>
+  <?php $this->view('includes/footer', $data) ?>
