@@ -6,12 +6,19 @@
 class Products extends Controller
 {
 	
-	public function products()
+	public function index($id = '')
 	{
+		$data['id'] = $id;
 		$data['title'] = "Products";
 
-		$this->view('products',$data);
+		if ($id == '') {
+			$this->view('products',$data);
+		}else{
+			$this->view('product',$data);
+		}
 	}
+	
+	
 
 
 	

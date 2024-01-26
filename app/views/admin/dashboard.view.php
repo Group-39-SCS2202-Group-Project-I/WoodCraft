@@ -128,7 +128,7 @@ $last6monthCustomers = json_decode($last6monthCustomers_response, true);
     <?php if ($products_without_images_count > 0) : ?>
         <div class="table-section" style="width: 100%;margin:0; padding:0% ">
             <div class="mzg-box col-danger">
-                <div class="messege">There <?= (($products_without_images_count == 1) ? 'is a product ' : 'are ' . $products_without_images_count) . ' ' ?> without product images!</div>
+                <div class="messege"><?= (($products_without_images_count == 1) ? 'products images not yet uploaded for below product ' : 'products images not yet uploaded for below products')  ?>!</div>
             </div>
             <table class="table-section__table" style="margin:0; padding:0%" id="pwi">
                 <thead>
