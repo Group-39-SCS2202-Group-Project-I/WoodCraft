@@ -165,7 +165,7 @@ foreach ($products_without_materials as $product_without_materials) {
     <?php if ($products_without_materials_count > 0) : ?>
         <div class="table-section" style="width: 100%;margin:0; padding:0% ">
             <div class="mzg-box col-danger">
-                <div class="messege">There <?= (($products_without_materials_count == 1) ? 'is a product ' : 'are ' . $products_without_materials_count . ' products ') . ' ' ?> without materials!</div>
+                <div class="messege"><?= (($products_without_materials_count == 1) ? 'There is a product in the system for which the materials have not yet been configured':$products_without_materials_count. ' products exist in the system for which materials have not yet been configured')  ?>!</div>
             </div>
             <table class="table-section__table" style="margin:0; padding:0%" id="pwi">
                 <thead>

@@ -476,6 +476,19 @@ class Fetch extends Controller
             $db = new Database();
             $data['material_orders'] = $db->query("SELECT * FROM material_order");
 
+            $material_ids = array_column($data['material_orders'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $materials = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            $data['material_orders'] = array_map(function ($material_order) use ($materials) {
+                foreach ($materials as $material) {
+                    if ($material_order->material_id == $material->material_id) {
+                        $material_order->material_name = $material->material_name;
+                    }
+                }
+                return $material_order;
+            }, $data['material_orders']);
+
             header("Content-Type: application/json");
             echo json_encode($data['material_orders']);
         }
