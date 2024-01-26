@@ -13,7 +13,7 @@
                 <div class="showcase">
                   
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/shampoo.jpg" alt="shampoo, conditioner & facewash packs" class="showcase-img">
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/shampoo.jpg" alt="shampoo, conditioner & facewash packs" class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
@@ -103,7 +103,7 @@
                 <div class="showcase">
               
                   <div class="showcase-banner">
-                    <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold diamonds Earring" class="showcase-img">
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/jewellery-1.jpg" alt="Rose Gold diamonds Earring" class="showcase-img">
                   </div>
               
                   <div class="showcase-content">

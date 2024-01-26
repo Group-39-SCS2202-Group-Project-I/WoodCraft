@@ -21,7 +21,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/dress.svg" alt="clothes" width="20" height="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/dress.svg" alt="clothes" width="20" height="20"
                       class="menu-title-img">
 
                     <p class="menu-title">Clothes</p>
@@ -73,7 +73,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/shoes.svg" alt="footwear" class="menu-title-img" width="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/shoes.svg" alt="footwear" class="menu-title-img" width="20"
                       height="20">
 
                     <p class="menu-title">Footwear</p>
@@ -125,7 +125,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/jewelry.svg" alt="clothes" class="menu-title-img" width="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/jewelry.svg" alt="clothes" class="menu-title-img" width="20"
                       height="20">
 
                     <p class="menu-title">Jewelry</p>
@@ -170,7 +170,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/perfume.svg" alt="perfume" class="menu-title-img" width="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/perfume.svg" alt="perfume" class="menu-title-img" width="20"
                       height="20">
 
                     <p class="menu-title">Perfume</p>
@@ -222,7 +222,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/cosmetics.svg" alt="cosmetics" class="menu-title-img" width="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/cosmetics.svg" alt="cosmetics" class="menu-title-img" width="20"
                       height="20">
 
                     <p class="menu-title">Cosmetics</p>
@@ -274,7 +274,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/glasses.svg" alt="glasses" class="menu-title-img" width="20"
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/glasses.svg" alt="glasses" class="menu-title-img" width="20"
                       height="20">
 
                     <p class="menu-title">Glasses</p>
@@ -312,7 +312,7 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="./assets/images/icons/bag.svg" alt="bags" class="menu-title-img" width="20" height="20">
+                    <img src="<?php echo ROOT; ?>/assets/images2/icons/bag.svg" alt="bags" class="menu-title-img" width="20" height="20">
 
                     <p class="menu-title">Bags</p>
                   </div>
@@ -373,7 +373,7 @@
                 <div class="showcase">
 
                   <a href="#" class="showcase-img-box">
-                    <img src="./assets/images/products/1.jpg" alt="baby fabric shoes" width="75" height="75"
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/1.jpg" alt="baby fabric shoes" width="75" height="75"
                       class="showcase-img">
                   </a>
 
@@ -403,7 +403,7 @@
                 <div class="showcase">
 
                   <a href="#" class="showcase-img-box">
-                    <img src="./assets/images/products/2.jpg" alt="men's hoodies t-shirt" class="showcase-img"
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/2.jpg" alt="men's hoodies t-shirt" class="showcase-img"
                       width="75" height="75">
                   </a>
 
@@ -432,7 +432,7 @@
                 <div class="showcase">
 
                   <a href="#" class="showcase-img-box">
-                    <img src="./assets/images/products/3.jpg" alt="girls t-shirt" class="showcase-img" width="75"
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/3.jpg" alt="girls t-shirt" class="showcase-img" width="75"
                       height="75">
                   </a>
 
@@ -461,7 +461,7 @@
                 <div class="showcase">
 
                   <a href="#" class="showcase-img-box">
-                    <img src="./assets/images/products/4.jpg" alt="woolen hat for men" class="showcase-img" width="75"
+                    <img src="<?php echo ROOT; ?>/assets/images2/products/4.jpg" alt="woolen hat for men" class="showcase-img" width="75"
                       height="75">
                   </a>
 

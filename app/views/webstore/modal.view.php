@@ -13,7 +13,7 @@
       </button>
 
       <div class="newsletter-img">
-        <img src="./assets/images/newsletter.png" alt="subscribe newsletter" width="400" height="400">
+        <img src="<?php echo ROOT; ?>/assets/images2/newsletter.png" alt="subscribe newsletter" width="400" height="400">
       </div>
 
       <div class="newsletter">

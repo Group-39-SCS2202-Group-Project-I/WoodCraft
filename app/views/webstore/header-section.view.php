@@ -1,8 +1,3 @@
-  <!--
-    - HEADER
-  -->
-
-  <header>
 
     <nav class="desktop-navigation-menu">
 
@@ -47,7 +42,7 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/electronics-banner-1.jpg" alt="headphone collection" width="250"
+                    <img src="<?php echo ROOT; ?>/assets/images2/electronics-banner-1.jpg" alt="headphone collection" width="250"
                       height="119">
                   </a>
                 </li>
@@ -82,7 +77,7 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/mens-banner.jpg" alt="men's fashion" width="250" height="119">
+                    <img src="<?php echo ROOT; ?>/assets/images2/mens-banner.jpg" alt="men's fashion" width="250" height="119">
                   </a>
                 </li>
 
@@ -116,7 +111,7 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/womens-banner.jpg" alt="women's fashion" width="250" height="119">
+                    <img src="<?php echo ROOT; ?>/assets/images2/womens-banner.jpg" alt="women's fashion" width="250" height="119">
                   </a>
                 </li>
 
@@ -150,7 +145,7 @@
 
                 <li class="panel-list-item">
                   <a href="#">
-                    <img src="./assets/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119">
+                    <img src="<?php echo ROOT; ?>/assets/images2/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119">
                   </a>
                 </li>
 
@@ -535,5 +530,3 @@
       </div>
 
     </nav>
-
-  </header>

@@ -9,7 +9,7 @@
     </button>
 
     <div class="toast-banner">
-      <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold Earrings" width="80" height="70">
+      <img src="<?php echo ROOT; ?>/assets/images2/products/jewellery-1.jpg" alt="Rose Gold Earrings" width="80" height="70">
     </div>
 
     <div class="toast-detail">

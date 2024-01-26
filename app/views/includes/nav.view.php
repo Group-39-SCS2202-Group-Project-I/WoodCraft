@@ -1,5 +1,5 @@
 
-    <nav>
+    <nav class="nav-main">
         <div class="logo"><img src="<?php echo ROOT ?>/assets/images/Logo_green.png"></div>
         <div class="nav-item">
             <li><a href="#">Home</a></li>
