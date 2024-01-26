@@ -28,7 +28,8 @@ button {
   cursor: pointer;
 }
 
-nav{
+.nav-main {
+    z-index: 4;
     background: #262626;
     display: flex;
     flex-wrap: wrap;
@@ -42,14 +43,14 @@ nav{
     position: fixed;
 }
 
-nav .logo img{
+.nav-main .logo img{
     max-height: 50px;
     min-height: 30px;
     padding: 10px;
 }
 
-nav .nav-item,
-nav .nav-items-right{
+.nav-main .nav-item,
+.nav-main .nav-items-right{
     display: flex;
     flex: 1;
     list-style: none;
@@ -57,27 +58,27 @@ nav .nav-items-right{
     align-items: center;
 }
 
-nav .nav-item li{
+.nav-main .nav-item li{
     padding: 0 15px;
 }
 
-nav .nav-item li a,
-nav .nav-items-right li a {
+.nav-main .nav-item li a,
+.nav-main .nav-items-right li a {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
     text-decoration: none;
 }
 
-nav .nav-items-right li a{
+.nav-main .nav-items-right li a{
     padding: 0 15px;
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
 
-nav .nav-item li a:hover,
-nav .nav-items-right li a:hover,
+.nav-main .nav-item li a:hover,
+.nav-main .nav-items-right li a:hover,
 .search-icon-hidden:hover{
     color: var(--green);
 }
