@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="stylesheet" href="bootstrap.css"> -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/contact.css">
+    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <title>Contact Us Form In Php</title>
 </head>
+
 <body>
         <div class="wrapper">
             <div class="form_img">
@@ -18,21 +20,21 @@
             </div>
             <div class="contact_form">
                 <header>Send us a Message</header>
-                <form action="message.php" method="post">
+                <form method="post">
                     <div class="dbl-field">
                         <div class="field">
                             <input type="text" name="name" placeholder="Enter your name">
-                            <i class='fas fa-user'></i>
+                            <i class="material-symbols-outlined">person</i>
                         </div>
                         <div class="field">
                             <input type="text" name="email" placeholder="Enter your email">
-                            <i class='fas fa-envelope'></i>
+                            <i class="material-symbols-outlined">mail</i>
                             </div>
                         </div>
                     <div class="dbl-field">
                         <div class="field">
                             <input type="text" name="phone" placeholder="Enter your phone">
-                            <i class='fas fa-phone-alt'></i>
+                            <i class="material-symbols-outlined">call</i>
                         </div>
                     </div>
                     <div class="message">
@@ -66,7 +68,7 @@
                         ?>
                     </div>
                     <div class="button-area">
-                        <button type="submit" name="btn-send">Send Message</button>
+                        <button class="button1" type="submit" name="btn-send">Send Message</button>
                         <span></span>
                     </div>
                     
