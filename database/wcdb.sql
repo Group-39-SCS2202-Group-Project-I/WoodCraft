@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 27, 2024 at 03:19 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jan 27, 2024 at 05:58 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -602,7 +602,7 @@ INSERT INTO `product_measurement` (`product_measurement_id`, `length`, `width`, 
 CREATE TABLE `product_review` (
   `review_id` mediumint(8) UNSIGNED NOT NULL,
   `product_id` mediumint(8) UNSIGNED NOT NULL,
-  `user_id` mediumint(8) UNSIGNED NOT NULL,
+  `customer_id` mediumint(8) UNSIGNED NOT NULL,
   `rating` int(11) DEFAULT 0,
   `review` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -613,12 +613,11 @@ CREATE TABLE `product_review` (
 -- Dumping data for table `product_review`
 --
 
-INSERT INTO `product_review` (`review_id`, `product_id`, `user_id`, `rating`, `review`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 4, 'Great product, exceeded my expectations.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
-(2, 2, 5, 3, 'Good product, but there is room for improvement.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
-(3, 2, 6, 5, 'Excellent! No complaints at all.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
-(4, 7, 9, 2, 'Not very satisfied with the product.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
-(5, 8, 4, 4, 'Satisfied with the purchase, would recommend.', '2024-01-27 01:48:54', '2024-01-27 01:48:54');
+INSERT INTO `product_review` (`review_id`, `product_id`, `customer_id`, `rating`, `review`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 4, 'Great product, exceeded my expectations.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
+(2, 2, 1, 3, 'Good product, but there is room for improvement.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
+(3, 2, 1, 5, 'Excellent! No complaints at all.', '2024-01-27 01:48:54', '2024-01-27 01:48:54'),
+(5, 8, 1, 4, 'Satisfied with the purchase, would recommend.', '2024-01-27 01:48:54', '2024-01-27 01:48:54');
 
 -- --------------------------------------------------------
 
@@ -933,8 +932,8 @@ ALTER TABLE `product_measurement`
 --
 ALTER TABLE `product_review`
   ADD PRIMARY KEY (`review_id`),
-  ADD KEY `product_id` (`product_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `shopping_session`
@@ -1230,8 +1229,9 @@ ALTER TABLE `product_material`
 -- Constraints for table `product_review`
 --
 ALTER TABLE `product_review`
-  ADD CONSTRAINT `product_review_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
-  ADD CONSTRAINT `product_review_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `product_review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_review_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `product_review_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `shopping_session`
