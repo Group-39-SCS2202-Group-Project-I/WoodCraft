@@ -335,7 +335,7 @@ class Fetch extends Controller
                 return $product;
             }, $data['products']);
 
-            show($data['products']);
+            // show($data['products']);
 
             // get customer_id from product_reviews
             // $customer_ids = array_column($product_reviews, 'customer_id');
