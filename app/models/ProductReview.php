@@ -9,7 +9,7 @@ class ProductReview extends Model
     protected $allowedColumns = [
         "review_id",
         "product_id",
-        "user_id",
+        "customer_id",
         "rating",
         "review",
         "created_at",
@@ -26,8 +26,8 @@ class ProductReview extends Model
         }
 
         //user_id
-        if (empty($data['user_id'])) {
-            $this->errors['user_id'] = "User id is required";
+        if (empty($data['customer_id'])) {
+            $this->errors['customer_id'] = "Customer id is required";
         }
         
         if (empty($data['rating'])) {
