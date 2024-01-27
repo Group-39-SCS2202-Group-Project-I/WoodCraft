@@ -6,6 +6,12 @@ $url = ROOT . "/fetch/product/" . $data['x'];
 $response = file_get_contents($url);
 $data = json_decode($response, true);
 // show($data);
+
+$reviews = $data['reviews'];
+// show($reviews);
+$reviews_count = count($reviews);
+// $reviews_count = 2;
+// show($reviews_count);
 ?>
 
 <style>
@@ -35,6 +41,18 @@ $data = json_decode($response, true);
         /* justify-items: center; */
         margin-bottom: 0.5rem;
     }
+
+    .product-review-item {
+        background-color: var(--light);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 0.5rem;
+    }
+
+    .pc-lable {
+        font-weight: 500;
+        margin-right: 0.5rem;
+    }
 </style>
 
 
@@ -51,40 +69,46 @@ $data = json_decode($response, true);
 
 <div class="dashboard2" id="pwc-table">
     <div class="product-container">
+
         <h1 class="product-container-title">Product Details</h1>
-        <div class="product-container-item">
-            <p>Product ID :&nbsp</p>
-            <p><?php echo `\t` . sprintf('PRD-%03d', $data['product_id']); ?></p>
-        </div>
-        <div class="product-container-d">
-            <p>Product Description :&nbsp</p>
-            <p><?php echo $data['description']; ?></p>
-        </div>
-        <div class="product-container-item">
-            <p>Category :&nbsp</p>
-            <p><?php echo $data['category_name'] ?></p>
-        </div>
-        <div class="product-container-item">
-            <p>Quantity Available :&nbsp</p>
-            <p><?php echo $data['quantity'] ?></p>
+        <div class="product-review-item">
+            <div class="product-container-item">
+                <p class="pc-lable">Product ID :&nbsp</p>
+                <p><?php echo sprintf('PRD-%03d', $data['product_id']); ?></p>
+            </div>
+            <div class="product-container-d">
+                <p class="pc-lable">Product Description :&nbsp</p>
+                <p style="margin:5px 20px 10px 20px"><?php echo $data['description']; ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable"> Category :&nbsp</p>
+                <p><?php echo $data['category_name'] ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Quantity Available :&nbsp</p>
+                <p><?php echo $data['quantity'] ?></p>
+            </div>
         </div>
 
-        <h1 class="product-container-title">Weight & measurements</h1>
-        <div class="product-container-item">
-            <p>Height :&nbsp</p>
-            <p><?php echo $data['height'] ?></p>
-        </div>
-        <div class="product-container-item">
-            <p>Width :&nbsp</p>
-            <p><?php echo $data['width'] ?></p>
-        </div>
-        <div class="product-container-item">
-            <p>Length :&nbsp</p>
-            <p><?php echo $data['length'] ?></p>
-        </div>
-        <div class="product-container-item">
-            <p>Weight :&nbsp</p>
-            <p><?php echo $data['weight'] ?></p>
+
+        <h1 class="product-container-title" style="margin-top: 2rem;">Weight & measurements</h1>
+        <div class="product-review-item">
+            <div class="product-container-item">
+                <p class="pc-lable">Height :&nbsp</p>
+                <p><?php echo $data['height'] ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Width :&nbsp</p>
+                <p><?php echo $data['width'] ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Length :&nbsp</p>
+                <p><?php echo $data['length'] ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Weight :&nbsp</p>
+                <p><?php echo $data['weight'] ?></p>
+            </div>
         </div>
     </div>
 
@@ -94,6 +118,56 @@ $data = json_decode($response, true);
     <div class="product-container">
         <h1 class="product-container-title">Product Images</h1>
     </div>
+
+</div>
+<div class="dashboard2" style="padding-top:0px" id="pwc-table">
+    <div class="product-container">
+        <h1 class="product-container-title" style=" text-align: left">Product Reviews</h1>
+        <?php foreach ($reviews as $review) : ?>
+            <div class="product-review-item">
+                <!-- [review_id] => 1
+            [product_id] => 1
+            [customer_id] => 1
+            [rating] => 4
+            [review] => Great product, exceeded my expectations.
+            [created_at] => 2024-01-27 07:18:54
+            [updated_at] => 2024-01-27 07:18:54
+            [customer_name] => Lasith Ranahewa -->
+                <div class="product-container-item">
+                    <p class="pc-lable">Review ID :&nbsp</p>
+                    <p><?php echo sprintf('RVW-%03d', $review['review_id']); ?></p>
+                </div>
+                <div class="product-container-item">
+                    <p class="pc-lable">Customer Name :&nbsp</p>
+                    <p><?php echo $review['customer_name'] ?></p>
+                </div>
+                <div class="product-container-item">
+                    <p class="pc-lable">Rating :&nbsp</p>
+                    <p><?php echo $review['rating'] ?></p>
+                </div>
+                <div class="product-container-item">
+                    <p class="pc-lable">Review :&nbsp</p>
+                    <p><?php echo $review['review'] ?></p>
+                </div>
+                <div class="product-container-item" style="font-size: smaller;">
+                    <!-- <p>Created At :&nbsp</p> -->
+                    <p><?php echo $review['created_at'] ?></p>
+                </div>
+                <!-- <div class="product-container-item">
+                    <p>Updated At :&nbsp</p>
+                    <p><?php echo $review['updated_at'] ?></p>
+                </div> -->
+            </div>
+            <?php if ($reviews_count > 1) : ?>
+                <hr style="margin: 0.3rem; width: 5%; margin-left: auto; margin-right: auto;">
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+    </div>
+
+
+
+
 
 </div>
 
