@@ -1,6 +1,6 @@
 <?php
 
-class Product extends Model
+class ProductReview extends Model
 {
 
     public $errors = [];

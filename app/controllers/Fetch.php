@@ -220,6 +220,8 @@ class Fetch extends Controller
 
             $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
 
+            $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id = $id");
+            $product_data['reviews'] = $product_reviews;
 
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -269,6 +271,22 @@ class Fetch extends Controller
                 }
             }
 
+            //product reviews
+            $product_ids = array_column($data['products'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id IN ($product_ids)");
+            
+            $data['products'] = array_map(function ($product) use ($product_reviews) {
+                $product->reviews = [];
+                foreach ($product_reviews as $product_review) {
+                    if ($product->product_id == $product_review->product_id) {
+                        $product->reviews[] = $product_review;
+                    }
+                }
+                return $product;
+            }, $data['products']);
+
+            // show($data['products']);
 
             header("Content-Type: application/json");
             echo json_encode($data);
