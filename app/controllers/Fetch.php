@@ -222,19 +222,24 @@ class Fetch extends Controller
 
             $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id = $id");
             // customer_id from product_reviews
-            $customer_ids = array_column($product_reviews, 'customer_id');
-            $customer_ids = implode(',', $customer_ids);
-            $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
-            // add customer name to product_reviews
-            foreach ($product_reviews as $key => $product_review) {
-                foreach ($customers as $customer) {
-                    if ($product_review->customer_id == $customer->customer_id) {
-                        $product_reviews[$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            if($product_reviews){
+                $customer_ids = array_column($product_reviews, 'customer_id');
+                $customer_ids = implode(',', $customer_ids);
+                $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+                // add customer name to product_reviews
+                foreach ($product_reviews as $key => $product_review) {
+                    foreach ($customers as $customer) {
+                        if ($product_review->customer_id == $customer->customer_id) {
+                            $product_reviews[$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+                        }
                     }
                 }
+                $product_data['reviews'] = $product_reviews;
             }
-            $product_data['reviews'] = $product_reviews;
-
+            else{
+                $product_data['reviews'] = [];
+            }
+            
             header("Content-Type: application/json");
             echo json_encode($product_data);
         } else {
@@ -312,7 +317,7 @@ class Fetch extends Controller
                     }
                 }
             }
-            
+
 
             // show($data['products']);
 

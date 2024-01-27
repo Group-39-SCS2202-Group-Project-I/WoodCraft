@@ -7,10 +7,11 @@ $response = file_get_contents($url);
 $data = json_decode($response, true);
 // show($data);
 
-$reviews = $data['reviews'];
+
+$reviews = isset($data['reviews']) ? $data['reviews'] : [];
 // show($reviews);
 $reviews_count = count($reviews);
-// $reviews_count = 2;
+// // $reviews_count = 2;
 // show($reviews_count);
 ?>
 
@@ -120,19 +121,21 @@ $reviews_count = count($reviews);
     </div>
 
 </div>
+
 <div class="dashboard2" style="padding-top:0px" id="pwc-table">
     <div class="product-container">
         <h1 class="product-container-title" style=" text-align: left">Product Reviews</h1>
+
+        <?php if ($reviews_count == 0) : ?>
+            <div class="mzg-box col-danger">
+            <div class="messege"> <?= "No reviews added to this product" ?> </div>
+            </div>
+           
+        <?php endif; ?>
+
         <?php foreach ($reviews as $review) : ?>
             <div class="product-review-item">
-                <!-- [review_id] => 1
-            [product_id] => 1
-            [customer_id] => 1
-            [rating] => 4
-            [review] => Great product, exceeded my expectations.
-            [created_at] => 2024-01-27 07:18:54
-            [updated_at] => 2024-01-27 07:18:54
-            [customer_name] => Lasith Ranahewa -->
+
                 <div class="product-container-item">
                     <p class="pc-lable">Review ID :&nbsp</p>
                     <p><?php echo sprintf('RVW-%03d', $review['review_id']); ?></p>
@@ -164,10 +167,6 @@ $reviews_count = count($reviews);
         <?php endforeach; ?>
 
     </div>
-
-
-
-
 
 </div>
 
