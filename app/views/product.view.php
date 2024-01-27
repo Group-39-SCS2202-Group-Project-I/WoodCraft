@@ -10,8 +10,8 @@ $url2 = ROOT . "/fetch/product_images/" . $product_id;
 $response = file_get_contents($url2);
 $images = json_decode($response, true);
 
-show($data);
-show($images);
+// show($data);
+// show($images);
 ?>
 
 <?php $this->view('includes/header', $data) ?>
@@ -21,6 +21,7 @@ show($images);
     -->
 
   <header>
+    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/product.css">
     <?php $this->view('includes/nav', $data) ?>
     <?php $this->view('webstore/header-section', $data) ?>
   </header>
@@ -39,12 +40,12 @@ show($images);
         <div class="product-info">
             <div class="product-images">
             <div class="product-image-grid">
-                <img src="inc/images/nevada-chair.png" alt="Nevada Chair">
-                <img src="inc/images/nevada-chair-2.png" alt="Nevada Chair">
-                <img src="inc/images/nevada-chair-3.png" alt="Nevada Chair">
+                <img src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '1'; ?>">
+                <img src="<?php echo ROOT . '/' . $images[1]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '2'; ?>">
+                <img src="<?php echo ROOT . '/' . $images[2]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '3'; ?>">
             </div>
             <div class="product-image">
-                <img src="inc/images/nevada-chair.png" alt="Nevada Chair">
+                <img src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $data['name'] . '1'; ?>">
             </div>
             </div>
             <div class="product-overview">
@@ -108,7 +109,7 @@ show($images);
         </div>
     </div>
 
-    <script src="pages/product_page/script.js"></script>
+    <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
     </body>
 
     <?php $this->view('includes/footer', $data) ?>
