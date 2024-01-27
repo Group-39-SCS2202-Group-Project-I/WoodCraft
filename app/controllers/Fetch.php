@@ -239,6 +239,14 @@ class Fetch extends Controller
             else{
                 $product_data['reviews'] = [];
             }
+
+            // 
+            $avarage_rating = 0;
+            if (count($product_reviews) > 0) {
+                $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
+            }
+
+            $product_data['avarage_rating'] = $avarage_rating;
             
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -303,20 +311,48 @@ class Fetch extends Controller
                 return $product;
             }, $data['products']);
 
+            // show($data['products']);
+
             // get customer_id from product_reviews
             $customer_ids = array_column($product_reviews, 'customer_id');
             $customer_ids = implode(',', $customer_ids);
-            $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
-            // add customer name to product_reviews
-            foreach ($data['products'] as $key => $product) {
-                foreach ($product->reviews as $review_key => $product_review) {
-                    foreach ($customers as $customer) {
-                        if ($product_review->customer_id == $customer->customer_id) {
-                            $data['products'][$key]->reviews[$review_key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
-                        }
-                    }
+            
+
+        
+            //map avarage rating of each product to its $data['products']
+            $data['products'] = array_map(function ($product) use ($product_reviews) {
+                $product->avarage_rating = 0;
+                if (count($product->reviews) > 0) {
+                    $product->avarage_rating = array_sum(array_column($product->reviews, 'rating')) / count($product->reviews);
                 }
-            }
+                return $product;
+            }, $data['products']);
+
+            // show($data['products']);
+
+            $data['products'] = array_map(function ($product) {
+                unset($product->reviews);
+                return $product;
+            }, $data['products']);
+
+            show($data['products']);
+
+            // get customer_id from product_reviews
+            // $customer_ids = array_column($product_reviews, 'customer_id');
+            // $customer_ids = implode(',', $customer_ids);
+            // $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+            // // add customer name to product_reviews
+            // foreach ($data['products'] as $key => $product) {
+            //     foreach ($product->reviews as $review_key => $product_review) {
+            //         foreach ($customers as $customer) {
+            //             if ($product_review->customer_id == $customer->customer_id) {
+            //                 $data['products'][$key]->reviews[$review_key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            //             }
+            //         }
+            //     }
+            // }
+
+            
 
 
             // show($data['products']);
