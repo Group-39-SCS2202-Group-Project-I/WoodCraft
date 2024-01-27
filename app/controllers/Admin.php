@@ -54,7 +54,8 @@ class Admin extends Controller
 			}
 			else{
 				$data['title'] = "Product";
-				$this->view('admin/product',$data);
+				// $this->view('admin/product',$data);
+				$this->view('admin/product2',$data);
 			}
 		}
 		else{
