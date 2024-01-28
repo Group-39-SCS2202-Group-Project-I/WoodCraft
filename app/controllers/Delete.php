@@ -113,16 +113,30 @@ class Delete extends Controller
         $db = new Database();
 
         show($id);
+
+        $material = $db->query("SELECT * FROM material WHERE material_id = $id");
+
+        show($material);
+        $stockAvailable = $material[0]->stock_available;
+        show($stockAvailable);
+
         $product_material = $db->query("SELECT * FROM product_material WHERE material_id = $id");
-
-        if ($product_material) {
-
+        
+        if($stockAvailable > 0){
+            $message = sprintf("Material (MAT-%03d) cannot be deleted because it is available in stock!", $id);
+            show($message);
+            message($message);
+            redirect('admin/materials');
+        }
+        else if ($product_material) {
             $message = sprintf("Material (MAT-%03d) cannot be deleted because it is used in a product!", $id);
+            show($message);
             message($message);
             redirect('admin/materials');
         } else {
-            $db->query("DELETE FROM material WHERE material_id = $id");
+            // $db->query("DELETE FROM material WHERE material_id = $id");
             message("Material deleted successfully!");
+            show("Material deleted successfully!");
             redirect('admin/materials');
         }
     }
