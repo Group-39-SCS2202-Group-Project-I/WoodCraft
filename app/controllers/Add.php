@@ -228,7 +228,7 @@ class Add extends Controller
 
             message("Product category added successfully!");
             $_SESSION['p'] = 1; 
-            redirect('admin/products/categories');
+            redirect('admin/categories');
         } else {
             show("kes");
             // show($worker->errors);
@@ -241,7 +241,7 @@ class Add extends Controller
             $_SESSION['errors'] = $data['errors'];
             $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
             $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
-            redirect('admin/products/categories');
+            redirect('admin/categories');
         }
     }
 

@@ -53,6 +53,24 @@ $available_workers_count = count($available_workers);
         gap: 20px;
         /* Add some space between form sections */
     }
+
+    .addp
+    {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0.5rem;
+        width: 100%;
+        background-color: var(--primary);
+    }
+
+    .addp-danger
+    {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0.5rem;
+        width: 100%;
+        background-color: var(--secondary);
+    }
 </style>
 
 <?php if (message()) : ?>
@@ -63,84 +81,100 @@ $available_workers_count = count($available_workers);
 
 <form action="<?php echo ROOT ?>/add/production" method="POST" class="form-section">
     <h2 class="table-section__title">Add Production</h2>
-    <div class="form-container">
-        <?php
-        $url_prod = ROOT . "/fetch/product";
-        $response_prod = file_get_contents($url_prod);
-        $products = json_decode($response_prod, true);
-        // show($products['products']);
-        $products = $products['products'];
-        ?>
-        <!-- product -->
-        <?php if (!empty($errors['product_id'])) : ?>
-            <p class="validate-mzg"><?= $errors['product_id'] ?></p>
-        <?php endif; ?>
 
-        <div class="form-group">
-            <label for="product_id" class="page-label">Product:</label>
-            <select id="product_id" name="product_id" class="page-select" onchange="handleProductChange(this)">
-                <?php
-                $x = false;
-                foreach ($products as $product) {
-                    if ($form_data['product_id'] == $product['product_id']) {
-                        $x = true;
-                        echo '<option value="' . $product['product_id'] . '" selected>' . $product['name'] . '</option>';
+    <div class="form-wrapper">
+        <div class="form-container">
+            <?php
+            $url_prod = ROOT . "/fetch/product";
+            $response_prod = file_get_contents($url_prod);
+            $products = json_decode($response_prod, true);
+            // show($products['products']);
+            $products = $products['products'];
+            ?>
+            <!-- product -->
+            <?php if (!empty($errors['product_id'])) : ?>
+                <p class="validate-mzg"><?= $errors['product_id'] ?></p>
+            <?php endif; ?>
+
+            <div class="form-group">
+                <label for="product_id" class="page-label">Product:</label>
+                <select id="product_id" name="product_id" class="page-select" onchange="handleProductChange(this)">
+                    <?php
+                    $x = false;
+                    foreach ($products as $product) {
+                        if ($form_data['product_id'] == $product['product_id']) {
+                            $x = true;
+                            echo '<option value="' . $product['product_id'] . '" selected>' . $product['name'] . '</option>';
+                        }
                     }
-                }
-                if ($x == false) {
-                    echo '<option value="" selected disabled>Select a product</option>';
-                }
-                ?>
+                    if ($x == false) {
+                        echo '<option value="" selected disabled>Select a product</option>';
+                    }
+                    ?>
 
-                <?php foreach ($products as $product) : ?>
-                    <?php if ($form_data['product_id'] != $product['product_id']) : ?>
-                        <option value="<?php echo $product['product_id'] ?>"><?php echo $product['name'] ?></option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-        </div>
+                    <?php foreach ($products as $product) : ?>
+                        <?php if ($form_data['product_id'] != $product['product_id']) : ?>
+                            <option value="<?php echo $product['product_id'] ?>"><?php echo $product['name'] ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <?php if (!empty($errors['quantity'])) : ?>
-            <p class="validate-mzg"><?= $errors['quantity'] ?></p>
-        <?php endif; ?>
-        <!-- Number of products can be made -->
-        <p class="validate-mzg hidden" id="nop"></p>
-        <div class="form-group">
-            <label class="page-label" for="quantity">Quantity:</label>
-            <input value="<?php echo $form_data['quantity'] ?>" class="page-input" type="number" id="quantity" name="quantity">
-        </div>
+            <?php if (!empty($errors['quantity'])) : ?>
+                <p class="validate-mzg"><?= $errors['quantity'] ?></p>
+            <?php endif; ?>
+            <!-- Number of products can be made -->
+            <!-- <p class="validate-mzg hidden" id="nop"></p> -->
+            <div class="mzg-box col-danger addp hidden" id="nop">
+                <div class="messege"><p class="validate-mzg hidden" id="nop"></p></div>
+            </div>
+            <div class="form-group">
+                <label class="page-label" for="quantity">Quantity:</label>
+                <input value="<?php echo $form_data['quantity'] ?>" class="page-input" type="number" id="quantity" name="quantity">
+            </div>
 
-        <!-- <p class="validate-mzg" id="awc"></p> -->
-        <!-- <?php if (!empty($errors['quantity'])) : ?>
+            <!-- <p class="validate-mzg" id="awc"></p> -->
+            <!-- <?php if (!empty($errors['quantity'])) : ?>
             <p class="validate-mzg"><?= $errors['quantity'] ?></p>
         <?php endif; ?> -->
-        <!-- <div class="form-group">
+            <!-- <div class="form-group">
             <label class="page-label" for="now">Number of workers:</label>
             <input value="<?php echo $form_data['now'] ?>" class="page-input" type="number" id="now" name="now">
         </div> -->
 
-        <p class="validate-mzg" id="awcar"></p>
-        <div class="form-group">
-            <label class="page-label" for="now">Number of Carpenters:</label>
-            <input class="page-input" type="number" id="nocar" name="nocar">
-        </div>
+            <!-- <p class="validate-mzg" id="awcar"></p> -->
+            <div class="mzg-box col-danger addp" id="awcar">
+                <div class="messege"><p class="validate-mzg" id="awcar"></p></div>
+            </div>
 
-        <p class="validate-mzg" id="awpain"></p>
-        <div class="form-group">
-            <label class="page-label" for="now">Number of Painters:</label>
-            <input class="page-input" type="number" id="nopain" name="nopain">
-        </div>
+            <div class="form-group">
+                <label class="page-label" for="now">Number of Carpenters:</label>
+                <input class="page-input" type="number" id="nocar" name="nocar">
+            </div>
 
-        <p class="validate-mzg" id="awsup"></p>
-        <div class="form-group">
-            <label class="page-label" for="now">Number of Supervisors:</label>
-            <input class="page-input" type="number" id="nosup" name="nosup">
-        </div>
+            <!-- <p class="validate-mzg" id="awpain"></p> -->
+            <div class="mzg-box col-danger addp" id="awpain">
+                <div class="messege"><p class="validate-mzg" id="awpain"></p></div>
+            </div>
+            <div class="form-group">
+                <label class="page-label" for="now">Number of Painters:</label>
+                <input class="page-input" type="number" id="nopain" name="nopain">
+            </div>
 
-        <div style="display: flex; justify-content: center; width:100%">
-            <button type="submit" class="form-btn submit-btn" style="max-width: 400px;">Add New Production</button>
-        </div>
+            <!-- <p class="validate-mzg" id="awsup"></p> -->
+            <div class="mzg-box col-danger addp" id="awsup">
+                <div class="messege"><p class="validate-mzg" id="awsup"></p></div>
+            </div>
+            <div class="form-group">
+                <label class="page-label" for="now">Number of Supervisors:</label>
+                <input class="page-input" type="number" id="nosup" name="nosup">
+            </div>
 
+            <div style="display: flex; justify-content: center; width:100%">
+                <button type="submit" class="form-btn submit-btn" style="max-width: 400px;">Add New Production</button>
+            </div>
+
+        </div>
     </div>
 </form>
 
@@ -201,6 +235,7 @@ $available_workers_count = count($available_workers);
                 });
 
                 console.log(nop);
+
                 document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
                 document.getElementById('nop').classList.remove('hidden');
 
@@ -215,8 +250,10 @@ $available_workers_count = count($available_workers);
             }).catch(err => {
                 console.log(err);
                 nop = 0;
-                document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
+                document.getElementById('nop').innerHTML = `No products can be made with the available materials`;
                 document.getElementById('nop').classList.remove('hidden');
+                document.getElementById('nop').classList.remove('addp');
+                document.getElementById('nop').classList.add('addp-danger');
 
                 document.getElementById('quantity').setAttribute('min', 0);
                 document.getElementById('quantity').setAttribute('max', nop);
@@ -250,14 +287,48 @@ $available_workers_count = count($available_workers);
             // console.log(awc);
             // document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
             // document.getElementById('awc').classList.remove('hidden');
+            
 
-            document.getElementById('awcar').innerHTML = `Number of available carpenters: ${awcar}`;
+            // document.getElementById('awcar').innerHTML = `Number of available carpenters: ${awcar}`;
+            if (awcar == 0) {
+                document.getElementById('awcar').innerHTML = `No carpenters available`;
+                document.getElementById('awcar').classList.remove('hidden');
+                document.getElementById('awcar').classList.remove('addp');
+                document.getElementById('awcar').classList.add('addp-danger');
+            } else {
+                document.getElementById('awcar').innerHTML = `Number of available carpenters: ${awcar}`;
+                document.getElementById('awcar').classList.remove('hidden');
+                document.getElementById('awcar').classList.remove('addp-danger');
+                document.getElementById('awcar').classList.add('addp');
+            }
             // document.getElementById('awcar').classList.remove('hidden');
 
-            document.getElementById('awpain').innerHTML = `Number of available painters: ${awpain}`;
+            // document.getElementById('awpain').innerHTML = `Number of available painters: ${awpain}`;
+            if (awpain == 0) {
+                document.getElementById('awpain').innerHTML = `No painters available`;
+                document.getElementById('awpain').classList.remove('hidden');
+                document.getElementById('awpain').classList.remove('addp');
+                document.getElementById('awpain').classList.add('addp-danger');
+            } else {
+                document.getElementById('awpain').innerHTML = `Number of available painters: ${awpain}`;
+                document.getElementById('awpain').classList.remove('hidden');
+                document.getElementById('awpain').classList.remove('addp-danger');
+                document.getElementById('awpain').classList.add('addp');
+            }
             // document.getElementById('awpain').classList.remove('hidden');
 
             document.getElementById('awsup').innerHTML = `Number of available supervisors: ${awsup}`;
+            if (awsup == 0) {
+                document.getElementById('awsup').innerHTML = `No supervisors available`;
+                document.getElementById('awsup').classList.remove('hidden');
+                document.getElementById('awsup').classList.remove('addp');
+                document.getElementById('awsup').classList.add('addp-danger');
+            } else {
+                document.getElementById('awsup').innerHTML = `Number of available supervisors: ${awsup}`;
+                document.getElementById('awsup').classList.remove('hidden');
+                document.getElementById('awsup').classList.remove('addp-danger');
+                document.getElementById('awsup').classList.add('addp');
+            }
             // document.getElementById('awsup').classList.remove('hidden');
 
 
