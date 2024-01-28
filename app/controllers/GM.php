@@ -35,5 +35,17 @@ class GM extends Controller
 
         $this->view('gm/productions', $data);
     }
-    
+
+    public function workers($id = '')
+    {
+        $data['id'] = $id;
+
+        if ($id == '') {
+            $data['title'] = "GM Workers";
+            $this->view('gm/workers', $data);
+        } else {
+            $data['title'] = "GM Workers";
+            $this->view('gm/worker', $data);
+        }
+    }
 }

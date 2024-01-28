@@ -64,6 +64,13 @@
                     </a>
                 </li>
 
+                <li class="sidebar-list-item nav-btn" id="workers-nav">
+                    <a>
+                        <span class="material-icons-outlined">shopping_cart</span>
+                        <span style="margin-left: 5px;">Workers</span>
+                    </a>
+                </li>
+
             </ul>
 
             <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
@@ -76,6 +83,7 @@
                 const dashNav = document.getElementById('dash-nav');
                 const productionsNav = document.getElementById('products-nav');
                 const ordersNav = document.getElementById('orders-nav');
+                const workersNav = document.getElementById('workers-nav');
                 
 
 
@@ -95,6 +103,9 @@
                             break;
                         case 'orders-nav':
                             window.location.href = '<?= ROOT ?>/gm/orders';
+                            break;
+                        case 'workers-nav':
+                            window.location.href = '<?= ROOT ?>/gm/workers';
                             break;
 
                         default:

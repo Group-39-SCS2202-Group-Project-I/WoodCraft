@@ -183,8 +183,20 @@ $available_workers_count = count($available_workers);
     // if nop in session storage
     if (sessionStorage.getItem('nop') && product_id) {
         const nop = sessionStorage.getItem('nop');
-        document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
-        document.getElementById('nop').classList.remove('hidden');
+        // document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
+        // document.getElementById('nop').classList.remove('hidden');
+        if (nop == 0) {
+            document.getElementById('nop').innerHTML = `No products can be made with the available materials`;
+            document.getElementById('nop').classList.remove('hidden');
+            document.getElementById('nop').classList.remove('addp');
+            document.getElementById('nop').classList.add('addp-danger');
+        } else {
+            document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
+            document.getElementById('nop').classList.remove('hidden');
+            document.getElementById('nop').classList.remove('addp-danger');
+            document.getElementById('nop').classList.add('addp');
+        }
+    
 
         // set input value of quantity to minimum 0 and maximum nop
         document.getElementById('quantity').setAttribute('min', 0);
@@ -236,8 +248,21 @@ $available_workers_count = count($available_workers);
 
                 console.log(nop);
 
-                document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
-                document.getElementById('nop').classList.remove('hidden');
+                // document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
+                // document.getElementById('nop').classList.remove('hidden');
+                // document.getElementById('nop').classList.remove('addp-danger');
+                // document.getElementById('nop').classList.add('addp');
+                if (nop == 0) {
+                    document.getElementById('nop').innerHTML = `No products can be made with the available materials`;
+                    document.getElementById('nop').classList.remove('hidden');
+                    document.getElementById('nop').classList.remove('addp');
+                    document.getElementById('nop').classList.add('addp-danger');
+                } else {
+                    document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
+                    document.getElementById('nop').classList.remove('hidden');
+                    document.getElementById('nop').classList.remove('addp-danger');
+                    document.getElementById('nop').classList.add('addp');
+                }
 
                 // set nop in sessionStorage
                 sessionStorage.setItem('nop', nop);

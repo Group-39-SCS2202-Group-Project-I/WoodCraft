@@ -5,7 +5,12 @@ $pxn_url = ROOT . "/fetch/production";
 $pxn_response = file_get_contents($pxn_url);
 $pxn = json_decode($pxn_response, true);
 // show($pxn);
-$nopxn = count($pxn);
+
+$nopxn = 0;
+// $nopxn = count($pxn);
+if ($pxn) {
+    $nopxn = count($pxn);
+}
 // show($nopxn); 
 
 $nopxn_cmp = 0;
