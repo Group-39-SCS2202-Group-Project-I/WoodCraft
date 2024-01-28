@@ -5,28 +5,49 @@ $products_url = ROOT . "/fetch/product";
 $products_response = file_get_contents($products_url);
 $products = json_decode($products_response, true);
 // show($products['products']);
-$products_count = count($products['products']);
+
+// $products_count = count($products['products']);
+$products_count = 0;
+if($products)
+{
+    $products_count = count($products['products']);
+}
 // show($products_count);
 
 $materials_url = ROOT . "/fetch/materials";
 $materials_response = file_get_contents($materials_url);
 $materials = json_decode($materials_response, true);
 // show($materials);
-$materials_count = count($materials);
+// $materials_count = count($materials);
+$materials_count = 0;
+if($materials)
+{
+    $materials_count = count($materials);
+}
 // show($materials_count);
 
 $staff_url = ROOT . "/fetch/staff";
 $staff_response = file_get_contents($staff_url);
 $staff = json_decode($staff_response, true);
 // show($staff);
-$staff_count = count($staff);
+// $staff_count = count($staff);
+$staff_count = 0;
+if($staff)
+{
+    $staff_count = count($staff);
+}
 // show($staff_count);
 
 $workers_url = ROOT . "/fetch/workers";
 $workers_response = file_get_contents($workers_url);
 $workers = json_decode($workers_response, true);
 // show($workers);
-$workers_count = count($workers);
+// $workers_count = count($workers);
+$workers_count = 0;
+if($workers)
+{
+    $workers_count = count($workers);
+}
 // show($workers_count);
 
 //fetch product_images

@@ -134,7 +134,7 @@ class Delete extends Controller
             message($message);
             redirect('admin/materials');
         } else {
-            // $db->query("DELETE FROM material WHERE material_id = $id");
+            $db->query("DELETE FROM material WHERE material_id = $id");
             message("Material deleted successfully!");
             show("Material deleted successfully!");
             redirect('admin/materials');
