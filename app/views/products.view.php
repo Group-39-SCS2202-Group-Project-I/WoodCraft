@@ -117,7 +117,7 @@
                   </a>
 
                   <div class="showcase-rating">
-                    <?php echo createStarRating(2); ?>
+                    <?php echo createStarRating($item['avarage_rating']); ?>
                   </div>
 
                   <div class="price-box">

@@ -13,7 +13,6 @@ $images = json_decode($response, true);
 // show($data);
 // show($images);
 
-$average_rating = averageStarRating($data['reviews']);
 ?>
 
 <?php $this->view('includes/header', $data) ?>
@@ -54,8 +53,8 @@ $average_rating = averageStarRating($data['reviews']);
             <div class="product-info-basic">
                 <h2 class="product-name"><?php echo $data['name']; ?></h2>
                 <div class="star-rating">
-                    <?php echo createStarRating($average_rating); ?>
-                <span class="rating-text">&nbsp;<?php echo $average_rating; ?>/5 (<?php echo sizeof($data['reviews'])?> Reviews)</span>
+                    <?php echo createStarRating($data['avarage_rating']); ?>
+                <span class="rating-text">&nbsp;<?php echo $data['avarage_rating']; ?>/5 (<?php echo sizeof($data['reviews'])?> Reviews)</span>
                 </div>
                 <div class="price-discount">
                 <span class="original-price"><?php echo $data['price'] ?></span>
@@ -88,8 +87,11 @@ $average_rating = averageStarRating($data['reviews']);
             <div class="reviews">
                 <?php for ($i = sizeof($data['reviews']); $i > 0; $i--) :?>
                     <div class="review">
+                        <div class="star-rating">
+                            <?php echo createStarRating($data['reviews'][sizeof($data['reviews'])-$i]['rating']); ?>
+                        </div>
                         <p><?php echo $data['reviews'][sizeof($data['reviews'])-$i]['review']; ?></p>
-                        <p><?php echo $data['reviews'][sizeof($data['reviews'])-$i]['user_id']; ?></p>
+                        <p><?php echo $data['reviews'][sizeof($data['reviews'])-$i]['customer_name']; ?></p>
                         <span>Posted on <?php echo $data['reviews'][sizeof($data['reviews'])-$i]['updated_at']; ?></span>
                     </div>
                 <?php endfor; ?>
