@@ -873,13 +873,14 @@ class Add extends Controller
             // }
             // show("xxxxxxx");
 
-            // show($production_material_data);
+            show($production_material_data);
 
+            foreach ($production_material_data as $production_material) {
+                $db->query("INSERT INTO production_material (production_id, stock_no, quantity) VALUES (:production_id, :stock_no, :quantity)", $production_material);
+                show("Production material added successfully!");
+            }
 
-            // foreach ($production_material_data as $production_material) {
-            //     $db->query("INSERT INTO production_material (production_id, stock_no, quantity) VALUES (:production_id, :stock_no, :quantity)", $production_material);
-            //     show("Material added to production_material table successfully!");
-            // }
+            // return;
 
             message("Production added successfully!");
             show(5);
