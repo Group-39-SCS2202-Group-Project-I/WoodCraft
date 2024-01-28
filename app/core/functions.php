@@ -57,3 +57,30 @@ function isInURL($link)
 
 	return false;
 }
+
+
+// create star rating with filled and outlined star icons
+
+function createStarRating($rating) {
+	$output = '';
+
+	for ($i = 1; $i <= 5; $i++) {
+		if ($i <= $rating) {
+			$output .= '<ion-icon name="star"></ion-icon>';
+		} else {
+			$output .= '<ion-icon name="star-outline"></ion-icon>';
+		}
+	}
+
+	return $output;
+}
+
+function averageStarRating($reviews) {
+	$sumRating = 0;
+
+	for ($i = sizeof($reviews); $i > 0; $i--) {
+		$sumRating += $reviews[sizeof($reviews)-$i]['rating'];
+	}
+
+	return $sumRating/sizeof($reviews);
+}

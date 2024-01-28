@@ -39,20 +39,6 @@
 
           <?php
 
-            function generateStarIcons($rating) {
-                $output = '';
-
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= $rating) {
-                        $output .= '<ion-icon name="star"></ion-icon>';
-                    } else {
-                        $output .= '<ion-icon name="star-outline"></ion-icon>';
-                    }
-                }
-
-                return $output;
-            }
-
             $url = ROOT . "/fetch/product";
             $response = file_get_contents($url);
             $data = json_decode($response, true);
@@ -83,7 +69,7 @@
                     $listed_products[] = $product;
                 }
             }
-            // show($listed_products);
+            show($listed_products);
 
             foreach ($listed_products as $item) :?>
 
@@ -131,7 +117,7 @@
                   </a>
 
                   <div class="showcase-rating">
-                    <?php echo generateStarIcons(2); ?>
+                    <?php echo createStarRating($item['avarage_rating']); ?>
                   </div>
 
                   <div class="price-box">

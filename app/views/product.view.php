@@ -12,6 +12,7 @@ $images = json_decode($response, true);
 
 // show($data);
 // show($images);
+
 ?>
 
 <?php $this->view('includes/header', $data) ?>
@@ -52,12 +53,8 @@ $images = json_decode($response, true);
             <div class="product-info-basic">
                 <h2 class="product-name"><?php echo $data['name']; ?></h2>
                 <div class="star-rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <span class="rating-text">5.0/5 (20 Reviews)</span>
+                    <?php echo createStarRating($data['avarage_rating']); ?>
+                <span class="rating-text">&nbsp;<?php echo $data['avarage_rating']; ?>/5 (<?php echo sizeof($data['reviews'])?> Reviews)</span>
                 </div>
                 <div class="price-discount">
                 <span class="original-price"><?php echo $data['price'] ?></span>
@@ -88,21 +85,16 @@ $images = json_decode($response, true);
             <p><?php echo $data['description'] ?></p>
             <h3>Rating & Reviews</h3>
             <div class="reviews">
-            <div class="review">
-                <p>Absolutely thrilled with this chair! Incredibly comfortable, stylish, and well-constructed. The color and design are even more beautiful in person. My only suggestion for improvement would be to offer more cushion options.</p>
-                <p>Samantha D.</p>
-                <span>Posted on August 14, 2023</span>
-            </div>
-            <div class="review">
-                <p>Impressed with the artistry! The chair is solid and well-made, and its design is cute and comfy. My only suggestion would be to offer a wider range of colors.</p>
-                <p>Alex M.</p>
-                <span>Posted on August 10, 2023</span>
-            </div>
-            <div class="review">
-                <p>This chair is #cozy for the price. It's not the most comfortable, but it serves its purpose. The assembly was straightforward. It's quickly become my favorite spot for relaxation. Highly recommend!</p>
-                <p>Ethan R.</p>
-                <span>Posted on August 16, 2023</span>
-            </div>
+                <?php for ($i = sizeof($data['reviews']); $i > 0; $i--) :?>
+                    <div class="review">
+                        <div class="star-rating">
+                            <?php echo createStarRating($data['reviews'][sizeof($data['reviews'])-$i]['rating']); ?>
+                        </div>
+                        <p><?php echo $data['reviews'][sizeof($data['reviews'])-$i]['review']; ?></p>
+                        <p><?php echo $data['reviews'][sizeof($data['reviews'])-$i]['customer_name']; ?></p>
+                        <span>Posted on <?php echo $data['reviews'][sizeof($data['reviews'])-$i]['updated_at']; ?></span>
+                    </div>
+                <?php endfor; ?>
             </div>
             <h3>FAQs</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
