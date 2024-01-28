@@ -220,25 +220,36 @@ class Fetch extends Controller
 
             $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
 
-            $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id = $id");
-            // customer_id from product_reviews
-            if($product_reviews){
-                $customer_ids = array_column($product_reviews, 'customer_id');
-                $customer_ids = implode(',', $customer_ids);
-                $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
-                // add customer name to product_reviews
-                foreach ($product_reviews as $key => $product_review) {
-                    foreach ($customers as $customer) {
-                        if ($product_review->customer_id == $customer->customer_id) {
-                            $product_reviews[$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
-                        }
-                    }
-                }
-                $product_data['reviews'] = $product_reviews;
-            }
-            else{
-                $product_data['reviews'] = [];
-            }
+            $url =  $url = ROOT."/fetch/product_review/$id";
+            $response = file_get_contents($url);
+            $product_reviews = json_decode($response);
+            $product_data['reviews'] = $product_reviews;
+
+
+
+            // $count_reviews = $db->query("SELECT COUNT(*) as count FROM product_review WHERE product_id = $id");
+            // show($count_reviews);
+
+            // $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id = $id");
+            
+            // // customer_id from product_reviews
+            // if($product_reviews){
+            //     $customer_ids = array_column($product_reviews, 'customer_id');
+            //     $customer_ids = implode(',', $customer_ids);
+            //     $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+            //     // add customer name to product_reviews
+            //     foreach ($product_reviews as $key => $product_review) {
+            //         foreach ($customers as $customer) {
+            //             if ($product_review->customer_id == $customer->customer_id) {
+            //                 $product_reviews[$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            //             }
+            //         }
+            //     }
+            //     $product_data['reviews'] = $product_reviews;
+            // }
+            // else{
+            //     $product_data['reviews'] = [];
+            // }
 
             // 
             $avarage_rating = 0;
@@ -246,7 +257,7 @@ class Fetch extends Controller
                 $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
             }
 
-            $product_data['avarage_rating'] = $avarage_rating;
+            $product_data['average_rating'] = $avarage_rating;
             
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -714,6 +725,34 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($users_count_with_month_year);
+    }
+
+// 
+    public function product_review($product_id)
+    {
+        $db = new Database();
+        $data['product_reviews'] = $db->query("SELECT * FROM product_review WHERE product_id = $product_id");
+
+        if (!$data['product_reviews']) {
+            header("Content-Type: application/json");
+            echo json_encode([]);
+            return;
+        }
+
+        $customer_ids = array_column($data['product_reviews'], 'customer_id');
+        $customer_ids = implode(',', $customer_ids);
+        $data['customers'] = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+
+        foreach ($data['product_reviews'] as $key => $product_review) {
+            foreach ($data['customers'] as $customer) {
+                if ($product_review->customer_id == $customer->customer_id) {
+                    $data['product_reviews'][$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+                }
+            }
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($data['product_reviews']);
     }
 
 

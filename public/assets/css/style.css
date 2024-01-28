@@ -978,21 +978,21 @@ h6 {
 
     /*  */
     #drop_zone {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        /* margin-top: 2rem; */
+        /* margin-bottom: 1rem; */
         /* border: 1px solid black; */
         text-align: center;
-        padding: 40px;
+        /* padding: 40px; */
         border-radius: 10px;
-        background-color: white;
-        color: var(--blk);
+        /* background-color: white; */
+        /* color: var(--blk); */
     }
 
-    #drop_zone:hover {
-        border: 1.5px solid var(--primary);
-        color: var(--primary);
-        cursor: pointer;
-    }
+    /* #drop_zone:hover { */
+        /* border: 1.5px solid var(--primary); */
+        /* color: var(--primary); */
+        /* cursor: pointer; */
+    /* } */
 
 
     #preview {
