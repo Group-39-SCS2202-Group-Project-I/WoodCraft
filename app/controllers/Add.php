@@ -778,7 +778,7 @@ class Add extends Controller
                         $stock_available = $material_stk['quantity'];
                         // show($stock_available);
 
-                        if ($stock_available > $quantity_used) {
+                        if ($stock_available >= $quantity_used) {
                             show("enough");
                             $stock_available = $stock_available - $quantity_used;
                             // show($stock_available);
