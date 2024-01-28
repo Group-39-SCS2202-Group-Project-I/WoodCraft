@@ -308,6 +308,8 @@ class Add extends Controller
 
             show(3);
 
+            show($product_id);
+
             message("Product added successfully!");
             redirect('admin/products/' . $product_id);
         } else {
