@@ -238,6 +238,8 @@ $available_workers_count = count($available_workers);
 
                 document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
                 document.getElementById('nop').classList.remove('hidden');
+                document.getElementById('nop').classList.remove('addp-danger');
+                document.getElementById('nop').classList.add('addp');
 
                 // set nop in sessionStorage
                 sessionStorage.setItem('nop', nop);
