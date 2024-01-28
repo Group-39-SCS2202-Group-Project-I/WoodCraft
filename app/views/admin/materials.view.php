@@ -65,7 +65,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     row.insertCell().innerHTML = material_id;
                                     row.insertCell().innerHTML = `<p style="text-align:center">${item.material_name}</p>`
                                     // row.insertCell().innerHTML = item.material_description;
-                                    row.insertCell().innerHTML = `<p style="text-align:left">${item.material_description}</p>`
+                                    row.insertCell().innerHTML = `<p style="text-align:center">${item.material_description}</p>`
                                     row.insertCell().innerHTML = item.stock_available;
                                     row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.material_id})">Delete</a>`;
 
