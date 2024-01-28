@@ -6,9 +6,8 @@
 class Cart extends Controller
 {
 	
-	public function index($id)
+	public function index()
 	{
-		$data['id'] = $id;
 		$data['title'] = "Cart";
 
 		$this->view('cart',$data);

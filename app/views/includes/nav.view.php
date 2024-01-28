@@ -2,11 +2,10 @@
     <nav class="nav-main">
         <div class="logo"><img src="<?php echo ROOT ?>/assets/images/Logo_green.png"></div>
         <div class="nav-item">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <!-- <li><a href="#">Discounts</a></li> -->
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><a id="tohome">Home</a></li>
+            <li><a id="toproducts">Shop</a></li>
+            <li><a id="toabout">About Us</a></li>
+            <li><a id="tocontact">Contact Us</a></li>
         </div>
         <div class="nav-items-right">
             <form class="search-form" action="#">
@@ -19,13 +18,13 @@
                 </div>
             </form> 
             <li>
-                <a href="#">
-                  <span class="fas fa-shopping-cart"></span>
-                  <span class="cart-badge">0</span>
+                <a id="tocart">
+                  <span id="tocart" class="fas fa-shopping-cart"></span>
+                  <span id="tocart" class="cart-badge">0</span>
                 </a>
-                <ul class="dropdown-menu hidden">
+                <!-- <ul class="dropdown-menu hidden">
                   <li class="empty">Your cart is empty.</li>
-                </ul>
+                </ul> -->
             </li>
             <li>
                 <a href="#">
@@ -33,22 +32,66 @@
                   <span>Profile</span>
                 </a>
                 <ul class="dropdown-menu hidden">
-                  <li><a href="#">My Account</a></li>
+                  <li id="toprofile"><a>My Account</a></li>
                   <li><a href="#">Orders</a></li>
                   <li><a href="#">Wishlist</a></li>
                   <li>
+                    <button id="tologin">Login</button>
+                  </li>
+                  <li id="logout">
                     <button>Logout</button>
                   </li>
                   <hr>
                   <li>
                     <span>not registered yet?</span>
-                    <button>Signup</button>
+                    <button id="toregister">Signup</button>
                   </li>
                 </ul>
             </li>
             
         </div>
+
+        <script>
+  // Add event listener to the parent element
+  document.querySelector('.nav-main').addEventListener('click', (event) => {
+    const target = event.target;
+    const id = target.id;
+
+    // Handle different menu items based on their IDs
+    switch (id) {
+      case 'tohome':
+        window.location.href = '<?= ROOT ?>';
+        break;
+      case 'toproducts':
+        window.location.href = '<?= ROOT ?>/products';
+        break;
+      case 'toabout':
+        window.location.href = '<?= ROOT ?>/about';
+        break;
+      case 'tocontact':
+        window.location.href = '<?= ROOT ?>/contact';
+        break;
+      case 'tocart':
+        window.location.href = '<?= ROOT ?>/cart';
+        break;
+      case 'toprofile':
+        window.location.href = '<?= ROOT ?>/profile';
+        break;
+      case 'toregister':
+        window.location.href = '<?= ROOT ?>/signup';
+        break;
+      case 'tologin':
+        window.location.href = '<?= ROOT ?>/login';
+        break;
+      default:
+        break;
+    }
+  });
+</script>
+
         
     </nav>
+
+
 
     <script src="<?php echo ROOT ?>/assets/js/header.js"></script>
