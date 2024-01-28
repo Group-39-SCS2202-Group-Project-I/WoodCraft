@@ -72,7 +72,7 @@ class Delete extends Controller
         $db->query("DELETE FROM product_category WHERE product_category_id = $id");
 
         message("Product category deleted successfully!");
-        redirect('admin/products/categories');
+        redirect('admin/categories');
     }
 
     public function product_images($id)
