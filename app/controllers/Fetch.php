@@ -756,6 +756,16 @@ class Fetch extends Controller
     }
 
 
+    public function material_stk()
+    {
+        $db = new Database();
+        $data['material_stk'] = $db->query("SELECT * FROM material_stk");
+        
+        header("Content-Type: application/json");
+        echo json_encode($data['material_stk']);
+    }
+
+
 }
 
 

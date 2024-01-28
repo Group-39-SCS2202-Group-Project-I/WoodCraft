@@ -523,11 +523,14 @@ class Add extends Controller
 
         // show(1);
 
+        $materials = [];
         if ($result) {
             //fetch materials needed for product
             $url = ROOT . "/fetch/product_materials/" . $_POST['product_id'];
             $response = file_get_contents($url);
             $product_materials = json_decode($response, true);
+
+            $materials = $product_materials;
             // show($product_materials);
 
             //fetch materials and update quantity by subtracting quantity needed*quantity produced
@@ -693,7 +696,82 @@ class Add extends Controller
                 show("Worker added to production_worker table successfully!");
             }
 
-            show(4);
+            // show(4);
+
+            $materials_used = [];
+            foreach ($materials as $material) {
+                $material_used = [
+                    'production_id' => $production_id,
+                    'material_id' => $material['material_id'],
+                    'quantity_used' => $material['quantity_needed'] * $_POST['quantity']
+                ];
+                $materials_used[] = $material_used;
+            }
+
+            $url2 = ROOT . "/fetch/material_stk";
+            $response2 = file_get_contents($url2);
+            $material_stk = json_decode($response2, true);
+
+            // show($material_stk);
+
+            $production_material_data = [];
+
+            foreach ($materials_used as $material_used) {
+                $material_id = $material_used['material_id'];
+                $quantity_used = $material_used['quantity_used'];
+
+
+                foreach ($material_stk as $material_stk) {
+
+                    if ($material_stk['material_id'] == $material_id) {
+                        // show($material_stk);
+                        // show($material_used);
+                        // show($quantity_used);
+
+                        $stock_available = $material_stk['quantity'];
+                        // show($stock_available);
+
+                        if ($stock_available >= $quantity_used) {
+                            show("enough");
+                            $stock_available = $stock_available - $quantity_used;
+                            // show($stock_available);
+
+
+                            $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => $stock_available, 'stock_no' => $material_stk['stock_no']]);
+
+                            $production_material_data[] = [
+                                'production_id' => $production_id,
+                                'stock_no' => $material_stk['stock_no'],
+                                'quantity' => $quantity_used
+                            ];
+                            show("Material stock updated successfully!");
+                            break;
+                        } else {
+                            show("not enough");
+                            $quantity_used = $quantity_used - $stock_available;
+                            // show($quantity_used);
+
+                            $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => 0, 'stock_no' => $material_stk['stock_no']]);
+                            show("Material stock updated successfully!");
+
+                            $production_material_data[] = [
+                                'production_id' => $production_id,
+                                'stock_no' => $material_stk['stock_no'],
+                                'quantity' => $stock_available
+                            ];
+                        }
+                    }
+                }
+            }
+
+            show($production_material_data);
+
+
+            foreach ($production_material_data as $production_material) {
+                $db->query("INSERT INTO production_material (production_id, stock_no, quantity) VALUES (:production_id, :stock_no, :quantity)", $production_material);
+                show("Material added to production_material table successfully!");
+            }
+
             message("Production added successfully!");
             show(5);
             
