@@ -554,7 +554,7 @@ class Add extends Controller
                 // show("--------------------");
 
                 $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
-                show("Stock updated successfully!");
+                // show("Stock updated successfully!");
             }
 
             // add production
@@ -568,9 +568,9 @@ class Add extends Controller
 
             $db->query("INSERT INTO production (product_id, quantity, status) VALUES (:product_id, :quantity, :status)", $production);
 
-            show(3);
+            // show(3);
 
-            show("Production added successfully!");
+            // show("Production added successfully!");
 
             // fetch production id
             $production_id = $db->query("SELECT production_id FROM production WHERE production_id = (SELECT MAX(production_id) FROM production)")[0]->production_id;
@@ -591,9 +591,11 @@ class Add extends Controller
             // show($available_workers);
 
             //sort workers by updated_at and make a queue
-            usort($available_workers, function ($a, $b) {
-                return $a['updated_at'] <=> $b['updated_at'];
-            });
+
+            // usort($available_workers, function ($a, $b) {
+            //     return $a['updated_at'] <=> $b['updated_at'];
+            // });
+
             // show($available_workers);
 
             // $number_of_workers_needed = $_POST['nocar']+$_POST['nosup']+$_POST['nopain'];
@@ -601,13 +603,22 @@ class Add extends Controller
             $number_of_supervisors_needed = 0;
             $number_of_painters_needed = 0;
 
-            if (isset($_POST['nocar'])) {
+            // if (isset($_POST['nocar'])) {
+            //     $number_of_carpenters_needed = $_POST['nocar'];
+            // }
+            // if (isset($_POST['nosup'])) {
+            //     $number_of_supervisors_needed = $_POST['nosup'];
+            // }
+            // if (isset($_POST['nopain'])) {
+            //     $number_of_painters_needed = $_POST['nopain'];
+            // }
+            if($_POST['nocar'] != ''){
                 $number_of_carpenters_needed = $_POST['nocar'];
             }
-            if (isset($_POST['nosup'])) {
+            if($_POST['nosup'] != ''){
                 $number_of_supervisors_needed = $_POST['nosup'];
             }
-            if (isset($_POST['nopain'])) {
+            if($_POST['nopain'] != ''){
                 $number_of_painters_needed = $_POST['nopain'];
             }
 
@@ -644,7 +655,13 @@ class Add extends Controller
             $painters_assigned = [];
 
             //assign carpenters
-            if (isset($number_of_carpenters_needed)) {
+            // if (isset($number_of_carpenters_needed)) {
+            //     for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
+            //         $carpenters_assigned[] = $available_carpenters[$i];
+            //         $workers_assigned[] = $available_carpenters[$i];
+            //     }
+            // }
+            if($number_of_carpenters_needed != ''){
                 for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
                     $carpenters_assigned[] = $available_carpenters[$i];
                     $workers_assigned[] = $available_carpenters[$i];
@@ -654,7 +671,13 @@ class Add extends Controller
 
             //assign supervisors
 
-            if (isset($number_of_supervisors_needed)) {
+            // if (isset($number_of_supervisors_needed)) {
+            //     for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
+            //         $supervisors_assigned[] = $available_supervisors[$i];
+            //         $workers_assigned[] = $available_supervisors[$i];
+            //     }
+            // }
+            if($number_of_supervisors_needed != ''){
                 for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
                     $supervisors_assigned[] = $available_supervisors[$i];
                     $workers_assigned[] = $available_supervisors[$i];
@@ -662,7 +685,13 @@ class Add extends Controller
             }
 
             //assign painters
-            if (isset($number_of_painters_needed)) {
+            // if (isset($number_of_painters_needed)) {
+            //     for ($i = 0; $i < $number_of_painters_needed; $i++) {
+            //         $painters_assigned[] = $available_painters[$i];
+            //         $workers_assigned[] = $available_painters[$i];
+            //     }
+            // }
+            if($number_of_painters_needed != ''){
                 for ($i = 0; $i < $number_of_painters_needed; $i++) {
                     $painters_assigned[] = $available_painters[$i];
                     $workers_assigned[] = $available_painters[$i];
@@ -673,7 +702,7 @@ class Add extends Controller
             //     // $workers_assigned[] = $available_workers[$i];
 
             // }
-            show($workers_assigned);
+            // show($workers_assigned);
 
 
             //update worker availability
@@ -733,28 +762,26 @@ class Add extends Controller
                     $material_stk_filtered[] = $material_stk;
                 }
             }
-            // show($material_stk_filtered);
 
-            // show($materials_used);
 
             for ($i = 0; $i < count($materials_used); $i++) {
                 $material_id = $materials_used[$i]['material_id'];
                 $quantity_used = $materials_used[$i]['quantity_used'];
 
-                show($material_id);
-                show($quantity_used);
+                // show($material_id);
+                // show($quantity_used);
 
 
                 foreach ($material_stk_filtered as $material_stk) {
                     if ($material_stk['material_id'] == $material_id) {
-                        show($material_stk);
+                        // show($material_stk);
                         $stock_available = $material_stk['quantity'];
-                        show($stock_available);
+                        // show($stock_available);
 
                         if ($stock_available > $quantity_used) {
                             show("enough");
                             $stock_available = $stock_available - $quantity_used;
-                            show($stock_available);
+                            // show($stock_available);
 
                             $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => $stock_available, 'stock_no' => $material_stk['stock_no']]);
 
@@ -763,14 +790,14 @@ class Add extends Controller
                                 'stock_no' => $material_stk['stock_no'],
                                 'quantity' => $quantity_used
                             ];
-                            show("Material stock updated successfully!");
+                            // show("Material stock updated successfully!");
 
-                            $x = $quantity_used;
+                            // $x = $quantity_used;
                             break;
                         } else {
-                            show("not enough");
+                            // show("not enough");
                             $quantity_used = $quantity_used - $stock_available;
-                            show($quantity_used);
+                            // show($quantity_used);
 
                             $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => 0, 'stock_no' => $material_stk['stock_no']]);
                             show("Material stock updated successfully!");
@@ -784,107 +811,18 @@ class Add extends Controller
                     }
                 }
             }
-
-            // show('xxxxxxx');
-
-
-
-
-
-
-
-
-
-
-            // return;
-
-
-
-
-            // foreach ($materials_used as $material_used) {
-            //     $material_id = $material_used['material_id'];
-            //     $quantity_used = $material_used['quantity_used'];
-
-
-            //     if ($t == 1) {
-            //         break;
-            //     }
-
-
-            //     foreach ($material_stk as $material_stk) {
-
-
-            //         if ($t == 1) {
-            //             break;
-            //         }
-
-
-            //         if ($material_stk['material_id'] == $material_id) {
-            //             // show($material_stk);
-            //             // show($material_used);
-            //             // show($quantity_used);
-
-            //             $stock_available = $material_stk['quantity'];
-            //             // show($stock_available);
-
-            //             if ($t == 1) {
-            //                 break;
-            //             }
-
-            //             if ($stock_available >= $quantity_used) {
-            //                 show("enough");
-            //                 $stock_available = $stock_available - $quantity_used;
-            //                 // show($stock_available);
-
-
-            //                 $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => $stock_available, 'stock_no' => $material_stk['stock_no']]);
-
-            //                 $production_material_data[] = [
-            //                     'production_id' => $production_id,
-            //                     'stock_no' => $material_stk['stock_no'],
-            //                     'quantity' => $quantity_used
-            //                 ];
-            //                 // show("Material stock updated successfully!");
-
-            //                 show("aaaa");
-
-            //                 $t = 1;
-            //                 break;
-            //                 // return;
-            //             } else {
-
-            //                 show("not enough");
-            //                 $quantity_used = $quantity_used - $stock_available;
-            //                 // show($quantity_used);
-
-            //                 $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => 0, 'stock_no' => $material_stk['stock_no']]);
-            //                 show("Material stock updated successfully!");
-
-            //                 $production_material_data[] = [
-            //                     'production_id' => $production_id,
-            //                     'stock_no' => $material_stk['stock_no'],
-            //                     'quantity' => $stock_available
-            //                 ];
-            //             }
-            //         }
-            //         show("y");
-            //     }
-            //     show("z");
-            // }
-            // show("xxxxxxx");
-
-            show($production_material_data);
-
+            $count_pm = count($production_material_data);
+            $c = 0;
             foreach ($production_material_data as $production_material) {
                 $db->query("INSERT INTO production_material (production_id, stock_no, quantity) VALUES (:production_id, :stock_no, :quantity)", $production_material);
-                show("Production material added successfully!");
+                // show("Production material added successfully!");
+                $c++;
             }
-
-            // return;
-
+            if($c == $count_pm){
+                redirect('pm/productions');
+            }
+        
             message("Production added successfully!");
-            show(5);
-
             redirect('pm/productions');
         } else {
             show("kes");
@@ -1036,3 +974,4 @@ class Add extends Controller
         }
     }
 }
+
