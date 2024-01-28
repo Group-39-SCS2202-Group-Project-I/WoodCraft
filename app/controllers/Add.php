@@ -324,8 +324,12 @@ class Add extends Controller
 
     public function product_image()
     {
-        show($_POST);
-        show($_FILES);
+        // show($_POST);
+        // show($_FILES);
+
+        if (empty($_FILES['image']['name'])) {
+            redirect('admin/products/' . $_POST['product_id']);
+        }
 
         $folder = "uploads/images/";
         $a = 2;
@@ -340,11 +344,9 @@ class Add extends Controller
         }
 
         $files = scandir($folder);
-        show($files);
+        // show($files);
 
-
-
-        show($a);
+        // show($a);
 
         $errors = [];
 
@@ -353,33 +355,43 @@ class Add extends Controller
         $product_image = new ProductImage;
 
 
-        $allowed = ['image/jpeg', 'image/png', 'image/avif', 'image/gif', 'image/webp'];
+        // $allowed = ['image/jpeg', 'image/png', 'image/avif', 'image/gif', 'image/webp'];
 
-        if (!empty($_FILES['image']['name'])) {
+        // if (!empty($_FILES['image']['name'])) {
 
-            if ($_FILES['image']['error'] == 0) {
+        //     if ($_FILES['image']['error'] == 0) {
 
-                if (in_array($_FILES['image']['type'], $allowed)) {
-                    //everything good
-                    $destination = $folder . time() . $_FILES['image']['name'];
-                    move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+        //         if (in_array($_FILES['image']['type'], $allowed)) {
+        //             //everything good
+        //             $destination = $folder . time() . $_FILES['image']['name'];
+        //             move_uploaded_file($_FILES['image']['tmp_name'], $destination);
 
 
 
-                    $_POST['image_url'] = $destination;
-                } else {
-                    $product_image->$errors['image'] = "Image type not allowed";
-                }
-            } else {
-                $product_image->errors['image'] = "Could not upload image";
-            }
-        }
+        //             $_POST['image_url'] = $destination;
+        //         } else {
+        //             $product_image->$errors['image'] = "Image type not allowed";
+        //         }
+        //     } else {
+        //         $product_image->errors['image'] = "Could not upload image";
+        //     }
+        // }
+
+        show($_POST);
+        show($_FILES);
+        
+
+        $destination = $folder . time() . $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+        $_POST['image_url'] = $destination;
+
 
         if (empty($product_image->errors)) {
             $product_image_arr = [
                 'image_url' => $_POST['image_url'],
                 'product_id' => $_POST['product_id']
             ];
+
             show($product_image_arr);
 
             $db->query("INSERT INTO product_image (image_url, product_id) VALUES (:image_url, :product_id)", $product_image_arr);
@@ -387,7 +399,7 @@ class Add extends Controller
             message("Product image added successfully!");
             redirect('admin/products/' . $_POST['product_id']);
         } else {
-            show($product_image->errors);
+            // show($product_image->errors);
             $_SESSION['errors'] = $product_image->errors;
             $_SESSION['form_data'] = $_POST;
 
