@@ -662,6 +662,19 @@ class Fetch extends Controller
         }
     }
 
+    public function pxn_worker($id = '')
+    {
+        if($id != '')
+        {
+            $db = new Database();
+            $pxn_worker = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
+
+            // $production_ids = array_column($pxn_worker, 'production_id');
+            header ("Content-Type: application/json");
+            echo json_encode($pxn_worker);
+        }
+    }
+
     public function user_cus()
     {
         $db = new Database();
@@ -786,7 +799,7 @@ class Fetch extends Controller
         // get stock_no from production_materials
         $stock_nos = array_column($data['production_materials'], 'stock_no');
         $stock_nos = implode(',', $stock_nos);
-        show($stock_nos);
+        // show($stock_nos);
 
         $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no IN ($stock_nos)");
 
@@ -820,7 +833,7 @@ class Fetch extends Controller
         $data['production_materials'] = array_filter($data['production_materials'], function ($production_material) {
             return $production_material->quantity > 0;
         });
-        
+
         // show($data['production_materials']);
 
         header("Content-Type: application/json");
