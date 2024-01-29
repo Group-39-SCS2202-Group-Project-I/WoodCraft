@@ -78,6 +78,12 @@ if ($availavle_supervisors) {
             'GRAD' 0,
             'opsz' 24;
     }
+
+    .card-clicked
+    {
+        background-color: var(--blk);
+        color: var(--light);
+    }
 </style>
 
 <div class="table-section" style=" padding-bottom:0">
@@ -86,21 +92,21 @@ if ($availavle_supervisors) {
 
 <div class="dashboard">
     <a href="" style="text-decoration:none" onclick="filterWorkers('carpenter')">
-        <div class="card">
+        <div class="card" id="carp-card">
             <h3 class="card-title">Carpenters</h3>
             <span class="material-icons-outlined card-icon">chair</span>
             <p class="card-text"><?= $availavle_carpenter_count ?>/<?= $carpenters_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterWorkers('painter')">
-        <div class="card">
+        <div class="card" id="pain-card">
             <h3 class="card-title">Painters</h3>
             <span class="material-icons-outlined card-icon">chair</span>
             <p class="card-text"><?= $availavle_painter_count ?>/<?= $painters_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterWorkers('supervisor')">
-        <div class="card">
+        <div class="card" id="sup-card">
             <h3 class="card-title">Supervisors</h3>
             <span class="material-icons-outlined card-icon">chair</span>
             <p class="card-text"><?= $availavle_supervisor_count ?>/<?= $supervisors_count ?></p>
@@ -213,6 +219,23 @@ if ($availavle_supervisors) {
                 }
             }
         }
+
+        if (role == "carpenter") {
+            document.getElementById("carp-card").classList.add("card-clicked");
+            document.getElementById("pain-card").classList.remove("card-clicked");
+            document.getElementById("sup-card").classList.remove("card-clicked");
+        } else if (role == "painter") {
+            document.getElementById("carp-card").classList.remove("card-clicked");
+            document.getElementById("pain-card").classList.add("card-clicked");
+            document.getElementById("sup-card").classList.remove("card-clicked");
+        } else if (role == "supervisor") {
+            document.getElementById("carp-card").classList.remove("card-clicked");
+            document.getElementById("pain-card").classList.remove("card-clicked");
+            document.getElementById("sup-card").classList.add("card-clicked");
+        }
+
+        
+        
     }
 </script>
 

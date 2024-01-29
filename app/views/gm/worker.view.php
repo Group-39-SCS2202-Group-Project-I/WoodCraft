@@ -281,7 +281,7 @@ $full_name = $first_name . " " . $last_name;
                     <!-- <td><?= date('Y-m-d', strtotime($production['created_at'])) ?></td> -->
                     <!-- <td><?= date('Y-m-d', strtotime($production['updated_at'])) ?></td> -->
                     <td>
-                        <a href="<?= ROOT ?>/pm/production/<?= $production['production_id'] ?>" class="table-section__button tbl-btn">View</a>
+                        <a href="<?= ROOT ?>/gm/productions/<?= $production['production_id'] ?>" class="table-section__button tbl-btn">View</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
