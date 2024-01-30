@@ -500,8 +500,9 @@ h6 {
 .table-section__table th,
 .table-section__table td {
     padding: 10px;
-    /* text-align: left; */
-    text-align: center;
+    text-align: left;
+    /* text-align: center;
+     */
     /* border-bottom: 1px solid #ddd; */
 }
 

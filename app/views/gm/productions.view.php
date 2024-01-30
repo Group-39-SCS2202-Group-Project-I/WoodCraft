@@ -150,7 +150,7 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
 <div class="dashboard2" id="pxn-chart">
     <div>
         <div class="charts-card">
-            <p class="chart-title">Productions Last Year</p>
+            <p class="chart-title">Productions within a year</p>
             <div id="chart"></div>
         </div>
     </div>

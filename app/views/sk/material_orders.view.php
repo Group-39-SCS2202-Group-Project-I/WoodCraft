@@ -57,7 +57,7 @@
                                     row.insertCell().innerHTML = supplier_id;
                                     row.insertCell().innerHTML = item.quantity;
                                     row.insertCell().innerHTML = item.price_per_unit;
-                                    row.insertCell().innerHTML = item.total;
+                                    row.insertCell().innerHTML = `<th>${item.total}</th>`
                                 });
                             });
                     }

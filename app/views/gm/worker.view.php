@@ -204,27 +204,16 @@ $full_name = $first_name . " " . $last_name;
 </style>
 
 <div class="table-section" style=" padding-bottom:0">
-    <h2 class="table-section__title" style=" margin-bottom:0"><?= $wrkNumber ?></h2>
+    <h2 class="table-section__title" style=" margin-bottom:0">Worker Details - <?= $wrkNumber ?></h2>
 </div>
 
 <div class="dashboard2" id="pwc-table">
     <div class="product-container">
         <!-- <h1 class="product-container-title"><?= $wrkNumber ?></h1> -->
-        <h1 class="product-container-title">Worker Details</h1>
+        <!-- <h1 class="product-container-title"></h1> -->
 
-        <div class="product-review-item">
-            <div class="product-container-item">
-                <p class="pc-lable">Name :&nbsp</p>
-                <p><?php echo $full_name ?></p>
-            </div>
-            <div class="product-container-item">
-                <p class="pc-lable"> Mobile :&nbsp</p>
-                <p><?php echo ucfirst($worker['mobile_number']); ?></p>
-            </div>
-            <div class="product-container-item">
-                <p class="pc-lable">Address :&nbsp</p>
-                <p><?php echo $address  ?></p>
-            </div>
+        <div class="product-review-item" style="margin-bottom:0;height: 100%;">
+            
 
             <div class="product-container-item">
                 <p class="pc-lable">Worker Role :&nbsp</p>
@@ -250,6 +239,21 @@ $full_name = $first_name . " " . $last_name;
     <!--  -->
 
     <div class="product-container">
+    <div class="product-review-item" style="margin-bottom:0;">
+            <div class="product-container-item">
+                <p class="pc-lable">Name :&nbsp</p>
+                <p><?php echo $full_name ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable"> Mobile :&nbsp</p>
+                <p><?php echo ucfirst($worker['mobile_number']); ?></p>
+            </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Address :&nbsp</p>
+                <p><?php echo $address  ?></p>
+            </div>
+
+    </div>
 
 
     </div>
