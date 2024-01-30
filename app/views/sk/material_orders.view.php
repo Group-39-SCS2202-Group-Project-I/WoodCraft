@@ -25,6 +25,7 @@
             <tr>
                 <th>Material Order ID</th>
                 <th>Material ID</th>
+                <!-- <th>Stock No</th> -->
                 <th>Material Name</th>
                 <th>Supplier ID</th>
                 <th>Quantity</th>
@@ -39,7 +40,7 @@
                         fetch('<?php echo ROOT ?>/fetch/material_orders')
                             .then(response => response.json())
                             .then(data => {
-                                // console.log(data);
+                                console.log(data);
                                 let table = document.getElementById('mat-ord-table');
 
                                 while (table.rows.length > 1) {
@@ -51,8 +52,10 @@
                                     let material_order_id = "MTO-" + String(item.material_order_id).padStart(3, '0');
                                     let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
                                     let supplier_id = "SUP-" + String(item.supplier_id).padStart(3, '0');
+                                    // let stock_id = "STK-" + String(item.material_stk.stock_no).padStart(3, '0');
                                     row.insertCell().innerHTML = material_order_id;
                                     row.insertCell().innerHTML = material_id;
+                                    row.insertCell().innerHTML = stock_id;
                                     row.insertCell().innerHTML = item.material_name;
                                     row.insertCell().innerHTML = supplier_id;
                                     row.insertCell().innerHTML = item.quantity;

@@ -125,21 +125,21 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
     <a href="" style="text-decoration:none" onclick="filterProductions('pending')">
         <div class="card" id="pen-card">
             <h3 class="card-title">Pending Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">pending_actions</span>
             <p class="card-text"><?= $pen_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterProductions('processing')">
         <div class="card" id="pro-card">
             <h3 class="card-title">Ongoing Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">hourglass_top</span>
             <p class="card-text"><?= $pro_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterProductions('completed')">
         <div class="card" id="com-card">
             <h3 class="card-title">Completed Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">done_all</span>
             <p class="card-text"><?= $com_count ?></p>
         </div>
     </a>

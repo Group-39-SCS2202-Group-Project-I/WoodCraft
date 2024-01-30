@@ -94,21 +94,21 @@ if ($availavle_supervisors) {
     <a href="" style="text-decoration:none" onclick="filterWorkers('carpenter')">
         <div class="card" id="carp-card">
             <h3 class="card-title">Carpenters</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">carpenter</span>
             <p class="card-text"><?= $availavle_carpenter_count ?>/<?= $carpenters_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterWorkers('painter')">
         <div class="card" id="pain-card">
             <h3 class="card-title">Painters</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">brush</span>
             <p class="card-text"><?= $availavle_painter_count ?>/<?= $painters_count ?></p>
         </div>
     </a>
     <a href="" style="text-decoration:none" onclick="filterWorkers('supervisor')">
         <div class="card" id="sup-card">
             <h3 class="card-title">Supervisors</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">groups</span>
             <p class="card-text"><?= $availavle_supervisor_count ?>/<?= $supervisors_count ?></p>
         </div>
     </a>

@@ -566,6 +566,14 @@ class Fetch extends Controller
             $db = new Database();
             $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
 
+            // $material_stk = [];
+            $material_order_id = $data['material_order'][0]->material_order_id;
+            $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE material_order_id = $material_order_id");
+
+            //  append material_stk to material_order
+            $data['material_order'][0]->material_stk = $data['material_stk'];
+
+
             header("Content-Type: application/json");
             echo json_encode($data['material_order'][0]);
         } else {
@@ -584,6 +592,27 @@ class Fetch extends Controller
                 }
                 return $material_order;
             }, $data['material_orders']);
+
+            
+            $material_stks = [];
+            if(count($data['material_orders']) > 0){
+                // get material_stk from material_order_id
+                $material_order_ids = array_column($data['material_orders'], 'material_order_id');
+                $material_order_ids = implode(',', $material_order_ids);
+
+                $material_stks = $db->query("SELECT * FROM material_stk WHERE material_order_id IN ($material_order_ids)");
+                // map $material_stks to $data['material_orders']
+                $data['material_orders'] = array_map(function ($material_order) use ($material_stks) {
+                    $material_order->material_stk = [];
+                    foreach ($material_stks as $material_stk) {
+                        if ($material_order->material_order_id == $material_stk->material_order_id) {
+                            $material_order->material_stk[] = $material_stk;
+                        }
+                    }
+                    return $material_order;
+                }, $data['material_orders']);
+            }
+
 
             header("Content-Type: application/json");
             echo json_encode($data['material_orders']);

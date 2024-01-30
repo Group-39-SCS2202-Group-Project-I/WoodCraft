@@ -133,21 +133,21 @@ foreach ($products_without_materials as $product_without_materials) {
     <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
         <div class="card">
             <h3 class="card-title">No of Pending Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">pending_actions</span>
             <p class="card-text"><?= $nopxn_pnd ?></p>
         </div>
     </a>
     <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
         <div class="card">
             <h3 class="card-title">No of Ongoing Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">hourglass_top</span>
             <p class="card-text"><?= $nopxn_prc ?></p>
         </div>
     </a>
     <a href="<?= ROOT . '/pm/approved_bulk_orders' ?>" style="text-decoration:none" onclick="navfunc('app_bulk-nav')">
         <div class="card">
             <h3 class="card-title">Approved bulk orders</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">task_alt</span>
             <p class="card-text">5</p>
         </div>
     </a>
