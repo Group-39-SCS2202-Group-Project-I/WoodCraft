@@ -26,7 +26,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
     <h2 class="table-section__title">Products</h2>
 
-    
+
 
     <div class="table-section__add">
         <!-- <a href="<?php echo ROOT ?>/admin/products/categories" class="table-section__add-link">Product Categories</a> -->
@@ -50,6 +50,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <th>Stocks Available</th>
                 <th>Product Measurement</th>
                 <th>Price</th>
+                <th>Listed</th>
                 <th>Actions</th>
             </tr>
 
@@ -83,8 +84,25 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                         }
                         ?></td>
                     <td><?php echo $item['price']; ?></td>
+
+                    <?php
+                    if ($item['listed'] == 1) {
+                        $x = 'Yes';
+                    } else {
+                        $x = 'No';
+                    }
+                    ?>
+                    <td><?php echo $x; ?></td>
                     <td>
                         <!-- view -->
+                        <?php
+                        if ($item['listed'] == 1) {
+                            echo '<a href="" class="table-section__button" onclick="unlistfunc(' . $item['product_id'] . ')">Unlist</a>';
+                        } else {
+                            echo '<a href="" class="table-section__button" onclick="listfunc(' . $item['product_id'] . ')">List</a>';
+                        }
+                        ?>
+
                         <a href="<?php echo ROOT ?>/admin/products/<?php echo $item['product_id'] ?>" class="table-section__button">View</a>
                     </td>
                 </tr>
@@ -92,6 +110,70 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         </tbody>
     </table>
 </div>
+
+
+<script>
+    function listfunc(id) {
+        // post request to list product
+        // alert(id);
+        let url = "<?php echo ROOT ?>/update/list_product/"+id;
+        // alert(url);
+
+        post = {
+            method: 'post',
+            body: JSON.stringify({
+                id: id
+            })
+        }
+
+        fetch(url, post)
+            .then(res => res.json())
+            .then(data => {
+                alert(data);
+                if (data == 1) {
+                    // alert('Product listed successfully');
+                    location.reload();
+                } else {
+                    // alert('Something went wrong');
+                }
+            })
+            .catch(err => {
+                // alert(err);
+            })
+    }
+
+    function unlistfunc(id) {
+        // alert(id);
+        // post request to unlist product
+
+        let url = "<?php echo ROOT ?>/update/unlist_product/"+id;
+
+        post = {
+            method: 'post',
+            body: JSON.stringify({
+                id: id
+            })
+        }
+
+        fetch(url, post)
+            .then(res => res.json())
+            .then(data => {
+                alert(data);
+                if (data == 1) {
+                    // alert('Product unlisted successfully');
+                    location.reload();
+                } else {
+                    // alert('Something went wrong');
+                }
+            })
+            .catch(err => {
+                // alert(err);
+            })
+
+        
+
+    }
+</script>
 
 
 

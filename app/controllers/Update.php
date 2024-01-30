@@ -479,6 +479,35 @@ class Update extends Controller
         
     }
 
+    public function list_product($id)
+    {
+        show($id);
+
+        // update product listed to 1
+        $db = new Database;
+        $db->query("UPDATE product SET listed = 1 WHERE product_id = $id");
+
+        echo json_encode(1);
+
+        message("Product listed successfully!");
+        redirect('admin/products');
+
+    }
+
+    public function unlist_product($id)
+    {
+        show($id);
+
+        // update product listed to 0
+        $db = new Database;
+        $db->query("UPDATE product SET listed = 0 WHERE product_id = $id");
+
+        echo json_encode(2);
+
+        message("Product unlisted successfully!");
+        redirect('admin/products');
+    }
+
 
 
 

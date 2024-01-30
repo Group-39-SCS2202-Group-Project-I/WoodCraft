@@ -1,0 +1,238 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  --white: #fff;
+  --red: #e40202;
+  --bg1: #9A9A9A;
+  --bg2: #F0EEED;
+  --light: #F6F6F6;
+  --green1: #688272;
+  --green2: #5cb85c;
+  --coal_black: #262626;
+  --coal_black_light: #2f2f2f;
+  --coal_black_lighter: #3b3b3b;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  display: flex;
+  padding: 0 10px;
+  min-height: 100vh;
+  /* background: linear-gradient(
+    to right,
+    var(--bg2) 0%,
+    var(--bg2) 37%,
+    var(--green1) 37%,
+    var(--green1) 100%
+  ); */
+  background: var(--green1);
+  align-items: center;
+  justify-content: center;
+}
+/* ::selection{
+  color: var(--bg1);
+  background: linear-gradient(
+    to right,
+    var(--bg2) 0%,
+    var(--bg2) 37%,
+    var(--green1) 37%,
+    var(--green1) 100%
+  );
+} */
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px;
+  height: 550px;
+  align-items: center;
+  overflow: hidden;
+  background-color: #fff;
+  background: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.250);
+}
+
+
+
+.form_img {
+  position: relative;
+  align-items: center;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+
+}
+
+.form_img img {
+  width: auto;
+  height: 559px;
+  object-fit: cover; /* This ensures the image covers the entire div without stretching */
+}
+
+.contact_form{
+  top: 0;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact_form header{
+  font-size: 22px;
+  font-weight: 600;
+  padding: 20px 30px;
+  border-bottom: 1px solid #ccc;
+  width: 94%;
+}
+.contact_form form{
+  margin: 35px 30px;
+}
+.contact_form form.disabled{
+  pointer-events: none;
+  opacity: 0.7;
+}
+form .dbl-field{
+  display: flex;
+  margin-bottom: 25px;
+  justify-content: space-between;
+}
+.dbl-field .field{
+  height: 50px;
+  display: flex;
+  position: relative;
+  width: calc(100% / 2 - 13px);
+}
+.contact_form form i{
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  color: #ccc;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+form .field input,
+form .message textarea{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  padding: 0 18px 0 48px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.field input::placeholder,
+.message textarea::placeholder{
+  color: #ccc;
+}
+.field input:focus,
+.message textarea:focus{
+  padding-left: 47px;
+  border: 2px solid var(--green1);
+}
+.field input:focus ~ i,
+.message textarea:focus ~ i{
+  color: var(--green1);
+}
+form .message{
+  position: relative;
+}
+form .message i{
+  top: 30px;
+  font-size: 20px;
+}
+form .message textarea{
+  min-height: 130px;
+  max-height: 230px;
+  max-width: 100%;
+  min-width: 100%;
+  padding: 15px 20px 0 48px;
+}
+form .message textarea::-webkit-scrollbar{
+  width: 0px;
+}
+.message textarea:focus{
+  padding-top: 14px;
+}
+
+.alert {
+  margin-top: 10px;
+}
+
+.alert.alert-danger {
+  color: var(--red);
+}
+
+.alert.alert-success {
+  color: var(--green2);
+}
+
+form .button-area{
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.button1{
+  padding: 10px 20px;
+  background-color: var(--coal_black);
+  color: var(--light);
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.button1:hover{
+  background-color: var(--green1);
+}
+
+.button-area span{
+  font-size: 17px;
+  margin-left: 30px;
+  display: none;
+}
+
+
+@media (max-width: 600px){
+  .contact_form header{
+    text-align: center;
+  }
+  .contact_form form{
+    margin: 35px 20px;
+  }
+  form .dbl-field{
+    flex-direction: column;
+    margin-bottom: 0px;
+  }
+  form .dbl-field .field{
+    width: 100%;
+    height: 45px;
+    margin-bottom: 20px;
+  }
+  form .message textarea{
+    resize: none;
+  }
+  form .button-area{
+    margin-top: 20px;
+    flex-direction: column;
+  }
+  .button-area button{
+    width: 100%;
+    padding: 11px 0;
+    font-size: 16px;
+  }
+  .button-area span{
+    margin: 20px 0 0;
+    text-align: center;
+  }
+}
+

@@ -5,7 +5,12 @@ $pxn_url = ROOT . "/fetch/production";
 $pxn_response = file_get_contents($pxn_url);
 $pxn = json_decode($pxn_response, true);
 // show($pxn);
-$nopxn = count($pxn);
+
+$nopxn = 0;
+// $nopxn = count($pxn);
+if ($pxn) {
+    $nopxn = count($pxn);
+}
 // show($nopxn); 
 
 $nopxn_cmp = 0;
@@ -128,21 +133,21 @@ foreach ($products_without_materials as $product_without_materials) {
     <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
         <div class="card">
             <h3 class="card-title">No of Pending Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">pending_actions</span>
             <p class="card-text"><?= $nopxn_pnd ?></p>
         </div>
     </a>
     <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
         <div class="card">
             <h3 class="card-title">No of Ongoing Productions</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">hourglass_top</span>
             <p class="card-text"><?= $nopxn_prc ?></p>
         </div>
     </a>
     <a href="<?= ROOT . '/pm/approved_bulk_orders' ?>" style="text-decoration:none" onclick="navfunc('app_bulk-nav')">
         <div class="card">
             <h3 class="card-title">Approved bulk orders</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-icons-outlined card-icon">task_alt</span>
             <p class="card-text">5</p>
         </div>
     </a>
@@ -165,7 +170,7 @@ foreach ($products_without_materials as $product_without_materials) {
     <?php if ($products_without_materials_count > 0) : ?>
         <div class="table-section" style="width: 100%;margin:0; padding:0% ">
             <div class="mzg-box col-danger">
-                <div class="messege">There <?= (($products_without_materials_count == 1) ? 'is a product ' : 'are ' . $products_without_materials_count . ' products ') . ' ' ?> without materials!</div>
+                <div class="messege"><?= (($products_without_materials_count == 1) ? 'There is a product in the system for which the materials have not yet been configured':$products_without_materials_count. ' products exist in the system for which materials have not yet been configured')  ?>!</div>
             </div>
             <table class="table-section__table" style="margin:0; padding:0%" id="pwi">
                 <thead>

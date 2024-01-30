@@ -220,6 +220,44 @@ class Fetch extends Controller
 
             $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
 
+            $url =  $url = ROOT . "/fetch/product_review/$id";
+            $response = file_get_contents($url);
+            $product_reviews = json_decode($response);
+            $product_data['reviews'] = $product_reviews;
+
+
+
+            // $count_reviews = $db->query("SELECT COUNT(*) as count FROM product_review WHERE product_id = $id");
+            // show($count_reviews);
+
+            // $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id = $id");
+
+            // // customer_id from product_reviews
+            // if($product_reviews){
+            //     $customer_ids = array_column($product_reviews, 'customer_id');
+            //     $customer_ids = implode(',', $customer_ids);
+            //     $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+            //     // add customer name to product_reviews
+            //     foreach ($product_reviews as $key => $product_review) {
+            //         foreach ($customers as $customer) {
+            //             if ($product_review->customer_id == $customer->customer_id) {
+            //                 $product_reviews[$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            //             }
+            //         }
+            //     }
+            //     $product_data['reviews'] = $product_reviews;
+            // }
+            // else{
+            //     $product_data['reviews'] = [];
+            // }
+
+            // 
+            $avarage_rating = 0;
+            if (count($product_reviews) > 0) {
+                $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
+            }
+
+            $product_data['average_rating'] = $avarage_rating;
 
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -269,6 +307,66 @@ class Fetch extends Controller
                 }
             }
 
+            //product reviews
+            $product_ids = array_column($data['products'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id IN ($product_ids)");
+
+            $data['products'] = array_map(function ($product) use ($product_reviews) {
+                $product->reviews = [];
+                foreach ($product_reviews as $product_review) {
+                    if ($product->product_id == $product_review->product_id) {
+                        $product->reviews[] = $product_review;
+                    }
+                }
+                return $product;
+            }, $data['products']);
+
+            // show($data['products']);
+
+            // get customer_id from product_reviews
+            $customer_ids = array_column($product_reviews, 'customer_id');
+            $customer_ids = implode(',', $customer_ids);
+
+
+
+            //map avarage rating of each product to its $data['products']
+            $data['products'] = array_map(function ($product) use ($product_reviews) {
+                $product->avarage_rating = 0;
+                if (count($product->reviews) > 0) {
+                    $product->avarage_rating = array_sum(array_column($product->reviews, 'rating')) / count($product->reviews);
+                }
+                return $product;
+            }, $data['products']);
+
+            // show($data['products']);
+
+            $data['products'] = array_map(function ($product) {
+                unset($product->reviews);
+                return $product;
+            }, $data['products']);
+
+            // show($data['products']);
+
+            // get customer_id from product_reviews
+            // $customer_ids = array_column($product_reviews, 'customer_id');
+            // $customer_ids = implode(',', $customer_ids);
+            // $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+            // // add customer name to product_reviews
+            // foreach ($data['products'] as $key => $product) {
+            //     foreach ($product->reviews as $review_key => $product_review) {
+            //         foreach ($customers as $customer) {
+            //             if ($product_review->customer_id == $customer->customer_id) {
+            //                 $data['products'][$key]->reviews[$review_key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            //             }
+            //         }
+            //     }
+            // }
+
+
+
+
+            // show($data['products']);
 
             header("Content-Type: application/json");
             echo json_encode($data);
@@ -368,9 +466,7 @@ class Fetch extends Controller
 
             header("Content-Type: application/json");
             echo json_encode($product_material_data);
-        }
-        else
-        {
+        } else {
             $db = new Database();
             $data['product_materials'] = $db->query("SELECT * FROM product_material");
 
@@ -470,17 +566,57 @@ class Fetch extends Controller
             $db = new Database();
             $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
 
+            // $material_stk = [];
+            $material_order_id = $data['material_order'][0]->material_order_id;
+            $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE material_order_id = $material_order_id");
+
+            //  append material_stk to material_order
+            $data['material_order'][0]->material_stk = $data['material_stk'];
+
+
             header("Content-Type: application/json");
             echo json_encode($data['material_order'][0]);
         } else {
             $db = new Database();
             $data['material_orders'] = $db->query("SELECT * FROM material_order");
 
+            $material_ids = array_column($data['material_orders'], 'material_id');
+            $material_ids = implode(',', $material_ids);
+            $materials = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
+
+            $data['material_orders'] = array_map(function ($material_order) use ($materials) {
+                foreach ($materials as $material) {
+                    if ($material_order->material_id == $material->material_id) {
+                        $material_order->material_name = $material->material_name;
+                    }
+                }
+                return $material_order;
+            }, $data['material_orders']);
+
+            
+            $material_stks = [];
+            if(count($data['material_orders']) > 0){
+                // get material_stk from material_order_id
+                $material_order_ids = array_column($data['material_orders'], 'material_order_id');
+                $material_order_ids = implode(',', $material_order_ids);
+
+                $material_stks = $db->query("SELECT * FROM material_stk WHERE material_order_id IN ($material_order_ids)");
+                // map $material_stks to $data['material_orders']
+                $data['material_orders'] = array_map(function ($material_order) use ($material_stks) {
+                    $material_order->material_stk = [];
+                    foreach ($material_stks as $material_stk) {
+                        if ($material_order->material_order_id == $material_stk->material_order_id) {
+                            $material_order->material_stk[] = $material_stk;
+                        }
+                    }
+                    return $material_order;
+                }, $data['material_orders']);
+            }
+
+
             header("Content-Type: application/json");
             echo json_encode($data['material_orders']);
         }
-
-        
     }
 
     public function finished_productions($id = '')
@@ -528,9 +664,6 @@ class Fetch extends Controller
 
             header("Content-Type: application/json");
             echo json_encode($data['finished_productions']);
-
-          
-
         }
     }
 
@@ -549,7 +682,6 @@ class Fetch extends Controller
                     if ($production_worker->worker_id == $worker->worker_id) {
                         $data['production_workers'][$key]->first_name = $worker->first_name;
                         $data['production_workers'][$key]->last_name = $worker->last_name;
-
                     }
                 }
             }
@@ -557,10 +689,22 @@ class Fetch extends Controller
             header("Content-Type: application/json");
             echo json_encode($data['production_workers']);
         }
-
     }
 
-    public function user_cus ()
+    public function pxn_worker($id = '')
+    {
+        if($id != '')
+        {
+            $db = new Database();
+            $pxn_worker = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
+
+            // $production_ids = array_column($pxn_worker, 'production_id');
+            header ("Content-Type: application/json");
+            echo json_encode($pxn_worker);
+        }
+    }
+
+    public function user_cus()
     {
         $db = new Database();
         $data['users'] = $db->query("SELECT * FROM user WHERE role = 'customer'");
@@ -616,7 +760,112 @@ class Fetch extends Controller
         echo json_encode($users_count_with_month_year);
     }
 
+    // 
+    public function product_review($product_id)
+    {
+        $db = new Database();
+        $data['product_reviews'] = $db->query("SELECT * FROM product_review WHERE product_id = $product_id");
 
+        if (!$data['product_reviews']) {
+            header("Content-Type: application/json");
+            echo json_encode([]);
+            return;
+        }
+
+        $customer_ids = array_column($data['product_reviews'], 'customer_id');
+        $customer_ids = implode(',', $customer_ids);
+        $data['customers'] = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+
+        foreach ($data['product_reviews'] as $key => $product_review) {
+            foreach ($data['customers'] as $customer) {
+                if ($product_review->customer_id == $customer->customer_id) {
+                    $data['product_reviews'][$key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+                }
+            }
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($data['product_reviews']);
+    }
+
+
+    public function material_stk($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_stk'][0]);
+        } else {
+            $db = new Database();
+            $data['material_stk'] = $db->query("SELECT * FROM material_stk");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['material_stk']);
+        }
+    }
+    // {
+    //     $db = new Database();
+    //     $data['material_stk'] = $db->query("SELECT * FROM material_stk");
+
+    //     header("Content-Type: application/json");
+    //     echo json_encode($data['material_stk']);
+    // }
+
+
+
+    public function production_material($production_id)
+    {
+        $db = new Database();
+        $data['production_materials'] = $db->query("SELECT * FROM production_material WHERE production_id = $production_id");
+
+        $production_material_ids = array_column($data['production_materials'], 'production_material_id');
+        $production_material_ids = implode(',', $production_material_ids);
+
+        // show($production_material_ids);
+
+        // get stock_no from production_materials
+        $stock_nos = array_column($data['production_materials'], 'stock_no');
+        $stock_nos = implode(',', $stock_nos);
+        // show($stock_nos);
+
+        $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no IN ($stock_nos)");
+
+        // map production materials and material_stk by stock_no
+        // $data['production_materials'] = array_map(function ($production_material) use ($data) {
+        //     foreach ($data['material_stk'] as $material_stk) {
+        //         if ($production_material->stock_no == $material_stk->stock_no) {
+        //             $production_material->material_stk = $material_stk;
+        //         }
+        //     }
+        //     return $production_material;
+        // }, $data['production_materials']);
+
+        // get price per unit from material_stk and map to production_materials by stock_no
+        $data['production_materials'] = array_map(function ($production_material) use ($data) {
+            foreach ($data['material_stk'] as $material_stk) {
+                if ($production_material->stock_no == $material_stk->stock_no) {
+                    $production_material->price_per_unit = $material_stk->price_per_unit;
+                }
+            }
+            return $production_material;
+        }, $data['production_materials']);
+
+        // production_material cost
+        $data['production_materials'] = array_map(function ($production_material) {
+            $production_material->cost = $production_material->price_per_unit * $production_material->quantity;
+            return $production_material;
+        }, $data['production_materials']);
+
+        // drop production material if quantity is 0
+        $data['production_materials'] = array_filter($data['production_materials'], function ($production_material) {
+            return $production_material->quantity > 0;
+        });
+
+        // show($data['production_materials']);
+
+        header("Content-Type: application/json");
+        echo json_encode($data['production_materials']);
+    }
 }
-
-
