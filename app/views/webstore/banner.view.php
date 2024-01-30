@@ -10,7 +10,7 @@
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
 
             <div class="banner-content">
 
@@ -30,7 +30,7 @@
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-2.jpg" alt="modern sunglasses" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-1.jpg" alt="modern sunglasses" class="banner-img">
 
             <div class="banner-content">
 
@@ -50,7 +50,7 @@
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-1.jpg" alt="new fashion summer sale" class="banner-img">
 
             <div class="banner-content">
 
