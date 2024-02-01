@@ -2542,3 +2542,265 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   }
 
 }
+
+/* ----------------------------------- */
+.section-title {
+position: relative;
+display: inline-block;
+color: #498b7b;
+margin-left: 25px;
+}
+
+.section-title::before {
+content: "";
+position: absolute;
+bottom: 45%;
+left: -15px;
+width: 0.5cm;
+height: 2px;
+background-color: #498b7b;
+transform: translateX(-50%);
+}
+
+/* Benefits Section */
+/* --------------------------------------------- */
+
+.section-benefits {
+background-color: #fff;
+padding: 80px;
+}
+
+.tab-benefits {
+display: grid;
+grid-template-columns: 1fr 1fr;
+padding-bottom: 60px;
+}
+
+.tab-benefits-description {
+border-left: 3px solid #498b7b;
+padding: 10px;
+}
+
+.card-benefits {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+}
+
+.card-benefits-member {
+padding: 30px;
+height: 250px;
+text-align: left;
+align-items: baseline;
+background-color: #edebeb;
+border-radius: 10px;
+margin-bottom: 10px;
+}
+
+.card-benefits-member h3 {
+font-size: 18px;
+margin-bottom: 5px;
+}
+
+.card-benefits-member p {
+font-size: 14px;
+margin-bottom: 0;
+}
+
+/* Category Section */
+/* --------------------------------------------- */
+
+.section-category {
+text-align: center;
+padding: 80px;
+padding-bottom: 0px;
+background-color: #edebeb;
+}
+
+.tab-category-title {
+padding-bottom: 60px;
+}
+
+.card-category {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+}
+
+.card-category-half {
+width: 100%;
+}
+
+.card-category-quarter {
+width: 100%;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+
+.category {
+position: relative;
+overflow: hidden;
+border-radius: 10px;
+}
+
+.category img {
+width: 100%;
+object-fit: cover;
+height: 100%;
+}
+
+.category-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.4);
+border-radius: 10px;
+}
+
+.category-info {
+position: absolute;
+bottom: 10px;
+left: 10px;
+text-align: left;
+color: #fff;
+z-index: 1;
+}
+
+.category-info h2,
+.category-info p {
+margin: 5px;
+}
+
+#category1 {
+grid-column: span 2;
+height: 75%;
+}
+
+#category2 {
+grid-row: span 2;
+height: 95%;
+width: 200%;
+}
+
+#category3,
+#category4 {
+width: 100%;
+height: 55%;
+}
+
+.explore-button {
+position: relative;
+display: inline-block;
+color: #fff;
+text-decoration: none;
+border-radius: 5px;
+margin-left: 10px;
+}
+
+.explore-button:hover {
+color: #000;
+}
+
+/* Newsletter Section */
+/* --------------------------------------------- */
+
+.section-newsletter {
+text-align: center;
+padding: 80px;
+background-color: #fff;
+}
+
+.tab-newsletter-description {
+color: #498b7b;
+padding-bottom: 30px;
+}
+
+.card-newsletter {
+display: grid;
+grid-template-areas: 1fr auto;
+grid-gap: 10px;
+align-items: center;
+justify-content: center;
+}
+
+#subscribe-form {
+width: 100%;
+max-width: 400px;
+}
+
+.container-input {
+grid-area: input;
+display: flex;
+border: 1px solid #b3afaf;
+border-radius: 30px;
+padding: 5px;
+margin-bottom: 10px;
+}
+
+.icon {
+flex: 0 0 40px;
+}
+
+.placeholder {
+flex: 1;
+}
+
+input[type="email"] {
+width: 100%;
+padding: 10px;
+box-sizing: border-box;
+border: 0px solid #fff;
+border-radius: 20px;
+}
+
+.container-button {
+grid-area: button;
+text-align: center;
+}
+
+button {
+padding: 10px 20px;
+background-color: #498b7b;
+color: #fff;
+border: none;
+border-radius: 20px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #000;
+}
+
+/* icons */
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.card-benefits-member i {
+  font-size: 32px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.explore-button i {
+font-size: 24px;
+}
+
+.icon i {
+  font-size: 24px;
+  color: #498b7b;
+  background-color: #edebeb;
+  border-radius:20px;
+  padding: 4px;
+}  

@@ -40,6 +40,10 @@
 
     </div>
 
+    <?php $this->view('webstore/product-benefits', $data) ?>
+    <?php $this->view('webstore/product-category', $data) ?>
+    <?php $this->view('webstore/product-newsletter', $data) ?>
+
   </main>
 
   <?php $this->view('includes/footer', $data) ?>
