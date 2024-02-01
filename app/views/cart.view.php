@@ -84,7 +84,8 @@
   <body>
     
 
-    <div class="container">
+    
+     <div class="container-cart">
       <div class="cart">
       
           <h2>YOUR CART</h2>
@@ -163,7 +164,7 @@
           <input class="promocode"   type="text" placeholder="Add the promocode " id="promoCode" />
         </div>
          
-          <button class="first-btn" id="promo" onclick="promo()">Apply</button>
+          <button class="cart-first-btn" id="promo" onclick="promo()">Apply</button>
       
         </div>
 
