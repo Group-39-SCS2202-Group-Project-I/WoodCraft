@@ -79,7 +79,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         cursor: pointer;
     }
 
-    
+
 
     .cat-list-item:hover {
         background-color: var(--blk);
@@ -93,7 +93,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     .cat-list-item:hover .delete-cat-btn:hover {
         color: var(--danger);
     }
-    
+
 
 
     .category-name {
@@ -106,7 +106,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         align-items: center;
     }
 
-    
+
     .category-actions a {
         /* color: var(--blk); */
         text-decoration: none;
@@ -127,7 +127,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         </div>
     <?php endif; ?>
 
-    <div style="display: flex;">
+    <!-- <div style="display: flex;">
         <div class="flex-half"></div>
         <div class="flex-half">
 
@@ -141,9 +141,14 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <Button type="submit" class="form-btn submit-btn cat-add-btn" style="height: 44px;">Add Category</Button>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <h1 class="list-section__title">Product Categories </span></h1>
+
+    <div class="table-section__add">
+        <a href="#" class="table-section__add-link" onclick="openPopup('add-cat-popup')">Add New Category</a>
+    </div>
+
 
 
     <div class="table-section__search">
@@ -188,4 +193,68 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <?php endforeach; ?>
     </div>
 
-    <?php include "inc/footer.view.php"; ?>
+</div>
+
+
+<div class="popup-form" id="add-cat-popup">
+    <div class="popup-form__content">
+        <form action="<?php echo ROOT ?>/add/product_category" method="POST" class="form">
+            <h2 class="popup-form-title">Add New Category</h2>
+
+            <?php if (!empty($errors['category_name'])) : ?>
+                    <p class="validate-mzg"><?= $errors['category_name'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="category_name" class="form-label label-popup">Category</label>
+                    <!-- <input value="<?php echo $form_data['first_name'] ?>" type="text" id="first_name" name="first_name" class="form-input input-popup"> -->
+                    <input type="text" value="<?= set_value('category_name') ?>" name="category_name" placeholder="" class="form-input input-popup">
+                </div>
+
+
+            <div class="form-group form-btns">
+                <button type="submit" class="form-btn submit-btn">Add New Category</button>
+                <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Cancel</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    // Function to open popup form
+    function openPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        popup.classList.add('popup-form--open');
+    }
+
+    // Function to close popup form
+    function closePopup() {
+        const popups = document.querySelectorAll('.popup-form');
+        // confirmText = document.querySelector('.confirmation-text');
+        // confirmText.innerHTML = "Are you sure you want to delete ";
+        popups.forEach(popup => {
+            popup.classList.remove('popup-form--open');
+        });
+
+        // Clear validation messages
+        const validationMessages = document.querySelectorAll('.validate-mzg');
+        validationMessages.forEach(message => {
+            message.innerHTML = '';
+        });
+    }
+</script>
+<script>
+        <?php if (!empty($errors)) : ?>
+            if ('<?php echo $form_id; ?>' === 'form1') {
+                openPopup('add-cat-popup');
+            } else if ('<?php echo $form_id; ?>' === 'form2') {
+                // code to open your second popup goes here
+                // worker_id = sessionStorage.getItem('worker_id');
+                // openUpdatePopup(worker_id);
+                //print id
+            }
+        <?php endif; ?>
+    </script>
+
+
+
+<?php include "inc/footer.view.php"; ?>

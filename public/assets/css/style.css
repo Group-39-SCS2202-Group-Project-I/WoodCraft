@@ -500,8 +500,9 @@ h6 {
 .table-section__table th,
 .table-section__table td {
     padding: 10px;
-    /* text-align: left; */
-    text-align: center;
+    text-align: left;
+    /* text-align: center;
+     */
     /* border-bottom: 1px solid #ddd; */
 }
 
@@ -819,7 +820,8 @@ h6 {
     padding: 0.5rem;
     border: none;
     border-radius: 5px;
-    background-color: white;
+    /* background-color: white; */
+    background-color: var(--light);
     color: var(--blk);
     font-size: 1rem;
 }
@@ -836,7 +838,8 @@ h6 {
     padding: 0.5rem;
     border: none;
     border-radius: 5px;
-    background-color: white;
+    /* background-color: white; */
+    background-color: var(--light);
     color: var(--blk);
     font-size: 1rem;
     resize: none;
@@ -853,7 +856,8 @@ h6 {
     padding: 0.5rem;
     border: none;
     border-radius: 5px;
-    background-color: white;
+    /* background-color: white; */
+    background-color: var(--light);
     color: var(--blk);
     font-size: 1rem;
 }
@@ -868,6 +872,21 @@ h6 {
     /* margin-bottom: 0.5rem; */
     color: var(--blk);
     width: 20%;
+}
+
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    /* Add some space between form sections */
+}
+
+.form-wrapper {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
 }
 
 /* product page */
@@ -978,21 +997,21 @@ h6 {
 
     /*  */
     #drop_zone {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        /* margin-top: 2rem; */
+        /* margin-bottom: 1rem; */
         /* border: 1px solid black; */
         text-align: center;
-        padding: 40px;
+        /* padding: 40px; */
         border-radius: 10px;
-        background-color: white;
-        color: var(--blk);
+        /* background-color: white; */
+        /* color: var(--blk); */
     }
 
-    #drop_zone:hover {
-        border: 1.5px solid var(--primary);
-        color: var(--primary);
-        cursor: pointer;
-    }
+    /* #drop_zone:hover { */
+        /* border: 1.5px solid var(--primary); */
+        /* color: var(--primary); */
+        /* cursor: pointer; */
+    /* } */
 
 
     #preview {

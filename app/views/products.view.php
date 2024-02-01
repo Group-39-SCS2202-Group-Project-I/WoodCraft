@@ -69,7 +69,7 @@
                     $listed_products[] = $product;
                 }
             }
-            show($listed_products);
+            // show($listed_products);
 
             foreach ($listed_products as $item) :?>
 

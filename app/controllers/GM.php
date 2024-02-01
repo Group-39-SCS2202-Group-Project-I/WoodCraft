@@ -28,12 +28,29 @@ class GM extends Controller
         $this->view('gm/orders', $data);
     }
 
-    public function productions()
+    public function productions($id = '')
     {
+        $data['id'] = $id;
 
-        $data['title'] = "GM Production";
-
-        $this->view('gm/productions', $data);
+        if ($id == '') {
+            $data['title'] = "GM Productions";
+            $this->view('gm/productions', $data);
+        } else {
+            $data['title'] = "GM Productions";
+            $this->view('gm/production', $data);
+        }
     }
-    
+
+    public function workers($id = '')
+    {
+        $data['id'] = $id;
+
+        if ($id == '') {
+            $data['title'] = "GM Workers";
+            $this->view('gm/workers', $data);
+        } else {
+            $data['title'] = "GM Workers";
+            $this->view('gm/worker', $data);
+        }
+    }
 }

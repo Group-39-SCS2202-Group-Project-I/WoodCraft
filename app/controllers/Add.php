@@ -227,8 +227,8 @@ class Add extends Controller
             show(3);
 
             message("Product category added successfully!");
-            $_SESSION['p'] = 1; 
-            redirect('admin/products/categories');
+            $_SESSION['p'] = 1;
+            redirect('admin/categories');
         } else {
             show("kes");
             // show($worker->errors);
@@ -241,7 +241,7 @@ class Add extends Controller
             $_SESSION['errors'] = $data['errors'];
             $_SESSION['form_data'] = $_POST; // assuming the form data is in $_POST
             $_SESSION['form_id'] = 'form1'; // replace 'form1' with your form identifier
-            redirect('admin/products/categories');
+            redirect('admin/categories');
         }
     }
 
@@ -308,6 +308,8 @@ class Add extends Controller
 
             show(3);
 
+            show($product_id);
+
             message("Product added successfully!");
             redirect('admin/products/' . $product_id);
         } else {
@@ -324,8 +326,12 @@ class Add extends Controller
 
     public function product_image()
     {
-        show($_POST);
-        show($_FILES);
+        // show($_POST);
+        // show($_FILES);
+
+        if (empty($_FILES['image']['name'])) {
+            redirect('admin/products/' . $_POST['product_id']);
+        }
 
         $folder = "uploads/images/";
         $a = 2;
@@ -340,11 +346,9 @@ class Add extends Controller
         }
 
         $files = scandir($folder);
-        show($files);
+        // show($files);
 
-
-
-        show($a);
+        // show($a);
 
         $errors = [];
 
@@ -353,33 +357,43 @@ class Add extends Controller
         $product_image = new ProductImage;
 
 
-        $allowed = ['image/jpeg', 'image/png', 'image/avif', 'image/gif', 'image/webp'];
+        // $allowed = ['image/jpeg', 'image/png', 'image/avif', 'image/gif', 'image/webp'];
 
-        if (!empty($_FILES['image']['name'])) {
+        // if (!empty($_FILES['image']['name'])) {
 
-            if ($_FILES['image']['error'] == 0) {
+        //     if ($_FILES['image']['error'] == 0) {
 
-                if (in_array($_FILES['image']['type'], $allowed)) {
-                    //everything good
-                    $destination = $folder . time() . $_FILES['image']['name'];
-                    move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+        //         if (in_array($_FILES['image']['type'], $allowed)) {
+        //             //everything good
+        //             $destination = $folder . time() . $_FILES['image']['name'];
+        //             move_uploaded_file($_FILES['image']['tmp_name'], $destination);
 
 
 
-                    $_POST['image_url'] = $destination;
-                } else {
-                    $product_image->$errors['image'] = "Image type not allowed";
-                }
-            } else {
-                $product_image->errors['image'] = "Could not upload image";
-            }
-        }
+        //             $_POST['image_url'] = $destination;
+        //         } else {
+        //             $product_image->$errors['image'] = "Image type not allowed";
+        //         }
+        //     } else {
+        //         $product_image->errors['image'] = "Could not upload image";
+        //     }
+        // }
+
+        show($_POST);
+        show($_FILES);
+
+
+        $destination = $folder . time() . $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+        $_POST['image_url'] = $destination;
+
 
         if (empty($product_image->errors)) {
             $product_image_arr = [
                 'image_url' => $_POST['image_url'],
                 'product_id' => $_POST['product_id']
             ];
+
             show($product_image_arr);
 
             $db->query("INSERT INTO product_image (image_url, product_id) VALUES (:image_url, :product_id)", $product_image_arr);
@@ -387,7 +401,7 @@ class Add extends Controller
             message("Product image added successfully!");
             redirect('admin/products/' . $_POST['product_id']);
         } else {
-            show($product_image->errors);
+            // show($product_image->errors);
             $_SESSION['errors'] = $product_image->errors;
             $_SESSION['form_data'] = $_POST;
 
@@ -496,7 +510,7 @@ class Add extends Controller
         $_POST['status'] = 'pending';
         // show($_POST);
 
-        
+
         // show($_POST);
 
         $data['errors'] = [];
@@ -509,11 +523,14 @@ class Add extends Controller
 
         // show(1);
 
+        $materials = [];
         if ($result) {
             //fetch materials needed for product
             $url = ROOT . "/fetch/product_materials/" . $_POST['product_id'];
             $response = file_get_contents($url);
             $product_materials = json_decode($response, true);
+
+            $materials = $product_materials;
             // show($product_materials);
 
             //fetch materials and update quantity by subtracting quantity needed*quantity produced
@@ -537,8 +554,7 @@ class Add extends Controller
                 // show("--------------------");
 
                 $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
-                show("Stock updated successfully!");
-
+                // show("Stock updated successfully!");
             }
 
             // add production
@@ -552,9 +568,9 @@ class Add extends Controller
 
             $db->query("INSERT INTO production (product_id, quantity, status) VALUES (:product_id, :quantity, :status)", $production);
 
-            show(3);
+            // show(3);
 
-            show("Production added successfully!");
+            // show("Production added successfully!");
 
             // fetch production id
             $production_id = $db->query("SELECT production_id FROM production WHERE production_id = (SELECT MAX(production_id) FROM production)")[0]->production_id;
@@ -575,9 +591,11 @@ class Add extends Controller
             // show($available_workers);
 
             //sort workers by updated_at and make a queue
-            usort($available_workers, function ($a, $b) {
-                return $a['updated_at'] <=> $b['updated_at'];
-            });
+
+            // usort($available_workers, function ($a, $b) {
+            //     return $a['updated_at'] <=> $b['updated_at'];
+            // });
+
             // show($available_workers);
 
             // $number_of_workers_needed = $_POST['nocar']+$_POST['nosup']+$_POST['nopain'];
@@ -585,13 +603,22 @@ class Add extends Controller
             $number_of_supervisors_needed = 0;
             $number_of_painters_needed = 0;
 
-            if(isset($_POST['nocar'])){
+            // if (isset($_POST['nocar'])) {
+            //     $number_of_carpenters_needed = $_POST['nocar'];
+            // }
+            // if (isset($_POST['nosup'])) {
+            //     $number_of_supervisors_needed = $_POST['nosup'];
+            // }
+            // if (isset($_POST['nopain'])) {
+            //     $number_of_painters_needed = $_POST['nopain'];
+            // }
+            if($_POST['nocar'] != ''){
                 $number_of_carpenters_needed = $_POST['nocar'];
             }
-            if(isset($_POST['nosup'])){
+            if($_POST['nosup'] != ''){
                 $number_of_supervisors_needed = $_POST['nosup'];
             }
-            if(isset($_POST['nopain'])){
+            if($_POST['nopain'] != ''){
                 $number_of_painters_needed = $_POST['nopain'];
             }
 
@@ -618,7 +645,7 @@ class Add extends Controller
 
             // show($available_carpenters);
 
-            
+
 
             // show($number_of_workers_needed);
 
@@ -628,7 +655,13 @@ class Add extends Controller
             $painters_assigned = [];
 
             //assign carpenters
-            if (isset($number_of_carpenters_needed)) {
+            // if (isset($number_of_carpenters_needed)) {
+            //     for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
+            //         $carpenters_assigned[] = $available_carpenters[$i];
+            //         $workers_assigned[] = $available_carpenters[$i];
+            //     }
+            // }
+            if($number_of_carpenters_needed != ''){
                 for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
                     $carpenters_assigned[] = $available_carpenters[$i];
                     $workers_assigned[] = $available_carpenters[$i];
@@ -637,8 +670,14 @@ class Add extends Controller
             // show($carpenters_assigned);
 
             //assign supervisors
-            
-            if (isset($number_of_supervisors_needed)) {
+
+            // if (isset($number_of_supervisors_needed)) {
+            //     for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
+            //         $supervisors_assigned[] = $available_supervisors[$i];
+            //         $workers_assigned[] = $available_supervisors[$i];
+            //     }
+            // }
+            if($number_of_supervisors_needed != ''){
                 for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
                     $supervisors_assigned[] = $available_supervisors[$i];
                     $workers_assigned[] = $available_supervisors[$i];
@@ -646,7 +685,13 @@ class Add extends Controller
             }
 
             //assign painters
-            if (isset($number_of_painters_needed)) {
+            // if (isset($number_of_painters_needed)) {
+            //     for ($i = 0; $i < $number_of_painters_needed; $i++) {
+            //         $painters_assigned[] = $available_painters[$i];
+            //         $workers_assigned[] = $available_painters[$i];
+            //     }
+            // }
+            if($number_of_painters_needed != ''){
                 for ($i = 0; $i < $number_of_painters_needed; $i++) {
                     $painters_assigned[] = $available_painters[$i];
                     $workers_assigned[] = $available_painters[$i];
@@ -655,10 +700,10 @@ class Add extends Controller
 
             // for ($i = 0; $i < $number_of_workers_needed; $i++) {
             //     // $workers_assigned[] = $available_workers[$i];
-                
+
             // }
-            show($workers_assigned);
-            
+            // show($workers_assigned);
+
 
             //update worker availability
             foreach ($workers_assigned as $worker_assigned) {
@@ -679,10 +724,105 @@ class Add extends Controller
                 show("Worker added to production_worker table successfully!");
             }
 
-            show(4);
+            // show(4);
+
+            $materials_used = [];
+            foreach ($materials as $material) {
+                $material_used = [
+                    'production_id' => $production_id,
+                    'material_id' => $material['material_id'],
+                    'quantity_used' => $material['quantity_needed'] * $_POST['quantity']
+                ];
+                $materials_used[] = $material_used;
+            }
+
+            $url2 = ROOT . "/fetch/material_stk";
+            $response2 = file_get_contents($url2);
+            $material_stk = json_decode($response2, true);
+
+            // show($material_stk);
+
+            $production_material_data = [];
+
+            // show($materials_used);
+
+
+            $material_ids = [];
+            foreach ($materials_used as $material_used) {
+                $material_ids[] = $material_used['material_id'];
+            }
+
+            $material_ids = array_unique($material_ids);
+            // show($material_ids);
+
+            // filter $material_stk by $material_ids
+            $material_stk_filtered = [];
+            foreach ($material_stk as $material_stk) {
+                if (in_array($material_stk['material_id'], $material_ids)) {
+                    $material_stk_filtered[] = $material_stk;
+                }
+            }
+
+
+            for ($i = 0; $i < count($materials_used); $i++) {
+                $material_id = $materials_used[$i]['material_id'];
+                $quantity_used = $materials_used[$i]['quantity_used'];
+
+                // show($material_id);
+                // show($quantity_used);
+
+
+                foreach ($material_stk_filtered as $material_stk) {
+                    if ($material_stk['material_id'] == $material_id) {
+                        // show($material_stk);
+                        $stock_available = $material_stk['quantity'];
+                        // show($stock_available);
+
+                        if ($stock_available >= $quantity_used) {
+                            show("enough");
+                            $stock_available = $stock_available - $quantity_used;
+                            // show($stock_available);
+
+                            $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => $stock_available, 'stock_no' => $material_stk['stock_no']]);
+
+                            $production_material_data[] = [
+                                'production_id' => $production_id,
+                                'stock_no' => $material_stk['stock_no'],
+                                'quantity' => $quantity_used
+                            ];
+                            // show("Material stock updated successfully!");
+
+                            // $x = $quantity_used;
+                            break;
+                        } else {
+                            // show("not enough");
+                            $quantity_used = $quantity_used - $stock_available;
+                            // show($quantity_used);
+
+                            $db->query("UPDATE material_stk SET quantity = :quantity WHERE stock_no = :stock_no", ['quantity' => 0, 'stock_no' => $material_stk['stock_no']]);
+                            show("Material stock updated successfully!");
+
+                            $production_material_data[] = [
+                                'production_id' => $production_id,
+                                'stock_no' => $material_stk['stock_no'],
+                                'quantity' => $stock_available
+                            ];
+                        }
+                    }
+                }
+            }
+            $count_pm = count($production_material_data);
+            $c = 0;
+            foreach ($production_material_data as $production_material) {
+                $db->query("INSERT INTO production_material (production_id, stock_no, quantity) VALUES (:production_id, :stock_no, :quantity)", $production_material);
+                // show("Production material added successfully!");
+                $c++;
+            }
+            if($c == $count_pm){
+                redirect('pm/productions');
+            }
+        
             message("Production added successfully!");
-            show(5);
-            
             redirect('pm/productions');
         } else {
             show("kes");
@@ -743,9 +883,7 @@ class Add extends Controller
 
             message("Supplier added successfully!");
             redirect('sk/suppliers');
-        }
-        else
-        {
+        } else {
             show("kes");
             show($supplier->errors);
             show($address->errors);
@@ -779,7 +917,7 @@ class Add extends Controller
             show(2);
 
             $material_order = [
-                'material_id' => $_POST['material_id'], 
+                'material_id' => $_POST['material_id'],
                 'supplier_id' => $_POST['supplier_id'],
                 'quantity' => $_POST['quantity'],
                 'price_per_unit' => $_POST['price_per_unit'],
@@ -807,6 +945,16 @@ class Add extends Controller
 
             $db->query("UPDATE material SET stock_available = :stock_available WHERE material_id = :material_id", ['stock_available' => $stock_available, 'material_id' => $material_id]);
 
+            // create material stock for this order
+            $material_stk = [
+                'material_order_id' => $db->query("SELECT material_order_id FROM material_order WHERE material_order_id = (SELECT MAX(material_order_id) FROM material_order)")[0]->material_order_id,
+                'material_id' => $material_id,
+                'quantity' => $quantity,
+                'price_per_unit' => $_POST['price_per_unit']
+            ];
+
+            $db->query("INSERT INTO material_stk (material_order_id, material_id, quantity, price_per_unit) VALUES (:material_order_id, :material_id, :quantity, :price_per_unit)", $material_stk);
+
 
             message("Material order added successfully and material stock updated!");
             redirect('sk/material_orders');
@@ -826,3 +974,4 @@ class Add extends Controller
         }
     }
 }
+
