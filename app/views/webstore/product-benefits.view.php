@@ -1,6 +1,6 @@
  <!-- Benefits -->
  <div class="section-benefits">
-      <h4 class="section-title">Benefits</h4>
+      <h4 class="section-top">Benefits</h4>
 
       <div class="tab-benefits">
         <div class="tab-benefits-title">

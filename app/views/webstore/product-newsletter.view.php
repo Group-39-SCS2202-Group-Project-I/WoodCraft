@@ -1,6 +1,6 @@
 <!-- Newsletter -->
 <div class="section-newsletter">
-      <h4 class="section-title">Our Newsletter</h4>
+      <h4 class="section-top">Our Newsletter</h4>
 
       <div class="tab-newsletter">
         <div class="tab-newsletter-title">
@@ -15,17 +15,17 @@
       <div class="card-newsletter">
         <form id="subscribe-form">
           <div class="container-input">
-            <div class="icon">
+            <div class="symbol">
               <label for="email"><i><span class="material-symbols-outlined">mail</span></i></label>
             </div>
 
-            <div class="placeholder">
+            <div class="filler">
               <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
             </div>
           </div>
 
           <div class="container-button">
-            <button type="submit">Subscribe</button>
+            <button type="submit" class="subscribe-button">Subscribe</button>
           </div>
         </form>
       </div>
