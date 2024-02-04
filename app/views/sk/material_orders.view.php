@@ -55,7 +55,7 @@
                                     // let stock_id = "STK-" + String(item.material_stk.stock_no).padStart(3, '0');
                                     row.insertCell().innerHTML = material_order_id;
                                     row.insertCell().innerHTML = material_id;
-                                    row.insertCell().innerHTML = stock_id;
+                                    //row.insertCell().innerHTML = stock_id;
                                     row.insertCell().innerHTML = item.material_name;
                                     row.insertCell().innerHTML = supplier_id;
                                     row.insertCell().innerHTML = item.quantity;
