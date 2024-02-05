@@ -565,6 +565,7 @@ class Fetch extends Controller
         if ($id != '') {
             $db = new Database();
             $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
+            // show($data['material_order']);
 
             // $material_stk = [];
             $material_order_id = $data['material_order'][0]->material_order_id;
@@ -580,6 +581,8 @@ class Fetch extends Controller
             $db = new Database();
             $data['material_orders'] = $db->query("SELECT * FROM material_order");
 
+            // show($data['material_orders']);
+
             $material_ids = array_column($data['material_orders'], 'material_id');
             $material_ids = implode(',', $material_ids);
             $materials = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
@@ -593,6 +596,7 @@ class Fetch extends Controller
                 return $material_order;
             }, $data['material_orders']);
 
+            // show($data['material_orders']);
             
             $material_stks = [];
             if(count($data['material_orders']) > 0){
@@ -612,6 +616,8 @@ class Fetch extends Controller
                     return $material_order;
                 }, $data['material_orders']);
             }
+
+            // show($data['material_orders']);
 
 
             header("Content-Type: application/json");
