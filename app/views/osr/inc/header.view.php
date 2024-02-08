@@ -70,6 +70,12 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="sidebar-list-item nav-btn" id="inquiries-nav">
+                    <a>
+                        <span class="material-icons-outlined">question_answer</span><span style="margin-left: 5px;">Inquiries</span>
+                    </a>
+                </li>
                 
                
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
@@ -80,6 +86,7 @@ if (isset($_SESSION['USER_DATA'])) {
 
                 <script>
                     const dashNav = document.getElementById('dash-nav');
+                    const inquiriesNav = document.getElementById('inquiries-nav');
                     // const productsNav = document.getElementById('products-nav');
                     // const customersNav = document.getElementById('customers-nav');
                     // const workersNav = document.getElementById('workers-nav');
@@ -96,7 +103,10 @@ if (isset($_SESSION['USER_DATA'])) {
                         // Handle different menu items based on their IDs
                         switch (id) {
                             case 'dash-nav':
-                                window.location.href = '<?= ROOT ?>/pm/dashboard';
+                                window.location.href = '<?= ROOT ?>/osr/dashboard';
+                                break;
+                            case 'inquiries-nav':
+                                window.location.href = '<?= ROOT ?>/osr/inquiries';
                                 break;
                                 // case 'products-nav':
                                 //     window.location.href = '<?= ROOT ?>/admin/products';
