@@ -144,9 +144,4 @@
     </div>
 
   </main>
-
-  <?php $this->view('includes/footer', $data) ?>
-
-
-
-
+ 
