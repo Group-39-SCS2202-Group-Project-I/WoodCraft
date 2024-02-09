@@ -1,5 +1,5 @@
-
-  <!DOCTYPE html>
+ 
+<!DOCTYPE html>
 <html lang="en">
 <?php $this->view('includes/header', $data) ?>
 
@@ -29,35 +29,39 @@
             </div>
 
 
-            <ul class="sidebar-list">
+           <ul class="sidebar-list">
                 <li class="sidebar-list-item nav-btn selected def-selected" id="dash-nav">
                     <a>
-                       <span style="margin-left: 5px;">Manage My Account</span>
+                        <span class  = main style="margin-left: 5px; font-weight: bold;">Manage My Account</span>
+                        <div class="sub">
+                            <span style="margin-left: 5px;">My Profile</span>
+                            <span style="margin-left: 5px;">Address Book</span>
+                            <span style="margin-left: 5px;">My Payment Options</span>
+                            <span style="margin-left: 5px;">Points</span>
+                            <span style="margin-left: 5px;">Vouchers</span>
+                        </div>
                     </a>
                 </li>
                 <li class="sidebar-list-item nav-btn" id="production-nav">
                     <a>
-                       
-                       
-                        <span style="margin-left: 5px;">My Orders</span>
+                        <span class  = main style="margin-left: 5px; font-weight: bold;">My Orders</span>
+                        <div class="sub">
+                        <span style="margin-left: 5px;">My Returns</span>
+                        <span style="margin-left: 5px;">My Collections</span></div>
                     </a>
                 </li>
-
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
-                        
-                        <span style="margin-left: 5px;">My Reviews</span>
+                        <span class  = main style="margin-left: 5px; font-weight: bold;">My Reviews</span>
                     </a>
                 </li>
-
                 <li class="sidebar-list-item nav-btn" id="workers-nav">
                     <a>
-                       
-                        <span style="margin-left: 5px;">My WishList & Followed Store</span>
+                        <span class  = main style="margin-left: 5px; font-weight: bold;">My Wishlist & Followed Store</span>
                     </a>
                 </li>
-
             </ul>
+
 
             <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                 <a>
@@ -142,7 +146,10 @@
                 });
             </script> -->
         </aside>
-        <div class="main-container"></div>
+        <div class="main-container">
+            <h1>My Collections</h1>
+            
+        </div>
     </div>
         
 
@@ -304,8 +311,14 @@ h6 {
 
 .sidebar-title>span {
     display: none;
+   
 }
 
+.main {
+            font-size: 20px; /* Adjust the font size as needed */
+            margin-left: 5px;
+            font-weight: bold;
+        }
 .sidebar-brand {
     margin-top: 15px;
     font-size: 26px;
@@ -336,8 +349,15 @@ h6 {
     text-decoration: none;
     color: var(--blk);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+
+.sub{
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-list-item:hover {
@@ -373,7 +393,8 @@ h6 {
 
 .sidebar-logout
 {
-    position: absolute;
+  position: relative;
+  
     bottom: 0;
     width: 260px;
     cursor: pointer;
