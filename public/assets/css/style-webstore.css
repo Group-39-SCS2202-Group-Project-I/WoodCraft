@@ -2781,13 +2781,13 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   
   /* icons */
   
-  .material-symbols-outlined {
+  /* .material-symbols-outlined {
     font-variation-settings:
     'FILL' 1,
     'wght' 500,
     'GRAD' 0,
     'opsz' 24
-  }
+  } */
   
   .card-benefits-member i {
     font-size: 32px;
