@@ -22,47 +22,44 @@
 
 <body>
     <main id="main" class="main">
-        <!-- manage my account -->
+        <!-- my profile -->
         <div class="container">
             <div class="title">
-                <h2>Manage My Account</h2>
+                <h2>My Profile</h2>
             </div>
-                
-            <div class="content">
-                <div class="profile">
-                    <div class="content-title">
-                        <h3>Personal Profile  <span class="highlight">|</span>
-                        <a href="edit-profile.html">EDIT</a></h3>
-                    </div>
 
-                    <div class="profile-content">
-                        <div class="profile-info">
-                            <span class="info-value">John Doe</span>
-                        </div>
-                        <div class="profile-info">
-                            <span class="info-value">john.doe@example.com</span>
-                        </div>
-                    </div>
+            <div class="content-profile">
+                <div class="profile-info">
+                    <span class="info-label">Full Name</span>
+                    <span class="info-value">John Doe</span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">john.doe@example.com</span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Mobile</span>
+                    <span class="info-value">0715183937</span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Birthday</span>
+                    <span class="info-value">2001-03-01</span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Gender</span>
+                    <span class="info-value">Male</span>
+                </div>
 
+                <div class="bottom-profile">
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
-                </div>
-                
-                <div class="address">
-                    <div class="content-title">
-                        <h3>Address Book  <span class="highlight">|</span>
-                        <a href="edit-profile.html">EDIT</a></h3>
+
+                    <div class="buttons-profile">
+                        <a href="edit-profile.html" class="edit-profile">EDIT PROFILE</a>
+                        <a href="change-password.html" class="change-password">CHANGE PASSWORD</a>
                     </div>
-                    <div class="address-content">
-                        <div class="shipping">
-                            DEFAULT SHIPPING ADDRESS
-                        </div>
-                        <div class="billing">
-                            DEFAULT BILLING ADDRESS
-                        </div>
-                    </div> 
                 </div>
             </div>
-        </div> 
+        </div>
         
         <!-- Popup for newsletter subscription -->
         <div id="popup" class="popup">
@@ -71,7 +68,7 @@
                 <h3>Newsletter subscription</h3>
                 <p>I have read and understood <a href="edit-profile.html">Privacy Policy</a></p>
 
-                <div class="buttons-popup">
+                <div class="buttons">
                     <button class="cancel" onclick="closePopup()">Cancel</button>
                     <button class="subscribe" onclick="subscribe()">Subscribe</button>
                 </div>
