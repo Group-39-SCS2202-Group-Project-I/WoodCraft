@@ -77,8 +77,8 @@
                     </div>
         
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    <button type="button" class="save-changes" onclick="goToMyProfile()">Save Changes</button>
-                    <button type="button" class="cancel" onclick="goToMyProfile()">Cancel</button>
+                    <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
+                    <button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
                 </form>
             </div>
         </div>
