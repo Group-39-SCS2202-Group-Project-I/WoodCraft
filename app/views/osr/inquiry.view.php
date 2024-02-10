@@ -25,7 +25,7 @@
 
     .chatbox-input {
         display: grid;
-        grid-template-columns: 79% 20%;
+        grid-template-columns: 89% 10%;
         justify-content: space-between;
         padding-top: 20px;
         box-sizing: border-box;
@@ -88,16 +88,37 @@
         <p class="receiver-message">Jane: Hi there!</p>
         <p class="sender-message">John: How are you?</p>
         <p class="receiver-message">Jane: I'm good, thanks!</p>
+        <p class="sender-message">John: Hello!</p>
+        <p class="receiver-message">Jane: Hi there!</p>
+        <p class="sender-message">John: How are you?</p>
+        <p class="receiver-message">Jane: I'm good, thanks!</p>
+        <p class="sender-message">John: Hello!</p>
+        <p class="receiver-message">Jane: Hi there!</p>
+        <p class="sender-message">John: How are you?</p>
+        <p class="receiver-message">Jane: I'm good, thanks!</p>
+        <p class="sender-message">John: Hello!</p>
+        <p class="receiver-message">Jane: Hi there!</p>
+        <p class="sender-message">John: How are you?</p>
+        <p class="receiver-message">Jane: I'm good, thanks!</p>
 
     </div>
 
     <div class="chatbox-input">
         <div><textarea id="chat-input" placeholder="Type a message..."></textarea></div>
-        <div><button id="send-btn">Send</button></div>
+        <div><button id="send-btn"><span class="material-symbols-outlined">
+                    send
+                </span></button></div>
     </div>
 </div>
 
 <script>
+    document.getElementById('chat-input').scrollIntoView();
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.ctrlKey) {
+            e.preventDefault();
+            document.getElementById('send-btn').click();
+        }
+    });
     document.getElementById('send-btn').addEventListener('click', function() {
         var input = document.getElementById('chat-input');
         var message = input.value;
