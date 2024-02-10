@@ -72,4 +72,6 @@
     </main>
 
 </body>
+
+<?php $this->view('includes/footer', $data) ?>
 </html>
