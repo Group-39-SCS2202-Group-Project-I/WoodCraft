@@ -54,8 +54,8 @@
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
-                        <a href="edit-profile.html" class="edit-profile">EDIT PROFILE</a>
-                        <a href="change-password.html" class="change-password">CHANGE PASSWORD</a>
+                        <a href="edit-profile.view.php" class="edit-profile">EDIT PROFILE</a>
+                        <a href="change-password.view.php" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
                 <h3>Newsletter subscription</h3>
-                <p>I have read and understood <a href="edit-profile.html">Privacy Policy</a></p>
+                <p>I have read and understood <a href="##">Privacy Policy</a></p>
 
                 <div class="buttons">
                     <button class="cancel" onclick="closePopup()">Cancel</button>

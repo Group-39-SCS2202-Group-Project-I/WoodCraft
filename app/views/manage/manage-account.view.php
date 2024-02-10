@@ -32,7 +32,7 @@
                 <div class="profile">
                     <div class="content-title">
                         <h3>Personal Profile  <span class="highlight">|</span>
-                        <a href="edit-profile.html">EDIT</a></h3>
+                        <a href="edit-profile.view.php">EDIT</a></h3>
                     </div>
 
                     <div class="profile-content">
@@ -44,13 +44,13 @@
                         </div>
                     </div>
 
-                    <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
+                    <a href="#" class="subscribe-link-manage-account" onclick="showPopup()">Subscribe to our Newsletter</a>
                 </div>
                 
                 <div class="address">
                     <div class="content-title">
                         <h3>Address Book  <span class="highlight">|</span>
-                        <a href="edit-profile.html">EDIT</a></h3>
+                        <a href="addressbook.view.php">EDIT</a></h3>
                     </div>
                     <div class="address-content">
                         <div class="shipping">
@@ -69,7 +69,7 @@
             <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
                 <h3>Newsletter subscription</h3>
-                <p>I have read and understood <a href="edit-profile.html">Privacy Policy</a></p>
+                <p>I have read and understood <a href="##">Privacy Policy</a></p>
 
                 <div class="buttons-popup">
                     <button class="cancel" onclick="closePopup()">Cancel</button>
