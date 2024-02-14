@@ -531,6 +531,16 @@ h6 {
     color: var(--light);
     cursor: pointer;
 }
+
+.table-section__table td {
+    /* font-weight: bold; */
+    /* font-size: 16px;
+    font-weight: 500; */
+
+    /* background-color: var(--blk);
+    color: var(--light); */
+    cursor: default;
+}
 .table-section__table th:first-child 
 {
     border-top-left-radius: 10px;
