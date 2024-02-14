@@ -847,14 +847,9 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 10px;
   -webkit-border-radius: var(--border-radius-md);
           border-radius: var(--border-radius-md);
-  overflow: auto hidden;
-  -webkit-scroll-snap-type: inline mandatory;
-      -ms-scroll-snap-type: inline mandatory;
-          scroll-snap-type: inline mandatory;
-  overscroll-behavior-inline: contain;
+  overflow: hidden;
 }
 
 .slider-item {
@@ -865,7 +860,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   -webkit-border-radius: var(--border-radius-md);
           border-radius: var(--border-radius-md);
   overflow: hidden;
-  scroll-snap-align: start;
 }
 
 .slider-item .banner-img {

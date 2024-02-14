@@ -14,8 +14,16 @@
               </button>
             </div>
 
+            <?php
 
-            
+              $url = ROOT . "/fetch/product_categories";
+              $response = file_get_contents($url);
+              $data = json_decode($response, true);
+              // show($data);
+
+              foreach ($data as $item) :
+            ?>
+
             <ul class="sidebar-menu-category-list">
 
               <li class="sidebar-menu-category">
@@ -23,10 +31,10 @@
                 <button class="sidebar-accordion-menu" data-accordion-btn>
 
                   <div class="menu-title-flex">
-                    <img src="<?php echo ROOT; ?>/assets/images2/icons/dress.svg" alt="clothes" width="20" height="20"
+                    <img src="<?php echo ROOT . '/' . $item['product_category_img'] ?>" alt="<?php echo $item['category_name']; ?>" width="20" height="20"
                       class="menu-title-img">
 
-                    <p class="menu-title">Clothes</p>
+                    <p class="menu-title"><?php echo $item['category_name']; ?></p>
                   </div>
 
                   <div>
@@ -70,7 +78,7 @@
 
               </li>
 
-              
+              <?php endforeach; ?>
 
             </ul>
 
@@ -114,92 +122,7 @@
 
                 </div>
 
-                <div class="showcase">
-
-                  <a href="#" class="showcase-img-box">
-                    <img src="<?php echo ROOT; ?>/assets/images2/products/2.jpg" alt="men's hoodies t-shirt" class="showcase-img"
-                      width="75" height="75">
-                  </a>
-
-                  <div class="showcase-content">
-
-                    <a href="#">
-                      <h4 class="showcase-title">men's hoodies t-shirt</h4>
-                    </a>
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-half-outline"></ion-icon>
-                    </div>
-
-                    <div class="price-box">
-                      <del>$17.00</del>
-                      <p class="price">$7.00</p>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="showcase">
-
-                  <a href="#" class="showcase-img-box">
-                    <img src="<?php echo ROOT; ?>/assets/images2/products/3.jpg" alt="girls t-shirt" class="showcase-img" width="75"
-                      height="75">
-                  </a>
-
-                  <div class="showcase-content">
-
-                    <a href="#">
-                      <h4 class="showcase-title">girls t-shirt</h4>
-                    </a>
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star-half-outline"></ion-icon>
-                    </div>
-
-                    <div class="price-box">
-                      <del>$5.00</del>
-                      <p class="price">$3.00</p>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="showcase">
-
-                  <a href="#" class="showcase-img-box">
-                    <img src="<?php echo ROOT; ?>/assets/images2/products/4.jpg" alt="woolen hat for men" class="showcase-img" width="75"
-                      height="75">
-                  </a>
-
-                  <div class="showcase-content">
-
-                    <a href="#">
-                      <h4 class="showcase-title">woolen hat for men</h4>
-                    </a>
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                    </div>
-
-                    <div class="price-box">
-                      <del>$15.00</del>
-                      <p class="price">$12.00</p>
-                    </div>
-
-                  </div>
-
-                </div>
+                
 
               </div>
 
