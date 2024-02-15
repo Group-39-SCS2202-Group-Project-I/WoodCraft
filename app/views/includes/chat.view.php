@@ -1,92 +1,11 @@
 <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+<link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
 
-    /* Box sizing rules */
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
-
-    /* Remove default margin */
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    p,
-    figure,
-    blockquote,
-    dl,
-    dd {
-        margin: 0;
-    }
-
-    /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-    ul[role='list'],
-    ol[role='list'] {
-        list-style: none;
-    }
-
-    /* Set core root defaults */
-    html:focus-within {
-        scroll-behavior: smooth;
-    }
-
-    /* Set core body defaults */
-    body {
-        min-height: 100vh;
-        text-rendering: optimizeSpeed;
-        line-height: 1.5;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(90deg, var(--grey) 31px, transparent 1px) 50%, linear-gradient(180deg, var(--grey) 31px, var(--blue) 1px) 50%;
-        background-size: 32px 32px;
-        color: var(--dark);
-    }
-
-    /* A elements that don't have a class get default styles */
-    a:not([class]) {
-        text-decoration-skip-ink: auto;
-    }
-
-    /* Make images easier to work with */
-    img,
-    picture {
-        max-width: 100%;
-        display: block;
-    }
-
-    /* Inherit fonts for inputs and buttons */
-    input,
-    button,
-    textarea,
-    select {
-        font: inherit;
-    }
-
-    /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
-    @media (prefers-reduced-motion: reduce) {
-        html:focus-within {
-            scroll-behavior: auto;
-        }
-
-        *,
-        *::before,
-        *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-        }
-    }
-
-    /* GLOBAL STYLES */
     :root {
-        --blue: #335DFF;
+        --blue: var(--primary);
         --grey: #F5F5F5;
         --grey-d-1: #EEE;
         --grey-d-2: #DDD;
@@ -96,10 +15,6 @@
     }
 
     /* GLOBAL STYLES */
-
-
-
-
 
 
 
@@ -135,7 +50,7 @@
         position: absolute;
         bottom: calc(100% + 1rem);
         right: 0;
-        width: 420px;
+        width: 620px;
         border-radius: .5rem;
         overflow: hidden;
         box-shadow: .5rem .5rem 2rem rgba(0, 0, 0, .1);
@@ -342,7 +257,7 @@
                     </span>
                 </div>
             </div>
-            <div class="chatbox-message-dropdown">
+            <!-- <div class="chatbox-message-dropdown">
                 <i class='bx bx-dots-vertical-rounded chatbox-message-dropdown-toggle'></i>
                 <ul class="chatbox-message-dropdown-menu">
                     <li>
@@ -352,7 +267,7 @@
                         <a href="#">Report</a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <div class="chatbox-message-content">
             <h4 class="chatbox-message-no-message">You don't have message yet!</h4>
@@ -410,18 +325,18 @@
 
 
     // DROPDOWN TOGGLE
-    const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
-    const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
+    // const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
+    // const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
 
-    dropdownToggle.addEventListener('click', function() {
-        dropdownMenu.classList.toggle('show')
-    })
+    // dropdownToggle.addEventListener('click', function() {
+    //     dropdownMenu.classList.toggle('show')
+    // })
 
-    document.addEventListener('click', function(e) {
-        if (!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
-            dropdownMenu.classList.remove('show')
-        }
-    })
+    // document.addEventListener('click', function(e) {
+    //     if (!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
+    //         dropdownMenu.classList.remove('show')
+    //     }
+    // })
 
 
     // CHATBOX MESSAGE
