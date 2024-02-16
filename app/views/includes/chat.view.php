@@ -3,10 +3,9 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 <style>
-
     :root {
         --blue: var(--primary);
-        --grey: #F5F5F5;
+        --grey: var(--secondary);
         --grey-d-1: #EEE;
         --grey-d-2: #DDD;
         --grey-d-3: #888;
@@ -67,7 +66,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: var(--white);
+        background: var(--dark);
+        color: var(--white);
         padding: .75rem 1.5rem;
     }
 
@@ -87,6 +87,7 @@
     .chatbox-message-name {
         font-size: 1.125rem;
         font-weight: 600;
+        color: var(--white);
     }
 
     .chatbox-message-status {
@@ -147,7 +148,7 @@
     }
 
     .chatbox-message-content {
-        background: var(--grey);
+        background: var(--white);
         padding: 1.5rem;
         display: flex;
         flex-direction: column;
@@ -169,7 +170,7 @@
     }
 
     .chatbox-message-item.received {
-        background: var(--white);
+        background: var(--grey);
         border-radius: 0 .75rem .75rem .75rem;
         box-shadow: .25rem .25rem 1.5rem rgba(0, 0, 0, .05);
     }
@@ -223,6 +224,49 @@
 
     /* CHATBOX */
 
+    .chatbox-input {
+        display: grid;
+        grid-template-columns: 79% 20%;
+        justify-content: space-between;
+        padding-top: 10px;
+        box-sizing: border-box;
+    }
+
+    #chat-input {
+        width: 100%;
+        text-align: left;
+        padding: 1rem;
+        height: 4rem;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--light);
+        color: var(--blk);
+        resize: none;
+    }
+
+    #send-btn {
+        width: 100%;
+        padding-top: 2rem;
+        padding: 1rem;
+        height: 4rem;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--blk);
+        color: var(--light);
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    #send-btn:hover {
+        background-color: var(--primary);
+        /* color: var(--blk); */
+    }
+
+    #chat-input:focus {
+        outline: none;
+        border: 0.1rem solid var(--primary);
+    }
+
 
 
 
@@ -242,20 +286,27 @@
     }
 </style>
 
+
 <div class="chatbox-wrapper">
     <div class="chatbox-toggle">
         <i class='bx bx-message-dots'></i>
     </div>
+
     <div class="chatbox-message-wrapper">
+        <!-- <div style="padding: 10px; border-radius:10px; background-color:var(--white);"> -->
         <div class="chatbox-message-header">
             <div class="chatbox-message-profile">
                 <!-- <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                        alt="" class="chatbox-message-image"> -->
-                <div>
-                    <span class="material-symbols-outlined">
-                        support_agent
-                    </span>
-                </div>
+                 
+                alt="" class="chatbox-message-image"> -->
+                
+
+                <span class="material-symbols-outlined">
+                    support_agent
+                </span>
+
+                <h4 class="chatbox-message-name">Support Agent</h4>
+
             </div>
             <!-- <div class="chatbox-message-dropdown">
                 <i class='bx bx-dots-vertical-rounded chatbox-message-dropdown-toggle'></i>
@@ -285,18 +336,30 @@
 				</div> -->
         </div>
         <div class="chatbox-message-bottom">
-            <form action="#" class="chatbox-message-form">
-                <textarea rows="1" placeholder="Type message..." class="chatbox-message-input"></textarea>
-                <button type="submit" class="chatbox-message-submit"><i class='bx bx-send'></i></button>
+            <form action="#" id="chatform">
+                <!-- <textarea rows="1" placeholder="Type message..." class="chatbox-message-input"></textarea> -->
+                <!-- <button type="submit" class="chatbox-message-submit"><i class='bx bx-send'></i></button> -->
+
+
+                <div class="chatbox-input">
+                    <div><textarea id="chat-input" placeholder="Type a message..."></textarea></div>
+                    <div><button type="submit" id="send-btn"><span class="material-symbols-outlined">
+                                send
+                            </span></button></div>
+                </div>
             </form>
+
         </div>
+
     </div>
+    <!-- </div> -->
 </div>
 
 <script>
     // MESSAGE INPUT
-    const textarea = document.querySelector('.chatbox-message-input')
-    const chatboxForm = document.querySelector('.chatbox-message-form')
+    const textarea = document.getElementById('chat-input')
+    // const chatboxForm = document.querySelector('.chatbox-message-form')
+    const chatboxForm = document.getElementById('chatform')
 
     textarea.addEventListener('input', function() {
         let line = textarea.value.split('\n').length
