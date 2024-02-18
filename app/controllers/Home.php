@@ -14,13 +14,13 @@ class Home extends Controller
 		$this->view('home',$data);
 	}
 
-	public function home()
-	{
+	// public function home()
+	// {
 
-		$data['title'] = "Home";
+	// 	$data['title'] = "Home";
 
-		$this->view('home',$data);
-	}
+	// 	$this->view('home',$data);
+	// }
 	
 	
 
