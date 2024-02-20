@@ -874,4 +874,23 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($data['production_materials']);
     }
+
+    public function chat_by_cus_id($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat WHERE customer_user_id = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat'][0]);
+    }
+
+    public function chat_records($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records WHERE connection = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat']);
+    }
+
 }

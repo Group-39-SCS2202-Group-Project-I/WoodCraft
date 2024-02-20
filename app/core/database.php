@@ -100,7 +100,6 @@ class Database
 		$con = $this->connect();
 		return $con->lastInsertId();
 	}
-
 	
 
 	
