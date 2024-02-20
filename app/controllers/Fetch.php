@@ -891,4 +891,49 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($data['production_materials']);
     }
+
+    public function chat($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat WHERE chat_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat'][0]);
+        } else {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat']);
+        }
+    }
+
+    public function chat_rec_all ()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat_records']);
+    }
+
+    public function chat_by_cus_id($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat WHERE customer_user_id = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat'][0]);
+    }
+
+    public function chat_records($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records WHERE connection = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat']);
+    }
+
 }
