@@ -470,6 +470,7 @@ $cus_name = $chat['cus_name'];
             // get last message inserted and scroll to it
             var lastMessage = document.querySelector('.chatbox-message-item:last-child');
             lastMessage.scrollIntoView();
+            scrollBottom()
         }
     }
 
@@ -482,6 +483,7 @@ $cus_name = $chat['cus_name'];
             //get last message inserted and scroll to it
             var lastMessage = document.querySelector('.chatbox-message-item:last-child');
             lastMessage.scrollIntoView();
+            scrollBottom()
         }
     })
 
@@ -492,8 +494,9 @@ $cus_name = $chat['cus_name'];
             'created_at': `${date} ${time}`
         }));
 
-        sendMessage(textarea.value, <?= $chat_id ?>);
 
+
+        sendMessage(textarea.value, <?= $chat_id ?>);
         let message = `
             <div class="chatbox-message-item sent">
                 <span class="chatbox-message-item-text">
@@ -506,6 +509,12 @@ $cus_name = $chat['cus_name'];
         chatboxNoMessage.style.display = 'none'
         chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
         textarea.value = ''
+
+
+        // textarea.value = '';
+
+
+
     }
 
     function sendMessage(mzg, room) {
@@ -531,9 +540,7 @@ $cus_name = $chat['cus_name'];
 
 
     function scrollBottom() {
-        //get last message inserted and scroll to it
-        var lastMessage = document.querySelector('.chatbox-message-item:last-child');
-        lastMessage.scrollIntoView();
+        chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
