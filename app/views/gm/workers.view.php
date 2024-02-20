@@ -84,6 +84,11 @@ if ($availavle_supervisors) {
         background-color: var(--blk);
         color: var(--light);
     }
+
+    .card-clicked .card-title
+    {
+        color: var(--light);
+    }
 </style>
 
 <div class="table-section" style=" padding-bottom:0">

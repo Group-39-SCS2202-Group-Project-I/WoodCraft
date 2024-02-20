@@ -67,39 +67,40 @@
     }
 
     .sender-message {
+        min-width: 30%;
         background-color: var(--primary);
-        border-radius: 10px;
-        padding: 10px 10px;
+        color: white;
+        /* border-radius: 10px; */
+        border-radius: .75rem 0 .75rem .75rem;
+        padding: 1rem;
         align-self: flex-end;
     }
 
     .receiver-message {
+        min-width: 30%;
         background-color: var(--secondary);
-        border-radius: 10px;
-        padding: 10px 10px;
+        /* border-radius: 10px; */
+        border-radius: 0 .75rem .75rem .75rem;
+        padding: 1rem;
         align-self: flex-start;
+    }
+
+    .chatbox-message-item-time {
+        float: right;
+        font-size: .75rem;
+        margin-top: .5rem;
+        /* display: inline-block; */
     }
 </style>
 <div class="chatbox">
     <div id="chatlogs" class="chatlog">
         <!-- Chat logs will appear here -->
 
-        <p class="sender-message">John: Hello!</p>
-        <p class="receiver-message">Jane: Hi there!</p>
-        <p class="sender-message">John: How are you?</p>
-        <p class="receiver-message">Jane: I'm good, thanks!</p>
-        <p class="sender-message">John: Hello!</p>
-        <p class="receiver-message">Jane: Hi there!</p>
-        <p class="sender-message">John: How are you?</p>
-        <p class="receiver-message">Jane: I'm good, thanks!</p>
-        <p class="sender-message">John: Hello!</p>
-        <p class="receiver-message">Jane: Hi there!</p>
-        <p class="sender-message">John: How are you?</p>
-        <p class="receiver-message">Jane: I'm good, thanks!</p>
-        <p class="sender-message">John: Hello!</p>
-        <p class="receiver-message">Jane: Hi there!</p>
-        <p class="sender-message">John: How are you?</p>
-        <p class="receiver-message">Jane: I'm good, thanks!</p>
+        <div class="sender-message ">John: Hello! <span class="chatbox-message-item-time">8.30</span></div>
+        <div class="receiver-message ">Jane: Hi! <span class="chatbox-message-item-time">8.31</span></div>
+        <div class="sender-message ">John: How are you? <span class="chatbox-message-item-time">8.32</span></div>
+        <div class="receiver-message">Jane: I'm good. <span class="chatbox-message-item-time">8.33</span></div>
+        
 
     </div>
 
@@ -132,6 +133,15 @@
 
         // Determine the sender of the message
         var sender = 'sender-message'; // Assuming the sender is the current user
+
+        var dateTime = new Date();
+        var date = dateTime.toLocaleDateString();
+        var time = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        newMessage.innerHTML += `<span class="chatbox-message-item-time">${date} ${time}</span>`;
+        
+
+        // newMessage.innerHTML += `<span class="chatbox-message-item-time">${time}</span>`;
 
         // Add the appropriate class based on the sender
         newMessage.classList.add(sender);
