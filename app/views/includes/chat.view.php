@@ -267,12 +267,6 @@
         border: 0.1rem solid var(--primary);
     }
 
-
-
-
-
-
-
     /* BREAKPOINTS */
     @media screen and (max-width: 576px) {
         .chatbox-message-wrapper {
@@ -299,7 +293,7 @@
                 <!-- <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                  
                 alt="" class="chatbox-message-image"> -->
-                
+
 
                 <span class="material-symbols-outlined">
                     support_agent
@@ -337,13 +331,12 @@
         </div>
         <div class="chatbox-message-bottom">
             <form action="#" id="chatform">
-                <!-- <textarea rows="1" placeholder="Type message..." class="chatbox-message-input"></textarea> -->
-                <!-- <button type="submit" class="chatbox-message-submit"><i class='bx bx-send'></i></button> -->
+
 
 
                 <div class="chatbox-input">
                     <div><textarea id="chat-input" placeholder="Type a message..."></textarea></div>
-                    <div><button type="submit" id="send-btn"><span class="material-symbols-outlined">
+                    <div><button type="submit" id="send-btn" onclick=""><span class="material-symbols-outlined">
                                 send
                             </span></button></div>
                 </div>
@@ -439,19 +432,19 @@
         scrollBottom()
     }
 
-    function autoReply() {
-        const today = new Date()
-        let message = `
-		<div class="chatbox-message-item received">
-			<span class="chatbox-message-item-text">
-				Thank you for your awesome support!
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-        chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-        scrollBottom()
-    }
+    // function autoReply() {
+    //     const today = new Date()
+    //     let message = `
+    // 	<div class="chatbox-message-item received">
+    // 		<span class="chatbox-message-item-text">
+    // 			Thank you for your awesome support!
+    // 		</span>
+    // 		<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
+    // 	</div>
+    // `
+    //     chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
+    //     scrollBottom()
+    // }
 
     function scrollBottom() {
         chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
