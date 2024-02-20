@@ -16,7 +16,11 @@ $images = json_decode($response, true);
 ?>
 
 <?php $this->view('includes/header', $data) ?>
-<?php $this->view('includes/chat', $data) ?>
+<?php
+if (Auth::logged_in()) {
+  $this->view('includes/chat', $data);
+}
+?>
 
     <!--
     - HEADER
