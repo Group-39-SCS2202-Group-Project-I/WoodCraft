@@ -179,7 +179,7 @@
         float: right;
         font-size: .75rem;
         margin-top: .5rem;
-        display: inline-block;
+        /* display: inline-block; */
     }
 
     .chatbox-message-bottom {
