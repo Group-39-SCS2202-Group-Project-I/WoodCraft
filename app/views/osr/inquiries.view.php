@@ -13,9 +13,10 @@
         margin: 10px 0;
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 10px;
         text-decoration: none;
-        color: black;
+        /* color: black; */
+        color : var(--blk);
     }
 
     .chat_record__info {
@@ -24,7 +25,10 @@
     }
 
     .chat_record__info__name {
-        font-weight: bold;
+        /* font-weight: bold; */
+        font-weight: 500;
+        /* color: var(--blk); */
+        /* font-size: 1rem; */
     }
 
     .chat_record__info__time {
@@ -55,6 +59,21 @@
         background-color: var(--blk);
         color: var(--light);
     }
+
+    
+    .sp
+    {
+        background-color: var(--light);
+        color:var(--blk);
+        padding: 5px;
+        border-radius: 10px;
+    }
+    .chat_record__message p {
+        margin: 0;
+        padding: 5px 0;
+    }
+
+   
 </style>
 
 
@@ -121,12 +140,23 @@
                                 let chat_record_message = document.createElement('div');
                                 chat_record_message.classList.add('chat_record__message');
                                 let chat_record_message_icon = document.createElement('span');
+                                chat_record_message_icon.classList.add('sp');
                                 chat_record_message_icon.classList.add('material-symbols-outlined');
-                                chat_record_message_icon.textContent = "person";
+                                if(record.resp == 0)
+                                {
+                                    chat_record_message_icon.textContent = "person";
+                                }
+                                else
+                                {
+                                    chat_record_message_icon.textContent = "support_agent";
+                                }
+                                // chat_record_message_icon.textContent = "person";
                                 let chat_record_message_p1 = document.createElement('p');
                                 chat_record_message_p1.innerHTML = `&nbsp; :&nbsp; `;
                                 let chat_record_message_p2 = document.createElement('p');
                                 chat_record_message_p2.textContent = record.message;
+                                chat_record_message_p1.classList.add('chat_record__message');
+                                chat_record_message_p2.classList.add('chat_record__message');
                                 chat_record_message.appendChild(chat_record_message_icon);
                                 chat_record_message.appendChild(chat_record_message_p1);
                                 chat_record_message.appendChild(chat_record_message_p2);
