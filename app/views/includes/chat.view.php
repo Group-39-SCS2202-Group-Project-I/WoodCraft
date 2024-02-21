@@ -1,4 +1,4 @@
-<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+<!-- <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'> -->
 <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -267,6 +267,10 @@
         border: 0.1rem solid var(--primary);
     }
 
+    .chatbox-toggle:hover {
+        background: var(--blk);
+    }
+
     /* BREAKPOINTS */
     @media screen and (max-width: 576px) {
         .chatbox-message-wrapper {
@@ -298,7 +302,10 @@ $cus_name = $chat['cus_name'];
 
 <div class="chatbox-wrapper">
     <div class="chatbox-toggle">
-        <i class='bx bx-message-dots'></i>
+        <!-- <i class='bx bx-message-dots'></i> -->
+        <span class="material-symbols-outlined">
+            forum
+        </span>
     </div>
 
     <div class="chatbox-message-wrapper">

@@ -39,24 +39,81 @@ foreach ($chats as $chat) {
         }
     }
 }
-show($last_chat_rec_each_connection);
 
 
-
-
-
-
-// show($chats);
-
+// foreach ($last_chat_rec_each_connection as $chat_rec) {
+//     echo "<a href='".ROOT."/osr/inquiries/".$chat_rec['sent_by']."'><div class='chat-record'><p>{$chat_rec['cus_name']}</p><p>{$chat_rec['message']}</p><p>{$chat_rec['created_at']}</p></div></a>";
+// }
 
 ?>
-<?php
+<div class="table-section">
+    <h2 class="table-section__title">inquiries</h2>
+    <div id="chat-records">
 
-foreach ($last_chat_rec_each_connection as $chat_rec) {
-    echo "<a href='".ROOT."/osr/inquiries/".$chat_rec['sent_by']."'><div class='chat-record'><p>{$chat_rec['cus_name']}</p><p>{$chat_rec['message']}</p><p>{$chat_rec['created_at']}</p></div></a>";
-}
 
-?>
+    </div>
+</div>
+
+<script>
+    function UpdateLastChatRecord() {
+        fetch('<?php echo ROOT ?>/fetch/chat_rec_all')
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+                let chat_records = data;
+                let rev_chat_records = chat_records.reverse();
+                let unique_connections = [];
+                rev_chat_records.forEach(chat_record => {
+                    unique_connections[chat_record.connection] = chat_record.connection;
+                });
+                let last_chat_rec_each_connection = [];
+                for (let unique_connection in unique_connections) {
+                    for (let i = 0; i < rev_chat_records.length; i++) {
+                        if (rev_chat_records[i].connection == unique_connection) {
+                            last_chat_rec_each_connection[unique_connection] = rev_chat_records[i];
+                            break;
+                        }
+                    }
+                }
+                // console.log(last_chat_rec_each_connection);
+                fetch('<?php echo ROOT ?>/fetch/chat')
+                    .then(response => response.json())
+                    .then(data => {
+                        let chats = data;
+                        for (let chat in chats) {
+                            for (let key in last_chat_rec_each_connection) {
+                                if (chats[chat].customer_user_id == last_chat_rec_each_connection[key].sent_by) {
+                                    last_chat_rec_each_connection[key].cus_name = chats[chat].cus_name;
+                                }
+                            }
+                        }
+                        // console.log(last_chat_rec_each_connection);
+                        let chat_records_div = document.getElementById('chat-records');
+                        chat_records_div.innerHTML = '';
+                        for (let chat_rec in last_chat_rec_each_connection) {
+                            let chat_record = last_chat_rec_each_connection[chat_rec];
+                            let chat_record_div = document.createElement('div');
+                            chat_record_div.classList.add('chat-record');
+                            chat_record_div.innerHTML = `<a href='<?php echo ROOT ?>/osr/inquiries/${chat_record.sent_by}'><p>${chat_record.cus_name}</p><p>${chat_record.message}</p><p>${chat_record.created_at}</p></a>`;
+                            chat_records_div.appendChild(chat_record_div);
+                        }
+                    })
+                    .catch(error => console.error(error));
+            })
+            .catch(error => console.error(error));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        UpdateLastChatRecord();
+        setInterval(UpdateLastChatRecord, 1000);
+    });
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     updateChatRecords();
+    //     setInterval(updateChatRecords, 1000);
+    // });
+</script>
+
 
 
 <?php include "inc/footer.view.php"; ?>
