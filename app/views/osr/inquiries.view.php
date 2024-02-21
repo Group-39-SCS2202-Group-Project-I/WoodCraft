@@ -83,19 +83,49 @@ foreach ($chats as $chat) {
                         for (let chat in chats) {
                             for (let key in last_chat_rec_each_connection) {
                                 if (chats[chat].customer_user_id == last_chat_rec_each_connection[key].sent_by) {
-                                    last_chat_rec_each_connection[key].cus_name = chats[chat].cus_name;
+                                    // last_chat_rec_each_connection[key].cus_name = chats[chat].cus_name;
+                                    if (chats[chat].cus_name) {
+                                        last_chat_rec_each_connection[key].cus_name = chats[chat].cus_name;
+                                    } else {
+                                        last_chat_rec_each_connection[key].cus_name = 'OSR';
+                                    }
                                 }
                             }
                         }
                         // console.log(last_chat_rec_each_connection);
                         let chat_records_div = document.getElementById('chat-records');
+
                         chat_records_div.innerHTML = '';
+
+                        // console.log(last_chat_rec_each_connection);
                         for (let chat_rec in last_chat_rec_each_connection) {
                             let chat_record = last_chat_rec_each_connection[chat_rec];
-                            let chat_record_div = document.createElement('div');
-                            chat_record_div.classList.add('chat-record');
-                            chat_record_div.innerHTML = `<a href='<?php echo ROOT ?>/osr/inquiries/${chat_record.sent_by}'><p>${chat_record.cus_name}</p><p>${chat_record.message}</p><p>${chat_record.created_at}</p></a>`;
-                            chat_records_div.appendChild(chat_record_div);
+                            // console.log(chat_record.connection);
+                            let chat_id = chat_record.connection;
+                            //fetch chat records by chat_id
+                            let customer_id;
+                            let customer_name;
+                            fetch('<?php echo ROOT ?>/fetch/chat/' + chat_id)
+                                .then(response => response.json())
+                                .then(data => {
+                                    customer_id = data.customer_user_id;
+                                    customer_name = data.cus_name;
+                                    // console.log(customer_id);
+                                    // console.log(customer_name);
+
+                                    // console.log(customer_id);
+                                    // console.log(customer_name);
+
+                                    let chat_record_div = document.createElement('div');
+                                    chat_record_div.classList.add('chat-record');
+                                    chat_record_div.innerHTML = `<a href='<?php echo ROOT ?>/osr/inquiries/${customer_id}'><p>${customer_name}</p><p>${chat_record.message}</p><p>${chat_record.created_at}</p></a>`;
+                                    chat_records_div.appendChild(chat_record_div);
+
+
+                                })
+                                .catch(error => console.error(error));
+
+
                         }
                     })
                     .catch(error => console.error(error));
