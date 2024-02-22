@@ -75,32 +75,32 @@
     </div>
 
     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var sliderContainer = document.querySelector(".slider-container");
-    var sliderItems = document.querySelectorAll(".slider-item");
-    var currentIndex = 0;
-    var interval = 5000;
+      document.addEventListener("DOMContentLoaded", function () {
+        var sliderContainer = document.querySelector(".slider-container");
+        var sliderItems = document.querySelectorAll(".slider-item");
+        var currentIndex = 0;
+        var interval = 5000;
 
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % sliderItems.length;
-      updateSlider();
-    }
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % sliderItems.length;
+          updateSlider();
+        }
 
-    function updateSlider() {
-      var translateValue = -currentIndex * 100 + "%";
-      sliderItems.forEach(function (item) {
-        item.style.transform = "translateX(" + translateValue + ")";
+        function updateSlider() {
+          var translateValue = -currentIndex * 100 + "%";
+          sliderItems.forEach(function (item) {
+            item.style.transform = "translateX(" + translateValue + ")";
+          });
+        }
+
+        var sliderInterval = setInterval(nextSlide, interval);
+
+        sliderContainer.addEventListener("mouseenter", function () {
+          clearInterval(sliderInterval);
+        });
+
+        sliderContainer.addEventListener("mouseleave", function () {
+          sliderInterval = setInterval(nextSlide, interval);
+        });
       });
-    }
-
-    var sliderInterval = setInterval(nextSlide, interval);
-
-    sliderContainer.addEventListener("mouseenter", function () {
-      clearInterval(sliderInterval);
-    });
-
-    sliderContainer.addEventListener("mouseleave", function () {
-      sliderInterval = setInterval(nextSlide, interval);
-    });
-  });
-</script>
+    </script>

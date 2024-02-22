@@ -69,6 +69,20 @@ class Delete extends Controller
     {
         $db = new Database();
 
+        $url = ROOT . "/fetch/product";
+        $response = file_get_contents($url);
+        $products = json_decode($response, true);
+
+        // show($products);
+
+        foreach ($products['products'] as $product) {
+            if ($product['product_category_id'] == $id) {
+                $message = sprintf("Product category (CAT-%03d) cannot be deleted because it is used in a product!", $id);
+                message($message);
+                redirect('admin/categories');
+            }
+        }
+
         $db->query("DELETE FROM product_category WHERE product_category_id = $id");
 
         message("Product category deleted successfully!");

@@ -390,6 +390,23 @@ class Fetch extends Controller
         }
     }
 
+    // public function product_category_images($id = '')
+    // {
+    //     if ($id != '') {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category WHERE product_category_id = $id");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     } else {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     }
+    // }
+
     public function materials($id = '')
     {
         if ($id != '') {

@@ -1,49 +1,53 @@
 <?php $this->view('includes/header', $data) ?>
+<?php $this->view('includes/chat', $data) ?>
+<div class="overlay" data-overlay></div>
+<?php $this->view('webstore/modal', $data) ?>
+<?php $this->view('webstore/notification-toast', $data) ?>
 
-  <div class="overlay" data-overlay></div>
-    <?php $this->view('webstore/modal', $data) ?>
-    <?php $this->view('webstore/notification-toast', $data) ?>
-
-    <!--
+<!--
     - HEADER
     -->
 
-  <header>
-    <?php $this->view('includes/nav', $data) ?>
-    <?php $this->view('webstore/header-section', $data) ?>
-  </header>
+<header>
+  <?php $this->view('includes/nav', $data) ?>
+  <?php $this->view('webstore/header-section', $data) ?>
 
-  <!--
+</header>
+
+<!--
     - MAIN
   -->
 
-  <main>
-    <?php $this->view('webstore/banner', $data) ?>
-    <!--
+<main>
+  <?php $this->view('webstore/banner', $data) ?>
+  <!--
       - PRODUCT
     -->
 
-    <div class="product-container">
-      
-      <div class="container">
-        <?php $this->view('webstore/sidebar', $data) ?>
+  <div class="product-container">
+
+    <div class="container">
+      <?php $this->view('webstore/sidebar', $data) ?>
 
 
       <div class="product-box">
-        
+
         <?php $this->view('webstore/product-grid', $data) ?>
         <?php $this->view('webstore/product-featured', $data) ?>
-
-        </div>
 
       </div>
 
     </div>
 
+  </div>
+
     <?php $this->view('webstore/product-benefits', $data) ?>
     <?php $this->view('webstore/product-category', $data) ?>
     <?php $this->view('webstore/product-newsletter', $data) ?>
 
-  </main>
 
-  <?php $this->view('includes/footer', $data) ?>
+
+</main>
+
+
+<?php $this->view('includes/footer', $data) ?>

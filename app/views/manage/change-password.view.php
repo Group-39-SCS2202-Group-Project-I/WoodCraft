@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
 
-    <title>Manage My Account | Wood Craft</title>
+    <title>Manage My Account | <?=APP_NAME?></title>
 </head>
 
 <body>

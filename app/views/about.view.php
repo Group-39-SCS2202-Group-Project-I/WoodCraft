@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"> -->
 
-    <title>About Us | Wood Craft</title>
+    <title>About Us | <?=APP_NAME?></title>
 </head>
 
 <body>

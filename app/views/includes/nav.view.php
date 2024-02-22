@@ -27,14 +27,16 @@
                 </ul> -->
             </li>
             <li>
-                <a href="#">
+                <a href="<?=ROOT?>/manage/manage-account">
                   <span class="fas fa-user"></span>
                   <span>Profile</span>
                 </a>
                 <ul class="dropdown-menu hidden">
-                  <li id="toprofile"><a>My Account</a></li>
-                  <li><a href="#">Orders</a></li>
-                  <li><a href="#">Wishlist</a></li>
+                  <li id="toprofile"><a href="<?=ROOT?>/manage/profile">My Account</a></li>
+                  <li><a href="<?=ROOT?>/manage/">My Orders</a></li>
+                  <li><a href="<?=ROOT?>/manage/">My Wishlist</a></li>
+                  <li><a href="<?=ROOT?>/manage/">My Reviews</a></li>
+                  <li><a href="<?=ROOT?>/manage/">My Returns & Cancellations</a></li>
                   <li>
                     <button id="tologin">Login</button>
                   </li>
