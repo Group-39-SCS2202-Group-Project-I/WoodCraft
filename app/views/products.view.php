@@ -1,5 +1,9 @@
 <?php $this->view('includes/header', $data) ?>
-<?php $this->view('includes/chat', $data) ?>
+<?php
+if (Auth::logged_in()) {
+  $this->view('includes/chat', $data);
+}
+?>
 
 <div class="overlay" data-overlay></div>
 <?php $this->view('webstore/notification-toast', $data) ?>

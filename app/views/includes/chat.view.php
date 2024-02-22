@@ -1,4 +1,4 @@
-<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+<!-- <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'> -->
 <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -179,7 +179,7 @@
         float: right;
         font-size: .75rem;
         margin-top: .5rem;
-        display: inline-block;
+        /* display: inline-block; */
     }
 
     .chatbox-message-bottom {
@@ -267,11 +267,9 @@
         border: 0.1rem solid var(--primary);
     }
 
-
-
-
-
-
+    .chatbox-toggle:hover {
+        background: var(--blk);
+    }
 
     /* BREAKPOINTS */
     @media screen and (max-width: 576px) {
@@ -287,9 +285,27 @@
 </style>
 
 
+<?php
+// show ($_SESSION['USER_DATA']);
+// show($_SESSION['USER_DATA']->user_id);
+$user_id = $_SESSION['USER_DATA']->user_id;
+$chat_url = ROOT . "/fetch/chat_by_cus_id/" . $user_id;
+// show ($chat_url);
+$chat_response = file_get_contents($chat_url);
+$chat = json_decode($chat_response, true);
+// show($chat);
+
+$chat_id = $chat['chat_id'];
+$cus_name = $chat['cus_name'];
+?>
+
+
 <div class="chatbox-wrapper">
     <div class="chatbox-toggle">
-        <i class='bx bx-message-dots'></i>
+        <!-- <i class='bx bx-message-dots'></i> -->
+        <span class="material-symbols-outlined">
+            forum
+        </span>
     </div>
 
     <div class="chatbox-message-wrapper">
@@ -299,7 +315,7 @@
                 <!-- <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                  
                 alt="" class="chatbox-message-image"> -->
-                
+
 
                 <span class="material-symbols-outlined">
                     support_agent
@@ -321,7 +337,7 @@
             </div> -->
         </div>
         <div class="chatbox-message-content">
-            <h4 class="chatbox-message-no-message">You don't have message yet!</h4>
+            <!-- <h4 class="chatbox-message-no-message">You don't have message yet!</h4> -->
             <!-- <div class="chatbox-message-item sent">
 					<span class="chatbox-message-item-text">
 						Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Quod, fugiat?
@@ -334,20 +350,49 @@
 					</span>
 					<span class="chatbox-message-item-time">08:30</span>
 				</div> -->
+            <?php
+
+            $chat_record_url = ROOT . "/fetch/chat_records/" . $chat_id;
+            $chat_record_response = file_get_contents($chat_record_url);
+            $chat_records = json_decode($chat_record_response, true);
+
+            if ($chat_records) {
+                foreach ($chat_records as $chat_record) {
+                    if ($chat_record['sent_by'] == $user_id) {
+                        echo "<div class='chatbox-message-item sent'>
+                <span class='chatbox-message-item-text'>
+                    $chat_record[message]
+                </span>
+                <span class='chatbox-message-item-time'>$chat_record[created_at]</span>
+            </div>";
+                    } else {
+                        echo "<div class='chatbox-message-item received'>
+                <span class='chatbox-message-item-text'>
+                    $chat_record[message]
+                </span>
+                <span class='chatbox-message-item-time'>$chat_record[created_at]</span>
+            </div>";
+                    }
+                }
+            } else {
+                echo "<h4 class='chatbox-message-no-message'>You don't have message yet!</h4>";
+            }
+
+
+            ?>
         </div>
         <div class="chatbox-message-bottom">
-            <form action="#" id="chatform">
-                <!-- <textarea rows="1" placeholder="Type message..." class="chatbox-message-input"></textarea> -->
-                <!-- <button type="submit" class="chatbox-message-submit"><i class='bx bx-send'></i></button> -->
+            <div id="chatform">
+
 
 
                 <div class="chatbox-input">
                     <div><textarea id="chat-input" placeholder="Type a message..."></textarea></div>
-                    <div><button type="submit" id="send-btn"><span class="material-symbols-outlined">
+                    <div><button id="send-btn" onclick='send()'><span class="material-symbols-outlined">
                                 send
                             </span></button></div>
                 </div>
-            </form>
+            </div>
 
         </div>
 
@@ -356,26 +401,18 @@
 </div>
 
 <script>
-    // MESSAGE INPUT
-    const textarea = document.getElementById('chat-input')
-    // const chatboxForm = document.querySelector('.chatbox-message-form')
-    const chatboxForm = document.getElementById('chatform')
+    var conn = new WebSocket('ws://localhost:8080');
+    conn.onopen = function(e) {
+        console.log('Connection established!');
+        conn.send(JSON.stringify({
+            'newRoute': 'Personalchat-<?= $chat_id ?>'
+        }));
 
-    textarea.addEventListener('input', function() {
-        let line = textarea.value.split('\n').length
+    };
 
-        if (textarea.rows < 6 || line < 6) {
-            textarea.rows = line
-        }
-
-        if (textarea.rows > 1) {
-            chatboxForm.style.alignItems = 'flex-end'
-        } else {
-            chatboxForm.style.alignItems = 'center'
-        }
-    })
-
-
+    // let timeoutHandle = window.setTimeout(function() {
+    //     document.getElementById('comment-typing-$PostId').innerHTML = '';
+    // }, 2000);
 
     // TOGGLE CHATBOX
     const chatboxToggle = document.querySelector('.chatbox-toggle')
@@ -383,84 +420,135 @@
 
     chatboxToggle.addEventListener('click', function() {
         chatboxMessage.classList.toggle('show')
+        scrollBottom()
     })
 
+    function typing() {
+        conn.send(JSON.stringify({
+            'typing': 'y',
+            'name': '<?= $cus_name ?>'
+        }));
+    }
 
-
-    // DROPDOWN TOGGLE
-    // const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
-    // const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
-
-    // dropdownToggle.addEventListener('click', function() {
-    //     dropdownMenu.classList.toggle('show')
-    // })
-
-    // document.addEventListener('click', function(e) {
-    //     if (!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
-    //         dropdownMenu.classList.remove('show')
-    //     }
-    // })
-
-
+    // MESSAGE INPUT
+    const textarea = document.getElementById('chat-input')
+    // const chatboxForm = document.querySelector('.chatbox-message-form')
+    const chatboxForm = document.getElementById('chatform')
     // CHATBOX MESSAGE
     const chatboxMessageWrapper = document.querySelector('.chatbox-message-content')
     const chatboxNoMessage = document.querySelector('.chatbox-message-no-message')
 
-    chatboxForm.addEventListener('submit', function(e) {
-        e.preventDefault()
+    const btn = document.getElementById('send-btn');
 
-        if (isValid(textarea.value)) {
-            writeMessage()
-            setTimeout(autoReply, 1000)
+    var dateTime = new Date();
+    var date = dateTime.toLocaleDateString();
+    var time = dateTime.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    conn.onmessage = function(e) {
+        let data = JSON.parse(e.data);
+        console.log(data);
+        if (typeof data.message !== 'undefined') {
+            let message = `
+                <div class="chatbox-message-item received">
+                    <span class="chatbox-message-item-text">
+                        ${data.message}
+                    </span>
+                    <span class="chatbox-message-item-time">${date} ${time}</span>
+                </div>
+            `
+            chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
+            // chatboxNoMessage.style.display = 'none'
+            scrollBottom()
+
+        } else if (typeof data.typing !== 'undefined') {
+            let typing = `
+                <div class="chatbox-message-item received">
+                    <span class="chatbox-message-item-text">
+                        ${data.name} is typing...
+                    </span>
+                </div>
+            `
+            chatboxMessageWrapper.insertAdjacentHTML('beforeend', typing)
+            chatboxNoMessage.style.display = 'none'
+            // scrollBottom()
+
+            // get last message inserted and scroll to it
+            var lastMessage = document.querySelector('.chatbox-message-item:last-child');
+            lastMessage.scrollIntoView();
+            scrollBottom()
+        }
+        scrollBottom()
+    }
+
+    textarea.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn.click();
+            textarea.value = '';
+
+            //get last message inserted and scroll to it
+            var lastMessage = document.querySelector('.chatbox-message-item:last-child');
+            lastMessage.scrollIntoView();
+            scrollBottom()
         }
     })
 
+    function send() {
+        let text = textarea.value;
+        textarea.value = '';
+        conn.send(JSON.stringify({
+            'sent_by': '<?= $cus_name ?>',
+            'message': text,
+            'created_at': `${date} ${time}`
+        }));
 
-    function addZero(num) {
-        return num < 10 ? '0' + num : num
-    }
 
-    function writeMessage() {
-        const today = new Date()
+
+        
         let message = `
-		<div class="chatbox-message-item sent">
-			<span class="chatbox-message-item-text">
-				${textarea.value.trim().replace(/\n/g, '<br>\n')}
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
+            <div class="chatbox-message-item sent">
+                <span class="chatbox-message-item-text">
+                    ${text}
+                </span>
+                <span class="chatbox-message-item-time">${date} ${time}</span>
+            </div>
+        `
         chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-        chatboxForm.style.alignItems = 'center'
-        textarea.rows = 1
-        textarea.focus()
-        textarea.value = ''
-        chatboxNoMessage.style.display = 'none'
+        // chatboxNoMessage.style.display = 'none'
         scrollBottom()
+        sendMessage(text, <?= $chat_id ?>);
+        // console.log('message sent');
+
+
     }
 
-    function autoReply() {
-        const today = new Date()
-        let message = `
-		<div class="chatbox-message-item received">
-			<span class="chatbox-message-item-text">
-				Thank you for your awesome support!
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-        chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-        scrollBottom()
+    function sendMessage(mzg, room) {
+
+        let data = {
+            connection: room,
+            message: mzg,
+            sent_by: '<?= $user_id ?>',
+            created_at: `${date} ${time}`
+
+        };
+
+        $.ajax({
+            url: '<?= ROOT ?>/add/chat_record',
+            type: 'POST',
+            data: data,
+            success: function(response) {
+                console.log(response);
+            }
+        });
+
     }
+
 
     function scrollBottom() {
         chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
     }
-
-    function isValid(value) {
-        let text = value.replace(/\n/g, '')
-        text = text.replace(/\s/g, '')
-
-        return text.length > 0
-    }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

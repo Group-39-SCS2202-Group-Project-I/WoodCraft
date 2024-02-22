@@ -891,4 +891,132 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($data['production_materials']);
     }
+
+    public function chat($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat WHERE chat_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat'][0]);
+        } else {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat']);
+        }
+    }
+
+    public function chat_rec_all ()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat_records']);
+    }
+
+    public function chat_by_cus_id($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat WHERE customer_user_id = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat'][0]);
+    }
+
+    public function chat_records($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records WHERE connection = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat']);
+    }
+
+    public function last_chat_record_id()
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records ORDER BY chat_rec_id DESC LIMIT 1");
+
+        $chat_rec_id = $data['chat'][0]->chat_rec_id;
+
+        header("Content-Type: application/json");
+        echo json_encode($chat_rec_id);
+    }
+
+    public function inquiry_list()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+        // show($data['chat_records']);
+
+        // get last chat record for each connection 
+        $last_chat_records = [];
+        foreach ($data['chat_records'] as $chat_record) {
+            $last_chat_records[$chat_record->connection] = $chat_record;
+            
+        }
+        // show($last_chat_records);
+
+        $data['chat'] = $db->query("SELECT * FROM chat");
+        // show($data['chat']);
+
+        // map chat to last_chat_record  by connection==chat_id
+        $last_chat_records = array_map(function ($last_chat_record) use ($data) {
+            foreach ($data['chat'] as $chat) {
+                if ($last_chat_record->connection == $chat->chat_id) {
+                    $last_chat_record->cus_name = $chat->cus_name;
+                    $last_chat_record->customer_user_id = $chat->customer_user_id;
+                }
+            }
+            return $last_chat_record;
+        }, $last_chat_records);
+
+        // show($last_chat_records);
+        foreach ($last_chat_records as $last_chat_record) {
+            if($last_chat_record->customer_user_id == $last_chat_record->sent_by){
+                $last_chat_record->resp = 0;
+            }
+            else{
+                $last_chat_record->resp = 1;
+            }
+        }
+
+        // show($last_chat_records);
+
+        // responded chats 
+        $responded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 1;
+        });
+
+        // show($responded_chats);
+        // sort $responded_chats by created_at desc
+        usort($responded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+
+
+        // unresponded chats
+        $unresponded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 0;
+        });
+
+        usort($unresponded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+        // merge unresponded and responded chats
+        $x = array_merge($unresponded_chats, $responded_chats);
+
+        // show($x);
+
+        
+        header("Content-Type: application/json");
+        echo json_encode($x);
+    }
+    
 }

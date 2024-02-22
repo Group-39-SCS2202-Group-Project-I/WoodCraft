@@ -6,26 +6,50 @@ class PM extends Controller
 
     public function index()
     {
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        $data['title'] = "PM Dashboard";
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        } else {
+            $data['title'] = "PM Dashboard";
 
-        $this->view('pm/dashboard', $data);
+            $this->view('pm/dashboard', $data);
+        }
     }
 
     public function dashboard()
     {
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        $data['title'] = "PM Dashboard";
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        } else {
+            $data['title'] = "PM Dashboard";
 
-        $this->view('pm/dashboard', $data);
+            $this->view('pm/dashboard', $data);
+        }
     }
-    
+
     public function add_production()
     {
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        $data['title'] = "Add Production";
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        } else {
+            $data['title'] = "Add Production";
 
-        $this->view('pm/add_production', $data);
+            $this->view('pm/add_production', $data);
+        }
     }
 
     // public function pending_productions()
@@ -43,7 +67,7 @@ class PM extends Controller
     //     $this->view('pm/processing_productions', $data);
     // }
 
-    
+
 
     // public function completed_productions()
     // {
@@ -55,43 +79,79 @@ class PM extends Controller
 
     public function productions()
     {
-            
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
+
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        } else {
             $data['title'] = "Productions";
-    
             $this->view('pm/productions', $data);
+        }
     }
 
     public function approved_bulk_orders()
     {
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        $data['title'] = "Approved Bulk Orders";
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        } else {
+            $data['title'] = "Approved Bulk Orders";
 
-        $this->view('pm/approved_bulk_orders', $data);
+            $this->view('pm/approved_bulk_orders', $data);
+        }
+
     }
 
     public function product_materials($id = '')
     {
-        $data['id'] = $id;
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        if ($id != '') {
-            $data['title'] = "Product Materials";
-            $this->view('pm/product_mat', $data);
-        } else {
-            $data['title'] = "Product Materials";
-            $this->view('pm/product_materials', $data);
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        }
+        else{
+            $data['id'] = $id;
+
+            if ($id != '') {
+                $data['title'] = "Product Materials";
+                $this->view('pm/product_mat', $data);
+            } else {
+                $data['title'] = "Product Materials";
+                $this->view('pm/product_materials', $data);
+            }
         }
     }
 
     public function production($id = '')
     {
-        $data['id'] = $id;
+        if (!Auth::logged_in()) {
+            message('Please login to view the PM section');
+            redirect('login');
+        }
 
-        if ($id != '') {
-            $data['title'] = "Production";
-            $this->view('pm/production', $data);
-        } else {
-            $data['title'] = "Production";
-            // $this->view('pm/production', $data);
+        if (!Auth::is_pm()) {
+            $this->view('404');
+        }
+        else{
+            $data['id'] = $id;
+
+            if ($id != '') {
+                $data['title'] = "Production";
+                $this->view('pm/production', $data);
+            } else {
+                $data['title'] = "Production";
+                // $this->view('pm/production', $data);
+            }
         }
     }
 }
