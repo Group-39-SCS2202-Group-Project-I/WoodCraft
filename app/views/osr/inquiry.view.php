@@ -3,7 +3,7 @@
 <style>
     .chatbox {
         width: 100%;
-        height: 100%;
+        height: 90%;
         border-radius: 10px;
         overflow: auto;
         background-color: white;
@@ -93,6 +93,14 @@
         margin-top: .5rem;
         /* display: inline-block; */
     }
+
+    .chatbox-header {
+        display: flex;
+        padding: 20px;
+        background-color: var(--blk);
+        color: var(--light);
+        border-radius: 10px 10px 0 0;
+    }
 </style>
 
 <?php
@@ -109,7 +117,16 @@ $chat_id = $chats['chat_id'];
 // show($chat_id);
 
 ?>
+
+<div class="chatbox-header">
+    <span class="material-symbols-outlined">
+        person
+    </span>
+
+    <p> &nbsp;<?= $cus_name ?></p>
+</div>
 <div class="chatbox">
+
     <div id="chatlogs" class="chatlog">
         <?php
 
