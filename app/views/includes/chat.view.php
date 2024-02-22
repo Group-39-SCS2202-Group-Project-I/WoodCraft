@@ -1,4 +1,4 @@
-<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+<!-- <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'> -->
 <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -267,6 +267,10 @@
         border: 0.1rem solid var(--primary);
     }
 
+    .chatbox-toggle:hover {
+        background: var(--blk);
+    }
+
     /* BREAKPOINTS */
     @media screen and (max-width: 576px) {
         .chatbox-message-wrapper {
@@ -298,7 +302,10 @@ $cus_name = $chat['cus_name'];
 
 <div class="chatbox-wrapper">
     <div class="chatbox-toggle">
-        <i class='bx bx-message-dots'></i>
+        <!-- <i class='bx bx-message-dots'></i> -->
+        <span class="material-symbols-outlined">
+            forum
+        </span>
     </div>
 
     <div class="chatbox-message-wrapper">
@@ -413,6 +420,7 @@ $cus_name = $chat['cus_name'];
 
     chatboxToggle.addEventListener('click', function() {
         chatboxMessage.classList.toggle('show')
+        scrollBottom()
     })
 
     function typing() {
@@ -452,7 +460,7 @@ $cus_name = $chat['cus_name'];
                 </div>
             `
             chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-            chatboxNoMessage.style.display = 'none'
+            // chatboxNoMessage.style.display = 'none'
             scrollBottom()
 
         } else if (typeof data.typing !== 'undefined') {
@@ -472,6 +480,7 @@ $cus_name = $chat['cus_name'];
             lastMessage.scrollIntoView();
             scrollBottom()
         }
+        scrollBottom()
     }
 
     textarea.addEventListener("keypress", function(event) {
@@ -488,31 +497,30 @@ $cus_name = $chat['cus_name'];
     })
 
     function send() {
+        let text = textarea.value;
+        textarea.value = '';
         conn.send(JSON.stringify({
             'sent_by': '<?= $cus_name ?>',
-            'message': textarea.value,
+            'message': text,
             'created_at': `${date} ${time}`
         }));
 
 
 
-        sendMessage(textarea.value, <?= $chat_id ?>);
+        
         let message = `
             <div class="chatbox-message-item sent">
                 <span class="chatbox-message-item-text">
-                    ${textarea.value}
+                    ${text}
                 </span>
                 <span class="chatbox-message-item-time">${date} ${time}</span>
             </div>
         `
         chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-        chatboxNoMessage.style.display = 'none'
-        chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
-        textarea.value = ''
-
-
-        // textarea.value = '';
-
+        // chatboxNoMessage.style.display = 'none'
+        scrollBottom()
+        sendMessage(text, <?= $chat_id ?>);
+        // console.log('message sent');
 
 
     }

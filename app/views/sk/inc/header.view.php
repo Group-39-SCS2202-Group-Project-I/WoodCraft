@@ -27,7 +27,7 @@ if (isset($_SESSION['USER_DATA'])) {
     <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <title>WoodCraft Furniture - Staff</title>
+    <title>WoodCraft Furniture - Stock Keeper</title>
 </head>
 
 <body>
