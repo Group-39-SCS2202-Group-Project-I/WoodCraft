@@ -12,7 +12,7 @@
         width: 100%;
         margin: 10px 0;
         padding: 10px;
-        border: 1px solid #ccc;
+        /* border: 1px solid #ccc; */
         border-radius: 10px;
         text-decoration: none;
         /* color: black; */
