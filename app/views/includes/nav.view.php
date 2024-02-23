@@ -26,17 +26,37 @@
                   <li class="empty">Your cart is empty.</li>
                 </ul> -->
             </li>
-            <li>
-                <a href="<?=ROOT?>/manage/manage-account">
+
+            <?php if(!Auth::logged_in()):?>
+              <li><a href="<?=ROOT?>/login">Login</a></li>
+              <li><a href="<?=ROOT?>/signup">SignUp</a></li>
+            <?php else:?>
+              <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getFirstname()?></span></a>
+                <ul class="dropdown-menu hidden">
+                  <li><a href="<?=ROOT?>/manage/manage-account">Manage My Account</a></li>
+                  <li><a href="<?=ROOT?>/manage/orders">My Orders</a></li>
+                  <li><a href="<?=ROOT?>/manage/wishlist">My Wishlist</a></li>
+                  <li><a href="<?=ROOT?>/manage/reviews"><span>My Reviews</span></a></li>
+                  <li><a href="<?=ROOT?>/manage/returns"><span>My Returns & Cancellations</span></a></li>
+                  <li><a href="<?=ROOT?>"><span></span>LogOut</a></li>
+                </ul>
+              </li>
+            <?php endif;?>
+
+            <!-- <li>
+                <a href="<?=ROOT?>">
                   <span class="fas fa-user"></span>
                   <span>Profile</span>
                 </a>
+
                 <ul class="dropdown-menu hidden">
-                  <li id="toprofile"><a href="<?=ROOT?>/manage/profile">My Account</a></li>
-                  <li><a href="<?=ROOT?>/manage/">My Orders</a></li>
-                  <li><a href="<?=ROOT?>/manage/">My Wishlist</a></li>
-                  <li><a href="<?=ROOT?>/manage/">My Reviews</a></li>
-                  <li><a href="<?=ROOT?>/manage/">My Returns & Cancellations</a></li>
+                  <li><a href="<?=ROOT?>/manage/profile"><span>My Account</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Orders</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Wishlist</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Reviews</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Returns & Cancellations</span></a></li>
+
+                  <li><a href="<?=ROOT?>"><span></span></a></li>
                   <li>
                     <button id="tologin">Login</button>
                   </li>
@@ -49,7 +69,7 @@
                     <button id="toregister">Signup</button>
                   </li>
                 </ul>
-            </li>
+            </li> -->
             
         </div>
 
@@ -76,15 +96,27 @@
       case 'tocart':
         window.location.href = '<?= ROOT ?>/cart';
         break;
-      case 'toprofile':
-        window.location.href = '<?= ROOT ?>/profile';
-        break;
-      case 'toregister':
-        window.location.href = '<?= ROOT ?>/signup';
-        break;
-      case 'tologin':
-        window.location.href = '<?= ROOT ?>/login';
-        break;
+      // case 'toprofile':
+      //   window.location.href = '<?= ROOT ?>/manage/profile';
+      //   break;
+      // case 'toregister':
+      //   window.location.href = '<?= ROOT ?>/signup';
+      //   break;
+      // case 'tologin':
+      //   window.location.href = '<?= ROOT ?>/login';
+      //   break;
+      // case 'toorders':
+      //   window.location.href = '<?= ROOT ?>/manage/orders';
+      //   break;
+      // case 'towishlist':
+      //   window.location.href = '<?= ROOT ?>/manage/wishlist';
+      //   break;
+      // case 'toreviews':
+      //   window.location.href = '<?= ROOT ?>/manage/reviews';
+      //   break;
+      // case 'toreturns':
+      //   window.location.href = '<?= ROOT ?>/manage/returns';
+      //   break;
       default:
         break;
     }

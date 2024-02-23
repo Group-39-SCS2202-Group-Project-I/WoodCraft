@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+        <?php $this->view('manage/acc-header', $data) ?>
+        <?php $this->view('manage/acc-sidebar', $data) ?> 
 
-<?php $this->view('includes/header', $data) ?>
-
-<head>
-    <?php $this->view('includes/nav', $data) ?>
-    <!-- <?php $this->view('webstore/header-section', $data) ?> -->
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/manage-account.css">
-    <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/icons.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"> -->
-
-    <title>Manage My Account | <?=APP_NAME?></title>
-</head>
-
-<body>
-    <main id="main" class="main">
         <!-- manage my account -->
         <div class="container">
             <div class="title">
@@ -32,15 +11,15 @@
                 <div class="profile">
                     <div class="content-title">
                         <h3>Personal Profile  <span class="highlight">|</span>
-                        <a href="edit-profile.view.php">EDIT</a></h3>
+                        <a href="<?=ROOT?>/manage/edit-profile">EDIT</a></h3>
                     </div>
 
                     <div class="profile-content">
                         <div class="profile-info">
-                            <span class="info-value">John Doe</span>
+                            <span class="info-value"><?=esc($row->firstname)?> <?=esc($row->lastname)?></span>
                         </div>
                         <div class="profile-info">
-                            <span class="info-value">john.doe@example.com</span>
+                            <span class="info-value"><?=esc($row->email)?>/span>
                         </div>
                     </div>
 

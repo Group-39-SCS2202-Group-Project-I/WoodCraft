@@ -84,3 +84,8 @@ function averageStarRating($reviews) {
 
 	return $sumRating/sizeof($reviews);
 }
+
+// ...
+// function esc($str){
+//     return nl2br(htmlspecialchars($str));
+// }

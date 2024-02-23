@@ -134,5 +134,16 @@ class Auth
         // show($staff);
         return $staff[0]->staff_id;
     }
+
+    // ....
+    // public static function __callStatic($funcname, $args)
+    // {
+    //     $key = str_replace("get", "", strtolower($funcname));
+    //     if(!empty($_SESSION['USER_DATA']->$key)){
+    //         return $_SESSION['USER_DATA']->$key;
+    //     }
+
+    //     return '';
+    // }
 	
 }
