@@ -13,7 +13,7 @@ class Manage extends Controller
 		$this->view('manage/manage-account',$data);
 	}
 
-    public function myprofile()
+    public function myProfile()
 	{
 		$data['title'] = "myprofile";
 
@@ -27,7 +27,7 @@ class Manage extends Controller
 		$this->view('manage/edit-profile',$data);
 	}
 
-    public function changepw()
+    public function changePW()
 	{
 		$data['title'] = "change-password";
 
@@ -39,6 +39,20 @@ class Manage extends Controller
 		$data['title'] = "addressbook";
 
 		$this->view('manage/addressbook',$data);
+	}
+
+    public function editAddressbook()
+	{
+		$data['title'] = "edit-addressbook";
+
+		$this->view('manage/edit-addressbook',$data);
+	}
+
+    public function addAddress()
+	{
+		$data['title'] = "add-address";
+
+		$this->view('manage/add-address',$data);
 	}
 
     public function orders(){

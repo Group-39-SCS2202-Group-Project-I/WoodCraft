@@ -14,34 +14,45 @@
                     <div class="profile">
                         <div class="content-title">
                             <h3>Personal Profile  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/manage/edit-profile">EDIT</a></h3>
+                            <a href="<?=ROOT?>/manage/editProfile">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">
-                            <div class="profile-info">
-                                <!-- <span class="info-value"><?=esc($row->firstname)?> <?=esc($row->lastname)?></span> -->
-                            </div>
-                            <div class="profile-info">
-                                <!-- <span class="info-value"><?=esc($row->email)?></span> -->
-                            </div>
+                            <?php if (isset($data['row']) && $data['row']): ?>
+                                <div class="profile-info">
+                                    <span class="info-value"><?= esc($data['row']->first_name) ?> <?= esc($data['row']->last_name) ?></span>
+                                </div>
+                                <div class="profile-info">
+                                    <span class="info-value"><?= esc($data['row']->email) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <p>User data not available</p>
+                            <?php endif; ?>
                         </div>
-
-                        <a href="#" class="subscribe-link-manage-account" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    </div>
                     
                     <div class="address">
                         <div class="content-title">
                             <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/manage/addressbook.view.php">EDIT</a></h3>
+                            <a href="<?=ROOT?>/manage/editAddressbook">EDIT</a></h3>
                         </div>
                         <div class="address-content">
-                            <!-- <div class="shipping">
-                                DEFAULT SHIPPING ADDRESS
-                            </div>
-                            <div class="billing">
-                                DEFAULT BILLING ADDRESS
-                            </div> -->
-                        </div> 
+                            <?php if (isset($data['row']) && $data['row'] && isset($data['address'])): ?>
+                                <div class="profile-info">
+                                    <span class="info-value"><?= esc($data['row']->first_name) ?> <?= esc($data['row']->last_name) ?></span>
+                                </div>
+                                <div class="profile-info">
+                                    <span class="info-value"><?= esc($data['row']->email) ?></span>
+                                </div>
+
+                                <!-- Display address information -->
+                                <div class="profile-info">
+                                    <span class="info-value"><?= esc($data['address']->address_line_1) ?>, <?= esc($data['address']->city) ?>, <?= esc($data['address']->zip_code) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <p>User data not available</p>
+                            <?php endif; ?>
+                        </div>
+
                     </div>
                 </div>
             </div> 
@@ -71,79 +82,72 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const titles = document.querySelectorAll('.main-title, .sub-title');
+            const sidebarItems = document.querySelectorAll('.sidebar-list-item');
 
-            // Add click event listener to each title
-            titles.forEach(title => {
-                title.addEventListener('click', function () {
-                    // Remove selected class from all titles
-                    titles.forEach(title => {
-                        title.classList.remove('selected');
+            // Set initial selected item
+            const initialSelectedItem = document.querySelector('.def-selected');
+            initialSelectedItem.click(); // Trigger a click event on the initial item to set it as selected
+
+            // Add click event listener to each sidebar item
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    // Remove selected class from all items
+                    sidebarItems.forEach(item => {
+                        item.classList.remove('selected');
                     });
 
-                    // Add selected class to the clicked title
+                    // Add selected class to the clicked item
                     this.classList.add('selected');
                 });
             });
         });
 
-        // Add event listener to the parent element
         document.querySelector('.nav-main').addEventListener('click', (event) => {
             const target = event.target;
             const id = target.id;
 
             // Handle different menu items based on their IDs
             switch (id) {
-            case 'tohome':
-                window.location.href = '<?= ROOT ?>';
-                break;
-            case 'toproducts':
-                window.location.href = '<?= ROOT ?>/products';
-                break;
-            case 'toabout':
-                window.location.href = '<?= ROOT ?>/about';
-                break;
-            case 'tocontact':
-                window.location.href = '<?= ROOT ?>/contact';
-                break;
-            case 'tocart':
-                window.location.href = '<?= ROOT ?>/cart';
-                break;
-            case 'tomanage-acc':
-            window.location.href = '<?= ROOT ?>/manage/manage-account';
-                break;
-            case 'toregister':
-            window.location.href = '<?= ROOT ?>/signup';
-                break;
-            case 'tologin':
-            window.location.href = '<?= ROOT ?>/login';
-                break;
-            case 'toorders':
-            window.location.href = '<?= ROOT ?>/manage/orders';
-                break;
-            case 'towishlist':
-            window.location.href = '<?= ROOT ?>/manage/wishlist';
-                break;
-            case 'toreviews':
-            window.location.href = '<?= ROOT ?>/manage/reviews';
-                break;
-            case 'toreturns':
-            window.location.href = '<?= ROOT ?>/manage/returns';
-                break;
-            case 'toprofile':
-            window.location.href = '<?= ROOT ?>/manage/returns';
-                break;
-            case 'toaddress':
-            window.location.href = '<?= ROOT ?>/manage/returns';
-                break;
-            case 'tocancellations':
-            window.location.href = '<?= ROOT ?>/manage/returns';
-                break;
-
-            default:
-                break;
+                case 'tomanage-acc':
+                    window.location.href = '<?= ROOT ?>/manage/index';
+                    break;
+                case 'toprofile':
+                    window.location.href = '<?= ROOT ?>/manage/myProfile';
+                    break;
+                case 'toaddress-book':
+                    window.location.href = '<?= ROOT ?>/manage/addressbook';
+                    break;
+                case 'toorders':
+                    window.location.href = '<?= ROOT ?>/manage/orders';
+                    break;
+                case 'toreturns':
+                    window.location.href = '<?= ROOT ?>/manage/returns';
+                    break;
+                case 'tocancellations':
+                    window.location.href = '<?= ROOT ?>/manage/cancellations';
+                    break;
+                case 'toreviews':
+                    window.location.href = '<?= ROOT ?>/manage/reviews';
+                    break;
+                case 'towishlist':
+                    window.location.href = '<?= ROOT ?>/manage/wishlist';
+                    break;
+                case 'tohome':
+                    window.location.href = '<?= ROOT ?>';
+                    break;
+                case 'toregister':
+                    window.location.href = '<?= ROOT ?>/signup';
+                    break;
+                case 'tologin':
+                    window.location.href = '<?= ROOT ?>/login';
+                    break;
+                default:
+                    break;
             }
         });
+</script>
+
+
     </script>
 
 
