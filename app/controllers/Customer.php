@@ -75,6 +75,6 @@ class Customer extends Controller{
         $data['title'] = "manage-account";
         $data['errors'] = $user->errors;
 
-        $this->view('customer/manage-account', $data);
+        $this->view('manage/manage-account', $data);
     }
 }

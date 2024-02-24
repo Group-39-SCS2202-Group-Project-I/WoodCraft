@@ -1,5 +1,8 @@
-        <?php $this->view('manage/acc-header', $data) ?>
-        <?php $this->view('manage/acc-sidebar', $data) ?> 
+    <?php $this->view('manage/acc-header', $data) ?>
+    <br><br>
+    <?php $this->view('manage/acc-sidebar', $data) ?>
+        
+        <div class="main-container"> 
         
         <!-- address book -->
         <div class="container">
@@ -37,3 +40,4 @@
 
 <?php $this->view('includes/footer', $data) ?>
 </html>
+</div></diV>

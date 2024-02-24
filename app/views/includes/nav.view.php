@@ -28,17 +28,18 @@
             </li>
 
             <?php if(!Auth::logged_in()):?>
-              <li><a href="<?=ROOT?>/login">Login</a></li>
-              <li><a href="<?=ROOT?>/signup">SignUp</a></li>
+              <li><a id="tologin">Login</a></li>
+              <li><a id="toregister">SignUp</a></li>
             <?php else:?>
               <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getFirstname()?></span></a>
                 <ul class="dropdown-menu hidden">
-                  <li><a href="<?=ROOT?>/manage/manage-account">Manage My Account</a></li>
-                  <li><a href="<?=ROOT?>/manage/orders">My Orders</a></li>
-                  <li><a href="<?=ROOT?>/manage/wishlist">My Wishlist</a></li>
-                  <li><a href="<?=ROOT?>/manage/reviews"><span>My Reviews</span></a></li>
-                  <li><a href="<?=ROOT?>/manage/returns"><span>My Returns & Cancellations</span></a></li>
-                  <li><a href="<?=ROOT?>"><span></span>LogOut</a></li>
+                  <!-- <li><a href="<?=ROOT?>/manage/manage-account">Manage My Account</a></li> -->
+                  <li><a id="tomanage-acc">Manage My Account</a></li>
+                  <li><a id="toorders">My Orders</a></li>
+                  <li><a id="towishlist">My Wishlist</a></li>
+                  <li><a id="toreviews"><span>My Reviews</span></a></li>
+                  <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li>
+                  <li><a id="tohome"><span>LogOut</span></a></li>
                 </ul>
               </li>
             <?php endif;?>
@@ -96,27 +97,27 @@
       case 'tocart':
         window.location.href = '<?= ROOT ?>/cart';
         break;
-      // case 'toprofile':
-      //   window.location.href = '<?= ROOT ?>/manage/profile';
-      //   break;
-      // case 'toregister':
-      //   window.location.href = '<?= ROOT ?>/signup';
-      //   break;
-      // case 'tologin':
-      //   window.location.href = '<?= ROOT ?>/login';
-      //   break;
-      // case 'toorders':
-      //   window.location.href = '<?= ROOT ?>/manage/orders';
-      //   break;
-      // case 'towishlist':
-      //   window.location.href = '<?= ROOT ?>/manage/wishlist';
-      //   break;
-      // case 'toreviews':
-      //   window.location.href = '<?= ROOT ?>/manage/reviews';
-      //   break;
-      // case 'toreturns':
-      //   window.location.href = '<?= ROOT ?>/manage/returns';
-      //   break;
+      case 'tomanage-acc':
+      window.location.href = '<?= ROOT ?>/manage/manage-account';
+        break;
+      case 'toregister':
+      window.location.href = '<?= ROOT ?>/signup';
+        break;
+      case 'tologin':
+      window.location.href = '<?= ROOT ?>/login';
+        break;
+      case 'toorders':
+      window.location.href = '<?= ROOT ?>/manage/orders';
+        break;
+      case 'towishlist':
+      window.location.href = '<?= ROOT ?>/manage/wishlist';
+        break;
+      case 'toreviews':
+      window.location.href = '<?= ROOT ?>/manage/reviews';
+        break;
+      case 'toreturns':
+      window.location.href = '<?= ROOT ?>/manage/returns';
+        break;
       default:
         break;
     }
