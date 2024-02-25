@@ -47,8 +47,50 @@ for ($i = 0; $i < count($pending_products); $i++) {
     ];
 }
 // show($pending_productions_materials[0]['materials']);
-// show($pending_productions_materials);
 ?>
+
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        /* border: 1px solid #ddd; */
+        padding: 8px;
+        text-align: left;
+    }
+
+    .styled-table th {
+        background-color: var(--blk);
+        color: var(--light);
+        font-weight: 500;
+    }
+
+    .styled-table th:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    .styled-table th:last-child {
+        border-top-right-radius: 10px;
+    }
+
+    .styled-table tr:last-child td:first-child {
+        border-bottom-left-radius: 10px;
+    }
+
+    .styled-table tr:last-child td:last-child {
+        border-bottom-right-radius: 10px;
+    }
+
+
+
+    .styled-table td {
+        background-color: var(--light);
+    }
+</style>
 
 
 <?php
@@ -64,6 +106,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     // show($form_data);
 }
 ?>
+
 
 
 <div class="table-section">
@@ -149,7 +192,22 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             <form action="" method="POST" class="form">
                 <!-- <h2 class="popup-form-title">Delete Item</h2> -->
                 <!-- <p>Are you sure you want to delete this item?</p> -->
+
                 <p class="confirmation-text">Approve Materials for </p>
+                <br>
+                <table id="mat_table" class="styled-table">
+                    <!-- <h3>Allocated Materials</h3> -->
+                    <!-- <br> -->
+                    <tr>
+                        <th>Material Name</th>
+                        <th>Stock Number</th>
+                        <th>Quantity</th>
+                    </tr>
+                </table>
+
+                <br>
+
+                <!-- <p class="confirmation-text">Approve Materials for </p> -->
 
                 <div class="form-group frm-btns">
                     <button type="submit" class="form-btn submit-btn">Yes</button>
@@ -165,6 +223,33 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             const confirmationText = document.querySelector('.confirmation-text');
             x = "PXN-" + String(id).padStart(3, '0');
             confirmationText.innerHTML += x + "?";
+
+            let mat_table = document.getElementById('mat_table');
+
+            let url = "<?= ROOT ?>/fetch/production_material/" + id;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+
+
+                    // sort the data by stock number
+
+
+
+
+                    let list = '';
+                    data.forEach(item => {
+                        list += `<tr>
+                            <td>${item.material_name}</td>
+                            <td>MTO-` + String(item.stock_no).padStart(3, '0') + `</td>
+                            <td>${item.quantity}</td>
+                        </tr>`;
+                    });
+                    mat_table.innerHTML += list;
+                });
+
+
+
             popup.classList.add('popup-form--open');
             popup.querySelector('form').action = "<?php echo ROOT ?>/update/approve_mat/" + id;
         }
@@ -186,12 +271,27 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 popup.classList.remove('popup-form--open');
             });
 
+            // wait(1).then(() => {
+            //     confirmText.innerHTML = "Approve Materials for ";
+            // });
+
             confirmText.innerHTML = "Approve Materials for ";
             // Clear validation messages
+
             const validationMessages = document.querySelectorAll('.validate-mzg');
             validationMessages.forEach(message => {
                 message.innerHTML = '';
             });
+
+            let mat_table = document.getElementById('mat_table');
+            mat_table.innerHTML = `<tr>
+                            <th>Material Name</th>
+                            <th>Stock Number</th>
+                            <th>Quantity</th>
+                        </tr>`;
+
+
+
 
             // Session storage
             // sessionStorage.removeItem('worker_id');
