@@ -597,9 +597,9 @@ class Fetch extends Controller
             }, $data['material_orders']);
 
             // show($data['material_orders']);
-            
+
             $material_stks = [];
-            if(count($data['material_orders']) > 0){
+            if (count($data['material_orders']) > 0) {
                 // get material_stk from material_order_id
                 $material_order_ids = array_column($data['material_orders'], 'material_order_id');
                 $material_order_ids = implode(',', $material_order_ids);
@@ -699,13 +699,12 @@ class Fetch extends Controller
 
     public function pxn_worker($id = '')
     {
-        if($id != '')
-        {
+        if ($id != '') {
             $db = new Database();
             $pxn_worker = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
 
             // $production_ids = array_column($pxn_worker, 'production_id');
-            header ("Content-Type: application/json");
+            header("Content-Type: application/json");
             echo json_encode($pxn_worker);
         }
     }
@@ -794,6 +793,15 @@ class Fetch extends Controller
         echo json_encode($data['product_reviews']);
     }
 
+    public function material_stk_by_material_id($id)
+    {
+        $db = new Database();
+        $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE material_id = $id AND quantity > 0");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['material_stk']);
+    }
+
 
     public function material_stk($id = '')
     {
@@ -838,15 +846,24 @@ class Fetch extends Controller
 
         $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no IN ($stock_nos)");
 
-        // map production materials and material_stk by stock_no
-        // $data['production_materials'] = array_map(function ($production_material) use ($data) {
-        //     foreach ($data['material_stk'] as $material_stk) {
-        //         if ($production_material->stock_no == $material_stk->stock_no) {
-        //             $production_material->material_stk = $material_stk;
-        //         }
-        //     }
-        //     return $production_material;
-        // }, $data['production_materials']);
+        // show($stock_nos);
+
+        // // map production materials and material_stk by stock_no
+        $data['production_materials'] = array_map(function ($production_material) use ($data) {
+            foreach ($data['material_stk'] as $material_stk) {
+                if ($production_material->stock_no == $material_stk->stock_no) {
+                    $production_material->material_id = $material_stk->material_id;
+                    $db = new Database();
+                    $query = "SELECT * FROM material WHERE material_id = $material_stk->material_id";
+                    $material = $db->query($query);
+                    $production_material->material_name = $material[0]->material_name;
+                }
+            }
+            return $production_material;
+        }, $data['production_materials']);
+        // show($stock_nos);
+
+
 
         // get price per unit from material_stk and map to production_materials by stock_no
         $data['production_materials'] = array_map(function ($production_material) use ($data) {
@@ -871,8 +888,15 @@ class Fetch extends Controller
 
         // show($data['production_materials']);
 
+        $result = [];
+        foreach ($data['production_materials'] as $key => $object) {
+            $result[$key] = (array)$object;
+        }
+        $result = array_values($result);
+        // show($result);
+
         header("Content-Type: application/json");
-        echo json_encode($data['production_materials']);
+        echo json_encode($result);
     }
 
     public function chat($id = '')
@@ -892,7 +916,7 @@ class Fetch extends Controller
         }
     }
 
-    public function chat_rec_all ()
+    public function chat_rec_all()
     {
         $db = new Database();
         $data['chat_records'] = $db->query("SELECT * FROM chat_records");
@@ -940,7 +964,6 @@ class Fetch extends Controller
         $last_chat_records = [];
         foreach ($data['chat_records'] as $chat_record) {
             $last_chat_records[$chat_record->connection] = $chat_record;
-            
         }
         // show($last_chat_records);
 
@@ -960,10 +983,9 @@ class Fetch extends Controller
 
         // show($last_chat_records);
         foreach ($last_chat_records as $last_chat_record) {
-            if($last_chat_record->customer_user_id == $last_chat_record->sent_by){
+            if ($last_chat_record->customer_user_id == $last_chat_record->sent_by) {
                 $last_chat_record->resp = 0;
-            }
-            else{
+            } else {
                 $last_chat_record->resp = 1;
             }
         }
@@ -997,9 +1019,8 @@ class Fetch extends Controller
 
         // show($x);
 
-        
+
         header("Content-Type: application/json");
         echo json_encode($x);
     }
-    
 }
