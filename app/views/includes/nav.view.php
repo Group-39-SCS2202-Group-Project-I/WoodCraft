@@ -74,55 +74,55 @@
             
         </div>
 
-        <script>
-  // Add event listener to the parent element
-  document.querySelector('.nav-main').addEventListener('click', (event) => {
-    const target = event.target;
-    const id = target.id;
+      <script>
+        // Add event listener to the parent element
+        document.querySelector('.nav-main').addEventListener('click', (event) => {
+          const target = event.target;
+          const id = target.id;
 
-    // Handle different menu items based on their IDs
-    switch (id) {
-      case 'tohome':
-        window.location.href = '<?= ROOT ?>';
-        break;
-      case 'toproducts':
-        window.location.href = '<?= ROOT ?>/products';
-        break;
-      case 'toabout':
-        window.location.href = '<?= ROOT ?>/about';
-        break;
-      case 'tocontact':
-        window.location.href = '<?= ROOT ?>/contact';
-        break;
-      case 'tocart':
-        window.location.href = '<?= ROOT ?>/cart';
-        break;
-      case 'tomanage-acc':
-      window.location.href = '<?= ROOT ?>/manage/manage-account';
-        break;
-      case 'toregister':
-      window.location.href = '<?= ROOT ?>/signup';
-        break;
-      case 'tologin':
-      window.location.href = '<?= ROOT ?>/login';
-        break;
-      case 'toorders':
-      window.location.href = '<?= ROOT ?>/manage/orders';
-        break;
-      case 'towishlist':
-      window.location.href = '<?= ROOT ?>/manage/wishlist';
-        break;
-      case 'toreviews':
-      window.location.href = '<?= ROOT ?>/manage/reviews';
-        break;
-      case 'toreturns':
-      window.location.href = '<?= ROOT ?>/manage/returns';
-        break;
-      default:
-        break;
-    }
-  });
-</script>
+          // Handle different menu items based on their IDs
+          switch (id) {
+            case 'tohome':
+              window.location.href = '<?= ROOT ?>';
+              break;
+            case 'toproducts':
+              window.location.href = '<?= ROOT ?>/products';
+              break;
+            case 'toabout':
+              window.location.href = '<?= ROOT ?>/about';
+              break;
+            case 'tocontact':
+              window.location.href = '<?= ROOT ?>/contact';
+              break;
+            case 'tocart':
+              window.location.href = '<?= ROOT ?>/cart';
+              break;
+            case 'tomanage-acc':
+            window.location.href = '<?= ROOT ?>/customer/manage-account';
+              break;
+            case 'toregister':
+            window.location.href = '<?= ROOT ?>/signup';
+              break;
+            case 'tologin':
+            window.location.href = '<?= ROOT ?>/login';
+              break;
+            case 'toorders':
+            window.location.href = '<?= ROOT ?>/customer/orders';
+              break;
+            case 'towishlist':
+            window.location.href = '<?= ROOT ?>/customer/wishlist';
+              break;
+            case 'toreviews':
+            window.location.href = '<?= ROOT ?>/customer/reviews';
+              break;
+            case 'toreturns':
+            window.location.href = '<?= ROOT ?>/customer/returns';
+              break;
+            default:
+              break;
+          }
+        });
+      </script>
 
         
     </nav>

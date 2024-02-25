@@ -336,6 +336,7 @@
 .content-edit-profile {
     padding: 20px;
     background-color: var(--bg2);
+    height: fit-content;
 }
 
 .field-edit-profile {
@@ -397,6 +398,7 @@ select {
     transition: background-color 0.3s;
     width: 200px;
     margin-right: 10px;
+    display: grid;
 }
 
 .save-changes-edit-profile:hover, .cancel-edit-profile:hover {

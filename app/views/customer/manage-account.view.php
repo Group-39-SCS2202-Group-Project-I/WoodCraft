@@ -1,6 +1,6 @@
-        <?php $this->view('manage/acc-header', $data) ?>
+        <?php $this->view('customer/acc-header', $data) ?>
         <br><br>
-        <?php $this->view('manage/acc-sidebar', $data) ?>
+        <?php $this->view('customer/acc-sidebar', $data) ?>
         
         <div class="main-container"> 
 
@@ -14,7 +14,7 @@
                     <div class="profile">
                         <div class="content-title">
                             <h3>Personal Profile  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/manage/editProfile">EDIT</a></h3>
+                            <a href="<?=ROOT?>/customer/editProfile">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">
@@ -29,11 +29,14 @@
                                 <p>User data not available</p>
                             <?php endif; ?>
                         </div>
+
+                        <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
+                    </div>
                     
                     <div class="address">
                         <div class="content-title">
                             <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/manage/editAddressbook">EDIT</a></h3>
+                            <a href="<?=ROOT?>/customer/editAddressbook">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data['row']) && $data['row'] && isset($data['address'])): ?>
@@ -109,28 +112,28 @@
             // Handle different menu items based on their IDs
             switch (id) {
                 case 'tomanage-acc':
-                    window.location.href = '<?= ROOT ?>/manage/index';
+                    window.location.href = '<?= ROOT ?>/customer/index';
                     break;
                 case 'toprofile':
-                    window.location.href = '<?= ROOT ?>/manage/myProfile';
+                    window.location.href = '<?= ROOT ?>/customer/myProfile';
                     break;
                 case 'toaddress-book':
-                    window.location.href = '<?= ROOT ?>/manage/addressbook';
+                    window.location.href = '<?= ROOT ?>/customer/addressbook';
                     break;
                 case 'toorders':
-                    window.location.href = '<?= ROOT ?>/manage/orders';
+                    window.location.href = '<?= ROOT ?>/customer/orders';
                     break;
                 case 'toreturns':
-                    window.location.href = '<?= ROOT ?>/manage/returns';
+                    window.location.href = '<?= ROOT ?>/customer/returns';
                     break;
                 case 'tocancellations':
-                    window.location.href = '<?= ROOT ?>/manage/cancellations';
+                    window.location.href = '<?= ROOT ?>/customer/cancellations';
                     break;
                 case 'toreviews':
-                    window.location.href = '<?= ROOT ?>/manage/reviews';
+                    window.location.href = '<?= ROOT ?>/customer/reviews';
                     break;
                 case 'towishlist':
-                    window.location.href = '<?= ROOT ?>/manage/wishlist';
+                    window.location.href = '<?= ROOT ?>/customer/wishlist';
                     break;
                 case 'tohome':
                     window.location.href = '<?= ROOT ?>';
@@ -268,12 +271,12 @@
         .grid-container {
             display: flex;
             flex-direction: row;
-            grid-template-columns: 260px 1fr 1fr 1fr;
-            grid-template-rows: 0.2fr 3fr;
-            grid-template-areas:
+            /* grid-template-columns: 260px 1fr 1fr 1fr; */
+            /* grid-template-rows: 0.2fr 3fr; */
+            /* grid-template-areas:
                 "sidebar header header header"
-                "sidebar main main main";
-            height: 100vh;
+                "sidebar main main main"; */
+            /* height: 100vh; */
         
         }
 

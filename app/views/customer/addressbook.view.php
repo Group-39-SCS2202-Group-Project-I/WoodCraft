@@ -1,6 +1,6 @@
-    <?php $this->view('manage/acc-header', $data) ?>
+    <?php $this->view('customer/acc-header', $data) ?>
     <br><br>
-    <?php $this->view('manage/acc-sidebar', $data) ?>
+    <?php $this->view('customer/acc-sidebar', $data) ?>
         
         <div class="main-container"> 
         
@@ -9,14 +9,14 @@
             <div class="title">
                 <h2>Address Book</h2>
                 <div class="new-address">
-                    <a href="<?=ROOT?>/manage/add-address" class="add-address-link"><span class="highlight-plus">+</span> Add New Address</a>
+                    <a href="<?=ROOT?>/customer/add-address" class="add-address-link"><span class="highlight-plus">+</span> Add New Address</a>
                 </div>
             </div>
 
             <div class="content-addressbook">
                 <div class="address-box">
                     <div class="edit-option">
-                        <a href="<?=ROOT?>/manage/edit-addressbook">EDIT</a>
+                        <a href="<?=ROOT?>/customer/edit-addressbook">EDIT</a>
                     </div>
         
                     <!-- Address information -->
