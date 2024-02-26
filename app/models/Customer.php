@@ -73,6 +73,8 @@ class Customer extends Model
 		return false;
 	}
 
+    
+
     // ....
     // public function edit_validate($data)
     // {

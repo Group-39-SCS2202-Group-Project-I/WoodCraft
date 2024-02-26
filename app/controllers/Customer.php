@@ -2,26 +2,41 @@
 
 class Customer extends Controller {
 
-    public function index()
+    public function index($id = '')
     {
         if (!Auth::logged_in()) {
             message('Please login to view your account');
             redirect('login');
         }
 
-		$id = $id ?? Auth::getId();
+		$data['title'] = "manage-account";
+
+		if($id != ''){
+			// show($id);
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+
+			// show($customer);
+			// $data['row'] = $customer;
+
+			$data = $customer;
+			// show($data);
+			$this->view('customer/manage-account', $data);
+		}
+
+
+		// $id = $id ?? Auth::getId();
 
 		// $user = new User();
-		show($id);
+		// // show($id);
 		// $data['row'] = $user->first(['user_id' => $id]);
-		// show($data['row']);
-
-		$data['id'] = $id;
+		// // show($data['row']);
 
 
-        $data['title'] = "manage-account";
+        // // $data['title'] = "manage-account";
 
-        $this->view('customer/manage-account', $data);
+        // $this->view('customer/manage-account', $data);
     }
 
     public function profile($id = null)
