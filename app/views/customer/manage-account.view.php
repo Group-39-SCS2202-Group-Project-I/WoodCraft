@@ -1,8 +1,12 @@
+        
         <?php $this->view('customer/acc-header', $data) ?>
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?>
         
         <div class="main-container">
+        <?= show($data) ?>
+
+        
 
         <!-- manage my account -->
             <div class="container">
@@ -18,12 +22,12 @@
                         </div>
 
                         <div class="profile-content">
-                            <?php if (isset($data['row']) && $data['row']): ?>
+                            <?php if (isset($data) && $data): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['row']->first_name) ?> <?= esc($data['row']->last_name) ?></span>
+                                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
                                 </div>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['row']->email) ?></span>
+                                    <span class="info-value"><?= esc($data->email) ?></span>
                                 </div>
                             <?php else: ?>
                                 <p>User data not available</p>
@@ -39,9 +43,9 @@
                             <a href="<?=ROOT?>/customer/editAddressbook">EDIT</a></h3>
                         </div>
                         <div class="address-content">
-                            <?php if (isset($data['row']) && $data['row'] && isset($data['address'])): ?>
+                            <?php if (isset($data) && $data && isset($data)): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['row']->first_name) ?> <?= esc($data['row']->last_name) ?></span>
+                                    <span class="info-value"><?= esc($data->first_name) ?> <?= esc($data->last_name) ?></span>
                                 </div>
                                 <div class="profile-info">
                                     <span class="info-value"><?= esc($data['row']->email) ?></span>
@@ -49,7 +53,7 @@
 
                                 <!-- Display address information -->
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['address']->address_line_1) ?>, <?= esc($data['address']->city) ?>, <?= esc($data['address']->zip_code) ?></span>
+                                    <span class="info-value"><?= esc($data->address_line_1) ?>, <?= esc($data['address']->city) ?>, <?= esc($data['address']->zip_code) ?></span>
                                 </div>
                             <?php else: ?>
                                 <div class="shipping">

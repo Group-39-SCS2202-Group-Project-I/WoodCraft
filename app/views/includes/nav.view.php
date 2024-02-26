@@ -31,7 +31,7 @@
               <li><a id="tologin">Login</a></li>
               <li><a id="toregister">SignUp</a></li>
             <?php else:?>
-              <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getFirstname()?></span></a>
+              <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getCustomerName()?></span></a>
                 <ul class="dropdown-menu hidden">
                   <li><a id="tomanage-acc">Manage My Account</a></li>
                   <li><a id="toorders">My Orders</a></li>
@@ -97,7 +97,7 @@
               window.location.href = '<?= ROOT ?>/cart';
               break;
             case 'tomanage-acc':
-            window.location.href = '<?= ROOT ?>/customer/manage-account';
+            window.location.href = '<?= ROOT ?>/customer/<?= Auth::getCustomerID() ?>';
               break;
             case 'toregister':
             window.location.href = '<?= ROOT ?>/signup';
