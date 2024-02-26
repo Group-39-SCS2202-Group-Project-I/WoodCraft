@@ -7,12 +7,25 @@
 class Database
 {
 	
+	// private function connect()
+	// {
+	// 	$str = DBDRIVER.":hostname=".DBHOST.";dbname=".DBNAME;
+	// 	return new PDO($str,DBUSER,DBPASS);
+
+	// }
+
 	private function connect()
 	{
-		$str = DBDRIVER.":hostname=".DBHOST.";dbname=".DBNAME;
-		return new PDO($str,DBUSER,DBPASS);
-
+		try {
+			$str = DBDRIVER.":hostname=".DBHOST.";dbname=".DBNAME;
+			$con = new PDO($str, DBUSER, DBPASS);
+			$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			return $con;
+		} catch (PDOException $e) {
+			die("Database connection failed: " . $e->getMessage());
+		}
 	}
+	
 
 	public function query($query,$data = [],$type = 'object')
 	{
@@ -37,6 +50,10 @@ class Database
 				{
 					return $result;
 				}
+			}
+
+			if (!$check) {
+				show($stm->errorInfo());
 			}
 		}
 

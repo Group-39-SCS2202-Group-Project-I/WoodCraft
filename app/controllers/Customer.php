@@ -9,6 +9,14 @@ class Customer extends Controller {
             redirect('login');
         }
 
+		$id = $id ?? Auth::getId();
+
+		$user = new User();
+		// show($id);
+		$data['row'] = $user->first(['user_id' => $id]);
+		// show($data['row']);
+
+
         $data['title'] = "manage-account";
 
         $this->view('customer/manage-account', $data);
@@ -24,7 +32,7 @@ class Customer extends Controller {
         $id = $id ?? Auth::getId();
 
         $user = new User();
-        $data['row'] = $user->first(['id' => $id]);
+        $data['row'] = $user->first(['user_id' => $id]);
 
         $addressModel = new Address();
         $customerData['address_id'] = $data['row']->address_id ?? null;
@@ -32,6 +40,8 @@ class Customer extends Controller {
         if ($customerData['address_id']) {
             $data['address'] = $addressModel->first(['id' => $customerData['address_id']]);
         }
+
+		$data['row'] = $data['row'] ?? null;
 
         if ($data['row']) {
             $data['title'] = "Manage Account";

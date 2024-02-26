@@ -35,10 +35,106 @@
                 <li class="sidebar-list-item nav-btn main-title" id="wishlist-nav">
                     <a id="towishlist"><span style="margin-left: 5px;">My WishList</span></a>
                 </li>
+           
+                <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
+                    <a id="tohome"><span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span></a>
+                </li>
+
+                <script>
+                    const manageNav = document.getElementById('manage-nav');
+                    const profileNav = document.getElementById('profile-nav');
+                    const addressNav = document.getElementById('address-nav');
+                    const ordersNav = document.getElementById('orders-nav');
+                    const returnsNav = document.getElementById('returns-nav');
+                    const cancellationNav = document.getElementById('cancellation-nav');
+                    const wishlistNav = document.getElementById('wishlist-nav');
+
+
+                    // Add event listener to the parent element
+                    document.querySelector('.sidebar-list').addEventListener('click', (event) => {
+                        const target = event.target;
+                        const id = target.closest('.sidebar-list-item').id;
+
+                        // Handle different menu items based on their IDs
+                        switch (id) {
+                            case 'tomanage-acc':
+                                window.location.href = '<?= ROOT ?>/customer/index';
+                                break;
+                            case 'toprofile':
+                                window.location.href = '<?= ROOT ?>/customer/myProfile';
+                                break;
+                            case 'toaddress-book':
+                                window.location.href = '<?= ROOT ?>/customer/addressbook';
+                                break;
+                            case 'toorders':
+                                window.location.href = '<?= ROOT ?>/customer/orders';
+                                break;
+                            case 'toreturns':
+                                window.location.href = '<?= ROOT ?>/customer/returns';
+                                break;
+                            case 'tocancellations':
+                                window.location.href = '<?= ROOT ?>/customer/cancellations';
+                                break;
+                            case 'toreviews':
+                                window.location.href = '<?= ROOT ?>/customer/reviews';
+                                break;
+                            case 'towishlist':
+                                window.location.href = '<?= ROOT ?>/customer/wishlist';
+                                break;
+                            case 'tohome':
+                                window.location.href = '<?= ROOT ?>';
+                                break;
+                            case 'toregister':
+                                window.location.href = '<?= ROOT ?>/signup';
+                                break;
+                            case 'tologin':
+                                window.location.href = '<?= ROOT ?>/login';
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                </script>
             </ul>
 
+            <script>
+                const listItems = document.querySelectorAll('.nav-btn');
 
-            <li class="sidebar-list-item nav-btn main-title" id="logoutBtn">
-                <a id="tohome"><span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span></a>
-            </li>
+                listItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        listItems.forEach(item => item.classList.remove('selected'));
+                        item.classList.add('selected');
+                        sessionStorage.setItem('selectedItem', item.id);
+                    });
+                });
+
+                const selectedItem = sessionStorage.getItem('selectedItem');
+                if (selectedItem) {
+                    const selectedSidebarItem = document.getElementById(selectedItem);
+                    if (selectedSidebarItem) {
+                        selectedSidebarItem.classList.add('selected');
+                        //remove selected from all other items
+                        listItems.forEach(item => {
+                            if (item.id !== selectedItem) {
+                                item.classList.remove('selected');
+                            }
+                        });
+                    }
+
+                }
+
+
+                const logoutBtn = document.getElementById('logoutBtn');
+                logoutBtn.addEventListener('click', () => {
+                    window.location.href = '<?= ROOT ?>/logout';
+                    for (let i = 0; i < sessionStorage.length; i++) {
+                        const key = sessionStorage.key(i);
+                        sessionStorage.removeItem(key);
+                    }
+
+                    const defaultSelected = document.querySelector('.def-selected');
+                    defaultSelected.classList.add('selected');
+
+                });
+            </script>
         </aside>

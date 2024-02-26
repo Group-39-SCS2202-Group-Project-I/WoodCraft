@@ -2,7 +2,7 @@
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?>
         
-        <div class="main-container"> 
+        <div class="main-container">
 
         <!-- manage my account -->
             <div class="container">
@@ -52,7 +52,12 @@
                                     <span class="info-value"><?= esc($data['address']->address_line_1) ?>, <?= esc($data['address']->city) ?>, <?= esc($data['address']->zip_code) ?></span>
                                 </div>
                             <?php else: ?>
-                                <p>User data not available</p>
+                                <div class="shipping">
+                                    DEFAULT SHIPPING ADDRESS
+                                </div>
+                                <div class="billing">
+                                    DEFAULT BILLING ADDRESS
+                                </div>
                             <?php endif; ?>
                         </div>
 
@@ -81,30 +86,9 @@
     <?php $this->view('includes/footer', $data) ?>
 
 </html>
-</div></diV>
+</div></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebarItems = document.querySelectorAll('.sidebar-list-item');
-
-            // Set initial selected item
-            const initialSelectedItem = document.querySelector('.def-selected');
-            initialSelectedItem.click(); // Trigger a click event on the initial item to set it as selected
-
-            // Add click event listener to each sidebar item
-            sidebarItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    // Remove selected class from all items
-                    sidebarItems.forEach(item => {
-                        item.classList.remove('selected');
-                    });
-
-                    // Add selected class to the clicked item
-                    this.classList.add('selected');
-                });
-            });
-        });
-
         document.querySelector('.nav-main').addEventListener('click', (event) => {
             const target = event.target;
             const id = target.id;
@@ -267,7 +251,6 @@
             font-weight: 600;
         }
 
-
         .grid-container {
             display: flex;
             flex-direction: row;
@@ -276,7 +259,7 @@
             /* grid-template-areas:
                 "sidebar header header header"
                 "sidebar main main main"; */
-            /* height: 100vh; */
+            height: 100vh;
         
         }
 
@@ -370,6 +353,7 @@
 
         .sidebar-logout
         {
+            margin-top: 25px;
             position: absolute;
             bottom: 0;
             width: 260px;

@@ -2,7 +2,8 @@
 <br><br>
 <?php $this->view('customer/acc-sidebar', $data) ?>
         
-        <div class="main-container">
+    <div class="main-container fixed-container">
+
 
         <!-- edit addressbook -->
         <div class="container">
@@ -74,4 +75,4 @@
 
 <?php $this->view('includes/footer', $data) ?>
 </html>
-</div></diV>
+</div></div>

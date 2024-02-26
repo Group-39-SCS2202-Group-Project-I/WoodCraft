@@ -62,7 +62,7 @@ class Model extends Database
 		}
 
 		$query = trim($query, "&& ");
-		$query .= " order by id desc limit 1";
+		$query .= " order by user_id desc limit 1";
 
 		// show($query);
 
@@ -74,6 +74,34 @@ class Model extends Database
 
 		return false;
 	}
+
+	// public function first($data)
+	// {
+	// 	$keys = array_keys($data);
+
+	// 	// Ensure that 'user_id' is a valid column in table
+	// 	$primaryKey = in_array('user_id', $keys) ? 'user_id' : 'id';
+
+	// 	$query = "SELECT * FROM " . $this->table . " WHERE ";
+
+	// 	foreach ($keys as $key) {
+	// 		$query .= $key . "=:" . $key . " AND ";
+	// 	}
+
+	// 	$query = rtrim($query, " AND ");
+	// 	$query .= " ORDER BY $primaryKey DESC LIMIT 1";
+
+	// 	// show($query);
+
+	// 	$res = $this->query($query, $data);
+
+	// 	if (is_array($res)) {
+	// 		return $res[0];
+	// 	}
+
+	// 	return false;
+	// }
+
 
 	// ....update function
 	// public function update($id, $data){

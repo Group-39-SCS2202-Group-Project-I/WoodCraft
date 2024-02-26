@@ -13,23 +13,23 @@
             <div class="content-profile">
                 <div class="profile-info">
                     <span class="info-label">Full Name</span>
-                    <span class="info-value">John Doe</span>
+                    <span class="info-value"><?=esc($data['row']->first_name)?> <?=esc($data['row']->last_name)?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Email</span>
-                    <span class="info-value">john.doe@example.com</span>
+                    <span class="info-value"><?=esc($data['row']->email)?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Mobile</span>
-                    <span class="info-value">0715183937</span>
+                    <span class="info-value"><?=esc($data['row']->telephone)?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Birthday</span>
-                    <span class="info-value">2001-03-01</span>
+                    <span class="info-value"><?=esc($data['row']->dob)?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Gender</span>
-                    <span class="info-value">Male</span>
+                    <span class="info-value"><?=esc($data['row']->gender)?></span>
                 </div>
 
                 <div class="bottom-profile">

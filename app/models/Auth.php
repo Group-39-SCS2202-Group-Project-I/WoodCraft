@@ -113,7 +113,7 @@ class Auth
     public static function customerDetails()
     {
         // show($_SESSION['USER_DATA']);
-        if($_SESSION['USER_DATA']->role == 'customer'){
+        if($_SESSION['USER_DATA']->role === 'customer'){
             $db = new Database;
             $customer = $db->select('customer','user_id = '.$_SESSION['USER_DATA']->user_id);
             // show($customer[0]);

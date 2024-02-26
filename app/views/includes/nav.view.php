@@ -33,7 +33,6 @@
             <?php else:?>
               <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getFirstname()?></span></a>
                 <ul class="dropdown-menu hidden">
-                  <!-- <li><a href="<?=ROOT?>/manage/manage-account">Manage My Account</a></li> -->
                   <li><a id="tomanage-acc">Manage My Account</a></li>
                   <li><a id="toorders">My Orders</a></li>
                   <li><a id="towishlist">My Wishlist</a></li>
