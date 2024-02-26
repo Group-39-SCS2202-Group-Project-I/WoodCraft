@@ -11,10 +11,12 @@ class Customer extends Controller {
 
 		$id = $id ?? Auth::getId();
 
-		$user = new User();
-		// show($id);
-		$data['row'] = $user->first(['user_id' => $id]);
+		// $user = new User();
+		show($id);
+		// $data['row'] = $user->first(['user_id' => $id]);
 		// show($data['row']);
+
+		$data['id'] = $id;
 
 
         $data['title'] = "manage-account";

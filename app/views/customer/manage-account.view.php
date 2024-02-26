@@ -1,6 +1,8 @@
         <?php $this->view('customer/acc-header', $data) ?>
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?>
+
+        <?= show($data)?>
         
         <div class="main-container">
 
