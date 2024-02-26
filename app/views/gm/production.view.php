@@ -1,4 +1,3 @@
-
 <?php
 
 ?>
@@ -6,18 +5,47 @@
 <html>
 
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/invoice.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <title>WoodCraft Furniture - General Manager</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/invoice.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+	<title>WoodCraft Furniture - General Manager</title>
 </head>
 
 <body>
 
+
 	<div class="wrapper">
 		<div class="invoice_wrapper">
+			<!-- <h1>Production Details</h1> -->
+			<!-- fetch production details  -->
+			<?php
+			$id = $data['id'];
+			$url = ROOT . "/fetch/production/$id";
+			$response = file_get_contents($url);
+			$production = json_decode($response);
+			show($production);
+			?>
+
+			<!-- <h1>Workers</h1> -->
+			<!-- fetch production workers-->
+			<?php
+			$url = ROOT . "/fetch/production_workers/$id";
+			$response = file_get_contents($url);
+			$workers = json_decode($response, true);
+			// show($workers);
+			?>
+
+			<!-- <h1>Production materials</h1> -->
+			<!-- fetch production materials-->
+			<?php
+			$url = ROOT . "/fetch/production_material/$id";
+			$response = file_get_contents($url);
+			$materials = json_decode($response, true);
+			// show($materials);
+			?>
+
 			<div class="header">
 				<div class="logo_invoice_wrap">
 					<div class="logo_sec">
@@ -30,13 +58,27 @@
 					<div class="invoice_sec">
 						<p class="invoice bold">Production Report</p>
 						<p class="invoice_no">
-							<span class="bold">Invoice</span>
-							<span>#3488</span>
+							<span class="bold">ID</span>
+							<span><?= "PXN-" . str_pad($production->production_id, 3, '0', STR_PAD_LEFT); ?></span>
 						</p>
 						<p class="date">
-							<span class="bold">Date</span>
-							<span>08/Jan/2022</span>
+							<span class="bold">Status</span>
+							<span><?= ucfirst($production->status) ?></span>
 						</p>
+
+						<p class="date">
+							<span class="bold">Started</span>
+							<span><?= $production->created_at ?></span>
+						</p>
+						<?php
+						if ($production->status == 'completed') {
+						?>
+							<p class="date">
+								<span class="bold">Finished</span>
+								<span><?= $production->updated_at ?></span>
+							<?php
+						}
+							?>
 					</div>
 				</div>
 				<!-- <div class="bill_total_wrap">
