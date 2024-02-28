@@ -105,3 +105,16 @@ $images = json_decode($response, true);
     </body>
 
     <?php $this->view('includes/footer', $data) ?>
+<!-- 
+    <!-- function to add cart items -->
+  <!-- <script type ="text/javascript">
+    function addToCart(product_Id){
+      $.ajax({
+        url:cartaction.php
+        data: "Id=" + Id +"&action=add",
+        method:"post"
+      }).done(function(response){
+        $('#result').html(response);
+      })
+    }
+    </script> --> 
