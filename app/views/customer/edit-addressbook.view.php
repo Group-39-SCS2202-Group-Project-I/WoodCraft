@@ -4,7 +4,7 @@
         
         <div class="main-container"> 
 
-        <?php show($data); ?>
+        <!-- <?php show($data); ?> -->
 
         <!-- edit addressbook -->
         <div class="container">
