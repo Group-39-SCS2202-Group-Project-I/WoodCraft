@@ -1,14 +1,16 @@
 <?php
 
-class Customer extends Controller {
+class Customer extends Controller
+{
 
-    public function index($id = '')
-    {
-        if (!Auth::logged_in()) {
-            message('Please login to view your account');
-            redirect('login');
-        }
+	public function index($id = '')
+	{
+		if (!Auth::logged_in()) {
+			message('Please login to view your account');
+			redirect('login');
+		}
 
+		// $id = Auth::getCustomerID();
 		$data['title'] = "manage-account";
 
 		if($id != ''){
@@ -21,15 +23,15 @@ class Customer extends Controller {
 		}
     }
 
-    public function profile($id = '')
+    public function profile($id = null)
     {
         if (!Auth::logged_in()) {
-            message('Please login to view your account');
-            redirect('login');
-        }
+			message('Please login to view your account');
+			redirect('login');
+		}
 
-		$data['title'] = "profile";
 		// $id = Auth::getCustomerID();
+		$data['title'] = "profile";
 
 		if($id != ''){
 			$url = ROOT . "/fetch/customers/" . $id;
@@ -43,100 +45,121 @@ class Customer extends Controller {
 
 	public function edit($id = '')
 	{
-		$data['title'] = "edit-profile";
 		// $id = Auth::getCustomerID();
+
+		$data['title'] = "edit-profile";
+		$customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
-		}
 
-		$data = $customer;
-		$this->view('customer/edit-profile', $data);
-	}
+			$data = $customer;
+			$this->view('customer/edit-profile', $data);
+		}
+    }
 
     public function changepassword($id = '')
 	{
-		$data['title'] = "change-password";
 		// $id = Auth::getCustomerID();
+
+		$data['title'] = "change-password";
+		$customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
-		}
 
-		$data = $customer;
-		$this->view('customer/change-password', $data);
+			$data = $customer;
+			$this->view('customer/change-password', $data);
+		}
 	}
 
     public function addressbook($id = '')
 	{
+		// $id = Auth::getCustomerID();
+
 		$data['title'] = "addressbook";
-		// $id = Auth::getCustomerID();
+		$customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
+
+			$data = $customer;
+			$this->view('customer/addressbook', $data);
 		}
-
-		$data = $customer;
-
-		$this->view('customer/addressbook',$data);
 	}
 
-	public function editaddress($id = '')
+    public function editAddressbook($id = '')
 	{
+		// $id = Auth::getCustomerID();
+
 		$data['title'] = "edit-addressbook";
-		// $id = Auth::getCustomerID();
+		$customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
+
+			$data = $customer;
+			$this->view('customer/edit-addressbook', $data);
 		}
-
-		$data = $customer;
-		$this->view('customer/edit-addressbook', $data);
 	}
 
-    public function addaddress($id = '')
+    public function addAddress($id = '')
 	{
-		$data['title'] = "add-address";
+		// $id = Auth::getCustomerID();
 
-		$this->view('customer/add-address',$data);
+		$data['title'] = "add-address";
+		$customer = []; 
+
+		if ($id != '') {
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+
+			$data = $customer;
+			$this->view('customer/add-address', $data);
+		}
 	}
 
-    public function orders(){
+	public function orders()
+	{
 		$data['title'] = "orders";
 
-		$this->view('customer/orders',$data);
+		$this->view('customer/orders', $data);
 	}
 
-    public function returns(){
+	public function returns()
+	{
 		$data['title'] = "returns";
 
-		$this->view('customer/returns',$data);
+		$this->view('customer/returns', $data);
 	}
 
-	public function cancellations(){
+	public function cancellations()
+	{
 		$data['title'] = "cancellations";
 
-		$this->view('customer/cancellations',$data);
+		$this->view('customer/cancellations', $data);
 	}
 
-    public function wishlist(){
+	public function wishlist()
+	{
 		$data['title'] = "wishlist";
 
-		$this->view('customer/wishlist',$data);
+		$this->view('customer/wishlist', $data);
 	}
 
-    public function reviews(){
+	public function reviews()
+	{
 		$data['title'] = "reviews";
 
-		$this->view('customer/reviews',$data);
+		$this->view('customer/reviews', $data);
 	}
-	
 }
