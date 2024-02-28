@@ -20,7 +20,7 @@
                     <div class="profile">
                         <div class="content-title">
                             <h3>Personal Profile  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/editProfile">EDIT</a></h3>
+                            <a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerID();?>">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">

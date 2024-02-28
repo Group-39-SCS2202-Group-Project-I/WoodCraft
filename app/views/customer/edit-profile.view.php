@@ -6,7 +6,7 @@
 
         <div class="main-container"> 
 
-        <?php show($data); ?>
+        <!-- <?php show($data); ?> -->
 
         <!-- edit profile -->
         <div class="container">
