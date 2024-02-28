@@ -13,7 +13,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/profile/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/customer/updateCustomerAddress/<?= Auth::getCustomerID() ?>">  
                     <div class="field-edit-profile">
                         <label for="first-name">First Name</label>
                         <div class="input-wrapper">
@@ -50,11 +50,26 @@
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="address">Address</label>
+                        <label for="address">Zip Code</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_1', $data['address_line_1'])?> <?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="House no. / building / street / area">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('zip_code', $data['zip_code'])?>" placeholder="Enter zipcode">
                         </div>
                     </div>
+
+                    <div class="field-edit-profile">
+                        <label for="address">Address Line 1</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_1', $data['address_line_1'])?>" placeholder="House no. / building / street / area">
+                        </div>
+                    </div>
+
+                    <div class="field-edit-profile">
+                        <label for="address">Address Line 2</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="street / area">
+                        </div>
+                    </div>
+
         
                     <!-- <div class="field-edit-profile">
                         <label for="landmark">Landmark (optional)</label>

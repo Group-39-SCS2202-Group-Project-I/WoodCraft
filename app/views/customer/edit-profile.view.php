@@ -11,8 +11,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/updateProfile/<?= Auth::getCustomerID() ?>">
-                <!-- <form method="post" action="<?= ROOT ?>/customer/edit-profile/update/<?= Auth::getCustomerId()?>"> -->
+                <form method="post" action="<?= ROOT ?>/customer/updateProfile/<?= Auth::getCustomerID()?>">
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
