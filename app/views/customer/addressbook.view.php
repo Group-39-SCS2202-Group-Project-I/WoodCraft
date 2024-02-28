@@ -21,11 +21,11 @@
         
                     <!-- Address information -->
                     <div class="address-info">
-                        <div class="info-value">John Doe</div>
-                        <div class="info-value">0712345678</div>
-                        <div class="info-value">123 Main Street, City</div>
+                        <div class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></div>
+                        <div class="info-value"><?= esc($data['telephone']) ?></div>
+                        <div class="info-value"><?= esc($data['address_line_1']) ?> <?= esc($data['address_line_2']) ?>.</div>
         
-                        <div class="addotional-addressbook">
+                        <div class="additional-addressbook">
                             <div class="address-type">Home Address</div>
                             <div class="additional-info">Default Delivery Address</div>
                             <div class="additional-info">Default Billing Address</div>

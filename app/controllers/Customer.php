@@ -14,6 +14,7 @@ class Customer extends Controller {
 		if($id != ''){
 			// show($id);
 			$url = ROOT . "/fetch/customers/" . $id;
+			// $url = ROOT . "/fetch/customers/" . Auth::getId();
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
 
@@ -75,12 +76,42 @@ class Customer extends Controller {
 		$this->view('customer/profile',$data);
 	}
 
-    public function editProfile()
+	public function editProfile($id = '')
 	{
 		$data['title'] = "edit-profile";
+		$customer = []; 
 
-		$this->view('customer/edit-profile',$data);
+		if ($id != '') {
+			// $url = ROOT . "/fetch/customers/" . Auth::getId();
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+		}
+
+		$data = $customer;
+		// $data = array_merge($data, $customer); 
+		// show($data);
+		$this->view('customer/edit-profile', $data);
 	}
+
+	// public function editProfile() {
+    //     // Retrieve existing customer data
+    //     $customerId = getCurrentCustomerId(); // You should have a method to get the current customer ID
+    //     $customerData = $this->model->getCustomerData($customerId);
+
+    //     // Handle form submission
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         // Validate and update customer data
+    //         $postData = sanitize($_POST); // You should have a sanitization method
+    //         $this->DB->updateCustomerData($customerId, $postData);
+    //         // Redirect to manage account page after updating
+    //         header("Location: " . ROOT . "/customer/manage-account");
+    //         exit();
+    //     }
+
+    //     // Load the view with customer data
+    //     $this->view('customer/edit-profile', $customerData);
+    // }
 
     public function changePW()
 	{
@@ -96,11 +127,22 @@ class Customer extends Controller {
 		$this->view('customer/addressbook',$data);
 	}
 
-    public function editAddressbook()
+    public function editAddressbook($id = '')
 	{
-		$data['title'] = "edit-addressbook";
+		$data['title'] = "edit-profile";
+		// $customer = []; 
 
-		$this->view('customer/edit-addressbook',$data);
+		if ($id != '') {
+			// $url = ROOT . "/fetch/customers/" . Auth::getId();
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+		}
+
+		$data = $customer;
+		// $data = array_merge($data, $customer); 
+		// show($data);
+		$this->view('customer/edit-profile', $data);
 	}
 
     public function addAddress()

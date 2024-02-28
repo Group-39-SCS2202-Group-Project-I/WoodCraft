@@ -63,7 +63,7 @@
                     </div>
         
                     <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
+                    <a href="<?=ROOT?>/customer/addressbook"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
                 </form>
             </div>
         </div>

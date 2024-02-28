@@ -4,6 +4,8 @@
         
         <div class="main-container"> 
 
+        <?php show($data); ?>
+
         <!-- edit addressbook -->
         <div class="container">
             <div class="title">
@@ -11,58 +13,58 @@
             </div>
 
             <div class="content-edit-profile">
-                <form>
+                <form method="post">
                     <div class="field-edit-profile">
-                        <label for="full-name">First Name</label>
+                        <label for="first-name">First Name</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="Enter your first name">
+                            <input type="text" class="form-control" id="first-name" name="first-name" value="<?=get_value('first_name', $data['first_name'])?>" placeholder="Enter your first name">
                         </div>
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="full-name">Last Name</label>
+                        <label for="last-name">Last Name</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="Enter your last name">
+                            <input type="text" class="form-control" id="last-name" name="last-name" value="<?=get_value('last_name', $data['last_name'])?>" placeholder="Enter your last name">
                         </div>
                     </div>
         
                     <div class="field-edit-profile">
-                        <label for="mobile">Mobile</label>
+                        <label for="telephone">Mobile</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter your mobile number">
+                            <input type="tel" class="form-control" id="telephone" name="telephone" value="<?=get_value('telephone', $data['telephone'])?>" placeholder="Enter your mobile number">
+                        </div>
+                    </div>
+
+                    <!-- <div class="field-edit-profile">
+                        <label for="province">Province</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="province" name="province" value="<?=get_value('province', $data['province'])?>" placeholder="Choose your province">
+                        </div>
+                    </div> -->
+        
+                    <div class="field-edit-profile">
+                        <label for="city">City</label>
+                        <div class="input-wrapper">
+                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Choose your city">
                         </div>
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="full-name">Province</label>
+                        <label for="address">Address</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="Choose your province">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_1', $data['address_line_1'])?> <?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="House no. / building / street / area">
                         </div>
                     </div>
         
-                    <div class="field-edit-profile">
-                        <label for="mobile">City</label>
+                    <!-- <div class="field-edit-profile">
+                        <label for="landmark">Landmark (optional)</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Choose your city">
+                            <input type="tel" class="form-control" id="landmark" name="landmark" value="<?=get_value('land_mark', $data['land_mark'])?>" placeholder="E.g. beside train station">
                         </div>
-                    </div>
-
-                    <div class="field-edit-profile">
-                        <label for="full-name">Address</label>
-                        <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="House no. / building / street / area">
-                        </div>
-                    </div>
-        
-                    <div class="field-edit-profile">
-                        <label for="mobile">Landmark (optional)</label>
-                        <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="E.g. beside train station">
-                        </div>
-                    </div>
+                    </div> -->
         
                     <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
+                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button></a>
                 </form>
             </div>
         </div>
@@ -88,4 +90,4 @@
 
 <?php $this->view('includes/footer', $data) ?>
 </html>
-</div></diV>
+</div></div>

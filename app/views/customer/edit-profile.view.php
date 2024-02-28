@@ -2,7 +2,11 @@
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?> 
 
+        <!-- <?php show($data); ?> -->
+
         <div class="main-container"> 
+
+        <?php show($data); ?>
 
         <!-- edit profile -->
         <div class="container">
@@ -11,25 +15,32 @@
             </div>
 
             <div class="content-edit-profile">
-                <form>
+                <form method="post">
                     <div class="field-edit-profile">
-                        <label for="full-name">Full Name</label>
+                        <label for="first_name">First Name</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="Enter your full name">
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" value="<?=get_value('first_name', $data['first_name'])?>">
+                        </div>
+                    </div>
+
+                    <div class="field-edit-profile">
+                        <label for="full-name">Last Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Enter your last name" value="<?=get_value('last_name', $data['last_name'])?>">
                         </div>
                     </div>
         
                     <div class="field-edit-profile">
                         <label for="email">Email</label>
                         <div class="input-wrapper">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>">
                         </div>
                     </div>
         
                     <div class="field-edit-profile">
-                        <label for="mobile">Mobile</label>
+                        <label for="telephone">Mobile</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter your mobile number">
+                            <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Enter your mobile number" value="<?=get_value('telephone', $data['telephone'])?>">
                         </div>
                     </div>
         
@@ -59,8 +70,8 @@
                     </div>
         
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
+                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a>
+                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button></a>
                 </form>
             </div>
         </div>

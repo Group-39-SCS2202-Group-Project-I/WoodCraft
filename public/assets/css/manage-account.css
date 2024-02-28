@@ -90,11 +90,11 @@
     font-size: 12px;
 }
 
-.address-content {
+/* .address-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-}
+} */
 
 .billing {
     padding-left: 20px;
