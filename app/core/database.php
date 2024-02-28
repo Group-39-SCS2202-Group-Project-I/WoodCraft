@@ -117,7 +117,33 @@ class Database
 		$con = $this->connect();
 		return $con->lastInsertId();
 	}
-	
 
+	// .....
+
+	private function update($table, $data, $where)
+    {
+        if (empty($data) || empty($where)) {
+            return false;
+        }
+
+        $setValues = [];
+        $updateData = [];
+
+        foreach ($data as $key => $value) {
+            $setValues[] = "$key = :$key";
+            $updateData[":$key"] = sanitize($value); // Use sanitize function for each value
+        }
+
+        $setClause = implode(', ', $setValues);
+
+        $query = "UPDATE $table SET $setClause WHERE $where";
+
+        return $this->query($query, $updateData);
+    }
+
+    public function updateCustomerProfile($id, $data)
+    {
+        return $this->update('customer', $data, 'customer_id = :id', [':id' => $id]);
+    }
 	
 }

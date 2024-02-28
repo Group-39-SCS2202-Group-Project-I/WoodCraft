@@ -16,7 +16,7 @@
             <div class="content-addressbook">
                 <div class="address-box">
                     <div class="edit-option">
-                        <a href="<?=ROOT?>/customer/editaddress/<?= Auth::getCustomerId()?>">EDIT</a>
+                        <a href="<?=ROOT?>/customer/address/<?= Auth::getCustomerId()?>">EDIT</a>
                     </div>
         
                     <!-- Address information -->

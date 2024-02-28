@@ -33,8 +33,8 @@
             <?php else:?>
               <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getCustomerName()?></span></a>
                 <ul class="dropdown-menu hidden">
-                  <li><a id="tomanage-acc">Manage My Account</a></li>
-                  <li><a id="toorders">My Orders</a></li>
+                  <li><a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>">Manage My Account</a></li>
+                  <li><a href="<?=ROOT?>/customer/orders/<?= Auth::getCustomerId()?>">My Orders</a></li>
                   <!-- <li><a id="towishlist">My Wishlist</a></li>
                   <li><a id="toreviews"><span>My Reviews</span></a></li>
                   <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li> -->

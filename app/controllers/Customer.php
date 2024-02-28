@@ -19,6 +19,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
+			// show($data);
 			$this->view('customer/manage-account', $data);
 		}
     }
@@ -109,7 +110,7 @@ class Customer extends Controller
 		}
 	}
 
-    public function editaddress($id = '')
+    public function address($id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -153,11 +154,26 @@ class Customer extends Controller
 		}
 	}
 
-	public function orders()
+	public function orders($id = '')
 	{
-		$data['title'] = "orders";
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
+		
+		// $id = Auth::getCustomerID();
 
-		$this->view('customer/orders', $data);
+		$data['title'] = "orders";
+		$customer = []; 
+
+		if ($id != '') {
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+
+			$data = $customer;
+			$this->view('customer/orders', $data);
+		}
 	}
 
 	public function returns()
@@ -188,151 +204,70 @@ class Customer extends Controller
 		$this->view('customer/reviews', $data);
 	}
 
-	// public function saveProfile()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         // Assuming you have a model to handle database interactions
-    //         $customerModel = $this->customers('CustomerModel'); // Adjust the model class name
-
-    //         // Get the customer ID from the session or wherever you store it
-    //         $customerId = Auth::getCustomerID();
-
-    //         // Get the updated customer details from the form
-    //         $updatedData = [
-    //             'first_name' => $_POST['first_name'],
-    //             'last_name' => $_POST['last_name'], // Correct the name attribute
-    //             'email' => $_POST['email'],
-    //             'telephone' => $_POST['telephone'],
-    //             'birth_month' => $_POST['birth-month'],
-    //             'birth_day' => $_POST['birth-day'],
-    //             'birth_year' => $_POST['birth-year'],
-    //             'gender' => $_POST['gender'],
-    //         ];
-
-    //         // Assuming there's a method in your model to update customer details
-    //         $success = $customerModel->updateCustomerDetails($customerId, $updatedData);
-
-    //         if ($success) {
-    //             // Redirect to the profile page after successful update
-    //             redirect(ROOT . '/customer/profile/' . $customerId);
-    //         } else {
-    //             // Handle error, e.g., display an error message
-    //             echo "Failed to update customer details.";
-    //         }
-    //     }
-    // }
-
-	// public function updateProfile($id = '')
+	// public function update($id=null)
 	// {
-	// 	if (!Auth::logged_in()) {
-	// 		message('Please login to update your profile');
-	// 		redirect('login');
+	// 	if(count($_POST) > 0){
+	// 		$maintainrequests=new Customer();
+	// 		$maintainrequests->update($id,$_POST);
+	// 		redirect('profile');
+
 	// 	}
-
-	// 	$id = Auth::getCustomerID();
-
-	// 	$data['title'] = "profile";
-	// 	$customer = [];
-
-	// 	if ($id != '') {
-	// 		$url = ROOT . "/fetch/customers/" . $id;
-	// 		$response = file_get_contents($url);
-	// 		$customer = json_decode($response, true);
-
-	// 		$data = $customer; // Pass the customer data to the view
-
-	// 		// Forward the update request to the Update controller
-	// 		$updateController = new Update();
-	// 		$updateController->customer($id);
-	// 	}
-
-	// 	// Display the view with the data
-	// 	$this->view('customer/profile', $data);
+	// 	$this->view('edit-profile');
 	// }
 
-	// public function updateProfile($id = '')
-    // {
-    //     if (!Auth::logged_in()) {
-    //         message('Please login to update your profile');
-    //         redirect('login');
-    //     }
+	public function updateProfile($id)
+{
+    if (!Auth::logged_in()) {
+        message('Please login to update your profile');
+        redirect('login');
+    }
 
-    //     $id = Auth::getCustomerID();
+    // Validate and sanitize form data
+    $updatedData = [
+        'first_name' => sanitize($_POST['first_name']),
+        'last_name' => sanitize($_POST['last-name']),
+        'email' => sanitize($_POST['email']),
+        'telephone' => sanitize($_POST['telephone']),
+        // 'birth_month' => sanitize($_POST['birth-month']),
+        // 'birth_day' => sanitize($_POST['birth-day']),
+        // 'birth_year' => sanitize($_POST['birth-year']),
+        // 'gender' => sanitize($_POST['gender']),
+    ];
 
-    //     $data['title'] = "Profile";
+	show($updatedData);
 
-    //     if ($id != '') {
-    //         // Fetch customer data from the model
-    //         $customerModel = new Customer();
-    //         $customer = $customerModel->getCustomerById($id);
+    // Perform the database update
+    $success = $this->updateCustomerProfile($id, $updatedData);
 
-    //         if (!$customer) {
-    //             message('Customer not found');
-    //             redirect('customer/manage-account');
-    //         }
-
-    //         $data['customer'] = $customer;
-
-    //         // Display the view with the data
-    //         $this->view('customer/profile', $data);
-    //     }
-    // }
-
-// 	public function updateProfile($id = '')
-// {
-//     if (!Auth::logged_in()) {
-//         message('Please login to update your profile');
-//         redirect('login');
-//     }
-
-//     $id = Auth::getCustomerID();
-
-//     $data['title'] = "edit-profile";
-//     $customerModel = new Customer(); // Create an instance of CustomerModel
-//     $customer = $customerModel->getCustomerById($id); // Use the method to fetch customer data
-
-//     $data['customer'] = $customer; // Pass the customer data to the view
-
-//     // Forward the update request to the Update controller
-//     $updateController = new Update();
-//     $updateController->customer($id);
-
-//     // Display the view with the data
-//     $this->view('customer/edit-profile', $data);
-// }
-
-// public function add(){
-// 	if(count($_POST) > 0){
-// 		$maintainrequests=new Maintains();
-// 		$maintainrequests->insert($_POST);
-// 		$this->redirect('maintainrequests');
-// 	}
-
-// 	$this->view('storekeeperSendRequests');
-// }
-
-// public function delete($id=null){
-   
-// 	if(count($_POST) > 0){
-// 		$maintainrequests=new Maintains();
-// 		$maintainrequests->delete($id);
-// 		$this->redirect('maintainrequests');
-
-// 	}
-// 	$this->view('DeleteMaintain');
-// }
-
-
-
-public function update($id=null){
-   
-	if(count($_POST) > 0){
-		$maintainrequests=new Customer();
-		$maintainrequests->update($id,$_POST);
-		redirect('profile');
-
-	}
-	$this->view('edit-profile');
+    if ($success) {
+        message('Profile updated successfully');
+        redirect('customer/profile/' . $id);
+    } else {
+        message('Failed to update profile. Please try again.');
+        redirect('customer/edit/' . $id);
+    }
 }
+
+private function updateCustomerProfile($id, $data)
+{
+    $table = 'customer';
+
+    $setClause = '';
+    foreach ($data as $key => $value) {
+        $setClause .= "`$key` = :$key, ";
+    }
+    $setClause = rtrim($setClause, ', ');
+
+    // Construct the full SQL query
+    $query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+
+    // Add the customer ID to the data array
+    $data['id'] = $id;
+
+    // Perform the database update
+    $db = new Database;
+    return $db->query($query, $data);
+}
+
 	
 }

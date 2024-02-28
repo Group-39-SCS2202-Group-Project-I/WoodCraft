@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/profile/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/customer/updateProfile/<?= Auth::getCustomerID() ?>">
                 <!-- <form method="post" action="<?= ROOT ?>/customer/edit-profile/update/<?= Auth::getCustomerId()?>"> -->
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
         
-                    <div class="field-edit-profile">
+                    <!-- <div class="field-edit-profile">
                         <label for="birthday">Birthday</label>
                         <div class="input-wrapper">
                             <select id="birth-month" name="birth-month">
@@ -64,7 +64,7 @@
                                 <option value="female">Female</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
         
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                     <!-- <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a> -->
