@@ -39,63 +39,23 @@ if ($completed) {
     $com_count = count($completed);
 }
 
-// show($pen_count);
-// show($pro_count);
-// show($com_count);
-
-//select created_at from productions 
-$created_at_array = [];
-foreach ($productions as $production) {
-    $created_at_array[] = $production['created_at'];
-}
-// show($created_at_array);
-// get month and year from created_at timestamp
-$month_year_array = [];
-foreach ($created_at_array as $created_at) {
-    $month_year_array[] = date("M Y", strtotime($created_at));
-}
-// show($month_year_array);
-// count the number of productions in each month
-$month_year_count = array_count_values($month_year_array);
-// show($month_year_count);
-// get the month and year and count as key value pair
-$month_year_count_array = [];
-foreach ($month_year_count as $key => $value) {
-    $month_year_count_array[] = [
-        'month_year' => $key,
-        'count' => $value
-    ];
-}
-// show($month_year_count_array);
-
-// get current month and year and 12 months before to a array
-// $month_year_array2 = [];
-// for ($i = 0; $i < 12; $i++) {
-//     $month_year_array2[] = date("M Y", strtotime("-$i month"));
-// }
-// show($month_year_array2);
-
-$month_year_count_array2 = [];
-for ($i = 0; $i < 12; $i++) {
-    $month_year_count_array2[] = [
-        'month_year' => date("M Y", strtotime("-$i month")),
-        'count' => 0
-    ];
-}
-// show($month_year_count_array2);
-
-// merge the two arrays
-$month_year_count_array3 = array_merge($month_year_count_array, $month_year_count_array2);
-
-// reverse array
-$month_year_count_array3 = array_reverse($month_year_count_array3);
-// show($month_year_count_array3);
-
-$jsmonth_year_count_array3 = json_encode($month_year_count_array3);
 
 
+// show($completed);
+$comjson = json_encode($completed);
 
-// finished productions
+
+usort($completed, function ($a, $b) {
+    return strtotime($a['updated_at']) - strtotime($b['updated_at']);
+});
+
+$oldestProductionDate = $completed[0]['updated_at'];
+// show($oldestProductionDate);
+$date = date_create($oldestProductionDate);
+$oldestProductionDate = date_format($date, 'Y-m-d');
+// show($oldestProductionDate);
+
+
 
 
 
@@ -147,15 +107,67 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
 </div>
 
 
-<div class="dashboard2" id="pxn-chart">
-    <div>
-        <div class="charts-card">
-            <p class="chart-title">Productions within a year</p>
-            <div id="chart"></div>
-        </div>
-    </div>
+<!-- <div class="dashboard2" id="pxn-chart"> -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<div class="table-section">
+    <input type="text" id="start-date" placeholder="Start date" value="2024-01-01">
+    <input type="text" id="end-date" placeholder="End date">
+    <button id="print-dates">Generate Report</button>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const startDatepicker = flatpickr("#start-date", {
+            defaultDate: "<?= $oldestProductionDate ?>",
+            minDate: "<?= $oldestProductionDate ?>",
+            maxDate: "today",
+            onChange: function (selectedDates, dateStr, instance) {
+                if (endDatepicker.selectedDates[0] && selectedDates[0] > endDatepicker.selectedDates[0]) {
+                    endDatepicker.setDate(selectedDates[0]);
+                }
+                endDatepicker.set('minDate', dateStr);
+            }
+        });
+
+        const endDatepicker = flatpickr("#end-date", {
+            defaultDate: "today",
+            minDate: "<?= $oldestProductionDate ?>",
+            maxDate: "today",
+            onChange: function (selectedDates, dateStr, instance) {
+                if (startDatepicker.selectedDates[0] && selectedDates[0] < startDatepicker.selectedDates[0]) {
+                    startDatepicker.setDate(selectedDates[0]);
+                }
+                startDatepicker.set('maxDate', dateStr);
+            }
+        });
+
+        const printButton = document.getElementById('print-dates');
+        printButton.addEventListener('click', () => {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            console.log('Start Date:', startDate);
+            console.log('End Date:', endDate);
+
+            var completed = <?php echo $comjson; ?>;
+            // console.log(completed);
+
+            var filtered = completed.filter(function (a) {
+                return a.created_at >= startDate && a.updated_at <= endDate;
+            });
+
+            console.log(filtered);
+           
+            generateAndOpenPdf(startDate, endDate, "Production Report", filtered);
+        });
+    });
+</script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
 <script>
     var arr = <?php echo $jsmonth_year_count_array3; ?>;
     console.log(arr);
@@ -205,6 +217,155 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
         barChartOptions
     );
     barChart.render();
+</script> -->
+
+
+<script>
+    function generateAndOpenPdf(startDate, endDate, Title = "Production Report", data = []) {
+        var props = {
+            outputType: "view",
+            returnJsPDFDocObject: true,
+            fileName: Title+"_"+startDate+"_"+endDate,
+            orientationLandscape: false,
+            compress: true,
+            logo: {
+                src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png",
+                width: 53.33, //aspect ratio = width/height
+                height: 26.66,
+                margin: {
+                    top: 0, //negative or positive num, from the current position
+                    left: 0 //negative or positive num, from the current position
+                }
+            },
+            stamp: {
+                inAllPages: true,
+                src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
+                width: 20, //aspect ratio = width/height
+                height: 20,
+                margin: {
+                    top: 0, //negative or positive num, from the current position
+                    left: 0 //negative or positive num, from the current position
+                }
+            },
+            business: {
+                name: "Business Name",
+                address: "Albania, Tirane ish-Dogana, Durres 2001",
+                phone: "(+355) 069 11 11 111",
+                email: "email@example.com",
+                email_1: "info@example.al",
+                website: "www.example.al",
+            },
+            contact: {
+                // label: "Invoice issued for:",
+                // name: "Client Name",
+                // address: "Albania, Tirane, Astir",
+                // phone: "(+355) 069 22 22 222",
+                // email: "client@website.al",
+                // otherInfo: "www.website.al",
+            },
+            invoice: {
+                label: "Production Report",
+                num: " ",
+                invDate: "Start Date: " + startDate+" ",
+                invGenDate: "End Date: " + endDate+" ",
+                headerBorder: true,
+                tableBodyBorder: true,
+                header: [{
+                        title: "#",
+                        style: {
+                            width: 10
+                        }
+                    },
+                    {
+                        title: "Production ID",
+                        style: {
+                            // width: 20
+                        }
+                    },
+                    {
+                        title: "Product ID",
+                        style: {
+                            // width: 20
+                        }
+                    },
+                    {
+                        title: "Product Name",
+                        style: {
+                            // width: 80
+                        }
+                    },
+                    {
+                        title: "Quantity",
+                        
+                    },
+                    {
+                        title: "Start Date",
+                        
+                    },
+                    {
+                        title: "End Date",
+                        
+                    },
+                ],
+                table: data.map((item, index) => {
+                    return [
+                        index + 1,
+                        "PXN-" + String(item.production_id).padStart(3, '0'),
+                        "PRD-" + String(item.product_id).padStart(3, '0'),
+                        item.product_name,
+                        item.quantity,
+                        item.created_at,
+                        item.updated_at,
+                    ];
+                }),
+                additionalRows: [{
+                        // col1: 'Total:',
+                        // col2: '145,250.50',
+                        // col3: 'ALL',
+                        // style: {
+                        //     fontSize: 14 //optional, default 12
+                        // }
+                    },
+                    {
+                        // col1: 'VAT:',
+                        // col2: '20',
+                        // col3: '%',
+                        // style: {
+                        //     fontSize: 10 //optional, default 12
+                        // }
+                    },
+                    {
+                        // col1: 'SubTotal:',
+                        // col2: '116,199.90',
+                        // col3: 'ALL',
+                        // style: {
+                        //     fontSize: 10 //optional, default 12
+                        // }
+                    }
+                ],
+
+                // invDescLabel: "Invoice Note",
+                // invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
+            },
+            footer: {
+                text: "The invoice is created on a computer and is valid without the signature and stamp.",
+            },
+            pageEnable: true,
+            pageLabel: "Page ",
+        };
+
+
+        var pdfCreated = jsPDFInvoiceTemplate.default({
+            ...props
+        });
+
+        // Instead of saving the PDF, open it in a new browser tab
+        var blob = pdfCreated.jsPDFDocObject.output('blob');
+        var url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+    }
+
+    // document.getElementById('generatePdf').addEventListener('click', generateAndOpenPdf);
 </script>
 
 <div class="table-section">
@@ -344,13 +505,13 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
     // filterProductions function
 
     // prevent
-    
+
     function filterProductions(filter) {
         event.preventDefault();
 
         document.getElementById('pxn-chart').style.display = 'none';
 
-        
+
         //btn select
         if (filter == 'pending') {
             document.getElementById('pen-card').classList.add('card-clicked');
@@ -421,8 +582,6 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
                 });
             }).catch(error => console.error(error));
     }
-    
-
 </script>
 
 

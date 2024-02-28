@@ -71,7 +71,8 @@ class GM extends Controller
             if ($id == '') {
                 $data['title'] = "GM Productions";
                 $this->view('gm/productions', $data);
-            } else {
+            } 
+            else {
                 $data['title'] = "GM Productions";
                 $this->view('gm/production', $data);
             }
