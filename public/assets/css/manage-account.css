@@ -101,6 +101,10 @@
     border-left: 1px solid var(--bg1);
 }
 
+.billing, .shipping {
+    color: var(--bg1);
+}
+
 /* -- my profile -- */
 .content-profile {
     padding: 20px;
@@ -397,7 +401,8 @@ select {
     cursor: pointer;
     transition: background-color 0.3s;
     width: 200px;
-    margin-right: 10px;
+    margin: 10px;
+    /* margin-bottom: 10px; */
 }
 
 .save-changes-edit-profile:hover, .cancel-edit-profile:hover {

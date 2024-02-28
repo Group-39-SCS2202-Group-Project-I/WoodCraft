@@ -2,11 +2,7 @@
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?> 
 
-        <!-- <?php show($data); ?> -->
-
-        <div class="main-container"> 
-
-        <!-- <?php show($data); ?> -->
+        <div class="main-container">
 
         <!-- edit profile -->
         <div class="container">
@@ -15,7 +11,8 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post">
+                <form method="post" action="<?= ROOT ?>/customer/profile/<?= Auth::getCustomerId()?>">
+                <!-- <form method="post" action="<?= ROOT ?>/customer/edit-profile/update/<?= Auth::getCustomerId()?>"> -->
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
@@ -70,8 +67,9 @@
                     </div>
         
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a>
-                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button></a>
+                    <!-- <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a> -->
+                    <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
+                    <a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>

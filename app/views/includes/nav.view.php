@@ -35,10 +35,10 @@
                 <ul class="dropdown-menu hidden">
                   <li><a id="tomanage-acc">Manage My Account</a></li>
                   <li><a id="toorders">My Orders</a></li>
-                  <li><a id="towishlist">My Wishlist</a></li>
+                  <!-- <li><a id="towishlist">My Wishlist</a></li>
                   <li><a id="toreviews"><span>My Reviews</span></a></li>
-                  <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li>
-                  <li><a id="tohome"><span>LogOut</span></a></li>
+                  <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li> -->
+                  <li><a href="<?=ROOT?>/login"><span>LogOut</span></a></li>
                 </ul>
               </li>
             <?php endif;?>

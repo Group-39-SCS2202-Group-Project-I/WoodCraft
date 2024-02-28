@@ -9,14 +9,14 @@
             <div class="title">
                 <h2>Address Book</h2>
                 <div class="new-address">
-                    <a href="<?=ROOT?>/customer/add-address" class="add-address-link"><span class="highlight-plus">+</span> Add New Address</a>
+                    <a href="<?=ROOT?>/customer/addaddress/<?= Auth::getCustomerId()?>" class="add-address-link"><span class="highlight-plus">+</span> Add New Address</a>
                 </div>
             </div>
 
             <div class="content-addressbook">
                 <div class="address-box">
                     <div class="edit-option">
-                        <a href="<?=ROOT?>/customer/edit-addressbook">EDIT</a>
+                        <a href="<?=ROOT?>/customer/editaddress/<?= Auth::getCustomerId()?>">EDIT</a>
                     </div>
         
                     <!-- Address information -->

@@ -509,6 +509,80 @@ class Update extends Controller
     }
 
 
+    // ....
+
+    // public function customer($id)
+    // {
+    //     // Fetch customer details as JSON from /fetch/customers/id
+    //     $db = new Database();
+    //     $data['customer'] = $db->query("SELECT * FROM customer WHERE customer_id = $id");
+
+    //     $address_id = $data['customer'][0]->address_id;
+
+    //     $_POST['email'] = $data['customer'][0]->email;
+
+    //     $data['errors'] = [];
+
+    //     $customer = new Customer;
+    //     $address = new Address;
+
+    //     var_dump($_POST);
+
+    //     // Validate customer and address data
+    //     $result = $customer->validate($_POST);
+    //     $result2 = $address->validate($_POST);
+
+    //     var_dump($result, $result2);
+
+    //     if ($result && $result2) {
+    //         $db = new Database;
+
+    //         // Update address information
+    //         $address_arr = [
+    //             'address_line_1' => $_POST['address_line_1'],
+    //             'address_line_2' => $_POST['address_line_2'],
+    //             'city' => $_POST['city'],
+    //             'zip_code' => $_POST['zip_code']
+    //         ];
+    //         $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+
+    //         // Update customer details
+    //         $customer_arr = [
+    //             'first_name' => $_POST['first_name'],
+    //             'last_name' => $_POST['last_name'],
+    //             'email' => $_POST['email'],
+    //             'telephone' => $_POST['telephone'],
+    //             'address_id' => $address_id,
+    //             'birthday' => $_POST['birth-year'] . '-' . $_POST['birth-month'] . '-' . $_POST['birth-day'],
+    //             'gender' => $_POST['gender']
+    //         ];
+    //         $db->query("UPDATE customer SET first_name = :first_name, last_name = :last_name, email = :email, telephone = :telephone, address_id = :address_id, birthday = :birthday, gender = :gender WHERE customer_id = $id", $customer_arr);
+
+    //         message("Customer updated successfully!");
+    //         redirect('customer/profile');
+    //     } else {
+    //         // If validation fails, merge errors and redirect back to the customer management page
+    //         $data['errors'] = array_merge($customer->errors, $address->errors);
+    //         $_SESSION['errors'] = $data['errors'];
+    //         $_SESSION['form_data'] = $_POST;
+    //         $_SESSION['form_id'] = 'form_customer_update';
+    //         redirect('customer/edit-profile');
+    //     }
+    // }
+
+    // public function customer($id)
+    // {
+    //     // This method should handle the update for the customer.
+    //     // You need to add the necessary logic here to update the customer details.
+
+    //     // For example:
+    //     $customerModel = new Customer();
+    //     $customer = $customerModel->getCustomerById($id);
+
+    //     // Update logic...
+
+    //     // Redirect or respond accordingly
+    // }
 
 
 }

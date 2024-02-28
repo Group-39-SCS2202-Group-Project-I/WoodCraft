@@ -12,7 +12,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form>
+                <form method="post" action="<?= ROOT ?>/customer/addressbook/<?= Auth::getCustomerId()?>">
                     <div class="field-edit-profile">
                         <label for="full-name">First Name</label>
                         <div class="input-wrapper">
@@ -62,8 +62,8 @@
                         </div>
                     </div>
         
-                    <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/customer/addressbook"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button>
+                    <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
+                    <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>

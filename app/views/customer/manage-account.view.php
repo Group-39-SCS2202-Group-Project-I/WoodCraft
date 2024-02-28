@@ -2,13 +2,8 @@
         <?php $this->view('customer/acc-header', $data) ?>
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?>
-
-        <!-- <?= show($data)?> -->
         
         <div class="main-container">
-        <!-- <?= show($data) ?> -->
-
-        
 
         <!-- manage my account -->
             <div class="container">
@@ -42,7 +37,7 @@
                     <div class="address">
                         <div class="content-title">
                             <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/editaddress/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>
@@ -64,6 +59,8 @@
                                 <div class="billing">
                                     DEFAULT BILLING ADDRESS
                                 </div>
+                                <p>Add New Address<span class="highlight">|</span>
+                                <a href="<?=ROOT?>/customer/addaddress/<?= Auth::getCustomerId()?>">ADD</a></p>
                             <?php endif; ?>
                         </div>
 

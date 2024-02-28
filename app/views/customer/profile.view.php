@@ -36,8 +36,8 @@
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
-                        <a href="<?=ROOT?>/customer/editProfile" class="edit-profile">EDIT PROFILE</a>
-                        <a href="<?=ROOT?>/customer/changePW" class="change-password">CHANGE PASSWORD</a>
+                        <a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerId()?>" class="edit-profile">EDIT PROFILE</a>
+                        <a href="<?=ROOT?>/customer/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
             </div>
