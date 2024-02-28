@@ -1,3 +1,7 @@
+<?php
+$products = $data['products'];
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -49,14 +53,7 @@
 </head>
 
 <body>
-<?php
 
-$products = $data['product'];
-
-
-
-
-?>
 <div class="container">
     <h2>Product page of woodcraft furniture</h2>
     <hr>
@@ -70,14 +67,11 @@ $products = $data['product'];
         </div>
         <?php
         
-        // Check if customer data is set and not null
-        if ($data['customer'] && $data['customer']->id !== null) {
-            $_SESSION['customer_id'] = $data['customer']->id;
-        }
+   
         
         // Check if the products data is set and not empty
-        if (isset($data['product']) && !empty($data['product'])) {
-            foreach ($data['product'] as $product) {
+        if (isset($products) && !empty($products)) {
+            foreach ($products as $product) {
                 ?>
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">

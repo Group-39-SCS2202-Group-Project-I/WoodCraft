@@ -28,6 +28,17 @@ class Model extends Database
 
 		$this->query($query, $data);
 	}
+	public function findAll()
+	{
+		$query = "select * from " . $this->table;
+		//define query to add user data
+		$res = $this->query($query);
+		if (is_array($res)) {
+			return $res;
+		}
+
+		return false;
+	}
 
 	public function where($data)
 	{
