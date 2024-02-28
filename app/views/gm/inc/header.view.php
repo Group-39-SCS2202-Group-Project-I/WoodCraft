@@ -84,7 +84,7 @@
                 const productionsNav = document.getElementById('products-nav');
                 const ordersNav = document.getElementById('orders-nav');
                 const workersNav = document.getElementById('workers-nav');
-                
+
 
 
 

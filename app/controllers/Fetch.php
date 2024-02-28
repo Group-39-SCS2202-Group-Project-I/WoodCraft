@@ -390,6 +390,23 @@ class Fetch extends Controller
         }
     }
 
+    // public function product_category_images($id = '')
+    // {
+    //     if ($id != '') {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category WHERE product_category_id = $id");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     } else {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     }
+    // }
+
     public function materials($id = '')
     {
         if ($id != '') {
@@ -565,6 +582,7 @@ class Fetch extends Controller
         if ($id != '') {
             $db = new Database();
             $data['material_order'] = $db->query("SELECT * FROM material_order WHERE material_order_id = $id");
+            // show($data['material_order']);
 
             // $material_stk = [];
             $material_order_id = $data['material_order'][0]->material_order_id;
@@ -580,6 +598,8 @@ class Fetch extends Controller
             $db = new Database();
             $data['material_orders'] = $db->query("SELECT * FROM material_order");
 
+            // show($data['material_orders']);
+
             $material_ids = array_column($data['material_orders'], 'material_id');
             $material_ids = implode(',', $material_ids);
             $materials = $db->query("SELECT * FROM material WHERE material_id IN ($material_ids)");
@@ -593,9 +613,10 @@ class Fetch extends Controller
                 return $material_order;
             }, $data['material_orders']);
 
-            
+            // show($data['material_orders']);
+
             $material_stks = [];
-            if(count($data['material_orders']) > 0){
+            if (count($data['material_orders']) > 0) {
                 // get material_stk from material_order_id
                 $material_order_ids = array_column($data['material_orders'], 'material_order_id');
                 $material_order_ids = implode(',', $material_order_ids);
@@ -612,6 +633,8 @@ class Fetch extends Controller
                     return $material_order;
                 }, $data['material_orders']);
             }
+
+            // show($data['material_orders']);
 
 
             header("Content-Type: application/json");
@@ -693,13 +716,12 @@ class Fetch extends Controller
 
     public function pxn_worker($id = '')
     {
-        if($id != '')
-        {
+        if ($id != '') {
             $db = new Database();
             $pxn_worker = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
 
             // $production_ids = array_column($pxn_worker, 'production_id');
-            header ("Content-Type: application/json");
+            header("Content-Type: application/json");
             echo json_encode($pxn_worker);
         }
     }
@@ -788,6 +810,15 @@ class Fetch extends Controller
         echo json_encode($data['product_reviews']);
     }
 
+    public function material_stk_by_material_id($id)
+    {
+        $db = new Database();
+        $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE material_id = $id AND quantity > 0");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['material_stk']);
+    }
+
 
     public function material_stk($id = '')
     {
@@ -832,15 +863,24 @@ class Fetch extends Controller
 
         $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no IN ($stock_nos)");
 
-        // map production materials and material_stk by stock_no
-        // $data['production_materials'] = array_map(function ($production_material) use ($data) {
-        //     foreach ($data['material_stk'] as $material_stk) {
-        //         if ($production_material->stock_no == $material_stk->stock_no) {
-        //             $production_material->material_stk = $material_stk;
-        //         }
-        //     }
-        //     return $production_material;
-        // }, $data['production_materials']);
+        // show($stock_nos);
+
+        // // map production materials and material_stk by stock_no
+        $data['production_materials'] = array_map(function ($production_material) use ($data) {
+            foreach ($data['material_stk'] as $material_stk) {
+                if ($production_material->stock_no == $material_stk->stock_no) {
+                    $production_material->material_id = $material_stk->material_id;
+                    $db = new Database();
+                    $query = "SELECT * FROM material WHERE material_id = $material_stk->material_id";
+                    $material = $db->query($query);
+                    $production_material->material_name = $material[0]->material_name;
+                }
+            }
+            return $production_material;
+        }, $data['production_materials']);
+        // show($stock_nos);
+
+
 
         // get price per unit from material_stk and map to production_materials by stock_no
         $data['production_materials'] = array_map(function ($production_material) use ($data) {
@@ -865,7 +905,139 @@ class Fetch extends Controller
 
         // show($data['production_materials']);
 
+        $result = [];
+        foreach ($data['production_materials'] as $key => $object) {
+            $result[$key] = (array)$object;
+        }
+        $result = array_values($result);
+        // show($result);
+
         header("Content-Type: application/json");
-        echo json_encode($data['production_materials']);
+        echo json_encode($result);
+    }
+
+    public function chat($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat WHERE chat_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat'][0]);
+        } else {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat']);
+        }
+    }
+
+    public function chat_rec_all()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat_records']);
+    }
+
+    public function chat_by_cus_id($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat WHERE customer_user_id = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat'][0]);
+    }
+
+    public function chat_records($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records WHERE connection = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat']);
+    }
+
+    public function last_chat_record_id()
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records ORDER BY chat_rec_id DESC LIMIT 1");
+
+        $chat_rec_id = $data['chat'][0]->chat_rec_id;
+
+        header("Content-Type: application/json");
+        echo json_encode($chat_rec_id);
+    }
+
+    public function inquiry_list()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+        // show($data['chat_records']);
+
+        // get last chat record for each connection 
+        $last_chat_records = [];
+        foreach ($data['chat_records'] as $chat_record) {
+            $last_chat_records[$chat_record->connection] = $chat_record;
+        }
+        // show($last_chat_records);
+
+        $data['chat'] = $db->query("SELECT * FROM chat");
+        // show($data['chat']);
+
+        // map chat to last_chat_record  by connection==chat_id
+        $last_chat_records = array_map(function ($last_chat_record) use ($data) {
+            foreach ($data['chat'] as $chat) {
+                if ($last_chat_record->connection == $chat->chat_id) {
+                    $last_chat_record->cus_name = $chat->cus_name;
+                    $last_chat_record->customer_user_id = $chat->customer_user_id;
+                }
+            }
+            return $last_chat_record;
+        }, $last_chat_records);
+
+        // show($last_chat_records);
+        foreach ($last_chat_records as $last_chat_record) {
+            if ($last_chat_record->customer_user_id == $last_chat_record->sent_by) {
+                $last_chat_record->resp = 0;
+            } else {
+                $last_chat_record->resp = 1;
+            }
+        }
+
+        // show($last_chat_records);
+
+        // responded chats 
+        $responded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 1;
+        });
+
+        // show($responded_chats);
+        // sort $responded_chats by created_at desc
+        usort($responded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+
+
+        // unresponded chats
+        $unresponded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 0;
+        });
+
+        usort($unresponded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+        // merge unresponded and responded chats
+        $x = array_merge($unresponded_chats, $responded_chats);
+
+        // show($x);
+
+
+        header("Content-Type: application/json");
+        echo json_encode($x);
     }
 }

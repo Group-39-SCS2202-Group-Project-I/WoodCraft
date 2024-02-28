@@ -73,9 +73,13 @@ class Signup extends Controller
 				$customer_query = "INSERT INTO customer (user_id, first_name, last_name, telephone, address_id) VALUES (:user_id, :first_name, :last_name, :telephone, :address_id)";
 				$db->query($customer_query, $customer_arr);
 
-				
+				$cus_name = $customer_arr['first_name'] . " " . $customer_arr['last_name'];
+				$customer_user_id = $customer_arr['user_id'];
+	
+				$chat_query = "INSERT INTO chat (customer_user_id, cus_name) VALUES (:customer_user_id, :cus_name)";
+				$db->query($chat_query, ['customer_user_id' => $customer_user_id, 'cus_name' => $cus_name]);
 
-
+			
 				message("Your profile was successfuly created. Please login");
 				redirect('login');
 			}

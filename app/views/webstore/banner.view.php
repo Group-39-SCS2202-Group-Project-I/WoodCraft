@@ -6,11 +6,11 @@
 
       <div class="container">
 
-        <div class="slider-container has-scrollbar">
+        <div class="slider-container">
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
 
             <div class="banner-content">
 
@@ -30,7 +30,7 @@
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-2.jpg" alt="modern sunglasses" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-2.jpg" alt="modern sunglasses" class="banner-img">
 
             <div class="banner-content">
 
@@ -50,7 +50,7 @@
 
           <div class="slider-item">
 
-            <img src="<?php echo ROOT; ?>/assets/images2/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+            <img src="<?php echo ROOT; ?>/assets/images/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
 
             <div class="banner-content">
 
@@ -73,3 +73,34 @@
       </div>
 
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var sliderContainer = document.querySelector(".slider-container");
+        var sliderItems = document.querySelectorAll(".slider-item");
+        var currentIndex = 0;
+        var interval = 5000;
+
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % sliderItems.length;
+          updateSlider();
+        }
+
+        function updateSlider() {
+          var translateValue = -currentIndex * 100 + "%";
+          sliderItems.forEach(function (item) {
+            item.style.transform = "translateX(" + translateValue + ")";
+          });
+        }
+
+        var sliderInterval = setInterval(nextSlide, interval);
+
+        sliderContainer.addEventListener("mouseenter", function () {
+          clearInterval(sliderInterval);
+        });
+
+        sliderContainer.addEventListener("mouseleave", function () {
+          sliderInterval = setInterval(nextSlide, interval);
+        });
+      });
+    </script>
