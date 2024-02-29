@@ -112,9 +112,9 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <div class="table-section">
-    <input type="text" id="start-date" placeholder="Start date" value="2024-01-01">
-    <input type="text" id="end-date" placeholder="End date">
-    <button id="print-dates">Generate Report</button>
+    <input type="text" id="start-date" placeholder="Start date" value="2024-01-01" class="table-section__search-input" style="width:40%;">
+    <input type="text" id="end-date" placeholder="End date" class="table-section__search-input" style="width: 40%;">
+    <a id="print-dates" class="table-section__add-link">Generate Report</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -125,7 +125,7 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             defaultDate: "<?= $oldestProductionDate ?>",
             minDate: "<?= $oldestProductionDate ?>",
             maxDate: "today",
-            onChange: function (selectedDates, dateStr, instance) {
+            onChange: function(selectedDates, dateStr, instance) {
                 if (endDatepicker.selectedDates[0] && selectedDates[0] > endDatepicker.selectedDates[0]) {
                     endDatepicker.setDate(selectedDates[0]);
                 }
@@ -137,7 +137,7 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             defaultDate: "today",
             minDate: "<?= $oldestProductionDate ?>",
             maxDate: "today",
-            onChange: function (selectedDates, dateStr, instance) {
+            onChange: function(selectedDates, dateStr, instance) {
                 if (startDatepicker.selectedDates[0] && selectedDates[0] < startDatepicker.selectedDates[0]) {
                     startDatepicker.setDate(selectedDates[0]);
                 }
@@ -153,14 +153,18 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             console.log('End Date:', endDate);
 
             var completed = <?php echo $comjson; ?>;
-            // console.log(completed);
+            console.log(completed);
 
-            var filtered = completed.filter(function (a) {
+            var filtered = completed.filter(function(a) {
                 return a.created_at >= startDate && a.updated_at <= endDate;
             });
 
-            console.log(filtered);
-           
+            // console.log(count(filtered));
+
+            //get count of filtered
+            // var count = Object.keys(filtered).length;
+
+            // console.log(count);
             generateAndOpenPdf(startDate, endDate, "Production Report", filtered);
         });
     });
@@ -225,7 +229,7 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
         var props = {
             outputType: "view",
             returnJsPDFDocObject: true,
-            fileName: Title+"_"+startDate+"_"+endDate,
+            fileName: Title + "_" + startDate + "_" + endDate,
             orientationLandscape: false,
             compress: true,
             logo: {
@@ -238,17 +242,17 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
                 }
             },
             stamp: {
-                inAllPages: true,
-                src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-                width: 20, //aspect ratio = width/height
-                height: 20,
-                margin: {
-                    top: 0, //negative or positive num, from the current position
-                    left: 0 //negative or positive num, from the current position
-                }
+                // inAllPages: true,
+                // src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
+                // width: 20, //aspect ratio = width/height
+                // height: 20,
+                // margin: {
+                //     top: 0, //negative or positive num, from the current position
+                //     left: 0 //negative or positive num, from the current position
+                // }
             },
             business: {
-                name: "Business Name",
+                name: "WoodCraft Furniture",
                 address: "Albania, Tirane ish-Dogana, Durres 2001",
                 phone: "(+355) 069 11 11 111",
                 email: "email@example.com",
@@ -266,8 +270,8 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             invoice: {
                 label: "Production Report",
                 num: " ",
-                invDate: "Start Date: " + startDate+" ",
-                invGenDate: "End Date: " + endDate+" ",
+                invDate: "Start Date: " + startDate + " ",
+                invGenDate: "End Date: " + endDate + " ",
                 headerBorder: true,
                 tableBodyBorder: true,
                 header: [{
@@ -279,32 +283,33 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
                     {
                         title: "Production ID",
                         style: {
-                            // width: 20
+                            // width: 25,
                         }
                     },
                     {
                         title: "Product ID",
                         style: {
-                            // width: 20
+                            // width: 25
                         }
                     },
                     {
                         title: "Product Name",
-                        style: {
-                            // width: 80
-                        }
+
                     },
                     {
                         title: "Quantity",
-                        
+                        style: {
+                            width: 20
+                        }
+
                     },
                     {
-                        title: "Start Date",
-                        
+                        title: "Started At",
+
                     },
                     {
-                        title: "End Date",
-                        
+                        title: "Completed At",
+
                     },
                 ],
                 table: data.map((item, index) => {
@@ -318,37 +323,21 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
                         item.updated_at,
                     ];
                 }),
-                additionalRows: [{
-                        // col1: 'Total:',
-                        // col2: '145,250.50',
-                        // col3: 'ALL',
-                        // style: {
-                        //     fontSize: 14 //optional, default 12
-                        // }
-                    },
-                    {
-                        // col1: 'VAT:',
-                        // col2: '20',
-                        // col3: '%',
-                        // style: {
-                        //     fontSize: 10 //optional, default 12
-                        // }
-                    },
-                    {
-                        // col1: 'SubTotal:',
-                        // col2: '116,199.90',
-                        // col3: 'ALL',
-                        // style: {
-                        //     fontSize: 10 //optional, default 12
-                        // }
-                    }
-                ],
 
-                // invDescLabel: "Invoice Note",
-                // invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
+                // additionalRows: [{
+                //     title: "Total",
+                //     data: "xxx",
+                //     style: {
+                //         colSpan: 3,
+                //         halign: "right"
+                //     }
+                // }],
+                
+                invDescLabel: "No of productions : " + Object.keys(data).length + " ",
+                //invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
             },
             footer: {
-                text: "The invoice is created on a computer and is valid without the signature and stamp.",
+                text: "The document is created on a computer and is valid without the signature and stamp.",
             },
             pageEnable: true,
             pageLabel: "Page ",
