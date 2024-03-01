@@ -1,15 +1,18 @@
-<?php
+<?php 
 
-class Product extends Controller {
+
+ 
+
+class Productsample extends Controller {
     
     public function index() {
        
-        $manage = new Managecart(); 
+         $manage = new Productsample(); 
         $data['products'] = $manage->findAll();
        
         
         // show($data);
-        $this->view("product2", $data);
+        $this->view("productsample", $data);
     }
     
     

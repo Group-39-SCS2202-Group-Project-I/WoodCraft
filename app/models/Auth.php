@@ -1,4 +1,4 @@
-<?php
+<!-- 
 
 /**
  * authentication class
@@ -182,4 +182,55 @@ class Auth
 
     
 	
+}  -->
+<?php
+
+class Auth
+{
+    public static function authenticate($row)
+    {
+        if (is_object($row)) {
+            $_SESSION['USER_DATA'] = $row;
+        }
+    }
+
+    public static function logout()
+    {
+        if (!empty($_SESSION['USER_DATA'])) {
+            unset($_SESSION['USER_DATA']);
+        }
+    }
+
+    public static function logged_in()
+    {
+        return isset($_SESSION['USER_DATA']);
+    }
+
+    public static function is_role($role)
+    {
+        return isset($_SESSION['USER_DATA']) && $_SESSION['USER_DATA']->role === $role;
+    }
+
+    public static function getUserData()
+    {
+        return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA'] : null;
+    }
+
+    public static function getUserId()
+    {
+        return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA']->user_id : null;
+    }
+
+    // Add more role checking functions if needed
+
+    // Other functions remain unchanged
+    public static function getCustomerID()
+    {
+        if (!empty($_SESSION['USER_DATA']) && $_SESSION['USER_DATA']->role === 'customer') {
+            return $_SESSION['USER_DATA']->customer_id;
+        }
+        return null;
+    }
+
 }
+?>

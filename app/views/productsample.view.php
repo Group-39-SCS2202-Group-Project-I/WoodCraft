@@ -2,35 +2,28 @@
 $products = $data['products'];
 ?>
 
-<?php $this->view('includes/header', $data) ?>
+<!DOCTYPE html>
+<html>
 
-<header>
-      
- 
-    <?php $this->view('includes/nav', $data) ?>
-    <?php $this->view('webstore/header-section', $data) ?>
-  </header>
-
-
-<!-- <head>
+<head>
     <title>WoodCraft</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script type="text/javascript"> -->
+    <script type="text/javascript">
     
-        // function addToCart(pid) {
-        //     $('#loader').show();
+        function addToCart(pid) {
+            $('#loader').show();
            
-    //      var ROOT = "http://localhost/woodcraft_furniture_ShoppingCart/public/"; // Make sure ROOT includes the trailing slash
-    //       $.ajax({
-    //      url: ROOT + 'cart_item', // Concatenate ROOT with 'cart_item'
-    //      data: { pid: pid, action: 'add' },
-    //      method: "POST",
-    //     }).done(function(response) {
-    //     $('#loader').hide();
-    //     $('.alert').show();
-    //     $('#result').html(response);
-    // });
+         var ROOT = "http://localhost/woodcraft_furniture_ShoppingCart/public/"; // Make sure ROOT includes the trailing slash
+          $.ajax({
+         url: ROOT + 'cart_item', // Concatenate ROOT with 'cart_item'
+         data: { pid: pid, action: 'add' },
+         method: "POST",
+        }).done(function(response) {
+        $('#loader').hide();
+        $('.alert').show();
+        $('#result').html(response);
+    });
     // var data = JSON.parse(response);
 	// 		$('#loader').hide();
 	// 		$('.alert').show();
@@ -64,6 +57,12 @@ $products = $data['products'];
 <div class="container">
     <h2>Product page of woodcraft furniture</h2>
     <hr>
+   
+		<div class="row">
+	    	<div class="col-md-12 text-right">
+	    		<a href="<?=ROOT .'cart'?>"><span class="glyphicon glyphicon-shopping-cart"></span><sup id="itemCount">2</sup></a>
+	    	</div>
+	    </div>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="alert alert-dismissible" role="alert">
