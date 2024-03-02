@@ -2,11 +2,19 @@
 $products = $data['products'];
 ?>
 
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>WoodCraft</title>
+
+
+<?php $this->view('includes/header', $data) ?>
+
+<header>
+      
+    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/cart.css ">
+    <?php $this->view('includes/nav', $data) ?>
+    <?php $this->view('webstore/header-section', $data) ?>
+  </header>
+
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
@@ -14,9 +22,9 @@ $products = $data['products'];
         function addToCart(pid) {
             $('#loader').show();
            
-         var ROOT = "http://localhost/woodcraft_furniture_ShoppingCart/public/"; // Make sure ROOT includes the trailing slash
+         var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
           $.ajax({
-         url: ROOT + 'cart_item', // Concatenate ROOT with 'cart_item'
+         url: ROOT + 'CartC', // Concatenate ROOT with 'cart_item'
          data: { pid: pid, action: 'add' },
          method: "POST",
         }).done(function(response) {
@@ -24,18 +32,16 @@ $products = $data['products'];
         $('.alert').show();
         $('#result').html(response);
     });
-    // var data = JSON.parse(response);
-	// 		$('#loader').hide();
-	// 		$('.alert').show();
-	// 		if(data.status == 0) {
+    //  var data = JSON.parse(response);
+	//  		$('#loader').hide();
+	//  		$('.alert').show(		if(data.status == 0) {
 	// 			$('.alert').addClass('alert-danger');
 	// 			$('#result').html(data.msg);
 	// 		} else {
-	// 			$('.alert').addClass('alert-success');
-	// 			$('#result').html(data.msg);
-    
-}
-
+	//  			$('.alert').addClass('alert-success');
+	// 		$('#result').html(data.msg); -->
+            
+    }
 
 
     </script>
@@ -50,12 +56,12 @@ $products = $data['products'];
             font-size: 18px;
         }
     </style>
-</head>
+
 
 <body>
 
 <div class="container">
-    <h2>Product page of woodcraft furniture</h2>
+   
     <hr>
    
 		<div class="row">
@@ -69,7 +75,7 @@ $products = $data['products'];
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
                 <div id="result"></div>
             </div>
-            <center><img src="<?php echo ROOT . '/assets/images/loader.gif'; ?>" id="loader"></center>
+            <!-- <center><img src="<?php echo ROOT . '/assets/images/loader.gif'; ?>" id="loader"></center> -->
         </div>
         <?php
         

@@ -1,10 +1,9 @@
 
-
 <?php 
- class CartModel extends Model
+ class Cart extends Model
  {
      public $error = [];
-     public $table = 'cart_item';
+     public $table = 'cart';
     
      public $allowedColumns = [
          'id',
@@ -23,10 +22,10 @@
         return $this->id;
      }
 
-    //  public function getitemsById() {
-    //     $result = $this->select($this->table, 'id = :cid', [':cid' => $this->getId()]);
-    //     return $result;
+     public function getitemsById() {
+        $result = $this->select($this->table, 'id = :cid', [':cid' => $this->getId()]);
+        return $result;
     }
    
  
- 
+   }

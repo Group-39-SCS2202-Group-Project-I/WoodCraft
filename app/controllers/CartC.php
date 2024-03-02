@@ -1,18 +1,29 @@
-<?php
-class Cart_item extends Controller
+<?php 
+
+/**
+ * cart class
+ */
+class CartC extends Controller
 {
-    public function index()
+	
+	
+ public function index()
     {
         if (isset($_POST['action'])) {
             switch ($_POST['action']) {
                 case 'add':
-                    $manage = new Managecart();
-                    $manage->setId($_POST['pid']);
-                    $product = $manage->getProductsById();
-                    show($product[0]->product_id);
+                    // $manage = new Manage();
+					$productcart = new ProductCart();
+					$productcart->setId($_POST['pid']);
+					
+                    // $manage->setId($_POST['pid']);
+                    // $product = $manage->getProductsById();
+                    // show($product[0]->product_id);
+					$product =$productcart->getProductsById();
+					show($product[0]->product_id);
 
 
-                    $cart = new CartModel();
+                    $cart = new Cart();
 
 
                     $data['customer_id'] = 1;
@@ -21,7 +32,7 @@ class Cart_item extends Controller
                     $data['created_at'] = date('Y-m-d H:i:s');
                     $data['updated_at'] = date('Y-m-d H:i:s');
 
-                    $cart->insert($data);
+                     $cart->insert($data);
                      
 
 
@@ -41,3 +52,14 @@ class Cart_item extends Controller
 
 }
 
+
+
+
+	
+// }
+// public function index()
+// {
+// 	$data['title'] = "Cart";
+
+// 	$this->view('cart/cart',$data);
+// }
