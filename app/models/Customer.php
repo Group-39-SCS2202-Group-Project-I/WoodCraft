@@ -72,8 +72,17 @@ class Customer extends Model
 
 		return false;
 	}
+     public $customer_id;
+     public function setCId($customer_id)
+    {
+        $this->customer_id = $customer_id;
+    }
 
-    
+    // public function setId()
+    // {
+    //     $result = $this->select($this->table, 'Customer_id = :cid', [':cid' => $this->getId()]);
+    //     return $result;
+    // }
 
     // ....
     // public function edit_validate($data)

@@ -23,7 +23,7 @@
      }
 
      public function getitemsById() {
-        $result = $this->select($this->table, 'id = :cid', [':cid' => $this->getId()]);
+        $result = $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $this->getId()]);
         return $result;
     }
    

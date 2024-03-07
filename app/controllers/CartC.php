@@ -9,6 +9,9 @@ class CartC extends Controller
 	
  public function index()
     {
+        
+
+
         if (isset($_POST['action'])) {
             switch ($_POST['action']) {
                 case 'add':
@@ -33,21 +36,28 @@ class CartC extends Controller
                     $data['updated_at'] = date('Y-m-d H:i:s');
 
                      $cart->insert($data);
-                     
+                    
 
 
+                      $customer = new Customer();
+                      $cart->setId(1);
+                      $cartItem =$cart->getitemsById();
+                     show($cartItem);
+                      $cartItemCount = isset($cartItem) ? count($cartItem) : 0;
+                    print($cartItemCount);
+                    break;
 
-                    // $cart->setId($_POST['cid']);
-                    // $cartitem = $cart->getitemsById();
-                    // show($cartitem[0]->id);
 
                 default:
                     break;
 
             }
         }
+        
     }
 
+    
+    
 
 
 }
@@ -56,7 +66,6 @@ class CartC extends Controller
 
 
 	
-// }
 // public function index()
 // {
 // 	$data['title'] = "Cart";
