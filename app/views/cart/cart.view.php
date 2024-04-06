@@ -1,5 +1,6 @@
 <?php 
 
+
 // function cartElement($product_name,$product_price,$product_image,$product_type,$product_color,$product_id)
 // {
 //     $element = <<<HTML
@@ -68,6 +69,9 @@
 //   }
 // }
 
+// Retrieve products data from the controller
+
+
  ?>
 
 <?php $this->view('includes/header', $data) ?>
@@ -91,12 +95,35 @@
           <h2>YOUR CART</h2>
           
           <?php
+            $cartItem = $data['cart'];
             $subtotal = 0;
             $discount = 0;
             $total = 0;
             $delivery = 15;
+            
+        // Check if the products data is set and not empty
+          
+        // Check if cart items are set and not empty
+        if (isset($cartItem) && !empty($cartItem)) {
+            foreach ($cartItem as $cartItems) {
+              
+                // echo "Customer ID: " . $cartItem->customer_id . "<br>";
+                echo "Product ID: " . $cartItem->product_id . "<br>";
+                // echo "Quantity: " . $cartItem->quantity . "<br>";
+                // echo "Created At: " . $cartItem->created_at . "<br>";
+                // echo "Updated At: " . $cartItem->updated_at . "<br>";
 
-            if(isset($_SESSION['cart'])){
+             
+                echo "<hr>";
+            }
+        } else {
+            echo "Your Cart is Empty";
+        }
+        ?>
+
+      
+          
+            <!-- if(isset($_SESSION['cart'])){
                 $product_id = array_column($_SESSION['cart'],'product_id');
                 $result = $db->getdata();
 
@@ -113,7 +140,7 @@
             } else {
                 echo "<h5>Cart Is Empty</h5>";
             }
-          ?>
+           -->
 
           <script>
             document.addEventListener("DOMContentLoaded", function () {

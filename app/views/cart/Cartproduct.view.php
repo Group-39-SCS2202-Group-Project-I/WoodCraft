@@ -1,6 +1,7 @@
 <?php 
 // Retrieve products data from the controller
 $products = $data['products'];
+$cartItem = $data['cart'];
 ?>
 
 <?php $this->view('includes/header', $data) ?>
@@ -53,6 +54,7 @@ $products = $data['products'];
                 <div id="result"></div>
             </div>
         </div>
+        
         <?php
         // Check if the products data is set and not empty
         if (isset($products) && !empty($products)) {
@@ -69,8 +71,15 @@ $products = $data['products'];
                                     <div class="col-sm-6 col-md-6">
                                         <strong><span style="font-size: 18px;">&#x20b9;</span><?php echo number_format($product->price, 2); ?></strong>
                                     </div>
-                                    <button id="cartBtn_<?php echo $product->product_id; ?>" class="btn btn-success" onclick="addToCart(<?php echo $product->product_id; ?>)" role="button">ADD TO CART</button>
-                                </div>
+                                    <?php 
+                                       $disButton = "";
+                                      if (is_array($cartItem) && in_array($product->id, array_column($cartItem, 'product_id'))!==false) {
+                                      $disButton = "disabled";
+                                     }
+                                    ?>
+
+                                    <button id="cartBtn_<?php echo $product->product_id; ?>" <?php echo $disButton; ?>class="btn btn-success" onclick="addToCart(<?php echo $product->product_id; ?>)" role="button">ADD TO CART</button>
+                                </div> 
                             </p>
                         </div>
                     </div>
@@ -92,22 +101,7 @@ $products = $data['products'];
     <!-- Display cart items if available -->
     <div class="row">
         <div class="col-md-12">
-            <?php 
-            // Check if cart items are set and not empty
-            if (isset($cartItems) && !empty($cartItems)) {
-                foreach ($cartItems as $cartItem) {
-                    // Display each cart item
-                    echo "Customer ID: " . $cartItem->customer_id . "<br>";
-                    echo "Product ID: " . $cartItem->product_id . "<br>";
-                    echo "Quantity: " . $cartItem->quantity . "<br>";
-                    echo "Created At: " . $cartItem->created_at . "<br>";
-                    echo "Updated At: " . $cartItem->updated_at . "<br>";
-                    echo "<hr>";
-                }
-            } else {
-                echo "No items in the cart.";
-            }
-            ?>
+            
         </div>
     </div>
 </div>

@@ -2,7 +2,12 @@
 
 class Cart extends Controller{
     public function index(){
-        $data['title'] = "cart";
-        $this->view("cart/cart");
+      $cartItem = new CartM();
+      $data['cart'] = $cartItem->findAll();
+
+      
+        
+        $this ->view('cart/cart',$data);
+
     }
 }
