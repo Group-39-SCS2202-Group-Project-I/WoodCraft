@@ -8,18 +8,18 @@
             <li><a id="tocontact">Contact Us</a></li>
         </div>
         <div class="nav-items-right">
-            <form class="search-form" action="#">
+        <form class="search-form" action="#">
                 <div class="search-hidden">
-                    <span class="search-icon-hidden fas fa-search"></span>
+                <span class="search-icon-hidden material-symbols-outlined">search</span>
                 </div>
                 <div class="search">
-                    <span class="search-icon fas fa-search"></span>
+                    <span class="search-icon material-symbols-outlined">search</span>
                     <input type="search" class="search-item" placeholder="Search for products.." required>
                 </div>
             </form> 
             <li>
                 <a id="tocart">
-                  <span id="tocart" class="fas fa-shopping-cart"></span>
+                <span class="material-symbols-outlined">shopping_cart</span>
                   <span id="tocart" class="cart-badge">0</span>
                 </a>
                 <!-- <ul class="dropdown-menu hidden">
@@ -35,6 +35,7 @@
                 <ul class="dropdown-menu hidden">
                   <li><a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>">Manage My Account</a></li>
                   <li><a href="<?=ROOT?>/customer/orders/<?= Auth::getCustomerId()?>">My Orders</a></li>
+                  <li><a href="<?=ROOT?>/customer/wishlist/<?= Auth::getCustomerId()?>">My Wishlist</a></li>
                   <!-- <li><a id="towishlist">My Wishlist</a></li>
                   <li><a id="toreviews"><span>My Reviews</span></a></li>
                   <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li> -->

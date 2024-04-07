@@ -29,8 +29,13 @@
                     <div class="field-edit-profile">
                         <label for="email">Email</label>
                         <div class="input-wrapper">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>">
+                            <!-- <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>">
+                        </div> -->
+                        <!-- Disable the email input field -->
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>" disabled>
                         </div>
+                        <!-- Show an error message -->
+                        <!-- <span class="error-message">You are not allowed to change your email address.</span> -->
                     </div>
         
                     <div class="field-edit-profile">
@@ -39,31 +44,49 @@
                             <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Enter your mobile number" value="<?=get_value('telephone', $data['telephone'])?>">
                         </div>
                     </div>
-        
-                    <!-- <div class="field-edit-profile">
-                        <label for="birthday">Birthday</label>
-                        <div class="input-wrapper">
-                            <select id="birth-month" name="birth-month">
-                                <option disabled selected>Month</option>
-                            </select>
-                            <select id="birth-day" name="birth-day">
-                                <option disabled selected>Day</option>
-                            </select>
-                            <select id="birth-year" name="birth-year">
-                                <option disabled selected>Year</option>
-                            </select>
-                        </div>
+
+                <!-- Birthday select fields -->
+                <div class="field-edit-profile">
+                    <label for="birth-month">Birth Month</label>
+                    <div class="input-wrapper">
+                        <select id="birth-month" name="birth-month">
+                            <!-- Populated dynamically by JavaScript -->
+                            <option disabled selected>Month</option>
+                        </select>
                     </div>
-        
-                    <div class="field-edit-profile">
-                        <label for="gender">Gender</label>
-                        <div class="input-wrapper">
-                            <select id="gender" name="gender">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                    </div> -->
+                </div>
+                <div class="field-edit-profile">
+                    <label for="birth-day">Birth Day</label>
+                    <div class="input-wrapper">
+                        <select id="birth-day" name="birth-day">
+                            <!-- Populated dynamically by JavaScript -->
+                            <option disabled selected>Day</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-edit-profile">
+                    <label for="birth-year">Birth Year</label>
+                    <div class="input-wrapper">
+                        <select id="birth-year" name="birth-year">
+                            <!-- Populated dynamically by JavaScript -->
+                            <option disabled selected>Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Gender select field -->
+                <div class="field-edit-profile">
+                    <label for="gender">Gender</label>
+                    <div class="input-wrapper">
+                        <select id="gender" name="gender">
+                            <!-- Populated dynamically by JavaScript -->
+                            <option disabled selected>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
         
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                     <!-- <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a> -->
@@ -88,7 +111,11 @@
         </div>
     </main>
 
-    <script src="manage-account.js"></script>
+    <script src="manage-account.js">
+        data-birth-month="<?= htmlentities(json_encode($data['birth_month'])) ?>" 
+        data-birth-day="<?= htmlentities($data['birth_day']) ?>" 
+        data-birth-year="<?= htmlentities($data['birth_year']) ?>">
+    </script>
 
 </body>
 

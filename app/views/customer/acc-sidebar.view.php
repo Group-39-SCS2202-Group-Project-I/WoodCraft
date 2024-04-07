@@ -36,12 +36,12 @@
                             <a id="tocancellations"><span style="margin-left: 35px;">My Cancellations</span></a>
                         </li> -->
                 </li>
+                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('wishlist') ? 'selected' : '' ?>" id="wishlist-nav">
+                    <a href="<?=ROOT?>/customer/wishlist/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">My Wishlist</span></a>
+                </li>
                 <!-- <li class="sidebar-list-item nav-btn main-title" id="reviews-nav">
                     <a id="toreviews"><span style="margin-left: 5px;">My Reviews</span></a>
-                </li>
-                <li class="sidebar-list-item nav-btn main-title" id="wishlist-nav">
-                    <a id="towishlist"><span style="margin-left: 5px;">My WishList</span></a>
-                </li> -->
+                </li>-->
            
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                     <a href="<?=ROOT?>/<?= Auth::getCustomerId()?>"><span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span></a>

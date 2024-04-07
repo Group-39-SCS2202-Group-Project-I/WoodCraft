@@ -23,14 +23,14 @@
                     <span class="info-label">Mobile</span>
                     <span class="info-value"><?= esc($data['telephone']) ?></span>
                 </div>
-                <!-- <div class="profile-info">
+                <div class="profile-info">
                     <span class="info-label">Birthday</span>
                     <span class="info-value"><?= esc($data['birthday']) ?></span>
-                </div> -->
-                <!-- <div class="profile-info">
+                </div>
+                <div class="profile-info">
                     <span class="info-label">Gender</span>
                     <span class="info-value"><?= esc($data['gender']) ?></span>
-                </div> -->
+                </div>
 
                 <div class="bottom-profile">
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
