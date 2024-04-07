@@ -25,7 +25,7 @@
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Birthday</span>
-                    <span class="info-value"><?= esc($data['birthday']) ?></span>
+                    <span class="info-value"><?= esc($data['birth_day']) ?> - <?= esc($data['birth_month']) ?> - <?= esc($data['birth_year']) ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Gender</span>

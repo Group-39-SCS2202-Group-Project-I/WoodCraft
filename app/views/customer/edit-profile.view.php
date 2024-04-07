@@ -50,7 +50,7 @@
                     // Define months, days, and years arrays
                     $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
                     $days = range(1, 31);
-                    $years = range(date("Y"), date("Y") - 100); // Adjust range as needed
+                    $years = range(date("Y"), date("Y") - 100);
 
                     // Function to generate select options
                     function generateOptions($array, $selectedValue) {
@@ -96,9 +96,9 @@
 
 
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    <!-- <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a> -->
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <!-- <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button></a> -->
+                    <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>
