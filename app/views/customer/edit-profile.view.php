@@ -45,49 +45,56 @@
                         </div>
                     </div>
 
-                <!-- Birthday select fields -->
-                <div class="field-edit-profile">
-                    <label for="birth-month">Birth Month</label>
-                    <div class="input-wrapper">
-                        <select id="birth-month" name="birth-month">
-                            <!-- Populated dynamically by JavaScript -->
-                            <option disabled selected>Month</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="field-edit-profile">
-                    <label for="birth-day">Birth Day</label>
-                    <div class="input-wrapper">
-                        <select id="birth-day" name="birth-day">
-                            <!-- Populated dynamically by JavaScript -->
-                            <option disabled selected>Day</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="field-edit-profile">
-                    <label for="birth-year">Birth Year</label>
-                    <div class="input-wrapper">
-                        <select id="birth-year" name="birth-year">
-                            <!-- Populated dynamically by JavaScript -->
-                            <option disabled selected>Year</option>
-                        </select>
-                    </div>
-                </div>
+                    <!-- Birthday select options -->
+                    <?php
+                    // Define months, days, and years arrays
+                    $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                    $days = range(1, 31);
+                    $years = range(date("Y"), date("Y") - 100); // Adjust range as needed
 
-                <!-- Gender select field -->
-                <div class="field-edit-profile">
-                    <label for="gender">Gender</label>
-                    <div class="input-wrapper">
-                        <select id="gender" name="gender">
-                            <!-- Populated dynamically by JavaScript -->
-                            <option disabled selected>Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                </div>
+                    // Function to generate select options
+                    function generateOptions($array, $selectedValue) {
+                        $options = "";
+                        foreach ($array as $value) {
+                            $selected = ($selectedValue == $value) ? "selected" : "";
+                            $options .= "<option value='$value' $selected>$value</option>";
+                        }
+                        return $options;
+                    }
+                    ?>
 
-        
+                    <!-- Birthday select fields -->
+                    <div class="field-edit-profile">
+                        <label for="birthday">Birthday</label>
+                        <div class="input-wrapper">
+                            <select id="birth-month" name="birth-month">
+                                <option disabled selected>Month</option>
+                                <?= generateOptions($months, $data['birth_month']) ?>
+                            </select>
+                            <select id="birth-day" name="birth-day">
+                                <option disabled selected>Day</option>
+                                <?= generateOptions($days, $data['birth_day']) ?>
+                            </select>
+                            <select id="birth-year" name="birth-year">
+                                <option disabled selected>Year</option>
+                                <?= generateOptions($years, $data['birth_year']) ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Gender select field -->
+                    <div class="field-edit-profile">
+                        <label for="gender">Gender</label>
+                        <div class="input-wrapper">
+                            <select id="gender" name="gender">
+                                <option disabled selected>Select Gender</option>
+                                <option value="male" <?= ($data['gender'] == 'male') ? 'selected' : '' ?>>Male</option>
+                                <option value="female" <?= ($data['gender'] == 'female') ? 'selected' : '' ?>>Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                     <!-- <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button></a> -->
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
@@ -111,11 +118,7 @@
         </div>
     </main>
 
-    <script src="manage-account.js">
-        data-birth-month="<?= htmlentities(json_encode($data['birth_month'])) ?>" 
-        data-birth-day="<?= htmlentities($data['birth_day']) ?>" 
-        data-birth-year="<?= htmlentities($data['birth_year']) ?>">
-    </script>
+    <script src="manage-account.js"></script>
 
 </body>
 

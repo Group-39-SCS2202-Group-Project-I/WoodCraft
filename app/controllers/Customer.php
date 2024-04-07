@@ -176,32 +176,11 @@ class Customer extends Controller
 		}
 	}
 
-	public function returns()
-	{
-		$data['title'] = "returns";
-
-		$this->view('customer/returns', $data);
-	}
-
-	public function cancellations()
-	{
-		$data['title'] = "cancellations";
-
-		$this->view('customer/cancellations', $data);
-	}
-
 	public function wishlist()
 	{
 		$data['title'] = "wishlist";
 
 		$this->view('customer/wishlist', $data);
-	}
-
-	public function reviews()
-	{
-		$data['title'] = "reviews";
-
-		$this->view('customer/reviews', $data);
 	}
 
 	public function updateProfile($id)
@@ -215,12 +194,12 @@ class Customer extends Controller
 		$updatedData = [
 			'first_name' => sanitize($_POST['first_name']),
 			'last_name' => sanitize($_POST['last-name']),
-			'email' => sanitize($_POST['email']),
+			// 'email' => sanitize($_POST['email']),
 			'telephone' => sanitize($_POST['telephone']),
-			// 'birth_month' => sanitize($_POST['birth-month']),
-			// 'birth_day' => sanitize($_POST['birth-day']),
-			// 'birth_year' => sanitize($_POST['birth-year']),
-			// 'gender' => sanitize($_POST['gender']),
+			'birth_month' => sanitize($_POST['birth-month']),
+			'birth_day' => sanitize($_POST['birth-day']),
+			'birth_year' => sanitize($_POST['birth-year']),
+			'gender' => sanitize($_POST['gender']),
 		];
 
 		show($updatedData);
@@ -230,7 +209,7 @@ class Customer extends Controller
 
 		if ($success) {
 			message('Profile updated successfully');
-			redirect('customer/profile/' . $id);
+			redirect('customer/index/' . $id);
 		} else {
 			message('Failed to update profile. Please try again.');
 			redirect('customer/edit/' . $id);

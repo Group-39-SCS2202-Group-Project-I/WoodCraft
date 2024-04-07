@@ -28,11 +28,11 @@
         var monthSelect = document.getElementById("birth-month");
         var daySelect = document.getElementById("birth-day");
         var yearSelect = document.getElementById("birth-year");
-    
+
         var birthMonth = JSON.parse(document.currentScript.dataset.birthMonth);
         var birthDay = parseInt(document.currentScript.dataset.birthDay);
         var birthYear = parseInt(document.currentScript.dataset.birthYear);
-    
+
         // Populate month select
         monthSelect.innerHTML = "<option disabled selected>Month</option>" + generateOptions(months, birthMonth);
         
@@ -42,6 +42,7 @@
         // Populate year select
         yearSelect.innerHTML = "<option disabled selected>Year</option>" + generateOptions(years, birthYear);
     });
+
     
 
 

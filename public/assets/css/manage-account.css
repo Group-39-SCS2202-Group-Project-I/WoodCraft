@@ -224,38 +224,6 @@
     background-color: var(--bg1);
 }
 
-/* -- my payment options -- */
-.content-payment {
-    padding: 20px;
-    background-color: var(--bg2);
-}
-
-/* -- points -- */
-.content-points {
-    padding: 20px;
-    background-color: var(--bg2);
-
-    display: grid;
-    gap: 20px;
-}
-
-.content-points-top {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-items: center;
-}
-
-.content-points-top-img {
-}
-
-.content-points-top-title {
-    display: grid;
-    grid-template-rows: repeat(2, auto);
-    gap: 5px;
-    text-align: center;
-}
-
 /* -- popup -- */
 .popup {
     display: none;
