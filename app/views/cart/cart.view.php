@@ -3,7 +3,7 @@ $this->view('includes/header', $data) ?>
 
 <header>
 
-  <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/cart.css ">
+
   <?php $this->view('includes/nav', $data) ?>
   <?php $this->view('webstore/header-section', $data) ?>
 </header>
