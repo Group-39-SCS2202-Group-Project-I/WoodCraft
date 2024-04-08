@@ -7,8 +7,8 @@ class CartC extends Controller
 	
  public function index()
     {
-        
-        // $data['cart'] = $cart->findAll();
+        $cart  = new cartM();
+        $data['cart'] = $cart->findAll();
         // $this->view('cart/cart',$data);
 
         if (isset($_POST['action'])) {
@@ -28,7 +28,7 @@ class CartC extends Controller
 
                    
 
-                     $cart  = new cartM();
+                    
 
                     $data['customer_id'] = 1;
                     $data['product_id'] = $product[0]->product_id;
@@ -40,28 +40,35 @@ class CartC extends Controller
                     
 
 
-                      $customer = new Customer();
-                      $cart->setId(1);
-                      $cartItem =$cart->getitemsById();
-                      $cartItem =$cart ->findAll();
+                     $customer = new Customer();
+                     $cart->setId(1);
+                      //$cartItem =$cart->getitemsById();
+                     // $cartItem =$cart ->findAll();
 
-                    //   show($cartItem);
+                     // show($cartItem);
                      
                       $cartItemCount = isset($cartItem) ? count($cartItem) : 0;
-                       print($cartItemCount);
-
-                 
+                    //    print($cartItemCount);
 
 
 
-                    break;
+                       $tables = ['product'];
+                       $columns = ['*'];
+                       $condition= ['product.product_id = cart.product_id'];
+                       $cartItem =$cart->join($tables, $columns,$condition,);
+                       //show($cartItem);
+                       
+
+                break;
 
 
                 default:
                     break;
 
+
             }
         }
+        $this ->view('cart/cart',$data);
         
     }
 

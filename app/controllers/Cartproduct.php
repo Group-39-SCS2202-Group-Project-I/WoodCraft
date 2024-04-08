@@ -6,5 +6,7 @@ class Cartproduct extends Controller{
         $productcart = new Productcart();
         $data['products'] =$productcart->findAll(); 
         $this->view('cart/Cartproduct',$data);
+
+       
     }
 }

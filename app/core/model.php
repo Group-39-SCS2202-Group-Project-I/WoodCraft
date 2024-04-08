@@ -64,7 +64,7 @@ class Model extends Database
         }
 
         // Execute the query
-        // show($query);
+       // show($query);
         return $this->query($query);
     }
 
