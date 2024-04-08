@@ -66,27 +66,27 @@ class Customer extends Controller
 		}
     }
 
-    public function changepassword($id = '')
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
+    // public function changepassword($id = '')
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
 
-		// $id = Auth::getCustomerID();
+	// 	// $id = Auth::getCustomerID();
 
-		$data['title'] = "change-password";
-		$customer = []; 
+	// 	$data['title'] = "change-password";
+	// 	$customer = []; 
 
-		if ($id != '') {
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
 
-			$data = $customer;
-			$this->view('customer/change-password', $data);
-		}
-	}
+	// 		$data = $customer;
+	// 		$this->view('customer/change-password', $data);
+	// 	}
+	// }
 
     public function addressbook($id = '')
 	{
@@ -176,13 +176,6 @@ class Customer extends Controller
 		}
 	}
 
-	public function wishlist()
-	{
-		$data['title'] = "wishlist";
-
-		$this->view('customer/wishlist', $data);
-	}
-
 	public function updateProfile($id)
 	{
 		if (!Auth::logged_in()) {
@@ -204,8 +197,21 @@ class Customer extends Controller
 
 		show($updatedData);
 
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$first_name = $_POST['first_name'];
+			$last_name = $_POST['last_name'];
+			$errors = [];
+			if (empty($first_name)) {
+				$errors['first_name'] = "You can't leave this empty.";
+			}
+			if (empty($last_name)) {
+				$errors['last_name'] = "You can't leave this empty.";
+			}
+		}
+
 		// Perform the database update
 		$success = $this->updateCustomerProfile($id, $updatedData);
+		show($success);
 
 		if ($success) {
 			message('Profile updated successfully');
@@ -237,134 +243,140 @@ class Customer extends Controller
 		return $db->query($query, $data);
 	}
 
-	// public function updateaddress($id)
-	// {
-	// 	if (!Auth::logged_in()) {
-	// 		message('Please login to update your profile');
-	// 		redirect('login');
-	// 	}
-
-	// 	// Validate and sanitize form data
-	// 	$updatedData = [
-	// 		'first_name' => sanitize($_POST['first_name']),
-	// 		'last_name' => sanitize($_POST['last-name']),
-	// 		'telephone' => sanitize($_POST['telephone']),
-	// 		'address_line_1' => sanitize($_POST['address_line_1']),
-	// 		'address_line_2' => sanitize($_POST['address_line_2']),
-	// 		'zip_code' => sanitize($_POST['zip_code'])
-	// 	];
-
-	// 	show($updatedData);
-
-	// 	// Perform the database update
-	// 	$success = $this->updateCustomerAddress($id, $updatedData);
-
-	// 	if ($success) {
-	// 		message('Address updated successfully');
-	// 		redirect('customer/addressbook/' . $id);
-	// 	} else {
-	// 		message('Failed to update Address. Please try again.');
-	// 		redirect('customer/address/' . $id);
-	// 	}
-	// }
-
-	// private function updateCustomerAddress($id, $data)
-	// {
-	// 	$table1 = 'customer';
-	// 	$table2 = 'address';
-
-	// 	$setClause = '';
-	// 	foreach ($data as $key => $value) {
-	// 		$setClause .= "`$key` = :$key, ";
-	// 	}
-	// 	$setClause = rtrim($setClause, ', ');
-
-	// 	// Construct the full SQL query
-	// 	$query1 = "UPDATE $table1 SET $setClause WHERE `customer_id` = :id1";
-	// 	$query2 = "UPDATE $table2 SET $setClause WHERE `address_id` = :id2";
-
-	// 	// Add the customer ID to the data array
-	// 	$data['id1'] = $id;
-
-	// 	// Perform the database update
-	// 	$db = new Database;
-	// 	return $db->query($query1, $data);
-	// 	return $db->query($query2, $data);
-	// }
-
 	public function updateCustomerAddress($id)
-{
-    if (!Auth::logged_in()) {
-        message('Please login to update your profile');
-        redirect('login');
-    }
+	{
+		if (!Auth::logged_in()) {
+			message('Please login to update your profile');
+			redirect('login');
+		}
 
-	// $id = Auth::getCustomerID();
+		// $id = Auth::getCustomerID();
 
-    $id = sanitize($_POST['customer_id']);
+		$id = sanitize($_POST['customer_id']);
 
-    // Validate and sanitize form data
-    $updatedData = [
-        'first_name' => sanitize($_POST['first_name']),
-        'last_name' => sanitize($_POST['last_name']),
-        'telephone' => sanitize($_POST['telephone']),
-        'city' => sanitize($_POST['city']),
-        'zip_code' => sanitize($_POST['zip_code']),
-        'address_line_1' => sanitize($_POST['address_line_1']),
-        'address_line_2' => sanitize($_POST['address_line_2']),
-    ];
+		// Validate and sanitize form data
+		$updatedData = [
+			'first_name' => sanitize($_POST['first_name']),
+			'last_name' => sanitize($_POST['last_name']),
+			'telephone' => sanitize($_POST['telephone']),
+			'city' => sanitize($_POST['city']),
+			'zip_code' => sanitize($_POST['zip_code']),
+			'address_line_1' => sanitize($_POST['address_line_1']),
+			'address_line_2' => sanitize($_POST['address_line_2']),
+		];
 
-    // Perform the database update
-    $success = $this->updateCustomerAddressById($id, $updatedData);
+		// Perform the database update
+		$success = $this->updateCustomerAddressById($id, $updatedData);
 
-    if ($success) {
-        message('Address updated successfully');
-        redirect('customer/addressbook/' . $id);
-    } else {
-        message('Failed to update Address. Please try again.');
-        redirect('customer/address/' . $id);
-    }
-}
+		if ($success) {
+			message('Address updated successfully');
+			redirect('customer/addressbook/' . $id);
+		} else {
+			message('Failed to update Address. Please try again.');
+			redirect('customer/address/' . $id);
+		}
+	}
 
-private function updateCustomerAddressById($id, $data)
-{
-    // Assuming your tables are named 'customer' and 'address'
-    $tableCustomer = 'customer';
-    $tableAddress = 'address';
+	private function updateCustomerAddressById($id, $data)
+	{
+		// Assuming your tables are named 'customer' and 'address'
+		$tableCustomer = 'customer';
+		$tableAddress = 'address';
 
-    // Sanitize data
-    $sanitizedData = [];
-    foreach ($data as $key => $value) {
-        $sanitizedData[$key] = sanitize($value);
-    }
+		// Sanitize data
+		$sanitizedData = [];
+		foreach ($data as $key => $value) {
+			$sanitizedData[$key] = sanitize($value);
+		}
 
-    // Begin a database transaction
-    $db = new Database;
-    $db->query('START TRANSACTION');
+		// Begin a database transaction
+		$db = new Database;
+		$db->query('START TRANSACTION');
 
-    try {
-        // Update customer table
-        $db->updateaddress($tableCustomer, $sanitizedData, 'customer_id = :id', [':id' => $id]);
+		try {
+			// Update customer table
+			$db->updateaddress($tableCustomer, $sanitizedData, 'customer_id = :id', [':id' => $id]);
 
-        // Update address table
-        $addressData = [
-            'address_line_1' => $sanitizedData['address_line_1'],
-            'address_line_2' => $sanitizedData['address_line_2'],
-            'zip_code' => $sanitizedData['zip_code'],
-        ];
-        $db->updateaddress($tableAddress, $addressData, 'customer_id = :id', [':id' => $id]);
+			// Update address table
+			$addressData = [
+				'address_line_1' => $sanitizedData['address_line_1'],
+				'address_line_2' => $sanitizedData['address_line_2'],
+				'zip_code' => $sanitizedData['zip_code'],
+			];
+			$db->updateaddress($tableAddress, $addressData, 'customer_id = :id', [':id' => $id]);
 
-        // Commit the transaction
-        $db->query('COMMIT');
+			// Commit the transaction
+			$db->query('COMMIT');
 
-        return true;  // Return success
-    } catch (Exception $e) {
-        // An error occurred, rollback changes
-        $db->query('ROLLBACK');
-        return false;  // Return failure
-    }
-}
+			return true;  // Return success
+		} catch (Exception $e) {
+			// An error occurred, rollback changes
+			$db->query('ROLLBACK');
+			return false;  // Return failure
+		}
+	}
 
+	// .......................................
+    public function updatePassword($id)
+	{
+		if (!Auth::logged_in()) {
+			message('Please login to update your profile');
+			redirect('login');
+		}
 
-    
+		// Validate and sanitize form data
+		$updatedData = [
+			'current-password' => sanitize($_POST['current-password']),
+			'new-password' => sanitize($_POST['new-password']),
+			'retype-password' => sanitize($_POST['retype-password']),
+		];
+
+		show($updatedData);
+
+		// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		// 	$current_password = $_POST['current-password'];
+		// 	$new_password = $_POST['new-password'];
+		// 	$retype_password = $_POST['retype-password'];
+		// 	$errors = [];
+		// 	if (empty($current_password)) {
+		// 		$errors['current-password'] = "You can't leave this empty.";
+		// 	}
+		// 	if (empty($new_password)) {
+		// 		$errors['new-password'] = "You can't leave this empty.";
+		// 	}
+		// }
+
+		// Perform the database update
+		$success = $this->updateCustomerPassword ($id, $updatedData);
+		show($success);
+
+		if ($success) {
+			message('Profile updated successfully');
+			redirect('customer/index/' . $id);
+		} else {
+			message('Failed to update profile. Please try again.');
+			redirect('customer/edit/' . $id);
+		}
+	}
+
+	private function updateCustomerPassword($id, $data)
+	{
+		$table = 'customer';
+
+		$setClause = '';
+		foreach ($data as $key => $value) {
+			$setClause .= "`$key` = :$key, ";
+		}
+		$setClause = rtrim($setClause, ', ');
+
+		// Construct the full SQL query
+		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+
+		// Add the customer ID to the data array
+		$data['id'] = $id;
+
+		// Perform the database update
+		$db = new Database;
+		return $db->query($query, $data);
+	}
 }
