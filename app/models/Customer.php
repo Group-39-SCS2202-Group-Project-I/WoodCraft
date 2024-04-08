@@ -15,7 +15,11 @@ class Customer extends Model
         "first_name",
         "last_name",
         "email",
-        "telephone"
+        "telephone",
+        "birth_day",
+        "birth_month",
+        "birth_year",
+        "gender",
     ];
 
 	public function validate($data)
@@ -73,142 +77,36 @@ class Customer extends Model
 		return false;
 	}
 
-    
+    // ..................
+    private $db;
 
-    // ....
-    // public function edit_validate($data)
-    // {
-    //     $this->errors = [];
+    public function __construct($db) {
+        $this->db = $db;
+    }
 
-    //     if(empty($data['firstname'])){
-    //         $this->errors['firstname'] = "First name is required";
-    //     }
+    public function getPasswordFromDb($user_id) {
+        // Prepare SQL statement
+        $query = "SELECT password FROM user WHERE id = :user_id";
 
-    //     if(empty($data['lastname'])){
-    //         $this->errors['lastname'] = "Last name is required";
-    //     }
+        // Prepare and execute the statement
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
 
-    //     // check email
-    //     if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-    //         $this->errors['email'] = "Email is not valid";
-    //     }
-    //     else
-    //     if($this->where(['email' => $data['email']])){
-    //         $this->errors['email'] = "Email is already exists";
-    //     }
+        // Fetch the hashed password
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['password']; // Return the hashed password
+    }
 
-    //     if(!empty($data['facebook_link'])){
-    //         if(!filter_var($data['facebook_link'], FILTER_VALIDATE_URL)){
-    //             $this->errors['facebook_link'] = "Facebook link is not valid";
-    //         }
-    //     }
+    public function updatePasswordInDb($user_id, $hashedPassword) {
+        // Prepare SQL statement
+        $query = "UPDATE user SET password = :password WHERE id = :user_id";
 
-    //     if(!empty($data['twitter_link'])){
-    //         if(!filter_var($data['twitter_link'], FILTER_VALIDATE_URL)){
-    //             $this->errors['twitter_link'] = "Twitter link is not valid";
-    //         }
-    //     }
-
-    //     if(!empty($data['instagram_link'])){
-    //         if(!filter_var($data['instagram_link'], FILTER_VALIDATE_URL)){
-    //             $this->errors['instagram_link'] = "Instagram link is not valid";
-    //         }
-    //     }
-
-    //     if(!empty($data['linkedin_link'])){
-    //         if(!filter_var($data['linkedin_link'], FILTER_VALIDATE_URL)){
-    //             $this->errors['linkedin_link'] = "Linkedin link is not valid";
-    //         }
-    //     }
-
-    //     if(empty($this->errors)){
-    //         return true;
-    //     }
-        
-    //     return false;
-    // }
-
-    // public function getCustomerById($id)
-    // {
-    //     $db = new Database();
-    //     return $db->query("SELECT * FROM customer WHERE customer_id = $id");
-    // }
-
-    // // public function updateCustomerProfile($id, $data)
-    // // {
-    // //     // Validate $data if necessary
-
-    // //     $db = new Database();
-
-    // //     $address_id = $data['address_id'];  // Add this line to get the address_id from $data
-
-    // //     $address_arr = [
-    // //         'address_line_1' => $data['address_line_1'],
-    // //         'address_line_2' => $data['address_line_2'],
-    // //         'city' => $data['city'],
-    // //         'zip_code' => $data['zip_code']
-    // //     ];
-
-    // //     $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
-
-    // //     $customer_arr = [
-    // //         'first_name' => $data['first_name'],
-    // //         'last_name' => $data['last_name'],
-    // //         'email' => $data['email'],
-    // //         'telephone' => $data['telephone'],
-    // //         'address_id' => $address_id,
-    // //         'birthday' => $data['birth-year'] . '-' . $data['birth-month'] . '-' . $data['birth-day'],
-    // //         'gender' => $data['gender']
-    // //     ];
-
-    // //     $db->query("UPDATE customer SET first_name = :first_name, last_name = :last_name, email = :email, telephone = :telephone, address_id = :address_id, birthday = :birthday, gender = :gender WHERE customer_id = $id", $customer_arr);
-
-    // //     // Return true if the update was successful
-    // //     return true;
-    // // }
-
-    // public function updateCustomerProfile($customerId)
-    // {
-    //     // Fetch customer data from the database, validate, and update
-    //     $customerModel = new Customer();
-    //     $customer = $customerModel->getCustomerById($customerId);
-
-    //     if (!$customer) {
-    //         // Handle error or redirect accordingly
-    //         die("Customer not found");
-    //     }
-
-    //     // Validate and update customer profile data
-    //     $updateResult = $customerModel->updateCustomerProfile($customerId, $_POST);
-
-    //     if ($updateResult) {
-    //         // Successful update
-    //         message("Customer updated successfully!");
-    //         redirect('customer/manage-account');
-    //     } else {
-    //         // Update failed
-    //         $_SESSION['errors'] = $customerModel->errors;
-    //         $_SESSION['form_data'] = $_POST;
-    //         $_SESSION['form_id'] = 'form_customer_update';
-    //         redirect('customer/manage-account');
-    //     }
-    // }
-
-    
-    // public function processUpdateProfile($id)
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $customerModel = new Customer();
-    //         $result = $customerModel->updateCustomerProfile($id, $_POST);
-
-    //         if ($result) {
-    //             message("Customer updated successfully!");
-    //             redirect('customer/manage-account');
-    //         } else {
-    //             message("Error updating customer");
-    //             redirect('customer/update-profile/' . $id);
-    //         }
-    //     }
-    // }
+        // Prepare and execute the statement
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+    }
 	
 }
