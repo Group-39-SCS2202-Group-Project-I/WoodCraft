@@ -15,6 +15,9 @@
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
+                        <!-- <?php if (!empty($errors['first_name'])) : ?>
+                            <p class="validate-mzg "><?= $errors['first_name'] ?></p>
+                        <?php endif; ?> -->
                             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" value="<?=get_value('first_name', $data['first_name'])?>">
                         </div>
                     </div>
@@ -52,7 +55,7 @@
                     $days = range(1, 31);
                     $years = range(date("Y"), date("Y") - 100);
 
-                    // Function to generate select options
+                    // select options
                     function generateOptions($array, $selectedValue) {
                         $options = "";
                         foreach ($array as $value) {

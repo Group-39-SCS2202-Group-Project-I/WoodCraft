@@ -37,7 +37,7 @@
                     <div class="address">
                         <div class="content-title">
                             <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <a href="<?=ROOT?>/customer/address/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>

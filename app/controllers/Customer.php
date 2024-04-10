@@ -221,7 +221,7 @@ class Customer extends Controller
 		return $db->query($query, $data);
 	}
 
-	public function updateCustomerAddress($id)
+	public function updateAddress($id)
 	{
 		if (!Auth::logged_in()) {
 			message('Please login to update your profile');
@@ -229,68 +229,106 @@ class Customer extends Controller
 		}
 
 		// $id = Auth::getCustomerID();
-
-		$id = sanitize($_POST['customer_id']);
+		// $id = sanitize($_POST['customer_id']);
 
 		// Validate and sanitize form data
 		$updatedData = [
 			'first_name' => sanitize($_POST['first_name']),
 			'last_name' => sanitize($_POST['last_name']),
 			'telephone' => sanitize($_POST['telephone']),
-			'city' => sanitize($_POST['city']),
-			'zip_code' => sanitize($_POST['zip_code']),
-			'address_line_1' => sanitize($_POST['address_line_1']),
-			'address_line_2' => sanitize($_POST['address_line_2']),
+			// 'city' => sanitize($_POST['city']),
+			// 'zip_code' => sanitize($_POST['zip_code']),
+			// 'address_line_1' => sanitize($_POST['address_line_1']),
+			// 'address_line_2' => sanitize($_POST['address_line_2']),
 		];
 
+		show($updatedData);
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$first_name = $_POST['first_name'];
+			$last_name = $_POST['last_name'];
+			$telephone = $_POST['telephone'];
+			$errors = [];
+			if (empty($first_name)) {
+				$errors['first_name'] = "You can't leave this empty.";
+			}
+			if (empty($last_name)) {
+				$errors['last_name'] = "You can't leave this empty.";
+			}
+			if (empty($telephone)) {
+				$errors['telephone'] = "Please provide a valid phone number.";
+			}
+		}
+
 		// Perform the database update
-		$success = $this->updateCustomerAddressById($id, $updatedData);
+		$success = $this->updateCustomerAddress($id, $updatedData);
 
 		if ($success) {
 			message('Address updated successfully');
-			redirect('customer/addressbook/' . $id);
+			redirect('customer/address/' . $id);
 		} else {
 			message('Failed to update Address. Please try again.');
-			redirect('customer/address/' . $id);
+			redirect('customer/addressbook/' . $id);
 		}
 	}
 
-	private function updateCustomerAddressById($id, $data)
+	private function updateCustomerAddress($id, $data)
 	{
-		// Assuming your tables are named 'customer' and 'address'
-		$tableCustomer = 'customer';
-		$tableAddress = 'address';
+		$table = 'customer';
 
-		// Sanitize data
-		$sanitizedData = [];
+		$setClause = '';
 		foreach ($data as $key => $value) {
-			$sanitizedData[$key] = sanitize($value);
+			$setClause .= "`$key` = :$key, ";
 		}
+		$setClause = rtrim($setClause, ', ');
 
-		// Begin a database transaction
+		// Construct the full SQL query
+		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+
+		// Add the customer ID to the data array
+		$data['id'] = $id;
+
+		// Perform the database update
 		$db = new Database;
-		$db->query('START TRANSACTION');
-
-		try {
-			// Update customer table
-			$db->updateaddress($tableCustomer, $sanitizedData, 'customer_id = :id', [':id' => $id]);
-
-			// Update address table
-			$addressData = [
-				'address_line_1' => $sanitizedData['address_line_1'],
-				'address_line_2' => $sanitizedData['address_line_2'],
-				'zip_code' => $sanitizedData['zip_code'],
-			];
-			$db->updateaddress($tableAddress, $addressData, 'customer_id = :id', [':id' => $id]);
-
-			// Commit the transaction
-			$db->query('COMMIT');
-
-			return true;  // Return success
-		} catch (Exception $e) {
-			// An error occurred, rollback changes
-			$db->query('ROLLBACK');
-			return false;  // Return failure
-		}
+		return $db->query($query, $data);
 	}
+
+	// private function updateCustomerAddress($id, $data)
+	// {
+	// 	// Assuming your tables are named 'customer' and 'address'
+	// 	$tableCustomer = 'customer';
+	// 	$tableAddress = 'address';
+
+	// 	// Sanitize data
+	// 	$sanitizedData = [];
+	// 	foreach ($data as $key => $value) {
+	// 		$sanitizedData[$key] = sanitize($value);
+	// 	}
+
+	// 	// Begin a database transaction
+	// 	$db = new Database;
+	// 	$db->query('START TRANSACTION');
+
+	// 	try {
+	// 		// Update customer table
+	// 		$db->updateaddress($tableCustomer, $sanitizedData, 'customer_id = :id', [':id' => $id]);
+
+	// 		// Update address table
+	// 		$addressData = [
+	// 			'address_line_1' => $sanitizedData['address_line_1'],
+	// 			'address_line_2' => $sanitizedData['address_line_2'],
+	// 			'zip_code' => $sanitizedData['zip_code'],
+	// 		];
+	// 		$db->updateaddress($tableAddress, $addressData, 'customer_id = :id', [':id' => $id]);
+
+	// 		// Commit the transaction
+	// 		$db->query('COMMIT');
+
+	// 		return true;  // Return success
+	// 	} catch (Exception $e) {
+	// 		// An error occurred, rollback changes
+	// 		$db->query('ROLLBACK');
+	// 		return false;  // Return failure
+	// 	}
+	// }
 }
