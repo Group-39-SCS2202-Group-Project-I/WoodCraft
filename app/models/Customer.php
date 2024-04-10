@@ -76,37 +76,4 @@ class Customer extends Model
 
 		return false;
 	}
-
-    // ..................
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function getPasswordFromDb($user_id) {
-        // Prepare SQL statement
-        $query = "SELECT password FROM user WHERE id = :user_id";
-
-        // Prepare and execute the statement
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-
-        // Fetch the hashed password
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row['password']; // Return the hashed password
-    }
-
-    public function updatePasswordInDb($user_id, $hashedPassword) {
-        // Prepare SQL statement
-        $query = "UPDATE user SET password = :password WHERE id = :user_id";
-
-        // Prepare and execute the statement
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-    }
-	
 }

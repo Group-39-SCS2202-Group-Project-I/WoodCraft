@@ -66,28 +66,6 @@ class Customer extends Controller
 		}
     }
 
-    // public function changepassword($id = '')
-	// {
-	// 	if (!Auth::logged_in()) {
-	// 		message('Please login!!');
-	// 		redirect('login');
-	// 	}
-
-	// 	// $id = Auth::getCustomerID();
-
-	// 	$data['title'] = "change-password";
-	// 	$customer = []; 
-
-	// 	if ($id != '') {
-	// 		$url = ROOT . "/fetch/customers/" . $id;
-	// 		$response = file_get_contents($url);
-	// 		$customer = json_decode($response, true);
-
-	// 		$data = $customer;
-	// 		$this->view('customer/change-password', $data);
-	// 	}
-	// }
-
     public function addressbook($id = '')
 	{
 		if (!Auth::logged_in()) {
@@ -314,69 +292,5 @@ class Customer extends Controller
 			$db->query('ROLLBACK');
 			return false;  // Return failure
 		}
-	}
-
-	// .......................................
-    public function updatePassword($id)
-	{
-		if (!Auth::logged_in()) {
-			message('Please login to update your profile');
-			redirect('login');
-		}
-
-		// Validate and sanitize form data
-		$updatedData = [
-			'current-password' => sanitize($_POST['current-password']),
-			'new-password' => sanitize($_POST['new-password']),
-			'retype-password' => sanitize($_POST['retype-password']),
-		];
-
-		show($updatedData);
-
-		// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		// 	$current_password = $_POST['current-password'];
-		// 	$new_password = $_POST['new-password'];
-		// 	$retype_password = $_POST['retype-password'];
-		// 	$errors = [];
-		// 	if (empty($current_password)) {
-		// 		$errors['current-password'] = "You can't leave this empty.";
-		// 	}
-		// 	if (empty($new_password)) {
-		// 		$errors['new-password'] = "You can't leave this empty.";
-		// 	}
-		// }
-
-		// Perform the database update
-		$success = $this->updateCustomerPassword ($id, $updatedData);
-		show($success);
-
-		if ($success) {
-			message('Profile updated successfully');
-			redirect('customer/index/' . $id);
-		} else {
-			message('Failed to update profile. Please try again.');
-			redirect('customer/edit/' . $id);
-		}
-	}
-
-	private function updateCustomerPassword($id, $data)
-	{
-		$table = 'customer';
-
-		$setClause = '';
-		foreach ($data as $key => $value) {
-			$setClause .= "`$key` = :$key, ";
-		}
-		$setClause = rtrim($setClause, ', ');
-
-		// Construct the full SQL query
-		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
-
-		// Add the customer ID to the data array
-		$data['id'] = $id;
-
-		// Perform the database update
-		$db = new Database;
-		return $db->query($query, $data);
 	}
 }

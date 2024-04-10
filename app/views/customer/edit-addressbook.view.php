@@ -79,22 +79,8 @@
                     </div> -->
         
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
-            </div>
-        </div>
-
-        <!-- Popup for newsletter subscription -->
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <span class="close" onclick="closePopup()">&times;</span>
-                <h3>Newsletter subscription</h3>
-                <p>I have read and understood <a href="##.html">Privacy Policy</a></p>
-
-                <div class="buttons-popup">
-                    <button class="cancel" onclick="closePopup()">Cancel</button>
-                    <button class="subscribe" onclick="subscribe()">Subscribe</button>
-                </div>
             </div>
         </div>
     </main>

@@ -36,9 +36,9 @@
                             <a id="tocancellations"><span style="margin-left: 35px;">My Cancellations</span></a>
                         </li> -->
                 </li>
-                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('wishlist') ? 'selected' : '' ?>" id="wishlist-nav">
+                <!-- <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('wishlist') ? 'selected' : '' ?>" id="wishlist-nav">
                     <a href="<?=ROOT?>/customer/wishlist/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">My Wishlist</span></a>
-                </li>
+                </li> -->
                 <!-- <li class="sidebar-list-item nav-btn main-title" id="reviews-nav">
                     <a id="toreviews"><span style="margin-left: 5px;">My Reviews</span></a>
                 </li>-->
