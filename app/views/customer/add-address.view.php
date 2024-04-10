@@ -12,7 +12,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/addressbook/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/customer/addAddress/<?= Auth::getCustomerId()?>">
                     <div class="field-edit-profile">
                         <label for="full-name">First Name</label>
                         <div class="input-wrapper">
@@ -33,32 +33,32 @@
                             <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter your mobile number">
                         </div>
                     </div>
-
-                    <div class="field-edit-profile">
-                        <label for="full-name">Province</label>
-                        <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="Choose your province">
-                        </div>
-                    </div>
         
                     <div class="field-edit-profile">
                         <label for="mobile">City</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Choose your city">
+                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter your city">
                         </div>
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="full-name">Address</label>
+                        <label for="address">Zip Code</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="full-name" name="full-name" placeholder="House no. / building / street / area">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter zipcode">
                         </div>
                     </div>
-        
+
                     <div class="field-edit-profile">
-                        <label for="mobile">Landmark (optional)</label>
+                        <label for="address">Address Line 1</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="E.g. beside train station">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="House no. / building / street / area">
+                        </div>
+                    </div>
+
+                    <div class="field-edit-profile">
+                        <label for="address">Address Line 2</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="street / area">
                         </div>
                     </div>
         

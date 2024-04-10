@@ -45,7 +45,7 @@
                     <div class="field-edit-profile">
                         <label for="city">City</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Choose your city">
+                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Enter your city">
                         </div>
                     </div>
 

@@ -120,7 +120,9 @@ class Customer extends Controller
 		// $id = Auth::getCustomerID();
 
 		$data['title'] = "add-address";
+		$data['errors'] = [];
 		$customer = []; 
+		$address = new Address;
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
@@ -130,6 +132,45 @@ class Customer extends Controller
 			$data = $customer;
 			$this->view('customer/add-address', $data);
 		}
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+			$_POST['role'] = "customer";
+
+
+			$result1 = $address->validate($_POST);
+			$result2 = $customer->validate($_POST);
+
+			// show($_POST);
+
+			if ($result1 && $result2) {
+				$db = new Database;
+
+				// $user_arr['role'] = "customer";
+
+				$address_arr['address_line_1'] = $_POST['address_line_1'];
+				$address_arr['address_line_2'] = $_POST['address_line_2'];
+				$address_arr['city'] = $_POST['city'];
+				$address_arr['zip_code'] = $_POST['zip_code'];
+				$address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)";
+				$db->query($address_query, $address_arr);
+
+				// Get the last inserted address_id
+				// $last_address_id = $db->query("SELECT address_id FROM address WHERE address_line_1 = $_POST[address_line_1] AND address_line_2 = $_POST[address_line_2] AND city = $_POST[city] AND zip_code = $_POST[zip_code]")
+				$last_address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)");
+
+				// $customer_arr['user_id'] = $last_user_id;
+				$customer_arr['first_name'] = $_POST['first_name'];
+				$customer_arr['last_name'] = $_POST['last_name'];
+				$customer_arr['telephone'] = $_POST['telephone'];
+				// $customer_arr['address_id'] = $last_address_id;
+
+				show($customer_arr);
+			}
+		}
+
+		$data['errors'] = array_merge($data['errors'], $address->errors);
+		$data['errors'] = array_merge($data['errors'], $customer->errors);
 	}
 
 	public function orders($id = '')
@@ -331,4 +372,5 @@ class Customer extends Controller
 	// 		return false;  // Return failure
 	// 	}
 	// }
+
 }
