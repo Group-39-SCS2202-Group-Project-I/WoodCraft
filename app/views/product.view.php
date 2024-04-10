@@ -35,21 +35,24 @@ if (Auth::logged_in()) {
     <body>
         <div class="product-page">
         <div class="breadcrumbs">
-            <a href="#">Home</a>
-            <span class="separator">></span>
-            <a href="#">Shop</a>
-            <span class="separator">></span>
-            <a href="#">Chairs</a>
-            <span class="separator">></span>
-            <a href="#">Living Room Chairs</a>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item"><a href="#">Chairs</a></li>
+                    <li class="breadcrumb-item"><a href="#">Living Room Chairs</a></li>
+                </ol>
+            </nav>
         </div>
+
         <div class="product-info">
             <div class="product-images">
             <div class="product-image-grid">
-                <img src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '1'; ?>">
-                <img src="<?php echo ROOT . '/' . $images[1]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '2'; ?>">
-                <img src="<?php echo ROOT . '/' . $images[2]['image_url'] ?>" alt="<?php echo $item['name']; ?>" alt="<?php echo $data['name'] . '3'; ?>">
+                <img id="product-image-1" class="selected-image" src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $data['name'] . '1'; ?>">
+                <img id="product-image-2" src="<?php echo ROOT . '/' . $images[1]['image_url'] ?>" alt="<?php echo $data['name'] . '2'; ?>">
+                <img id="product-image-3" src="<?php echo ROOT . '/' . $images[2]['image_url'] ?>" alt="<?php echo $data['name'] . '3'; ?>">
             </div>
+
             <div class="product-image">
                 <img src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $data['name'] . '1'; ?>">
             </div>
@@ -85,6 +88,8 @@ if (Auth::logged_in()) {
             </div>
             </div>
         </div>
+
+
         <div class="product-details">
             <h3>Product Details</h3>
             <p><?php echo $data['description'] ?></p>
@@ -103,10 +108,38 @@ if (Auth::logged_in()) {
             </div>
             <h3>FAQs</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
         </div>
-    </div>
 
     <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
+
+    <script>
+    // Function to switch main product image and show border on selected image
+    function switchMainImage(imageElement) {
+        var mainImage = document.querySelector('.product-image img');
+
+        // Remove 'selected-image' class from all images in grid
+        var gridImages = document.querySelectorAll('.product-image-grid img');
+        gridImages.forEach(function(img) {
+            img.classList.remove('selected-image');
+        });
+
+        // Apply 'selected-image' class to the clicked image
+        imageElement.classList.add('selected-image');
+
+        // Update main product image with the clicked image
+        mainImage.src = imageElement.src;
+    }
+
+    // Add click event listeners to grid images
+    document.querySelectorAll('.product-image-grid img').forEach(function(img) {
+        img.addEventListener('click', function() {
+            switchMainImage(this);
+        });
+    });
+</script>
+
+ 
     </body>
 
     <?php $this->view('includes/footer', $data) ?>
