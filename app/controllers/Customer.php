@@ -262,60 +262,9 @@ class Customer extends Controller
 		return $db->query($query, $data);
 	}
 
-	public function updateAddress($id)
-	{
-		if (!Auth::logged_in()) {
-			message('Please login to update your profile');
-			redirect('login');
-		}
-
-		// $id = Auth::getCustomerID();
-		// $id = sanitize($_POST['customer_id']);
-
-		// Validate and sanitize form data
-		$updatedData = [
-			'first_name' => sanitize($_POST['first_name']),
-			'last_name' => sanitize($_POST['last_name']),
-			'telephone' => sanitize($_POST['telephone']),
-			// 'city' => sanitize($_POST['city']),
-			// 'zip_code' => sanitize($_POST['zip_code']),
-			// 'address_line_1' => sanitize($_POST['address_line_1']),
-			// 'address_line_2' => sanitize($_POST['address_line_2']),
-		];
-
-		show($updatedData);
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$first_name = $_POST['first_name'];
-			$last_name = $_POST['last_name'];
-			$telephone = $_POST['telephone'];
-			$errors = [];
-			if (empty($first_name)) {
-				$errors['first_name'] = "You can't leave this empty.";
-			}
-			if (empty($last_name)) {
-				$errors['last_name'] = "You can't leave this empty.";
-			}
-			if (empty($telephone)) {
-				$errors['telephone'] = "Please provide a valid phone number.";
-			}
-		}
-
-		// Perform the database update
-		$success = $this->updateCustomerAddress($id, $updatedData);
-
-		if ($success) {
-			message('Address updated successfully');
-			redirect('customer/address/' . $id);
-		} else {
-			message('Failed to update Address. Please try again.');
-			redirect('customer/addressbook/' . $id);
-		}
-	}
-
 	private function updateCustomerAddress($id, $data)
 	{
-		$table = 'customer';
+		$table = 'address';
 
 		$setClause = '';
 		foreach ($data as $key => $value) {
@@ -324,7 +273,7 @@ class Customer extends Controller
 		$setClause = rtrim($setClause, ', ');
 
 		// Construct the full SQL query
-		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+		$query = "UPDATE $table SET $setClause WHERE `address_id` = :id";
 
 		// Add the customer ID to the data array
 		$data['id'] = $id;
@@ -334,43 +283,55 @@ class Customer extends Controller
 		return $db->query($query, $data);
 	}
 
-	// private function updateCustomerAddress($id, $data)
-	// {
-	// 	// Assuming your tables are named 'customer' and 'address'
-	// 	$tableCustomer = 'customer';
-	// 	$tableAddress = 'address';
+	public function editAddress($customerId)
+	{
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
 
-	// 	// Sanitize data
-	// 	$sanitizedData = [];
-	// 	foreach ($data as $key => $value) {
-	// 		$sanitizedData[$key] = sanitize($value);
-	// 	}
+		// Fetch the customer data from your API using the provided $customerId
+		$url = ROOT . "/fetch/customers/" . $customerId;
+		$response = file_get_contents($url);
+		$customer = json_decode($response, true);
 
-	// 	// Begin a database transaction
-	// 	$db = new Database;
-	// 	$db->query('START TRANSACTION');
+		// Get the address ID associated with the customer ID
+		$addressId = $customer['address_id'];
 
-	// 	try {
-	// 		// Update customer table
-	// 		$db->updateaddress($tableCustomer, $sanitizedData, 'customer_id = :id', [':id' => $id]);
+		// Validate and sanitize form data
+		$updatedCustomerData = [
+			'first_name' => sanitize($_POST['first_name']),
+			'last_name' => sanitize($_POST['last_name']),
+			'telephone' => sanitize($_POST['telephone']),
+		];
 
-	// 		// Update address table
-	// 		$addressData = [
-	// 			'address_line_1' => $sanitizedData['address_line_1'],
-	// 			'address_line_2' => $sanitizedData['address_line_2'],
-	// 			'zip_code' => $sanitizedData['zip_code'],
-	// 		];
-	// 		$db->updateaddress($tableAddress, $addressData, 'customer_id = :id', [':id' => $id]);
+		$updatedAddressData = [
+			'city' => sanitize($_POST['city']),
+			'zip_code' => sanitize($_POST['zip_code']),
+			'address_line_1' => sanitize($_POST['address_line_1']),
+			'address_line_2' => sanitize($_POST['address_line_2']),
+		];
 
-	// 		// Commit the transaction
-	// 		$db->query('COMMIT');
+		show($updatedCustomerData);
+		show($updatedAddressData);
 
-	// 		return true;  // Return success
-	// 	} catch (Exception $e) {
-	// 		// An error occurred, rollback changes
-	// 		$db->query('ROLLBACK');
-	// 		return false;  // Return failure
-	// 	}
-	// }
+			// Perform the database update
+			$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
+			$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
+
+			if ($customerSuccess && $addressSuccess) {
+				message('Customer address updated successfully');
+				redirect('customer/address/' . $customerId);
+			} else {
+				message('Failed to update customer address. Please try again.');
+				redirect('customer/addressbook/' . $customerId);
+			}
+
+		// Pass customer data to the view
+		$data['customer'] = $customer;
+		$data['title'] = "edit-address";
+
+		$this->view('customer/edit-address', $data);
+	}
 
 }

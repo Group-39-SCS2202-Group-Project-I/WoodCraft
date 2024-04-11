@@ -23,7 +23,7 @@
                     <div class="address-info">
                         <div class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></div>
                         <div class="info-value"><?= esc($data['telephone']) ?></div>
-                        <div class="info-value"><?= esc($data['address_line_1']) ?> <?= esc($data['address_line_2']) ?>.</div>
+                        <div class="info-value"><?= esc($data['address_line_1']) ?> <?= esc($data['address_line_2']) ?></div>
         
                         <div class="additional-addressbook">
                             <div class="address-type">Home Address</div>
