@@ -284,54 +284,111 @@ class Customer extends Controller
 	}
 
 	public function editAddress($customerId)
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
+{
+    if (!Auth::logged_in()) {
+        message('Please login!!');
+        redirect('login');
+    }
 
-		// Fetch the customer data from your API using the provided $customerId
-		$url = ROOT . "/fetch/customers/" . $customerId;
-		$response = file_get_contents($url);
-		$customer = json_decode($response, true);
+    // Fetch the customer data from your API using the provided $customerId
+    $customerUrl = ROOT . "/fetch/customers/" . $customerId;
+    $customerResponse = file_get_contents($customerUrl);
+    $customer = json_decode($customerResponse, true);
 
-		// Get the address ID associated with the customer ID
-		$addressId = $customer['address_id'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Validate and sanitize form data
+        $updatedCustomerData = [
+            'first_name' => sanitize($_POST['first_name']),
+            'last_name' => sanitize($_POST['last_name']),
+            'telephone' => sanitize($_POST['telephone']),
+        ];
 
-		// Validate and sanitize form data
-		$updatedCustomerData = [
-			'first_name' => sanitize($_POST['first_name']),
-			'last_name' => sanitize($_POST['last_name']),
-			'telephone' => sanitize($_POST['telephone']),
-		];
+        // Only update address fields if they are provided in the form
+        $updatedAddressData = [];
+        if(isset($_POST['city'])) {
+            $updatedAddressData['city'] = sanitize($_POST['city']);
+        }
+        if(isset($_POST['zip_code'])) {
+            $updatedAddressData['zip_code'] = sanitize($_POST['zip_code']);
+        }
+        if(isset($_POST['address_line_1'])) {
+            $updatedAddressData['address_line_1'] = sanitize($_POST['address_line_1']);
+        }
+        if(isset($_POST['address_line_2'])) {
+            $updatedAddressData['address_line_2'] = sanitize($_POST['address_line_2']);
+        }
 
-		$updatedAddressData = [
-			'city' => sanitize($_POST['city']),
-			'zip_code' => sanitize($_POST['zip_code']),
-			'address_line_1' => sanitize($_POST['address_line_1']),
-			'address_line_2' => sanitize($_POST['address_line_2']),
-		];
+        // Perform the database update
+        $customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
+        $addressId = $customer['address_id'];
+        $addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
 
-		show($updatedCustomerData);
-		show($updatedAddressData);
+        if ($customerSuccess && $addressSuccess) {
+            message('Customer address updated successfully');
+            redirect('customer/address/' . $customerId);
+        } else {
+            message('Failed to update customer address. Please try again.');
+            redirect('customer/addressbook/' . $customerId);
+        }
+    }
 
-			// Perform the database update
-			$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
-			$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
+    // Pass customer data to the view
+    $data['customer'] = $customer;
+    $data['title'] = "edit-address";
 
-			if ($customerSuccess && $addressSuccess) {
-				message('Customer address updated successfully');
-				redirect('customer/address/' . $customerId);
-			} else {
-				message('Failed to update customer address. Please try again.');
-				redirect('customer/addressbook/' . $customerId);
-			}
+    $this->view('customer/edit-address', $data);
+}
 
-		// Pass customer data to the view
-		$data['customer'] = $customer;
-		$data['title'] = "edit-address";
 
-		$this->view('customer/edit-address', $data);
-	}
+	// public function editAddress($customerId)
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
+
+	// 	// Fetch the customer data from your API using the provided $customerId
+	// 	$url = ROOT . "/fetch/customers/" . $customerId;
+	// 	$response = file_get_contents($url);
+	// 	$customer = json_decode($response, true);
+
+	// 	// Get the address ID associated with the customer ID
+	// 	$addressId = $customer['address_id'];
+
+	// 	// Validate and sanitize form data
+	// 	$updatedCustomerData = [
+	// 		'first_name' => sanitize($_POST['first_name']),
+	// 		'last_name' => sanitize($_POST['last_name']),
+	// 		'telephone' => sanitize($_POST['telephone']),
+	// 	];
+
+	// 	$updatedAddressData = [
+	// 		'city' => sanitize($_POST['city']),
+	// 		'zip_code' => sanitize($_POST['zip_code']),
+	// 		'address_line_1' => sanitize($_POST['address_line_1']),
+	// 		'address_line_2' => sanitize($_POST['address_line_2']),
+	// 	];
+
+	// 	show($updatedCustomerData);
+	// 	show($updatedAddressData);
+
+	// 		// Perform the database update
+	// 		$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
+	// 		$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
+
+	// 		if ($customerSuccess && $addressSuccess) {
+	// 			message('Customer address updated successfully');
+	// 			redirect('customer/address/' . $customerId);
+	// 		} else {
+	// 			message('Failed to update customer address. Please try again.');
+	// 			redirect('customer/addressbook/' . $customerId);
+	// 		}
+
+	// 	// Pass customer data to the view
+	// 	$data['customer'] = $customer;
+	// 	$data['title'] = "edit-address";
+
+	// 	$this->view('customer/edit-address', $data);
+	// }
 
 }
