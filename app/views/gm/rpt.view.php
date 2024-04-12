@@ -459,7 +459,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #6D9886;
+            background-color: #212121;
             border: none;
             border-radius: 10px;
             color: white;
@@ -646,11 +646,11 @@
                 <p>Payment Reference: BRA-00335</p>
             </div> -->
 
-            <div class="px-14 py-10 text-sm text-neutral-700">
+            <!-- <div class="px-14 py-10 text-sm text-neutral-700">
                 <p class="text-main font-bold">Notes</p>
                 <p class="italic">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries
                     for previewing layouts and visual mockups.</p>
-                </dvi>
+                </div> -->
 
                 <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
                     Woodcraft Furnitures
@@ -662,7 +662,7 @@
             </div>
         </div>
 
-        <button id="printButton" class="print-button">Print as PDF</button>
+        <button id="printButton" class="print-button">Print</button>
 </body>
 
 <script>

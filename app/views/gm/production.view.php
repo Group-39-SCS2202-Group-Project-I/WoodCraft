@@ -474,7 +474,7 @@ $materials = $data['materials'];
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #6D9886;
+            background-color: #212121;
             border: none;
             border-radius: 10px;
             color: white;
@@ -804,7 +804,7 @@ $materials = $data['materials'];
         </div>
     </div>
 
-    <button id="printButton" class="print-button">Print as PDF</button>
+    <button id="printButton" class="print-button">Print</button>
 </body>
 
 <script>
