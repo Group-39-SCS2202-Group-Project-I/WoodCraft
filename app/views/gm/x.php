@@ -25,7 +25,8 @@
 			$url = ROOT . "/fetch/production/$id";
 			$response = file_get_contents($url);
 			$production = json_decode($response);
-			show($production);
+			// show($production);
+			show($id)
 			?>
 
 			<!-- <h1>Workers</h1> -->

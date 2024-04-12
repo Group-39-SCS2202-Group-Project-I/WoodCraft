@@ -226,132 +226,135 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
 
 <script>
     function generateAndOpenPdf(startDate, endDate, Title = "Production Report", data = []) {
-        var props = {
-            outputType: "view",
-            returnJsPDFDocObject: true,
-            fileName: Title + "_" + startDate + "_" + endDate,
-            orientationLandscape: false,
-            compress: true,
-            logo: {
-                src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png",
-                width: 53.33, //aspect ratio = width/height
-                height: 26.66,
-                margin: {
-                    top: 0, //negative or positive num, from the current position
-                    left: 0 //negative or positive num, from the current position
-                }
-            },
-            stamp: {
-                // inAllPages: true,
-                // src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-                // width: 20, //aspect ratio = width/height
-                // height: 20,
-                // margin: {
-                //     top: 0, //negative or positive num, from the current position
-                //     left: 0 //negative or positive num, from the current position
-                // }
-            },
-            business: {
-                name: "WoodCraft Furniture",
-                address: "Albania, Tirane ish-Dogana, Durres 2001",
-                phone: "(+355) 069 11 11 111",
-                email: "email@example.com",
-                email_1: "info@example.al",
-                website: "www.example.al",
-            },
-            contact: {
-                // label: "Invoice issued for:",
-                // name: "Client Name",
-                // address: "Albania, Tirane, Astir",
-                // phone: "(+355) 069 22 22 222",
-                // email: "client@website.al",
-                // otherInfo: "www.website.al",
-            },
-            invoice: {
-                label: "Production Report",
-                num: " ",
-                invDate: "Start Date: " + startDate + " ",
-                invGenDate: "End Date: " + endDate + " ",
-                headerBorder: true,
-                tableBodyBorder: true,
-                header: [{
-                        title: "#",
-                        style: {
-                            width: 10
-                        }
-                    },
-                    {
-                        title: "Production ID",
-                        style: {
-                            // width: 25,
-                        }
-                    },
-                    {
-                        title: "Product ID",
-                        style: {
-                            // width: 25
-                        }
-                    },
-                    {
-                        title: "Product Name",
+        // var props = {
+        //     outputType: "view",
+        //     returnJsPDFDocObject: true,
+        //     fileName: Title + "_" + startDate + "_" + endDate,
+        //     orientationLandscape: false,
+        //     compress: true,
+        //     logo: {
+        //         src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png",
+        //         width: 53.33, //aspect ratio = width/height
+        //         height: 26.66,
+        //         margin: {
+        //             top: 0, //negative or positive num, from the current position
+        //             left: 0 //negative or positive num, from the current position
+        //         }
+        //     },
+        //     stamp: {
+        //         // inAllPages: true,
+        //         // src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
+        //         // width: 20, //aspect ratio = width/height
+        //         // height: 20,
+        //         // margin: {
+        //         //     top: 0, //negative or positive num, from the current position
+        //         //     left: 0 //negative or positive num, from the current position
+        //         // }
+        //     },
+        //     business: {
+        //         name: "WoodCraft Furniture",
+        //         address: "Albania, Tirane ish-Dogana, Durres 2001",
+        //         phone: "(+355) 069 11 11 111",
+        //         email: "email@example.com",
+        //         email_1: "info@example.al",
+        //         website: "www.example.al",
+        //     },
+        //     contact: {
+        //         // label: "Invoice issued for:",
+        //         // name: "Client Name",
+        //         // address: "Albania, Tirane, Astir",
+        //         // phone: "(+355) 069 22 22 222",
+        //         // email: "client@website.al",
+        //         // otherInfo: "www.website.al",
+        //     },
+        //     invoice: {
+        //         label: "Production Report",
+        //         num: " ",
+        //         invDate: "Start Date: " + startDate + " ",
+        //         invGenDate: "End Date: " + endDate + " ",
+        //         headerBorder: true,
+        //         tableBodyBorder: true,
+        //         header: [{
+        //                 title: "#",
+        //                 style: {
+        //                     width: 10
+        //                 }
+        //             },
+        //             {
+        //                 title: "Production ID",
+        //                 style: {
+        //                     // width: 25,
+        //                 }
+        //             },
+        //             {
+        //                 title: "Product ID",
+        //                 style: {
+        //                     // width: 25
+        //                 }
+        //             },
+        //             {
+        //                 title: "Product Name",
 
-                    },
-                    {
-                        title: "Quantity",
-                        style: {
-                            width: 20
-                        }
+        //             },
+        //             {
+        //                 title: "Quantity",
+        //                 style: {
+        //                     width: 20
+        //                 }
 
-                    },
-                    {
-                        title: "Started At",
+        //             },
+        //             {
+        //                 title: "Started At",
 
-                    },
-                    {
-                        title: "Completed At",
+        //             },
+        //             {
+        //                 title: "Completed At",
 
-                    },
-                ],
-                table: data.map((item, index) => {
-                    return [
-                        index + 1,
-                        "PXN-" + String(item.production_id).padStart(3, '0'),
-                        "PRD-" + String(item.product_id).padStart(3, '0'),
-                        item.product_name,
-                        item.quantity,
-                        item.created_at,
-                        item.updated_at,
-                    ];
-                }),
+        //             },
+        //         ],
+        //         table: data.map((item, index) => {
+        //             return [
+        //                 index + 1,
+        //                 "PXN-" + String(item.production_id).padStart(3, '0'),
+        //                 "PRD-" + String(item.product_id).padStart(3, '0'),
+        //                 item.product_name,
+        //                 item.quantity,
+        //                 item.created_at,
+        //                 item.updated_at,
+        //             ];
+        //         }),
 
-                // additionalRows: [{
-                //     title: "Total",
-                //     data: "xxx",
-                //     style: {
-                //         colSpan: 3,
-                //         halign: "right"
-                //     }
-                // }],
+        //         // additionalRows: [{
+        //         //     title: "Total",
+        //         //     data: "xxx",
+        //         //     style: {
+        //         //         colSpan: 3,
+        //         //         halign: "right"
+        //         //     }
+        //         // }],
                 
-                invDescLabel: "No of productions : " + Object.keys(data).length + " ",
-                //invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
-            },
-            footer: {
-                text: "The document is created on a computer and is valid without the signature and stamp.",
-            },
-            pageEnable: true,
-            pageLabel: "Page ",
-        };
+        //         invDescLabel: "No of productions : " + Object.keys(data).length + " ",
+        //         //invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
+        //     },
+        //     footer: {
+        //         text: "The document is created on a computer and is valid without the signature and stamp.",
+        //     },
+        //     pageEnable: true,
+        //     pageLabel: "Page ",
+        // };
 
 
-        var pdfCreated = jsPDFInvoiceTemplate.default({
-            ...props
-        });
+        // var pdfCreated = jsPDFInvoiceTemplate.default({
+        //     ...props
+        // });
 
-        // Instead of saving the PDF, open it in a new browser tab
-        var blob = pdfCreated.jsPDFDocObject.output('blob');
-        var url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        // // Instead of saving the PDF, open it in a new browser tab
+        // var blob = pdfCreated.jsPDFDocObject.output('blob');
+        // var url = URL.createObjectURL(blob);
+        // window.open(url, '_blank');
+
+        //navigate to new page
+        window.location.href = `<?php echo ROOT ?>/gm/productions/report/${startDate}/${endDate}`;
     }
 
     // document.getElementById('generatePdf').addEventListener('click', generateAndOpenPdf);
