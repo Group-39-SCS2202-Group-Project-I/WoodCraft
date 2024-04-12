@@ -26,6 +26,40 @@
         $result = $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $this->getId()]);
         return $result;
     }
-   
+    public function find($condition, $params = [])
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE " . $condition;
+        return $this->query($query, $params);
+    }
+    public function update($id, $data)
+    {
+       
+        if (!empty($this->allowedColumns)) {
+            foreach ($data as $key => $value) {
+                if (!in_array($key, $this->allowedColumns)) {
+                    unset($data[$key]);
+                }
+            }
+        }
+
+        $setValues = [];
+        foreach ($data as $key => $value) {
+            $setValues[] = "$key = :$key";
+        }
+        $setValuesStr = implode(", ", $setValues);
+
+        $query = "UPDATE $this->table SET $setValuesStr WHERE id = :id";
+        $data['id'] = $id;
+
+        $this->query($query, $data);
+    }
+    public function removeItem($productId)
+    {
+ 
+        $query = "DELETE FROM $this->table WHERE product_id = :product_id";
+        $params = array('product_id' => $productId);
+        $this->query($query, $params);
+     
+    }
  
    }

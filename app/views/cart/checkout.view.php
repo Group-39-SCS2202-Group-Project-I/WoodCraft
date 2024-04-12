@@ -11,7 +11,7 @@
 
   <div class="container-cart">
     <div class="cart">
-
+    
       <div class="top">
         <h2>Your Cart</h2>
       </div>
@@ -51,12 +51,6 @@
 
 
 
-<div class="remove">
-    <button type="button" class="remove-button" data-product-id="<?php echo $cartItems->product_id; ?>">
-        <i class="fas fa-trash"></i>
-    </button>
-</div>
-
 <script>
     // Function to handle the click event of the "Remove" button
     document.addEventListener('DOMContentLoaded', function() {
@@ -90,9 +84,9 @@
 
 
                     <div class="quantity">
-                      <button type="button" class="decrease"><i class="fas fa-minus"></i></button>
-                      <input type="text" value="1" class="form-control">
-                      <button type="button" class="increase"><i class="fas fa-plus"></i></button>
+                   
+                   
+                    <p><?php echo  $cartItems->quantity ?></p>
                     </div>
                   </div>
                 </div>
@@ -128,18 +122,7 @@
         <hr />
         <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
       </div>
-      <div class="promo">
-        <div class="promocode">
-          <input class="promocode" type="text" placeholder="Add the promocode " id="promoCode" />
-        </div>
-        <button class="cart-first-btn" id="promo" onclick="promo()">Apply</button>
-      </div>
-      <div style="padding: 0 10px; margin-bottom: 20px">
-        <button class="checkout">Check Out</button>
-      </div>
-    </div>
-  </div>
-
+     
   <?php $this->view('includes/footer', $data) ?>
 
   <script>

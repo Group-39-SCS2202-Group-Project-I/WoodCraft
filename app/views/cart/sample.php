@@ -11,11 +11,11 @@
 
   <div class="container-cart">
     <div class="cart">
-
+        
       <div class="top">
         <h2>Your Cart</h2>
-      </div>
-
+      </div> 
+      
       <?php
 
         $subtotal = 0;
@@ -47,48 +47,11 @@
                     </div>
                   </div>
                   <div class="Qdetails">
-                   
-
-
-
-<div class="remove">
-    <button type="button" class="remove-button" data-product-id="<?php echo $cartItems->product_id; ?>">
-        <i class="fas fa-trash"></i>
-    </button>
-</div>
-
-<script>
-    // Function to handle the click event of the "Remove" button
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.remove-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const productId = button.dataset.productId; // Get the product ID from the button's data attribute
-                removeFromCart(productId); // Call the removeFromCart function
-            });
-        });
-    });
-
-    // Function to send an AJAX request to remove the item from the cart
-   
-    // Function to send an AJAX request to remove the item from the cart
-    function removeFromCart(productId) {
-        const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-        $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
-            data: { productId: productId, action: 'remove' }, // Data to be sent in the AJAX request
-            method: "POST", // Method of the AJAX request
-        }).done(function(response) {
-            // Handle the response here (if needed)
-            console.log(response);
-        });
-    }
-</script>
-
-</script>
-
-
-
-
+                    <div class="remove">
+                      <button type="submit" name="remove" class="remove-button" style="border: none; background: none;">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
                     <div class="quantity">
                       <button type="button" class="decrease"><i class="fas fa-minus"></i></button>
                       <input type="text" value="1" class="form-control">
@@ -109,13 +72,6 @@
         }
       ?>
     </div>
-
-
-
-
-
-
-
 
     <div class="summary">
       <div class="top">

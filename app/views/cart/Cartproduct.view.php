@@ -31,6 +31,7 @@ $cartItem = $data['cart'];
         });
     }
 </script>
+
 <style type="text/css">
     .alert,
     #loader {
