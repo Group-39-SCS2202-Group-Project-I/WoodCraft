@@ -3,15 +3,21 @@
 $product_id = $data['id'];
 
 $url = ROOT . "/fetch/product/$product_id";
-$response = file_get_contents($url);
-$data = json_decode($response, true);
+$response1 = file_get_contents($url);
+$data = json_decode($response1, true);
 
 $url2 = ROOT . "/fetch/product_images/" . $product_id;
-$response = file_get_contents($url2);
-$images = json_decode($response, true);
+$response2 = file_get_contents($url2);
+$images = json_decode($response2, true);
 
-// show($data);
+$url3 = ROOT . "/fetch/product_rating/$product_id";
+$response3 = file_get_contents($url3);
+$product_ratings = json_decode($response3, true);
+
+
 // show($images);
+show($data);
+show($product_ratings);
 
 ?>
 
@@ -61,8 +67,8 @@ if (Auth::logged_in()) {
             <div class="product-info-basic">
                 <h2 class="product-name"><?php echo $data['name']; ?></h2>
                 <div class="star-rating">
-                    <?php echo createStarRating($data['avarage_rating']); ?>
-                <span class="rating-text">&nbsp;<?php echo $data['avarage_rating']; ?>/5 (<?php echo sizeof($data['reviews'])?> Reviews)</span>
+                    <?php echo createStarRating($product_ratings['avg_rating']); ?>
+                <span class="rating-text">&nbsp;<?php echo $product_ratings['avg_rating']; ?>/5 (<?php echo $product_ratings['total_ratings']?> Reviews)</span>
                 </div>
                 <div class="price-discount">
                 <span class="original-price"><?php echo $data['price'] ?></span>
@@ -94,6 +100,47 @@ if (Auth::logged_in()) {
             <h3>Product Details</h3>
             <p><?php echo $data['description'] ?></p>
             <h3>Rating & Reviews</h3>
+                
+            <div class="review-analyzer-container">
+                <div class="review-analyzer">
+                    <div class="left-side">
+                        <h3>Average Rating</h3>
+                        <div class="average-info">
+                            <div class="average-rating">
+                                <span class="average-value"><?php echo $product_ratings['avg_rating']; ?></span>
+                            </div>
+                            <div class="average-count">Based on <?php echo $product_ratings['total_ratings']?> reviews</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <h3>Individual Ratings</h3>
+                        <div class="star-ratings">
+                            <div class="rating">
+                                <span class="stars">5 Stars</span>
+                                <div class="rating-bar bar-5"></div>
+                            </div>
+                            <div class="rating">
+                                <span class="stars">4 Stars</span>
+                                <div class="rating-bar bar-4"></div>
+                            </div>
+                            <div class="rating">
+                                <span class="stars">3 Stars</span>
+                                <div class="rating-bar bar-3"></div>
+                            </div>
+                            <div class="rating">
+                                <span class="stars">2 Stars</span>
+                                <div class="rating-bar bar-2"></div>
+                            </div>
+                            <div class="rating">
+                                <span class="stars">1 Star</span>
+                                <div class="rating-bar bar-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="reviews">
                 <?php for ($i = sizeof($data['reviews']); $i > 0; $i--) :?>
                     <div class="review">
@@ -110,6 +157,7 @@ if (Auth::logged_in()) {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
         </div>
+
 
     <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
 
@@ -139,7 +187,47 @@ if (Auth::logged_in()) {
     });
 </script>
 
+<script>
+    // Sample ratings data (you can replace this with your actual data)
+    const ratings = {
+        '5': <?php echo $product_ratings['rating_5star'] ?? 0; ?>,
+        '4': <?php echo $product_ratings['rating_4star'] ?? 0; ?>,
+        '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
+        '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
+        '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
+        'average': <?php echo $product_ratings['avg_rating']; ?> // Average rating value
+    };
+
+    // Function to update the review analyzer section
+    function updateReviewAnalyzer() {
+        const totalReviews = Object.values(ratings).reduce((acc, val) => acc + val, 0);
+
+        // Update star ratings bars
+        Object.keys(ratings).forEach(key => {
+            if (key !== 'average') {
+                const percentage = (ratings[key] / totalReviews) * 100;
+                const ratingBar = document.querySelector(`.bar-${key}`);
+                ratingBar.style.width = `${percentage}%`;
+            }
+        });
+
+        // Update average rating bar and display average value
+        const averagePercentage = (ratings.average / 5) * 100;
+        const averageBar = document.querySelector('.average-rating .average-value');
+        averageBar.style.width = `${averagePercentage}%`;
+
+        const averageValue = document.querySelector('.average-value');
+        averageValue.textContent = ratings.average.toFixed(1); // Display average rating with one decimal place
+    }
+
+    // Call the function to update the review analyzer on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateReviewAnalyzer();
+    });
+</script>
+
+
+
  
     </body>
-
     <?php $this->view('includes/footer', $data) ?>

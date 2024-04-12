@@ -307,3 +307,77 @@
     font-size: 12px;
     color: #999;
   }
+
+  .review-analyzer-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.review-analyzer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-side,
+.right-side {
+    width: 48%; /* Adjust width as needed */
+}
+
+.divider {
+    width: 4%;
+    border-left: 1px solid #ddd;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.average-rating {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffc107; /* Yellow color for average rating */
+    margin-bottom: 10px;
+}
+
+.average-info {
+    text-align: center;
+}
+
+.star-ratings {
+    margin-top: 10px;
+}
+
+.rating {
+    margin-bottom: 10px;
+}
+
+.stars {
+    display: inline-block;
+    width: 80px;
+}
+
+.rating-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #6c757d; /* Gray color for uncolored portion */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-5 {
+    background-color: #ffc107; /* Yellow color for 5 stars */
+}
+
+.bar-4 {
+    background-color: #ffc107; /* Yellow color for 4 stars */
+}
+
+.bar-3 {
+    background-color: #ffc107; /* Yellow color for 3 stars */
+}
+
+.bar-2 {
+    background-color: #ffc107; /* Yellow color for 2 stars */
+}
+
+.bar-1 {
+    background-color: #ffc107; /* Yellow color for 1 star */
+}

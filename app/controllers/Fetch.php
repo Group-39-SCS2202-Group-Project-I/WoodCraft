@@ -251,13 +251,13 @@ class Fetch extends Controller
             //     $product_data['reviews'] = [];
             // }
 
-            // 
-            $avarage_rating = 0;
-            if (count($product_reviews) > 0) {
-                $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
-            }
+            
+            // $avarage_rating = 0;
+            // if (count($product_reviews) > 0) {
+            //     $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
+            // }
 
-            $product_data['average_rating'] = $avarage_rating;
+            // $product_data['average_rating'] = $avarage_rating;
 
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -808,6 +808,24 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($data['product_reviews']);
+    }
+
+    public function product_rating($product_id)
+    {
+        $db = new Database();
+        $data = $db->query("SELECT * FROM product_rating WHERE product_id = $product_id");
+
+        $product_rating = array_merge((array) $data[0]);
+
+        if (!$data) {
+            header("Content-Type: application/json");
+            echo json_encode('');
+            return;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($product_rating);
+
     }
 
     public function material_stk_by_material_id($id)
