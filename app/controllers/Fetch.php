@@ -688,6 +688,7 @@ class Fetch extends Controller
                     if ($production_worker->worker_id == $worker->worker_id) {
                         $data['production_workers'][$key]->first_name = $worker->first_name;
                         $data['production_workers'][$key]->last_name = $worker->last_name;
+                        $data['production_workers'][$key]->worker_role = $worker->worker_role;
                     }
                 }
             }

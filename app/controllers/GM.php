@@ -69,6 +69,59 @@ class GM extends Controller
                 $this->view('gm/productions', $data);
             } else if ($id != 'report') {
                 $data['title'] = "GM Productions";
+
+
+                $id = $data['id'];
+                $url = ROOT . "/fetch/production/$id";
+                $response = file_get_contents($url);
+                $production = json_decode($response);
+
+                $data['production'] = $production;
+
+
+
+                $url = ROOT . "/fetch/production_workers/$id";
+                $response = file_get_contents($url);
+                $workers = json_decode($response, true);   
+                
+                $workers_count = count($workers);
+                $data['workers_count'] = $workers_count;
+
+                $no_car = 0;
+                $no_sup = 0;
+                $no_paint = 0;
+
+                foreach ($workers as $worker) {
+                    if ($worker['worker_role'] == 'carpenter') {
+                        $no_car++;
+                    } elseif ($worker['worker_role'] == 'supervisor') {
+                        $no_sup++;
+                    } elseif ($worker['worker_role'] == 'painter') {
+                        $no_paint++;
+                    }
+                }
+
+                $data['no_car'] = $no_car;
+                $data['no_sup'] = $no_sup;
+                $data['no_paint'] = $no_paint;
+
+                $data['workers'] = $workers;
+
+
+                $url = ROOT . "/fetch/production_material/$id";
+                $response = file_get_contents($url);
+                $materials = json_decode($response, true);
+
+                $data['materials'] = $materials;
+
+                
+                $total_cost = 0;
+                foreach ($materials as $material) {
+                    $total_cost += $material['cost'];
+                }
+
+                $data['total_cost'] = $total_cost;
+
                 $this->view('gm/production', $data);
             } else {
                 $data['title'] = "GM Productions";
@@ -138,7 +191,7 @@ class GM extends Controller
 
 
 
-                
+
 
                 $this->view('gm/rpt', $data);
             }
