@@ -56,10 +56,9 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
 // show($oldestProductionDate);
 
 
-
-
-
 ?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <style>
     .card-icon {
         font-size: 70px;
@@ -75,7 +74,99 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
         background-color: var(--blk);
         color: var(--light);
     }
+
+    /* flatpicker */
+    .flatpickr-weekdays .flatpickr-months {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .flatpickr-month {
+        font-size: 16px;
+    }
+
+    .flatpickr-current-month {
+        font-size: 100%;
+        font-weight: bolder;
+    }
+
+    .dayContainer>.selected {
+        background-color: var(--primary);
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--light);
+
+    }
+
+    .dayContainer>.selected:hover {
+        background-color: #959ea9;
+        background: #959ea9;
+        border-color: #959ea9;
+        color: var(--light);
+    }
+
+    .dayContainer>.prevMonthDay {
+        color: rgba(57, 57, 57, 0.3);
+        background: transparent;
+        border-color: transparent;
+        cursor: default
+    }
+
+    .flatpickr-day.selected.prevMonthDay,
+    .flatpickr-day.selected.nextMonthDay {
+        background-color: var(--primary);
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--light);
+    }
+
+    .flatpickr-day {
+        border-radius: 10px;
+    }
+
+    .flatpickr-calendar {
+        border-radius: 10px;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        width: auto;
+        height: auto;
+    }
+
+    .reports_sec {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btnx {
+        /* margin-top: 1rem; */
+        padding: 10px 20px;
+        background-color: var(--blk);
+        color: var(--light);
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+    }
 </style>
+
+<div class="table-section" style=" padding-bottom:0">
+    <h2 class="table-section__title" style=" margin-bottom:0">Completed Productions</h2>
+    <div class="reports_sec">
+
+        <div class="reports_sec__item">
+            <span class="reports_sec__label">Start Date:</span>
+            <input type="text" id="start-date" placeholder="Start date" value="2024-01-01" class="reports_sec__input">
+        </div>
+        <div class="reports_sec__item">
+            <span class="reports_sec__label">End Date:&nbsp&nbsp</span>
+            <input type="text" id="end-date" placeholder="End date" class="reports_sec__input">
+        </div>
+        <div class="reports_sec__item">
+            <a id="print-dates" class="reports_sec__button">Generate Report</a>
+        </div>
+    </div>
+</div>
 
 <div class="table-section" style=" padding-bottom:0">
     <h2 class="table-section__title" style=" margin-bottom:0">Productions</h2>
@@ -103,19 +194,9 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             <p class="card-text"><?= $com_count ?></p>
         </div>
     </a>
-    <!-- Repeat for other cards -->
 </div>
 
-
-<!-- <div class="dashboard2" id="pxn-chart"> -->
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-<div class="table-section">
-    <input type="text" id="start-date" placeholder="Start date" value="2024-01-01" class="table-section__search-input" style="width:40%;">
-    <input type="text" id="end-date" placeholder="End date" class="table-section__search-input" style="width: 40%;">
-    <a id="print-dates" class="table-section__add-link">Generate Report</a>
-</div>
+<!--  -->
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -226,138 +307,10 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
 
 <script>
     function generateAndOpenPdf(startDate, endDate, Title = "Production Report", data = []) {
-        // var props = {
-        //     outputType: "view",
-        //     returnJsPDFDocObject: true,
-        //     fileName: Title + "_" + startDate + "_" + endDate,
-        //     orientationLandscape: false,
-        //     compress: true,
-        //     logo: {
-        //         src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/logo.png",
-        //         width: 53.33, //aspect ratio = width/height
-        //         height: 26.66,
-        //         margin: {
-        //             top: 0, //negative or positive num, from the current position
-        //             left: 0 //negative or positive num, from the current position
-        //         }
-        //     },
-        //     stamp: {
-        //         // inAllPages: true,
-        //         // src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-        //         // width: 20, //aspect ratio = width/height
-        //         // height: 20,
-        //         // margin: {
-        //         //     top: 0, //negative or positive num, from the current position
-        //         //     left: 0 //negative or positive num, from the current position
-        //         // }
-        //     },
-        //     business: {
-        //         name: "WoodCraft Furniture",
-        //         address: "Albania, Tirane ish-Dogana, Durres 2001",
-        //         phone: "(+355) 069 11 11 111",
-        //         email: "email@example.com",
-        //         email_1: "info@example.al",
-        //         website: "www.example.al",
-        //     },
-        //     contact: {
-        //         // label: "Invoice issued for:",
-        //         // name: "Client Name",
-        //         // address: "Albania, Tirane, Astir",
-        //         // phone: "(+355) 069 22 22 222",
-        //         // email: "client@website.al",
-        //         // otherInfo: "www.website.al",
-        //     },
-        //     invoice: {
-        //         label: "Production Report",
-        //         num: " ",
-        //         invDate: "Start Date: " + startDate + " ",
-        //         invGenDate: "End Date: " + endDate + " ",
-        //         headerBorder: true,
-        //         tableBodyBorder: true,
-        //         header: [{
-        //                 title: "#",
-        //                 style: {
-        //                     width: 10
-        //                 }
-        //             },
-        //             {
-        //                 title: "Production ID",
-        //                 style: {
-        //                     // width: 25,
-        //                 }
-        //             },
-        //             {
-        //                 title: "Product ID",
-        //                 style: {
-        //                     // width: 25
-        //                 }
-        //             },
-        //             {
-        //                 title: "Product Name",
-
-        //             },
-        //             {
-        //                 title: "Quantity",
-        //                 style: {
-        //                     width: 20
-        //                 }
-
-        //             },
-        //             {
-        //                 title: "Started At",
-
-        //             },
-        //             {
-        //                 title: "Completed At",
-
-        //             },
-        //         ],
-        //         table: data.map((item, index) => {
-        //             return [
-        //                 index + 1,
-        //                 "PXN-" + String(item.production_id).padStart(3, '0'),
-        //                 "PRD-" + String(item.product_id).padStart(3, '0'),
-        //                 item.product_name,
-        //                 item.quantity,
-        //                 item.created_at,
-        //                 item.updated_at,
-        //             ];
-        //         }),
-
-        //         // additionalRows: [{
-        //         //     title: "Total",
-        //         //     data: "xxx",
-        //         //     style: {
-        //         //         colSpan: 3,
-        //         //         halign: "right"
-        //         //     }
-        //         // }],
-                
-        //         invDescLabel: "No of productions : " + Object.keys(data).length + " ",
-        //         //invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
-        //     },
-        //     footer: {
-        //         text: "The document is created on a computer and is valid without the signature and stamp.",
-        //     },
-        //     pageEnable: true,
-        //     pageLabel: "Page ",
-        // };
-
-
-        // var pdfCreated = jsPDFInvoiceTemplate.default({
-        //     ...props
-        // });
-
-        // // Instead of saving the PDF, open it in a new browser tab
-        // var blob = pdfCreated.jsPDFDocObject.output('blob');
-        // var url = URL.createObjectURL(blob);
-        // window.open(url, '_blank');
-
-        //navigate to new page
         window.location.href = `<?php echo ROOT ?>/gm/productions/report/${startDate}/${endDate}`;
     }
 
-    // document.getElementById('generatePdf').addEventListener('click', generateAndOpenPdf);
+   
 </script>
 
 <div class="table-section">
@@ -366,13 +319,7 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
     </div>
 
     <table class="table-section__table" id="pen-productions-table">
-        <!-- [production_id] => 2
-            [product_id] => 7
-            [quantity] => 1
-            [status] => completed
-            [created_at] => 2024-01-01 22:46:18
-            [updated_at] => 2024-01-01 22:46:18
-            [product_name] => Brooklyn Sofa -->
+
         <thead>
             <tr>
                 <th>Production ID</th>

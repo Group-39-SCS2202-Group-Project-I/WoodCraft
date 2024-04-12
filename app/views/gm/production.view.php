@@ -670,7 +670,7 @@ $materials = $data['materials'];
                         <tr>
                             <td class="w-full align-top">
                                 <div class="sidebar-brand cent">
-                                    Production Workers
+                                    Workers
                                 </div>
                             </td>
                         </tr>
@@ -776,7 +776,7 @@ $materials = $data['materials'];
                                     <p>No of Supervisors: <?= $data['no_sup'] ?></p>
                                     <p>No of Carpenters: <?= $data['no_car'] ?></p>
                                     <p>No of Painters: <?= $data['no_paint'] ?></p>
-                                    <p class="font-bold">No of Workers: <?= $data['workers_count'] ?></p>
+                                    <p class="font-bold">Total Workers: <?= $data['workers_count'] ?></p>
 
                                 </div>
                             </td>
