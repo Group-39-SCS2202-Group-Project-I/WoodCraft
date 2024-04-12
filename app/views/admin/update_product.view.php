@@ -15,7 +15,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     $url = ROOT . "/fetch/product/$product_id";
     $response = file_get_contents($url);
     $product = json_decode($response, true);
-
     // show($product);
 
     $form_data = $product;
