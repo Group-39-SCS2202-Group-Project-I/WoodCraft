@@ -1,4 +1,13 @@
 <?php include "inc/header.view.php"; ?>
+<?php
+$products_count_url = ROOT . "/fetch/products_count";
+$products_count_response = file_get_contents($products_count_url);
+$products_count = json_decode($products_count_response, true);
+
+$pxn_count_url = ROOT . "/fetch/ongoing_pxn_count";
+$pxn_count_response = file_get_contents($pxn_count_url);
+$pxn_count = json_decode($pxn_count_response, true);
+?>
 <style>
     .card-icon {
         font-size: 70px;
@@ -89,6 +98,12 @@
         margin: 0;
         padding: 5px 0;
     }
+
+    #mbox:hover {
+        cursor: pointer;
+        background-color: var(--blk);
+        color: var(--light);
+    }
 </style>
 <div class="table-section" style=" padding-bottom:0">
     <h2 class="table-section__title" style=" margin-bottom:0">Dashboard</h2>
@@ -107,7 +122,7 @@
         <div class="card">
             <h3 class="card-title">Ongoing Productons</h3>
             <span class="material-icons-outlined card-icon">chair</span>
-            <p class="card-text"><?= $products_count ?></p>
+            <p class="card-text"><?= $pxn_count ?></p>
         </div>
     </a>
 
@@ -115,23 +130,11 @@
 </div>
 
 <div class="dashboard2" id="pwc-table">
-    <!-- <div>
-        <div class="charts-card">
-            <p class="chart-title">Customers registered in last 6 months</p>
-            <div id="area-chart"></div>
-        </div>
-    </div> -->
-
-    <!--  -->
-
-
 
     <div class="table-section" style="width: 100%;margin:0; padding:0%" id="mzgtbl">
-        <div class="mzg-box col-danger">
+        <div class="mzg-box col-danger" id="mbox">
             <div class="messege"></div>
         </div>
-
-        <!--  -->
 
 
         <h2 class="table-section__title" style=" margin-bottom:0; font-size:20px">New Inquiries</h2>
@@ -207,29 +210,20 @@
                                     mzg_box.appendChild(messege);
 
                                     mzgtbl = document.getElementById('mzgtbl');
+                                    nonew = document.getElementById('nonew');
 
                                     if (unresponded_count == 0) {
-                                        // mzg_box.style.display = "none";
                                         mzgtbl.style.display = "none";
-
+                                        nonew.style.display = "block";
                                     } else {
-                                        // mzg_box.style.display = "block";
                                         mzgtbl.style.display = "block";
+                                        nonew.style.display = "none";
                                     }
-
-
-
                                 });
                             });
                     }
 
                     updateInq();
-
-                    // setInterval(() => {
-                    //     let chat_records = document.getElementById('chat-records');
-                    //     chat_records.innerHTML = "";
-                    //     updateInq();
-                    // }, 1000);
 
                     let url2 = "<?= ROOT . '/fetch/last_chat_record_id' ?>";
                     let last_chat_record_id = 0;
@@ -250,6 +244,11 @@
                     }, 1000);
 
 
+                });
+
+                mbox = document.getElementById('mbox');
+                mbox.addEventListener('click', () => {
+                    window.location.href = '<?= ROOT . '/osr/inquiries' ?>';
                 });
             </script>
         </div>

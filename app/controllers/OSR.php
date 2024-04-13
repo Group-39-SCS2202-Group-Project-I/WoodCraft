@@ -3,7 +3,6 @@
 
 class OSR extends Controller
 {
-
     public function index()
     {
         if (!Auth::logged_in()) {

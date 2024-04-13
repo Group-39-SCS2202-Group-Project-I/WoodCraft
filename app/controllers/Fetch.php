@@ -1024,4 +1024,27 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($x);
     }
+
+    public function products_count()
+    {
+        $db = new Database();
+        $data['products'] = $db->query("SELECT * FROM product");
+
+        $count = count($data['products']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+    }
+
+    public function ongoing_pxn_count()
+    {
+        $db = new Database();
+        $data['production'] = $db->query("SELECT * FROM production WHERE status = 'processing'");
+
+        $count = count($data['production']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+        
+    }
 }
