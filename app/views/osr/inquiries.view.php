@@ -32,7 +32,7 @@
     }
 
     .chat_record__info__time {
-        color: var(--light);
+        /* color: var(--light); */
         font-size: 0.7rem;
     }
 
@@ -60,11 +60,19 @@
         color: var(--light);
     }
 
+    .responded:hover .chat_record__info__time {
+        color: var(--light);
+    }
+
+    .unresponded:hover .chat_record__info__time {
+        color: var(--light);
+    }
+
     
     .sp
     {
-        background-color: var(--light);
-        color:var(--blk);
+        background-color: var(--blk);
+        color:var(--light);
         padding: 5px;
         border-radius: 10px;
     }
