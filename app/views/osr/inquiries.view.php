@@ -16,7 +16,7 @@
         border-radius: 10px;
         text-decoration: none;
         /* color: black; */
-        color : var(--blk);
+        color: var(--blk);
     }
 
     .chat_record__info {
@@ -68,53 +68,24 @@
         color: var(--light);
     }
 
-    
-    .sp
-    {
+
+    .sp {
         background-color: var(--blk);
-        color:var(--light);
+        color: var(--light);
         padding: 5px;
         border-radius: 10px;
     }
+
     .chat_record__message p {
         margin: 0;
         padding: 5px 0;
     }
-
-   
 </style>
 
 
 <div class="table-section">
-    <h2 class="table-section__title">inquiries</h2>
+    <h2 class="table-section__title">Inquiries</h2>
     <div id="chat-records">
-        <!-- <a href="#" class="chat_record unresponded">
-            <div class="chat_record__info">
-                <div class="chat_record__info__name">Ahmed</div>
-                <div class="chat_record__info__time">2020-12-12</div>
-            </div>
-            <div class="chat_record__message">
-                <span class="material-symbols-outlined">
-                    person
-                </span>
-                <p>&nbsp; :&nbsp; </p>
-                <p>Hi, I want to know more about your products</p>
-            </div>
-        </a>
-        <a href="#" class="chat_record responded">
-            <div class="chat_record__info">
-                <div class="chat_record__info__name">Ahmed</div>
-                <div class="chat_record__info__time">2020-12-12</div>
-            </div>
-            <div class="chat_record__message">
-                <span class="material-symbols-outlined">
-                    support_agent
-                </span>
-                <p>&nbsp; :&nbsp; </p>
-                <p>sure</p>
-            </div>
-        </a>
-    </div> -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 let url = "<?= ROOT . '/fetch/inquiry_list' ?>";
@@ -150,12 +121,9 @@
                                 let chat_record_message_icon = document.createElement('span');
                                 chat_record_message_icon.classList.add('sp');
                                 chat_record_message_icon.classList.add('material-symbols-outlined');
-                                if(record.resp == 0)
-                                {
+                                if (record.resp == 0) {
                                     chat_record_message_icon.textContent = "person";
-                                }
-                                else
-                                {
+                                } else {
                                     chat_record_message_icon.textContent = "support_agent";
                                 }
                                 // chat_record_message_icon.textContent = "person";
@@ -204,10 +172,11 @@
             });
         </script>
     </div>
+</div>
 
 
 
 
 
 
-    <?php include "inc/footer.view.php"; ?>
+<?php include "inc/footer.view.php"; ?>
