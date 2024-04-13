@@ -109,32 +109,39 @@ if (Auth::logged_in()) {
                             <div class="average-rating">
                                 <span class="average-value"><?php echo $product_ratings['avg_rating']; ?></span>
                             </div>
+                            <div class="average-star-rating">
+                                <?php echo createStarRating($product_ratings['avg_rating']); ?>
+                            </div>
                             <div class="average-count">Based on <?php echo $product_ratings['total_ratings']?> reviews</div>
                         </div>
                     </div>
                     <div class="divider"></div>
                     <div class="right-side">
-                        <h3>Individual Ratings</h3>
                         <div class="star-ratings">
                             <div class="rating">
                                 <span class="stars">5 Stars</span>
                                 <div class="rating-bar bar-5"></div>
+                                <div class="rating-bar-remaining bar-5-remaining"></div>
                             </div>
                             <div class="rating">
                                 <span class="stars">4 Stars</span>
                                 <div class="rating-bar bar-4"></div>
+                                <div class="rating-bar-remaining bar-4-remaining"></div>
                             </div>
                             <div class="rating">
                                 <span class="stars">3 Stars</span>
                                 <div class="rating-bar bar-3"></div>
+                                <div class="rating-bar-remaining bar-3-remaining"></div>
                             </div>
                             <div class="rating">
                                 <span class="stars">2 Stars</span>
                                 <div class="rating-bar bar-2"></div>
+                                <div class="rating-bar-remaining bar-2-remaining"></div>
                             </div>
                             <div class="rating">
                                 <span class="stars">1 Star</span>
                                 <div class="rating-bar bar-1"></div>
+                                <div class="rating-bar-remaining bar-1-remaining"></div>
                             </div>
                         </div>
                     </div>
@@ -208,6 +215,10 @@ if (Auth::logged_in()) {
                 const percentage = (ratings[key] / totalReviews) * 100;
                 const ratingBar = document.querySelector(`.bar-${key}`);
                 ratingBar.style.width = `${percentage}%`;
+                const remainingPercentage = 100 - percentage;
+                const ratingBarRemaining = document.querySelector(`.bar-${key}-remaining`);
+                ratingBarRemaining.style.width = `${remainingPercentage}%`;
+
             }
         });
 

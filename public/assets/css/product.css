@@ -289,7 +289,6 @@
   
   .reviews {
     padding: 10px 20px;
-    border-top: 1px solid #ddd;
     margin-bottom: 20px;
   }
   
@@ -310,74 +309,87 @@
 
   .review-analyzer-container {
     border: 1px solid #ddd;
+    width: 70%;
     padding: 20px;
+    margin-bottom: 20px;
 }
 
 .review-analyzer {
     display: flex;
-    justify-content: space-between;
 }
 
-.left-side,
+.left-side {
+    width: 30%;
+}
+
 .right-side {
-    width: 48%; /* Adjust width as needed */
+  width: 70%;
+  margin-top: 30px;
 }
 
 .divider {
-    width: 4%;
-    border-left: 1px solid #ddd;
+    width: 1px;
+    border-left: px solid #ddd;
     height: 100%;
     margin-top: 10px;
 }
 
 .average-rating {
-    font-size: 36px;
+    font-size: 54px;
     font-weight: bold;
     color: #ffc107; /* Yellow color for average rating */
     margin-bottom: 10px;
 }
 
 .average-info {
+  display: flex;
+  flex-direction: column;
     text-align: center;
+}
+
+.average-star-rating {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  color: #ffc107;
+  margin-bottom: 10px;
+}
+
+.average-star-rating i {
+  margin-right: 5px;
 }
 
 .star-ratings {
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .rating {
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 20px; /* Add spacing between rating items */
 }
 
 .stars {
-    display: inline-block;
     width: 80px;
 }
 
 .rating-bar {
-    width: 100%;
-    height: 20px;
-    background-color: #6c757d; /* Gray color for uncolored portion */
-    border-radius: 4px;
+    width: 100px; /* Adjust width of rating bars */
+    height: 10px;
+    background-color: #ffc107; /* Gray color for uncolored portion */
+    border-radius: 4px 0 0 4px; /* Rounded corners for left side */
     overflow: hidden;
 }
 
-.bar-5 {
-    background-color: #ffc107; /* Yellow color for 5 stars */
+.rating-bar-remaining {
+    width: 100px; /* Adjust width of remaining bars */
+    height: 10px;
+    background-color: #6c757d; /* Gray color for uncolored portion */
+    border-radius: 0 4px 4px 0; /* Rounded corners for right side */
+    overflow: hidden;
 }
 
-.bar-4 {
-    background-color: #ffc107; /* Yellow color for 4 stars */
-}
-
-.bar-3 {
-    background-color: #ffc107; /* Yellow color for 3 stars */
-}
-
-.bar-2 {
-    background-color: #ffc107; /* Yellow color for 2 stars */
-}
-
-.bar-1 {
-    background-color: #ffc107; /* Yellow color for 1 star */
-}
