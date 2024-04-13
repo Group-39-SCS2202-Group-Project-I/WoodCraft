@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/nav.css">
   <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/footer.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <title>WoodCraft</title>
 

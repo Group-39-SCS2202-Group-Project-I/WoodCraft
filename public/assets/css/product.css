@@ -275,7 +275,7 @@
   }
   
   .product-details {
-    padding: 20px;
+    padding: 50px;
   }
   
   .product-details h3 {
@@ -286,10 +286,18 @@
   .product-details p {
     margin-bottom: 15px;
   }
+
+  .product-specifications {
+    padding-left: 40px;
+  }
+
+  .rating-reviews {
+    padding: 50px;
+  }
   
   .reviews {
     padding: 10px 20px;
-    margin-bottom: 20px;
+
   }
   
   .review {
@@ -396,3 +404,33 @@
     overflow: hidden;
 }
 
+.faq-container {
+  max-width: 100%;
+  padding: 50px;
+  background-color: #fff;
+}
+
+.faq {
+  border-bottom: 1px solid #ccc;
+  padding: 20px 0;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.question h3 {
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+.answer {
+  margin-top: 10px;
+}
+
+.material-icons {
+  font-size: 24px;
+  vertical-align: middle;
+}
