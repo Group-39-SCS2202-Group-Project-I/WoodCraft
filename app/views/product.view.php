@@ -86,9 +86,9 @@ if (Auth::logged_in()) {
                         <button class="color-option" style="background-color: #a69c88"></button>
                     </div>
                     <div class="amount-selector">
-                        <button class="amount_button minus"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
                         <input class="amount-selector-input" type="number" min="1" value="1">
-                        <button class="amount_button plus"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
