@@ -219,7 +219,9 @@ class Update extends Controller
                 'description' => $_POST['description'],
                 'product_category_id' => $_POST['product_category_id'],
                 'price' => $_POST['price'],
+                'bulkmin' => $_POST['bulkmin'],
             ];
+            show($product_arr);
 
             $product_measurement_arr = [
                 'height' => $_POST['height'],
@@ -228,9 +230,7 @@ class Update extends Controller
                 'weight' => $_POST['weight'],
             ];
 
-            // update product
-
-            $db->query("UPDATE product SET name = :name, description = :description, product_category_id = :product_category_id, price = :price WHERE product_id = $product_id", $product_arr);
+            $db->query("UPDATE product SET name = :name, description = :description, product_category_id = :product_category_id, price = :price, bulkmin = :bulkmin WHERE product_id = $product_id", $product_arr);
             show("product updated");
 
             // update product measurement
