@@ -1,0 +1,91 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  --white: #fff;
+  --red: #e40202;
+  --bg1: #9A9A9A;
+  --bg2: #F0EEED;
+  --light: #F6F6F6;
+  --green1: #688272;
+  --green2: #5cb85c;
+  --coal_black: #262626;
+  --coal_black_light: #2f2f2f;
+  --coal_black_lighter: #3b3b3b;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* body {
+    background-color: #f9f9f9;
+  }
+  
+  .main {
+    margin: 0;
+  } */
+
+  .team {
+    background-color: var(--green);
+    padding: 80px;
+  }
+
+  .team-title{
+    padding: 60px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .team-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+
+  .team-member{
+    padding: 30px;
+    height: 250px;
+    text-align: center;
+    background-color: var(--bg2);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .tab-logo-container{
+    text-align: center;
+    padding: 80px;
+    padding-bottom: 0px;
+    background-color: var(--bg2);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .tab-container{
+    padding: 30px;
+    text-align: left;
+    align-items: baseline;
+    background-color: var(--bg2);
+    margin-bottom: 10px;
+  }
+
+  .tab-container h1{
+    font-size: 50px;
+  }
+
+  .logo-container{
+    padding: 30px;
+    height: auto;
+    text-align: left;
+    align-items: baseline;
+    background-color: var(--bg2);
+    margin-bottom: 10px;
+  }
+
+  .logo-container img {
+    max-width: 100%;
+    height: auto;
+    background-color: #fff;
+ }

@@ -1,3 +1,7 @@
+<?php 
+$cartItemCount = 0;// logic to get the count of items in the cart;
+$data['cartItemCount'] = $cartItemCount;
+?>
 
     <nav class="nav-main">
         <div class="logo"><img src="<?php echo ROOT ?>/assets/images/Logo_green.png"></div>
@@ -19,14 +23,16 @@
             </form> 
             <li>
                 <a id="tocart">
+
                 <span class="material-symbols-outlined">shopping_cart</span>
-                  <span id="tocart" class="cart-badge">0</span>
+                <span id="tocart" class="cart-badge"><?php echo $cartItemCount ?></span>
                 </a>
-                <!-- <ul class="dropdown-menu hidden">
+                <ul class="dropdown-menu hidden">
                   <li class="empty">Your cart is empty.</li>
-                </ul> -->
-            </li>
-            <li>
+                </ul>
+        </li>
+
+        <!-- <li>
                 <a href="#">
                 <span class="material-symbols-outlined">account_circle</span>
                   <span>Profile</span>
@@ -47,51 +53,110 @@
                     <button id="toregister">Signup</button>
                   </li>
                 </ul>
-            </li>
-            
-        </div>
+            </li> -->
 
-        <script>
-  // Add event listener to the parent element
-  document.querySelector('.nav-main').addEventListener('click', (event) => {
-    const target = event.target;
-    const id = target.id;
+        <?php if(!Auth::logged_in()):?>
+        <li><a id="tologin">Login</a></li>
+        <li><a id="toregister">SignUp</a></li>
+        <?php else:?>
+        <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getCustomerName()?></span></a>
+            <ul class="dropdown-menu hidden">
+                <li><a id="tomanage-acc">My Account</a></li>
+                <li><a id="toorders">My Orders</a></li>
+                <!-- <li><a id="towishlist">My Wishlist</a></li> -->
+                <li><a id="toreviews">My Reviews</a></li>
+                <li><a id="toreturns">My Returns</a></li>
+                <hr>
+                <li id="logout">
+                    <button>Logout</button>
+                </li>
+            </ul>
+        </li>
+        <?php endif;?>
 
-    // Handle different menu items based on their IDs
-    switch (id) {
-      case 'tohome':
-        window.location.href = '<?= ROOT ?>';
-        break;
-      case 'toproducts':
-        window.location.href = '<?= ROOT ?>/products';
-        break;
-      case 'toabout':
-        window.location.href = '<?= ROOT ?>/about';
-        break;
-      case 'tocontact':
-        window.location.href = '<?= ROOT ?>/contact';
-        break;
-      case 'tocart':
-        window.location.href = '<?= ROOT ?>/cart';
-        break;
-      case 'toprofile':
-        window.location.href = '<?= ROOT ?>/profile';
-        break;
-      case 'toregister':
-        window.location.href = '<?= ROOT ?>/signup';
-        break;
-      case 'tologin':
-        window.location.href = '<?= ROOT ?>/login';
-        break;
-      default:
-        break;
-    }
-  });
-</script>
+        <!-- <li>
+                <a href="<?=ROOT?>">
+                  <span class="fas fa-user"></span>
+                  <span>Profile</span>
+                </a>
 
-        
-    </nav>
+                <ul class="dropdown-menu hidden">
+                  <li><a href="<?=ROOT?>/manage/profile"><span>My Account</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Orders</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Wishlist</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Reviews</span></a></li>
+                  <li><a href="<?=ROOT?>"><span>My Returns & Cancellations</span></a></li>
+
+                  <li><a href="<?=ROOT?>"><span></span></a></li>
+                  <li>
+                    <button id="tologin">Login</button>
+                  </li>
+                  <li id="logout">
+                    <button>Logout</button>
+                  </li>
+                  <hr>
+                  <li>
+                    <span>not registered yet?</span>
+                    <button id="toregister">Signup</button>
+                  </li>
+                </ul>
+            </li> -->
+
+    </div>
+
+    <script>
+    // Add event listener to the parent element
+    document.querySelector('.nav-main').addEventListener('click', (event) => {
+        const target = event.target;
+        const id = target.id;
+
+        // Handle different menu items based on their IDs
+        switch (id) {
+            case 'tohome':
+                window.location.href = '<?= ROOT ?>';
+                break;
+            case 'toproducts':
+                window.location.href = '<?= ROOT ?>/products';
+                break;
+            case 'toabout':
+                window.location.href = '<?= ROOT ?>/about';
+                break;
+            case 'tocontact':
+                window.location.href = '<?= ROOT ?>/contact';
+                break;
+            case 'tocart':
+                window.location.href = '<?= ROOT ?>/cart';
+                break;
+            case 'tomanage-acc':
+                window.location.href = '<?= ROOT ?>/customer/<?= Auth::getCustomerID() ?>';
+                break;
+            case 'toregister':
+                window.location.href = '<?= ROOT ?>/signup';
+                break;
+            case 'tologin':
+                window.location.href = '<?= ROOT ?>/login';
+                break;
+            case 'toorders':
+                window.location.href = '<?= ROOT ?>/customer/orders';
+                break;
+            case 'towishlist':
+                window.location.href = '<?= ROOT ?>/customer/wishlist';
+                break;
+            case 'toreviews':
+                window.location.href = '<?= ROOT ?>/customer/reviews';
+                break;
+            case 'toreturns':
+                window.location.href = '<?= ROOT ?>/customer/returns';
+                break;
+            default:
+                break;
+        }
+    });
+    </script>
+
+
+</nav>
 
 
 
-    <script src="<?php echo ROOT ?>/assets/js/header.js"></script>
+<script src="<?php echo ROOT ?>/assets/js/header.js"></script>
