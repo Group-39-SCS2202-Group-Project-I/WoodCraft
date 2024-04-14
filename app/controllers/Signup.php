@@ -75,11 +75,11 @@ class Signup extends Controller
 
 				$cus_name = $customer_arr['first_name'] . " " . $customer_arr['last_name'];
 				$customer_user_id = $customer_arr['user_id'];
-	
+
 				$chat_query = "INSERT INTO chat (customer_user_id, cus_name) VALUES (:customer_user_id, :cus_name)";
 				$db->query($chat_query, ['customer_user_id' => $customer_user_id, 'cus_name' => $cus_name]);
 
-			
+
 				message("Your profile was successfuly created. Please login");
 				redirect('login');
 			}
@@ -105,6 +105,23 @@ class Signup extends Controller
 
 		$data['title'] = "Signup";
 
-		$this->view('signup', $data);
+
+		if (!Auth::logged_in())
+			$this->view('signup', $data);
+		else {
+			if (Auth::is_admin()) {
+				redirect("admin");
+			} else if (Auth::is_osr()) {
+				redirect("osr");
+			} elseif (Auth::is_sk()) {
+				redirect("sk");
+			} elseif (Auth::is_gm()) {
+				redirect("gm");
+			} elseif (Auth::is_pm()) {
+				redirect("pm");
+			} else {
+				redirect("home");
+			}
+		}
 	}
 }
