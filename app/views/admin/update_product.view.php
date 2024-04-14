@@ -36,7 +36,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
         flex-wrap: wrap;
         justify-content: space-between;
         gap: 20px;
-        /* Add some space between form sections */
     }
 </style>
 

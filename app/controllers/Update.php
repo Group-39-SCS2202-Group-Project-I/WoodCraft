@@ -508,6 +508,49 @@ class Update extends Controller
         redirect('admin/products');
     }
 
+    public function delivery()
+    {
+        // show($_POST);
+        $data['errors'] = [];
+
+        $delivery = new Delivery;
+
+        $result = $delivery->validate($_POST);
+        show($result);
+
+        show(1);
+
+        if ($result) {
+            $db = new Database;
+
+            show(2);
+
+            $delivery_arr = [
+                'address_line_1' => $_POST['address_line_1'],
+                'address_line_2' => $_POST['address_line_2'],
+                'city' => $_POST['city'],
+                'zip_code' => $_POST['zip_code'],
+                'percentage' => $_POST['percentage']
+            ];
+
+            show($delivery_arr);
+
+            $db->query("UPDATE delivery SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, percentage = :percentage WHERE id = 1", $delivery_arr);
+            show(3);
+            message("Delivery info updated successfully!");
+            redirect('admin/delivery');
+        } else {
+            show(4);
+            $data['errors'] = array_merge($delivery->errors);
+            show($data['errors']);
+
+            $_SESSION['errors'] = $data['errors'];
+            $_SESSION['form_data'] = $_POST;
+            $_SESSION['form_id'] = 'form2'; 
+            redirect('admin/delivery');
+        }
+    }
+
 
 
 
