@@ -297,7 +297,8 @@ class Add extends Controller
                 'price' => $_POST['price'],
                 'product_category_id' => $_POST['product_category_id'],
                 'product_inventory_id' => $product_inventory_id,
-                'product_measurement_id' => $product_measurement_id
+                'product_measurement_id' => $product_measurement_id,
+                'bulkmin' => $_POST['bulkmin'],
             ];
 
             show($product);

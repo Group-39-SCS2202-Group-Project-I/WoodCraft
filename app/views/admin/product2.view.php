@@ -223,6 +223,10 @@ if ($images) {
                 <p class="pc-lable">Quantity Available :&nbsp</p>
                 <p><?php echo $data['quantity'] ?></p>
             </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Minimum Quantity for Bulk Orders :&nbsp</p>
+                <p><?php echo $data['bulkmin'] ?></p>
+            </div>
         </div>
 
 
