@@ -67,7 +67,7 @@ $data['cartItemCount'] = $cartItemCount;
                 <li><a id="toreviews">My Reviews</a></li>
                 <li><a id="toreturns">My Returns</a></li>
                 <hr>
-                <li id="logout">
+                <li id="tologout">
                     <button>Logout</button>
                 </li>
             </ul>
@@ -136,6 +136,9 @@ $data['cartItemCount'] = $cartItemCount;
             case 'tologin':
                 window.location.href = '<?= ROOT ?>/login';
                 break;
+            // case 'tologout':
+            //     window.location.href = '<?= ROOT ?>/logout';
+            //     break;
             case 'toorders':
                 window.location.href = '<?= ROOT ?>/customer/orders';
                 break;
@@ -152,6 +155,17 @@ $data['cartItemCount'] = $cartItemCount;
                 break;
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // Find the logout button
+            const logoutButton = document.querySelector('#tologout button');
+
+            // Add a click event listener to the logout button
+            logoutButton.addEventListener('click', function() {
+                // Perform a direct navigation to a URL that will trigger logout
+                window.location.href = '<?= ROOT ?>/logout';
+            });
+        });
     </script>
 
 
