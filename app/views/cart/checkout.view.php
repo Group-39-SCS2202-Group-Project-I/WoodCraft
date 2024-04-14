@@ -1,7 +1,7 @@
 <?php $this->view('includes/header', $data) ?>
 
 <header>
-  <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/cart.css">
+ 
   <?php $this->view('includes/nav', $data) ?>
   <?php $this->view('webstore/header-section', $data) ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -9,8 +9,8 @@
 
 <body>
 
-  <div class="container-cart">
-    <div class="cart">
+ 
+    <!-- <div class="cart">
     
       <div class="top">
         <h2>Your Cart</h2>
@@ -180,6 +180,130 @@
       // Initial update
       updateTotal();
     });
-  </script>
+  </script> -->
+  <div class="containercheckout">
+    <div class="contentcheckout">
+      <div class="changeaddress">
+        <h2>change your address</h2>
+      </div>
+      <div class="cartitems">
+      <div class="cart">
+    
+    <div class="top">
+      <h2>Your Cart</h2>
+    </div>
+
+    <?php
+
+      $subtotal = 0;
+      $discount = 0;
+      $total = 0;
+      $delivery = 15;
+      $cart = new cartM();
+      $data['cart'] = $cart->findAll();
+      $tables = ['product'];
+      $columns = ['*'];
+      $condition = ['product.product_id = cart.product_id'];
+      $cartItem = $cart->join($tables, $columns, $condition, );
+
+      if (isset($cartItem) && !empty($cartItem)) {
+        foreach ($cartItem as $cartItems) {
+          ?>
+          <td>
+            <div class="smallcart">
+              <div class="product">
+                <div class="imag-box">
+                  <img class="img" src="img1/<?php echo $cartItems->product_image; ?>" width="80vw" height="80vw" alt="<?php echo $cartItems->product_name; ?>">
+                </div>
+                <div class="details">
+                  <div class="pdetails">
+                    <div class="product-details">
+                      <p><?php echo  $cartItems->name ?></p>
+                      <p class="unit-price"><?php echo  $cartItems->price ?></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="Qdetails">
+                 
+
+
+
+                
+      </div>
+    </div>
+    <div class="summerycheckout">
+    
+      <div class="top">
+        <h2>Order Summary</h2>
+      </div>
+      <div class="detail">
+        <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
+        <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
+        <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
+        <hr />
+        <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
+      </div>
+    </div>
+  </div>
+  <style>
+    .containercheckout{
+      display: flex;
+    flex-direction: row;
+    border-radius: 2rem;
+    justify-content: space-evenly;
+    }
+    
+    .contentcheckout{
+      display: flex;
+    flex-direction: column;
+    border-radius: 2rem;
+    justify-content: space-evenly;
+    }
+    
+    .summerycheckout {
+    width: 45%;
+    border: 1px solid #bdbdbd;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 2rem;
+    margin-left: 10%;
+    height: 50%;
+    
+}
+  
+  .top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 20px 0;
+  }
+  
+  
+  .detail h2 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5px 0; 
+    font-size: 1vw;
+    color: #333;
+    font-weight: lighter;
+  }
+  
+  .detail h2 span {
+    color: #333;
+  }
+  
+  .detail h2#discount span {
+    color: red;
+  }
+  
+  .detail h2::after {
+    content: '';
+    flex-grow: 1;
+  }
+  
+  .detail h2 span {
+    margin-left: 10px; /* Adjust as needed */
+  }
 </body>
 </html>

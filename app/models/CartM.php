@@ -61,5 +61,9 @@
         $this->query($query, $params);
      
     }
- 
+    public function updateQuantity($productId, $quantity) {
+        $query = "UPDATE $this->table SET quantity = :quantity WHERE product_id = :product_id";
+        $params = array('quantity' => $quantity, 'product_id' => $productId);
+        $this->query($query, $params);
+    }
    }
