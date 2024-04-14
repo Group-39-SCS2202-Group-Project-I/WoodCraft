@@ -1,6 +1,11 @@
 <?php include "inc/header.view.php"; ?>
 
 <div class="table-section" style=" padding-bottom:0">
+<?php if (message()) : ?>
+    <div class="mzg-box">
+        <div class="messege"><?= message('', true) ?></div>
+    </div>
+<?php endif; ?>
     <h2 class="table-section__title" style=" margin-bottom:0">Delivery Details</h2>
 </div>
 
@@ -27,8 +32,6 @@
         background-color: var(--primary);
         color: var(--light);
     }
-
-    
 </style>
 <?php
 if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
@@ -48,13 +51,19 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
 ?>
 
 
+
+
 <form action="<?php echo ROOT ?>/update/delivery" method="POST" class="form-section">
     <div class="form-wrapper">
         <div class="form-container">
 
-        <div style="text-align:right; padding-top:10px; width:100%">
-            <a class="dash-button">Edit</a>
-        </div>
+            
+
+            <div style="text-align:right; padding-top:10px; width:100%">
+                <a class="dash-button">Edit</a>
+            </div>
+
+            <h2 class="table-section__title" style="margin-top:0; margin-bottom:0; font-size:18px; font-weight:600;">Company Address</h2>
 
             <?php if (!empty($errors['address_line_1'])) : ?>
                 <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
@@ -88,6 +97,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
                 <input value="<?php echo $form_data['zip_code'] ?>" class="page-input" type="text" id="zip_code" name="zip_code">
             </div>
 
+            <!-- Delivery Cost -->
+            <h2 class="table-section__title" style=" margin-bottom:0; font-size:18px; font-weight:600;">Delivery Cost</h2>
+
             <?php if (!empty($errors['percentage'])) : ?>
                 <p class="validate-mzg"><?= $errors['percentage'] ?></p>
             <?php endif; ?>
@@ -110,6 +122,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     const inputs = document.querySelectorAll('.page-input');
     const submitbtn = document.getElementById('submitbtn');
     const cancelbtn = document.querySelector('.cancel-btn');
+
     function disableInputs() {
         inputs.forEach(input => {
             input.disabled = true;
@@ -129,7 +142,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     });
 
     const form = document.querySelector('.form-section');
-    
+
     <?php if (!empty($errors)) : ?>
         inputs.forEach(input => {
             input.disabled = false;
@@ -141,14 +154,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     function cancelInputs() {
         location.reload();
     }
-
-
-
-
-
-    
-
-
 </script>
 
 
