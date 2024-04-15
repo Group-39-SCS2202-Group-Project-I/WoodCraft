@@ -40,6 +40,7 @@
                   <div class="checkboxe">
                   <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartItems->product_id; ?>">
 
+
                   </div>
                   <div class="imag-box">
                     <img class="img" src="img1/<?php echo $cartItems->product_image; ?>" width="80vw" height="80vw" alt="<?php echo $cartItems->product_name; ?>">
@@ -76,10 +77,14 @@
             </td>
             <?php
 
-            $subtotal += $cartItems->price; // Accumulate subtotal
+if ($cartItems->selected === 'true') {
+  // Only consider selected items for calculation
+  $subtotal += $cartItems->price; // Accumulate subtotal
+  $selectedItemsCount++; // Increment the selected items counter
+}
+// Accumulate subtotal
           }
-          $discount = 0.2 * $subtotal; // 20% discount
-          $total = $subtotal - $discount + $delivery;
+         
         } else {
           echo "<h5>Cart Is Empty</h5>";
         }
@@ -111,93 +116,101 @@
   <?php $this->view('includes/footer', $data) ?>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const decreaseButtons = document.querySelectorAll(".decrease");
     const increaseButtons = document.querySelectorAll(".increase");
     const quantityInputs = document.querySelectorAll(".quantity input");
     const unitPrices = document.querySelectorAll(".unit-price");
+    const selectCheckboxes = document.querySelectorAll(".select-checkbox");
     const subtotalElement = document.getElementById("subtotal");
     const discountElement = document.getElementById("discount");
     const deliveryElement = document.getElementById("delivery");
     const totalElement = document.getElementById("total");
+    const delivery = <?php echo $delivery; ?>;
 
     function updateTotal() {
-      let newSubtotal = 0;
-      quantityInputs.forEach(function (input, index) {
-        const quantity = parseInt(input.value, 10);
-        const unitPrice = parseFloat(unitPrices[index].innerText); // Retrieve unit price from innerText
-        newSubtotal += quantity * unitPrice;
-      });
+        let newSubtotal = 0;
 
-      const newDiscount = 0.2 * newSubtotal;
-      const newTotal = newSubtotal - newDiscount + <?php echo $delivery; ?>;
+        // Loop through each product
+        quantityInputs.forEach(function (input, index) {
+            const quantity = parseInt(input.value, 10);
+            const unitPrice = parseFloat(unitPrices[index].innerText);
 
-      subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
-      discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
-      deliveryElement.innerText = "Delivery: -$<?php echo $delivery; ?>";
-      totalElement.innerText = "Total: $" + newTotal.toFixed(2);
+            // Check if the checkbox is checked
+            if (selectCheckboxes[index].checked) {
+                newSubtotal += quantity * unitPrice;
+            }
+        });
+
+        const newDiscount = 0.2 * newSubtotal;
+        const newTotal = newSubtotal - newDiscount + delivery;
+
+        subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
+        discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
+        deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
+        totalElement.innerText = "Total: $" + newTotal.toFixed(2);
     }
 
     decreaseButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const input = button.nextElementSibling;
-        const currentValue = parseInt(input.value, 10);
-        const productId = this.dataset.productId;
-        if (currentValue > 1) {
-          input.value = currentValue - 1;
-          console.log('aaaaaa',input.value);
-          updateTotal();
-          updateCart(productId, input.value); // Update cart with new quantity
-        }
-      });
+        button.addEventListener("click", function () {
+            const input = button.nextElementSibling;
+            const currentValue = parseInt(input.value, 10);
+            const productId = button.dataset.productId;
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+                updateTotal();
+                updateCart(productId, input.value); // Update cart with new quantity
+            }
+        });
     });
 
     increaseButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const input = button.previousElementSibling;
-        const currentValue = parseInt(input.value, 10);
-        const productId = this.dataset.productId;
-        input.value = currentValue + 1;
-        console.log('aaaaaa',productId);
-        updateTotal();
-        updateCart(productId, input.value); // Update cart with new quantity
-      });
+        button.addEventListener("click", function () {
+            const input = button.previousElementSibling;
+            const currentValue = parseInt(input.value, 10);
+            const productId = button.dataset.productId;
+            input.value = currentValue + 1;
+            updateTotal();
+            updateCart(productId, input.value); // Update cart with new quantity
+        });
     });
 
     quantityInputs.forEach(function (input) {
-      input.addEventListener("input", function () {
-        const productId = this.dataset.productId;
-        updateTotal();
-        updateCart(productId, input.value); // Update cart with new quantity
-      });
+        input.addEventListener("input", function () {
+            const productId = input.dataset.productId;
+            updateTotal();
+            updateCart(productId, input.value); // Update cart with new quantity
+        });
+    });
+
+    selectCheckboxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateTotal); // Update total whenever a checkbox is checked or unchecked
     });
 
     // Initial update
     updateTotal();
-     
+
     // AJAX function to update the cart
-    function updateCart(pid, quantity) {
-      const ROOT = "http://localhost/wcf/"; // Update with your server URL
-      $.ajax({
-        url: ROOT + 'CartC', // Endpoint to handle updating the cart
-        data: { pid: pid, quantity: quantity, action: 'update' }, // Include the updated quantity and action
-        method: "POST",
-      }).done(function(response) {
+    function updateCart(productId, quantity) {
+        const ROOT = "http://localhost/wcf/"; // Update with your server URL
+        $.ajax({
+            url: ROOT + 'CartC', // Endpoint to handle updating the cart
+            data: { pid: productId, quantity: quantity, action: 'update' }, // Include the updated quantity and action
+            method: "POST",
+        }).done(function(response) {
             console.log(response);
             $('#loader').hide();
             $('.alert').show();
             $('#result').html(response); 
-            //ou may need to parse the response JSON and update the table accordingly
-      });
+            // You may need to parse the response JSON and update the table accordingly
+        });
     }
-  });
-     // Function to handle the click event of the "Remove" button
-     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.remove-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const productId = button.dataset.productId; // Get the product ID from the button's data attribute
-                removeFromCart(productId); // Call the removeFromCart function
-            });
+
+    // Function to handle the click event of the "Remove" button
+    document.querySelectorAll('.remove-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const productId = button.dataset.productId; // Get the product ID from the button's data attribute
+            removeFromCart(productId); // Call the removeFromCart function
         });
     });
 
@@ -205,14 +218,28 @@
         const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
             url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
-            data: { productId: productId, action: 'remove' }, // Data to be sent in the AJAX request
+            data: { pid: productId, action: 'remove' }, // Data to be sent in the AJAX request
             method: "POST", // Method of the AJAX request
         }).done(function(response) {
             // Handle the response here (if needed)
             console.log(response);
         });
     }
+
+    // Function to update selected items
+    function updateSelectedItems(productId, selected) {
+        const ROOT = "http://localhost/wcf/"; // Update with your server URL
+        $.ajax({
+            url: ROOT + 'CartC', // Endpoint to handle updating selected items
+            data: { productId: productId, selected: selected, action: 'updateSelectedItems' },
+            method: "POST",
+        }).done(function(response) {
+            console.log(response);
+        });
+    }
+});
 </script>
+
 
 </body>
 </html>

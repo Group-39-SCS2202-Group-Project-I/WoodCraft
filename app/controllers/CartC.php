@@ -30,6 +30,21 @@ class CartC extends Controller
                     show($cartItems);
                     break;
 
+                    case 'updateSelectedItems':
+                        if (isset($_POST['productId'], $_POST['selected'])) {
+                            $productId = $_POST['productId'];
+                            $selected = $_POST['selected'] == 'true' ? 'Yes' : 'No';
+                            
+                            $cartModel = new CartM();
+                            $cartModel->updateSelectedStatus($productId, $selected);
+                            
+                            echo "Selected item updated successfully.";
+                        } else {
+                            echo "Invalid request.";
+                        }
+                        exit;
+                    
+
                 case 'update':
                     if (isset($_POST['pid']) && isset($_POST['quantity'])) {
 
