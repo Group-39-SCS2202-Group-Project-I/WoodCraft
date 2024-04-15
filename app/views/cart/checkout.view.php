@@ -228,7 +228,7 @@
 
 
 
-                
+
       </div>
     </div>
     <div class="summerycheckout">
@@ -305,5 +305,6 @@
   .detail h2 span {
     margin-left: 10px; /* Adjust as needed */
   }
+  </style>
 </body>
 </html>

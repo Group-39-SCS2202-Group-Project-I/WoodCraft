@@ -37,6 +37,10 @@
             <td>
               <div class="smallcart">
                 <div class="product">
+                  <div class="checkboxe">
+                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartItems->product_id; ?>">
+
+                  </div>
                   <div class="imag-box">
                     <img class="img" src="img1/<?php echo $cartItems->product_image; ?>" width="80vw" height="80vw" alt="<?php echo $cartItems->product_name; ?>">
                   </div>
