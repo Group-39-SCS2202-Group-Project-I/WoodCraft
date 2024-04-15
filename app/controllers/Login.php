@@ -57,7 +57,7 @@ class Login extends Controller
 						redirect("home");
 					}
 				} else {
-					$data['errors']['password'] = "Wrong email or password";
+					$data['errors']['email'] = "Wrong email or password";
 				}
 			} else {
 				$data['errors']['email'] = "Wrong email or password";
