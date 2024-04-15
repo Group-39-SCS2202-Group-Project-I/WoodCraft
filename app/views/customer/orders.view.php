@@ -33,48 +33,37 @@
                 <div class="content-show">
                     <label for="row-count">Show:</label>
                     <select id="row-count">
-                        <option value="5">5 rows</option>
+                        <option value="5">2 rows</option>
                         <option value="10">10 rows</option>
                         <option value="15">15 rows</option>
                     </select>
                 </div>
 
                 <div class="content-orders">
-                    <h2>Recent Orders</h2>
-                    <!-- <?php foreach ($orders as $order): ?>
-                        <div class="order">
-                            <div class="order-details">
-                                <p>Order: <?php echo $order['order_id']; ?></p>
-                                <p>Quantity: <?php echo $order['quantity']; ?></p>
-                                <p>Status: <?php echo $order['status']; ?></p>
-                                <p>Date: <?php echo $order['order_date']; ?></p>
-                            </div>
-                            <a href="<?php echo ROOT ?>/manage/order/<?php echo $order['order_id']; ?>">Manage</a>
-                        </div>
-                    <?php endforeach; ?> -->
-
-                    <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td><?= $order['order_details_id'] ?></td>
-                        <td><?= $order['quantity'] ?></td>
-                        <td><?= $order['status'] ?></td>
-                        <td><?= $order['created_at'] ?></td>
-                        <td><a href="<?= ROOT ?>/order/manage/<?= $order['order_details_id'] ?>">Manage</a></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    <?php if (!empty($orders)) : ?>
+                        <table>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Type</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Creation Date</th>
+                                <th></th>
+                            </tr>
+                            <?php foreach ($orders as $order) : ?>
+                                <tr>
+                                    <td><?= $order['order_details_id'] ?></td>
+                                    <td><?= $order['order_type'] ?></td>
+                                    <td><?= $order['quantity'] ?></td>
+                                    <td><?= $order['status'] ?></td>
+                                    <td><?= $order['created_at'] ?></td>
+                                    <td><a href="<?= ROOT ?>/customer/manageOrder/<?= $order['order_details_id'] ?>">Manage</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    <?php else : ?>
+                        <p>No orders found.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

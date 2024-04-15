@@ -334,40 +334,92 @@ class Customer extends Controller
 		$this->view('customer/edit-address', $data);
 	}
 
+	// public function orders($id = '')
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
+		
+	// 	$id = Auth::getCustomerID();
+	// 	$orders = Customer::order($id);
+
+	// 	$data['title'] = "orders";
+
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer_data = json_decode($response, true);
+
+	// 		$data = array_merge($data, $customer_data);
+	// 		$data['orders'] = $orders;
+	// 		$this->view('customer/orders', $data);
+	// 	}
+	// }
+
+	// public static function order($customer_id) {
+	// 	// Fetch recent orders for the given customer from the database
+	// 	$query = "SELECT od.order_details_id, oi.quantity, od.status, od.created_at
+	// 			  FROM order_details od
+	// 			  JOIN order_item oi ON od.order_details_id = oi.order_details_id
+	// 			  WHERE od.user_id = :customer_id
+	// 			  ORDER BY od.created_at DESC";
+	
+	// 	$params = array(':customer_id' => $customer_id);
+	// 	$result = Database::query($query, $params);
+	
+	// 	return $result; // Assuming Database::query fetches and returns the result
+	// }
+
 	public function orders($id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
-		
-		$id = Auth::getCustomerID();
-		$orders = Customer::order($id);
+
+		$id = Auth::getID();
+    	$orders = $this->getOrders($id);
+		// show($orders);
 
 		$data['title'] = "orders";
+		// $customer = [];
+		$customer = null; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
 			$response = file_get_contents($url);
-			$customer_data = json_decode($response, true);
+			$customer = json_decode($response, true);
 
-			$data = array_merge($data, $customer_data);
-			$data['orders'] = $orders;
+			// $data = $customer;
+			$data = array_merge($data, $customer ?? []);
+        	$data['orders'] = $orders;
 			$this->view('customer/orders', $data);
 		}
 	}
 
-	public static function order($customer_id) {
+	private function getOrders($customer_id)
+	{
 		// Fetch recent orders for the given customer from the database
-		$query = "SELECT od.order_details_id, oi.quantity, od.status, od.created_at
-				  FROM order_details od
-				  JOIN order_item oi ON od.order_details_id = oi.order_details_id
-				  WHERE od.user_id = :customer_id
-				  ORDER BY od.created_at DESC";
-	
+		// $query = "SELECT od.order_details_id, order_type, oi.quantity, od.status, od.created_at
+		// 		FROM order_details od
+		// 		JOIN order_item oi ON od.order_details_id = oi.order_details_id
+		// 		LEFT JOIN bulk_order bo ON od.order_details_id = bo.order_details_id
+		// 		WHERE od.user_id = :customer_id
+		// 		ORDER BY od.created_at DESC";
+
+		$query = "SELECT od.order_details_id, od.order_type, od.status, od.created_at, oi.quantity, bo.approved
+				FROM order_details od
+				LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
+				LEFT JOIN bulk_order bo ON od.order_details_id = bo.order_details_id
+				WHERE od.user_id = :customer_id
+				ORDER BY od.created_at DESC";
+
 		$params = array(':customer_id' => $customer_id);
-		$result = Database::query($query, $params);
-	
-		return $result; // Assuming Database::query fetches and returns the result
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+		return $result;
 	}
+
 }
