@@ -51,7 +51,9 @@ class Signup extends Controller
 				$address_arr['address_line_2'] = $_POST['address_line_2'];
 				$address_arr['city'] = $_POST['city'];
 				$address_arr['zip_code'] = $_POST['zip_code'];
-				$address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)";
+				$address_arr['province'] = $_POST['province'];
+				// $address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)";
+				$address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code, province) VALUES (:address_line_1, :address_line_2, :city, :zip_code, :province)";
 				$db->query($address_query, $address_arr);
 
 				// Get the last inserted address_id
@@ -108,6 +110,8 @@ class Signup extends Controller
 
 		if (!Auth::logged_in())
 			$this->view('signup', $data);
+			// return 1;
+
 		else {
 			if (Auth::is_admin()) {
 				redirect("admin");

@@ -39,10 +39,12 @@ class Update extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            // $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, province = :province WHERE address_id = $address_id", $address_arr);
 
             show(3);
             // $worker['address_id'] = $address_id;
@@ -109,10 +111,12 @@ class Update extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            // $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, province = :province WHERE address_id = $address_id", $address_arr);
 
             show(3);
 
