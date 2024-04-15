@@ -66,6 +66,95 @@ class Customer extends Controller
 		}
     }
 
+	public function updateProfile($id)
+	{
+		if (!Auth::logged_in()) {
+			message('Please login to update your profile');
+			redirect('login');
+		}
+
+		// Validate and sanitize form data
+		$updatedData = [
+			'first_name' => sanitize($_POST['first_name']),
+			'last_name' => sanitize($_POST['last-name']),
+			// 'email' => sanitize($_POST['email']),
+			'telephone' => sanitize($_POST['telephone']),
+			'birth_month' => sanitize($_POST['birth-month']),
+			'birth_day' => sanitize($_POST['birth-day']),
+			'birth_year' => sanitize($_POST['birth-year']),
+			'gender' => sanitize($_POST['gender']),
+		];
+
+		show($updatedData);
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$first_name = $_POST['first_name'];
+			$last_name = $_POST['last_name'];
+			$errors = [];
+			if (empty($first_name)) {
+				$errors['first_name'] = "You can't leave this empty.";
+			}
+			if (empty($last_name)) {
+				$errors['last_name'] = "You can't leave this empty.";
+			}
+		}
+
+		// Perform the database update
+		$success = $this->updateCustomerProfile($id, $updatedData);
+		show($success);
+
+		if ($success) {
+			message('Profile updated successfully');
+			redirect('customer/index/' . $id);
+		} else {
+			message('Failed to update profile. Please try again.');
+			redirect('customer/edit/' . $id);
+		}
+	}
+
+	private function updateCustomerProfile($id, $data)
+	{
+		$table = 'customer';
+
+		$setClause = '';
+		foreach ($data as $key => $value) {
+			$setClause .= "`$key` = :$key, ";
+		}
+		$setClause = rtrim($setClause, ', ');
+
+		// Construct the full SQL query
+		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+
+		// Add the customer ID to the data array
+		$data['id'] = $id;
+
+		// Perform the database update
+		$db = new Database;
+		return $db->query($query, $data);
+	}
+
+	public function changepassword($id = '')
+	{
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
+
+		// $id = Auth::getCustomerID();
+
+		$data['title'] = "change-password";
+		$customer = []; 
+
+		if ($id != '') {
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer = json_decode($response, true);
+
+			$data = $customer;
+			$this->view('customer/change-password', $data);
+		}
+    }
+
     public function addressbook($id = '')
 	{
 		if (!Auth::logged_in()) {
@@ -173,95 +262,6 @@ class Customer extends Controller
 		$data['errors'] = array_merge($data['errors'], $customer->errors);
 	}
 
-	public function orders($id = '')
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
-		
-		// $id = Auth::getCustomerID();
-
-		$data['title'] = "orders";
-		$customer = []; 
-
-		if ($id != '') {
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
-
-			$data = $customer;
-			$this->view('customer/orders', $data);
-		}
-	}
-
-	public function updateProfile($id)
-	{
-		if (!Auth::logged_in()) {
-			message('Please login to update your profile');
-			redirect('login');
-		}
-
-		// Validate and sanitize form data
-		$updatedData = [
-			'first_name' => sanitize($_POST['first_name']),
-			'last_name' => sanitize($_POST['last-name']),
-			// 'email' => sanitize($_POST['email']),
-			'telephone' => sanitize($_POST['telephone']),
-			'birth_month' => sanitize($_POST['birth-month']),
-			'birth_day' => sanitize($_POST['birth-day']),
-			'birth_year' => sanitize($_POST['birth-year']),
-			'gender' => sanitize($_POST['gender']),
-		];
-
-		show($updatedData);
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$first_name = $_POST['first_name'];
-			$last_name = $_POST['last_name'];
-			$errors = [];
-			if (empty($first_name)) {
-				$errors['first_name'] = "You can't leave this empty.";
-			}
-			if (empty($last_name)) {
-				$errors['last_name'] = "You can't leave this empty.";
-			}
-		}
-
-		// Perform the database update
-		$success = $this->updateCustomerProfile($id, $updatedData);
-		show($success);
-
-		if ($success) {
-			message('Profile updated successfully');
-			redirect('customer/index/' . $id);
-		} else {
-			message('Failed to update profile. Please try again.');
-			redirect('customer/edit/' . $id);
-		}
-	}
-
-	private function updateCustomerProfile($id, $data)
-	{
-		$table = 'customer';
-
-		$setClause = '';
-		foreach ($data as $key => $value) {
-			$setClause .= "`$key` = :$key, ";
-		}
-		$setClause = rtrim($setClause, ', ');
-
-		// Construct the full SQL query
-		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
-
-		// Add the customer ID to the data array
-		$data['id'] = $id;
-
-		// Perform the database update
-		$db = new Database;
-		return $db->query($query, $data);
-	}
-
 	private function updateCustomerAddress($id, $data)
 	{
 		$table = 'address';
@@ -284,111 +284,90 @@ class Customer extends Controller
 	}
 
 	public function editAddress($customerId)
-{
-    if (!Auth::logged_in()) {
-        message('Please login!!');
-        redirect('login');
-    }
+	{
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
 
-    // Fetch the customer data from your API using the provided $customerId
-    $customerUrl = ROOT . "/fetch/customers/" . $customerId;
-    $customerResponse = file_get_contents($customerUrl);
-    $customer = json_decode($customerResponse, true);
+		// Fetch the customer data from your API using the provided $customerId
+		$url = ROOT . "/fetch/customers/" . $customerId;
+		$response = file_get_contents($url);
+		$customer = json_decode($response, true);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Validate and sanitize form data
-        $updatedCustomerData = [
-            'first_name' => sanitize($_POST['first_name']),
-            'last_name' => sanitize($_POST['last_name']),
-            'telephone' => sanitize($_POST['telephone']),
-        ];
+		// Get the address ID associated with the customer ID
+		$addressId = $customer['address_id'];
 
-        // Only update address fields if they are provided in the form
-        $updatedAddressData = [];
-        if(isset($_POST['city'])) {
-            $updatedAddressData['city'] = sanitize($_POST['city']);
-        }
-        if(isset($_POST['zip_code'])) {
-            $updatedAddressData['zip_code'] = sanitize($_POST['zip_code']);
-        }
-        if(isset($_POST['address_line_1'])) {
-            $updatedAddressData['address_line_1'] = sanitize($_POST['address_line_1']);
-        }
-        if(isset($_POST['address_line_2'])) {
-            $updatedAddressData['address_line_2'] = sanitize($_POST['address_line_2']);
-        }
+		// Validate and sanitize form data
+		$updatedCustomerData = [
+			'first_name' => sanitize($_POST['first_name']),
+			'last_name' => sanitize($_POST['last_name']),
+			'telephone' => sanitize($_POST['telephone']),
+		];
 
-        // Perform the database update
-        $customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
-        $addressId = $customer['address_id'];
-        $addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
+		$updatedAddressData = [
+			'city' => sanitize($_POST['city']),
+			'zip_code' => sanitize($_POST['zip_code']),
+			'address_line_1' => sanitize($_POST['address_line_1']),
+			'address_line_2' => sanitize($_POST['address_line_2']),
+		];
 
-        if ($customerSuccess && $addressSuccess) {
-            message('Customer address updated successfully');
-            redirect('customer/address/' . $customerId);
-        } else {
-            message('Failed to update customer address. Please try again.');
-            redirect('customer/addressbook/' . $customerId);
-        }
-    }
+		show($updatedCustomerData);
+		show($updatedAddressData);
 
-    // Pass customer data to the view
-    $data['customer'] = $customer;
-    $data['title'] = "edit-address";
+			// Perform the database update
+			$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
+			$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
 
-    $this->view('customer/edit-address', $data);
-}
+			if ($customerSuccess && $addressSuccess) {
+				message('Customer address updated successfully');
+				redirect('customer/address/' . $customerId);
+			} else {
+				message('Failed to update customer address. Please try again.');
+				redirect('customer/addressbook/' . $customerId);
+			}
 
+		// Pass customer data to the view
+		$data['customer'] = $customer;
+		$data['title'] = "edit-address";
 
-	// public function editAddress($customerId)
-	// {
-	// 	if (!Auth::logged_in()) {
-	// 		message('Please login!!');
-	// 		redirect('login');
-	// 	}
+		$this->view('customer/edit-address', $data);
+	}
 
-	// 	// Fetch the customer data from your API using the provided $customerId
-	// 	$url = ROOT . "/fetch/customers/" . $customerId;
-	// 	$response = file_get_contents($url);
-	// 	$customer = json_decode($response, true);
+	public function orders($id = '')
+	{
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
+		
+		$id = Auth::getCustomerID();
+		$orders = Customer::order($id);
 
-	// 	// Get the address ID associated with the customer ID
-	// 	$addressId = $customer['address_id'];
+		$data['title'] = "orders";
 
-	// 	// Validate and sanitize form data
-	// 	$updatedCustomerData = [
-	// 		'first_name' => sanitize($_POST['first_name']),
-	// 		'last_name' => sanitize($_POST['last_name']),
-	// 		'telephone' => sanitize($_POST['telephone']),
-	// 	];
+		if ($id != '') {
+			$url = ROOT . "/fetch/customers/" . $id;
+			$response = file_get_contents($url);
+			$customer_data = json_decode($response, true);
 
-	// 	$updatedAddressData = [
-	// 		'city' => sanitize($_POST['city']),
-	// 		'zip_code' => sanitize($_POST['zip_code']),
-	// 		'address_line_1' => sanitize($_POST['address_line_1']),
-	// 		'address_line_2' => sanitize($_POST['address_line_2']),
-	// 	];
+			$data = array_merge($data, $customer_data);
+			$data['orders'] = $orders;
+			$this->view('customer/orders', $data);
+		}
+	}
 
-	// 	show($updatedCustomerData);
-	// 	show($updatedAddressData);
-
-	// 		// Perform the database update
-	// 		$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
-	// 		$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
-
-	// 		if ($customerSuccess && $addressSuccess) {
-	// 			message('Customer address updated successfully');
-	// 			redirect('customer/address/' . $customerId);
-	// 		} else {
-	// 			message('Failed to update customer address. Please try again.');
-	// 			redirect('customer/addressbook/' . $customerId);
-	// 		}
-
-	// 	// Pass customer data to the view
-	// 	$data['customer'] = $customer;
-	// 	$data['title'] = "edit-address";
-
-	// 	$this->view('customer/edit-address', $data);
-	// }
-
+	public static function order($customer_id) {
+		// Fetch recent orders for the given customer from the database
+		$query = "SELECT od.order_details_id, oi.quantity, od.status, od.created_at
+				  FROM order_details od
+				  JOIN order_item oi ON od.order_details_id = oi.order_details_id
+				  WHERE od.user_id = :customer_id
+				  ORDER BY od.created_at DESC";
+	
+		$params = array(':customer_id' => $customer_id);
+		$result = Database::query($query, $params);
+	
+		return $result; // Assuming Database::query fetches and returns the result
+	}
 }
