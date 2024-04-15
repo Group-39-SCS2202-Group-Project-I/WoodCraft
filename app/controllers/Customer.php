@@ -334,43 +334,6 @@ class Customer extends Controller
 		$this->view('customer/edit-address', $data);
 	}
 
-	// public function orders($id = '')
-	// {
-	// 	if (!Auth::logged_in()) {
-	// 		message('Please login!!');
-	// 		redirect('login');
-	// 	}
-		
-	// 	$id = Auth::getCustomerID();
-	// 	$orders = Customer::order($id);
-
-	// 	$data['title'] = "orders";
-
-	// 	if ($id != '') {
-	// 		$url = ROOT . "/fetch/customers/" . $id;
-	// 		$response = file_get_contents($url);
-	// 		$customer_data = json_decode($response, true);
-
-	// 		$data = array_merge($data, $customer_data);
-	// 		$data['orders'] = $orders;
-	// 		$this->view('customer/orders', $data);
-	// 	}
-	// }
-
-	// public static function order($customer_id) {
-	// 	// Fetch recent orders for the given customer from the database
-	// 	$query = "SELECT od.order_details_id, oi.quantity, od.status, od.created_at
-	// 			  FROM order_details od
-	// 			  JOIN order_item oi ON od.order_details_id = oi.order_details_id
-	// 			  WHERE od.user_id = :customer_id
-	// 			  ORDER BY od.created_at DESC";
-	
-	// 	$params = array(':customer_id' => $customer_id);
-	// 	$result = Database::query($query, $params);
-	
-	// 	return $result; // Assuming Database::query fetches and returns the result
-	// }
-
 	public function orders($id = '')
 	{
 		if (!Auth::logged_in()) {
@@ -400,14 +363,6 @@ class Customer extends Controller
 
 	private function getOrders($customer_id)
 	{
-		// Fetch recent orders for the given customer from the database
-		// $query = "SELECT od.order_details_id, order_type, oi.quantity, od.status, od.created_at
-		// 		FROM order_details od
-		// 		JOIN order_item oi ON od.order_details_id = oi.order_details_id
-		// 		LEFT JOIN bulk_order bo ON od.order_details_id = bo.order_details_id
-		// 		WHERE od.user_id = :customer_id
-		// 		ORDER BY od.created_at DESC";
-
 		$query = "SELECT od.order_details_id, od.order_type, od.status, od.created_at, oi.quantity, bo.approved
 				FROM order_details od
 				LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
@@ -422,4 +377,58 @@ class Customer extends Controller
 		return $result;
 	}
 
+	// public function manageOrder($id = '')
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
+
+	// 	// $id = Auth::getCustomerID();
+
+	// 	$data['title'] = "orders-manage";
+	// 	$customer = []; 
+
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
+
+	// 		$data = $customer;
+	// 		$this->view('customer/orders-manage', $data);
+	// 	}
+	// }
+
+	public function manageOrder($customer_id = '') {
+		if (!Auth::logged_in()) {
+			message('Please login!!');
+			redirect('login');
+		}
+	
+		$data['title'] = "orders-manage";
+	
+		if ($customer_id != '') {
+			// Fetch order details based on the customer_id
+			$url = ROOT . "/fetch/customer/" . $customer_id;
+			$response = file_get_contents($url);
+			$orderDetails = json_decode($response, true);
+	
+			// If order details are found, pass them to the view
+			if ($orderDetails) {
+				$data['orders'] = $orderDetails;
+				$this->view('customer/orders-manage', $data);
+			} else {
+				// Handle case where order details are not found
+				message('Order details not found!');
+				$this->view('customer/orders-manage', $data); // Redirect to orders page or any other suitable page
+			}
+		} else {
+			// Handle case where customer_id is empty
+			message('Customer ID is required!');
+			$this->view('customer/orders', $data); // Redirect to orders page or any other suitable page
+		}
+	}
+	
+	
+	
 }

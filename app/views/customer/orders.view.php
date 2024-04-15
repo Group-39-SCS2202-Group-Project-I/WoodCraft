@@ -17,7 +17,7 @@
         }
     </style>
 
-<?php $this->view('customer/acc-header', $data) ?>
+    <?php $this->view('customer/acc-header', $data) ?>
     <br><br>
     <?php $this->view('customer/acc-sidebar', $data) ?>
         
@@ -32,10 +32,12 @@
             <div class="content-order">
                 <div class="content-show">
                     <label for="row-count">Show:</label>
-                    <select id="row-count">
-                        <option value="5">2 rows</option>
-                        <option value="10">10 rows</option>
-                        <option value="15">15 rows</option>
+                    <select id="display-options">
+                        <option value="last-5">Last 5 orders</option>
+                        <option value="last-30-days">Last 30 days</option>
+                        <option value="all-orders">All orders</option>
+                        <option value="retail-orders">Retail orders</option>
+                        <option value="bulk-orders">Bulk orders</option>
                     </select>
                 </div>
 
@@ -57,7 +59,8 @@
                                     <td><?= $order['quantity'] ?></td>
                                     <td><?= $order['status'] ?></td>
                                     <td><?= $order['created_at'] ?></td>
-                                    <td><a href="<?= ROOT ?>/customer/manageOrder/<?= $order['order_details_id'] ?>">Manage</a></td>
+                                    <!-- <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>">Manage</a></td> -->
+                                    <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
