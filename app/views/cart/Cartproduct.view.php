@@ -13,7 +13,7 @@ $cartItem = $data['cart'];
 </header>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
     function addToCart(pid) {
         $('#loader').show();
@@ -95,7 +95,7 @@ $cartItem = $data['cart'];
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a href="<?= ROOT . '/cart' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
+            <a href="<?= ROOT . '/cartc' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
         </div>
     </div>
 

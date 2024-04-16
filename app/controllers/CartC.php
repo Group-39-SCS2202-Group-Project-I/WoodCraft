@@ -29,20 +29,21 @@ class CartC extends Controller
                     print($cartItemCount);
                     show($cartItems);
                     break;
-
+                    
                     case 'updateSelectedItems':
                         if (isset($_POST['productId'], $_POST['selected'])) {
                             $productId = $_POST['productId'];
-                            $selected = $_POST['selected'] == 'true' ? 'Yes' : 'No';
+                            $selected = $_POST['selected'] == 'true' ? 'Yes' : 'No'; // Convert 'true' to 'Yes' and 'false' to 'No'
                             
                             $cartModel = new CartM();
-                            $cartModel->updateSelectedStatus($productId, $selected);
+                            $cartModel->updateSelectedStatus($productId, $selected); // Update selected status in the database
                             
                             echo "Selected item updated successfully.";
                         } else {
                             echo "Invalid request.";
                         }
                         exit;
+                    
                     
 
                 case 'update':
@@ -60,14 +61,21 @@ class CartC extends Controller
                         echo "Invalid request.";
                     }
                     exit;
-
-                case 'updateSelectedItems':
-                    if (isset($_POST['selectedItems'])) {
-                        $selectedItems = $_POST['selectedItems'];
-                        // Process selected items and calculate the total amount
+                   case 'remove':
+                    if (isset($_POST['pid'])) {
+                        $productId = $_POST['pid'];
+                        
+                        $cartModel = new CartM();
+                        $cartModel->removeCartItem($productId);
+                        
+                        echo "Item removed successfully.";
+                    } else {
+                        echo "Invalid request.";
                     }
                     exit;
-
+                
+            
+             
                 default:
                     break;
             }

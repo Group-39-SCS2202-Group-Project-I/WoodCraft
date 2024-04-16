@@ -109,13 +109,23 @@ if ($cartItems->selected === 'true') {
         <button class="cart-first-btn" id="promo" onclick="promo()">Apply</button>
       </div>
       <div style="padding: 0 10px; margin-bottom: 20px">
-        <button class="checkout" href="<?= ROOT . '/cart/checkout' ?>">Check Out</button>
-      </div>
+    <button class="checkout" onclick="redirectToCheckout()">Check Out</button>
+</div>
+
     </div>
   </div>
   <?php $this->view('includes/footer', $data) ?>
 
   <script>
+    
+    function redirectToCheckout() {
+        
+        var checkoutURL = "<?php echo ROOT . '/checkout'; ?>";
+        
+        window.location.href = checkoutURL;
+    }
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const decreaseButtons = document.querySelectorAll(".decrease");
     const increaseButtons = document.querySelectorAll(".increase");
@@ -215,16 +225,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function removeFromCart(productId) {
-        const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-        $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
-            data: { pid: productId, action: 'remove' }, // Data to be sent in the AJAX request
-            method: "POST", // Method of the AJAX request
-        }).done(function(response) {
-            // Handle the response here (if needed)
-            console.log(response);
-        });
-    }
+    const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
+    $.ajax({
+        url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
+        data: { pid: productId, action: 'remove' }, // Data to be sent in the AJAX request
+        method: "POST", // Method of the AJAX request
+    }).done(function(response) {
+        // Handle the response here (if needed)
+        console.log(response);
+        // Reload the page after successful removal
+        window.location.reload();
+    });
+}
 
     // Function to update selected items
     function updateSelectedItems(productId, selected) {
@@ -238,6 +250,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+// Function to handle the "Check Out" button click event
+// Function to handle the "Check Out" button click event
+// Function to handle checkbox change event
+function handleCheckboxChange(checkbox) {
+        const productId = checkbox.dataset.productId;
+        const selected = checkbox.checked;
+        updateSelectedItems(productId, selected); // Call the function to update selected items
+    }
+
+    // Function to update selected items in the database
+    function updateSelectedItems(productId, selected) {
+        const ROOT = "http://localhost/wcf/";
+        $.ajax({
+            url: ROOT + 'CartC', // Endpoint to handle updating selected items
+            method: 'POST',
+            data: { productId: productId, selected: selected, action: 'updateSelectedItems' }, // Include the action parameter
+            success: function(response) {
+                console.log(response); // Log the response for debugging
+            },
+            error: function(xhr, status, error) {
+                console.error(error); // Log any errors for debugging
+            }
+        });
+    }
+
+    // Add event listeners to checkboxes
+    document.querySelectorAll('.select-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            handleCheckboxChange(checkbox); // Call the function to handle checkbox change
+        });
+    });
 </script>
 
 

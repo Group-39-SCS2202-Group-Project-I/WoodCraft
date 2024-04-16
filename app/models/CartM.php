@@ -61,7 +61,7 @@ class CartM extends Model
         $this->query($query, $data);
     }
 
-    public function removeItem($productId)
+    public function removeCartItem($productId)
     {
 
         $query = "DELETE FROM $this->table WHERE product_id = :product_id";
@@ -77,11 +77,14 @@ class CartM extends Model
     }
 
     // New method to update the selected column
-    public function updateSelectedStatus($productId, $selected)
-{
-    $query = "UPDATE $this->table SET selected = :selected WHERE product_id = :product_id";
-    $params = array('selected' => $selected, 'product_id' => $productId);
-    $this->query($query, $params);
-}
+
+    public function updateSelectedStatus($productId, $selected) {
+        $query = "UPDATE $this->table SET selected = :selected WHERE product_id = :productId";
+        $params = array(':selected' => $selected, ':productId' => $productId);
+        $this->query($query, $params);
+    }
+    
+    
+
 
 }
