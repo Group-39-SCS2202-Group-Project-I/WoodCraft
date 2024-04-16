@@ -10,8 +10,8 @@
         <!-- Sidebar -->
         <aside id="sidebar">
             <div class="sidebar-title">
-                <div class="sidebar-brand"><span class="material-icons-outlined" style="font-size: 36px; padding-right:5px">living </span> WoodCraft
-                </div>
+                <!-- <div class="sidebar-brand"><span class="material-icons-outlined" style="font-size: 36px; padding-right:5px">living </span> WoodCraft
+                </div> -->
                 <!-- <span class="material-icons-outlined" onclick="closeSidebar()">close</span> -->
             </div>
 
@@ -26,26 +26,20 @@
                             <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Address Book</span></a>
                         </li>
                 </li>
-                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
+                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') || isCurrentPage('manageOrder') ? 'selected' : '' ?>" id="orders-nav">
                     <a href="<?=ROOT?>/customer/orders/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">My Orders</span></a>
 
-                        <!-- <li class="sidebar-list-item nav-btn sub-title" id="returns-nav">
-                            <a id="toreturns"><span style="margin-left: 35px;">My Returns</span></a>
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('retailOrders') ? 'selected' : '' ?>" id="retail-nav">
+                            <a href="<?=ROOT?>/customer/retailOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Retail Orders</span></a>
                         </li>
-                        <li class="sidebar-list-item nav-btn sub-title" id="cancellation-nav">
-                            <a id="tocancellations"><span style="margin-left: 35px;">My Cancellations</span></a>
-                        </li> -->
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                            <a href="<?=ROOT?>/customer/bulkOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Bulk Orders</span></a>
+                        </li>
                 </li>
-                <!-- <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('wishlist') ? 'selected' : '' ?>" id="wishlist-nav">
-                    <a href="<?=ROOT?>/customer/wishlist/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">My Wishlist</span></a>
-                </li> -->
-                <!-- <li class="sidebar-list-item nav-btn main-title" id="reviews-nav">
-                    <a id="toreviews"><span style="margin-left: 5px;">My Reviews</span></a>
-                </li>-->
            
-                <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
+                <!-- <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                     <a href="<?=ROOT?>/<?= Auth::getCustomerId()?>"><span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span></a>
-                </li>
+                </li> -->
             </ul>
         </aside>
 
