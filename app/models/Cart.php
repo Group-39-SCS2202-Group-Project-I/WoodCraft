@@ -1,5 +1,5 @@
 <?php
-class CartM extends Model
+class Cart extends Model
 {
     public $error = [];
     public $table = 'cart';

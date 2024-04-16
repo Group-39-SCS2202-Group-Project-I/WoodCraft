@@ -4,7 +4,7 @@ class CartC extends Controller
 {
     public function index()
     {
-        $cart = new CartM();
+        $cart = new Cart();
         $data['cart'] = $cart->findAll();
         show($_POST);
         if (isset($_POST['action'])) {
@@ -15,7 +15,7 @@ class CartC extends Controller
                     $product = $productCart->getProductsById();
                     $productId = $product[0]->product_id;
 
-                    $cartModel = new CartM();
+                    $cartModel = new Cart();
                     $data['customer_id'] = 1; // Assuming a static customer ID for demonstration
                     $data['product_id'] = $productId;
                     $data['quantity'] = 1;
@@ -35,7 +35,7 @@ class CartC extends Controller
                             $productId = $_POST['productId'];
                             $selected = $_POST['selected'] == 'true' ? 'Yes' : 'No'; // Convert 'true' to 'Yes' and 'false' to 'No'
                             
-                            $cartModel = new CartM();
+                            $cartModel = new Cart();
                             $cartModel->updateSelectedStatus($productId, $selected); // Update selected status in the database
                             
                             echo "Selected item updated successfully.";
@@ -53,7 +53,7 @@ class CartC extends Controller
                         $quantity = $_POST['quantity'];
                         show($_POST);
                         // Update the quantity in the database
-                        $cartModel = new CartM();
+                        $cartModel = new Cart();
                         $cartModel->updateQuantity($productId, $quantity);
 
                         echo "Quantity updated successfully.";
@@ -65,7 +65,7 @@ class CartC extends Controller
                     if (isset($_POST['pid'])) {
                         $productId = $_POST['pid'];
                         
-                        $cartModel = new CartM();
+                        $cartModel = new Cart();
                         $cartModel->removeCartItem($productId);
                         
                         echo "Item removed successfully.";
