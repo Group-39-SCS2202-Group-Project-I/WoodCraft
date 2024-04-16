@@ -176,6 +176,9 @@ class Admin extends Controller
 
 			$delivery = new Delivery();
 			$data['delivery_info'] = $delivery->getDeliveryInfo();
+
+			$data['available_provinces'] = $delivery->getAvailableProvinces();
+			
 			
 			$this->view('admin/delivery', $data);
 		}

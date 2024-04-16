@@ -69,4 +69,30 @@ class Delivery extends Model
 
         return $delivery[0];
     }
+
+    public function getAvailableProvinces()
+    {
+        $db = new Database;
+        $query = "SELECT `province` FROM `available_provinces` WHERE `availability` = 1";
+        $provinces = $db->query($query);
+
+        $provinces = array_map(function ($province) {
+            return $province->province;
+        }, $provinces);
+
+        return $provinces;
+    }
+
+    public function allProvinces()
+    {
+        $db = new Database;
+        $query = "SELECT `province` FROM `available_provinces`";
+        $provinces = $db->query($query);
+
+        $provinces = array_map(function ($province) {
+            return $province->province;
+        }, $provinces);
+
+        return $provinces;
+    }
 }
