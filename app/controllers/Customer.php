@@ -363,11 +363,15 @@ class Customer extends Controller
 
 	private function getOrders($customer_id)
 	{
-		$query = "SELECT od.order_details_id, od.order_type, od.status, od.created_at, oi.quantity, bo.approved
+		$query = "SELECT od.order_details_id, od.order_type, od.status, od.created_at, oi.quantity, bo.approved, 
+						p.name as product_name, pi.image_url as product_image_url
 				FROM order_details od
 				LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
 				LEFT JOIN bulk_order bo ON od.order_details_id = bo.order_details_id
+				LEFT JOIN product p ON oi.product_id = p.product_id
+				LEFT JOIN product_image pi ON p.product_id = pi.product_id
 				WHERE od.user_id = :customer_id
+				GROUP BY od.order_details_id, p.product_id
 				ORDER BY od.created_at DESC";
 
 		$params = array(':customer_id' => $customer_id);
@@ -376,6 +380,7 @@ class Customer extends Controller
 
 		return $result;
 	}
+
 
 	// public function manageOrder($id = '')
 	// {
@@ -399,35 +404,88 @@ class Customer extends Controller
 	// 	}
 	// }
 
+	// public function manageOrder($customer_id = '') {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
+	
+	// 	$data['title'] = "orders-manage";
+	
+	// 	if ($customer_id != '') {
+	// 		// Fetch order details based on the customer_id
+	// 		$url = ROOT . "/fetch/customer/" . $customer_id;
+	// 		$response = file_get_contents($url);
+	// 		$orderDetails = json_decode($response, true);
+	
+	// 		// If order details are found, pass them to the view
+	// 		if ($orderDetails) {
+	// 			$data['orders'] = $orderDetails;
+	// 			$this->view('customer/orders-manage', $data);
+	// 		} else {
+	// 			// Handle case where order details are not found
+	// 			message('Order details not found!');
+	// 			$this->view('customer/orders-manage', $data); // Redirect to orders page or any other suitable page
+	// 		}
+	// 	} else {
+	// 		// Handle case where customer_id is empty
+	// 		message('Customer ID is required!');
+	// 		$this->view('customer/orders', $data); // Redirect to orders page or any other suitable page
+	// 	}
+	// }
+	
 	public function manageOrder($customer_id = '') {
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
 	
-		$data['title'] = "orders-manage";
+		$data['title'] = "Order Details";
 	
 		if ($customer_id != '') {
 			// Fetch order details based on the customer_id
-			$url = ROOT . "/fetch/customer/" . $customer_id;
-			$response = file_get_contents($url);
-			$orderDetails = json_decode($response, true);
+			$orderDetails = $this->getOrderDetails($customer_id);
+			show($orderDetails);
 	
-			// If order details are found, pass them to the view
 			if ($orderDetails) {
-				$data['orders'] = $orderDetails;
+				$data['order'] = $orderDetails;
 				$this->view('customer/orders-manage', $data);
 			} else {
 				// Handle case where order details are not found
 				message('Order details not found!');
-				$this->view('customer/orders-manage', $data); // Redirect to orders page or any other suitable page
+				$this->view('customer/orders-manage', $data); // Redirect
 			}
 		} else {
 			// Handle case where customer_id is empty
 			message('Customer ID is required!');
-			$this->view('customer/orders', $data); // Redirect to orders page or any other suitable page
+			$this->view('customer/orders', $data); // Redirect
 		}
 	}
+	
+	private function getOrderDetails($customer_id) {
+		$query = "SELECT od.order_details_id, od.status, od.created_at, od.updated_at, 
+					IFNULL(bo.bulk_order_id, oi.order_item_id) AS order_id, 
+					od.total, pimg.image_url AS product_image, p.name AS product_name, 
+					p.price AS product_price, oi.quantity, a.address_line_1, a.address_line_2, 
+					a.city, a.zip_code
+				  FROM order_details od
+				  LEFT JOIN bulk_order bo ON od.order_details_id = bo.order_details_id
+				  LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
+				  LEFT JOIN product p ON oi.product_id = p.product_id
+				  LEFT JOIN product_image pimg ON p.product_id = pimg.product_id
+				  LEFT JOIN customer c ON od.customer_id = c.customer_id
+				  LEFT JOIN address a ON c.address_id = a.address_id
+				  WHERE c.customer_id = :customer_id";
+	
+		$params = array(':customer_id' => $customer_id);
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+	
+		return $result;
+	}
+	
+	
+	
 	
 	
 	

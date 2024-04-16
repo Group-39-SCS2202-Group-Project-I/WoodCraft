@@ -12,33 +12,33 @@
 
         <div class="content-manage-orders">
             <div class="content-manage-order">
-                <p>Order</p>
-                <p>Total Cost:</p>
-                <p>Order Date:</p>
+                <p>Order <?php echo $data['order']['order_id']; ?></p>
+                <p>Total Cost: <?php echo $data['order']['total']; ?></p>
+                <p>Order Date: <?php echo $data['order']['created_at']; ?></p>
             </div>
 
             <div class="content-manage-detail">
-                <!-- <p>Order Items</p> -->
-                <!-- <?php foreach ($data['order_items'] as $item) : ?> -->
+                <p>Order Items</p>
+                <?php foreach ($data['order_items'] as $item) : ?>
                     <div class="order-item">
-                        <img src="">
-                        <p>Name:</p>
-                        <p>Cost:</p>
-                        <p>Quantity:</p>
+                        <img src="<?php echo $item['product_image']; ?>" alt="Product Image">
+                        <p>Name: <?php echo $item['product_name']; ?></p>
+                        <p>Cost: <?php echo $item['product_price']; ?></p>
+                        <p>Quantity: <?php echo $item['quantity']; ?></p>
                     </div>
-                <!-- <?php endforeach; ?> -->
+                <?php endforeach; ?>
             </div>
 
             <div class="content-manage-payment">
                 <div class="content-mng-payment">
                     <p>Shipping Address</p>
-                    <!-- <p><?php echo $data['order_details']['shipping_address']; ?></p> -->
+                    <p><?php echo $data['order']['address_line_1']; ?>, <?php echo $data['order']['address_line_2']; ?>, <?php echo $data['order']['city']; ?> <?php echo $data['order']['zip_code']; ?></p>
                 </div>
                 <div class="content-mng">
                     <p>Total Summary</p>
-                    <p>Subtotal:</p>
-                    <p>Delivery Fee:</p>
-                    <p>Total:</p>
+                    <p>Subtotal: <?php echo $data['order']['total']; ?></p>
+                    <p>Delivery Fee: <?php echo $data['order']['delivery_fee']; ?></p>
+                    <p>Total: <?php echo $data['order']['total']; ?></p>
                 </div>
             </div>
         </div>

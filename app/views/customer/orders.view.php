@@ -12,8 +12,66 @@
         }
         .order {
             border: 1px solid #ddd;
-            margin: 10px 0;
+            margin: 20px;
             padding: 10px;
+            width: 100%;
+            position: relative; 
+        }
+        .order::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+        }
+        .status {
+            background-color: #ddd;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .order-info p {
+            margin: 0;
+        }
+        .order-details {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-details p {
+            margin: 0;
+        }
+        .order-info small {
+            font-size: 14px;
+        }
+        .product-details {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .product-details img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 5px;
         }
     </style>
 
@@ -42,28 +100,30 @@
                 </div>
 
                 <div class="content-orders">
-                    <?php if (!empty($orders)) : ?>
-                        <table>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Order Type</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
-                                <th>Creation Date</th>
-                                <th></th>
-                            </tr>
-                            <?php foreach ($orders as $order) : ?>
-                                <tr>
-                                    <td><?= $order['order_details_id'] ?></td>
-                                    <td><?= $order['order_type'] ?></td>
-                                    <td><?= $order['quantity'] ?></td>
-                                    <td><?= $order['status'] ?></td>
-                                    <td><?= $order['created_at'] ?></td>
-                                    <!-- <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>">Manage</a></td> -->
-                                    <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
+                <?php if (!empty($orders)) : ?>
+                        <?php foreach ($orders as $order) : ?>
+                            <div class="order">
+                                <div class="order-header">
+                                    <div class="order-info">
+                                        <p><?= $order['order_type'] ?> order  <strong style="color: blue;"><?= $order['order_details_id'] ?></strong></p>
+                                        <p><small>Placed on <?= $order['created_at'] ?></small></p>
+                                    </div>
+                                    <a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a>
+                                </div>
+                                <!-- <div class="status"><?= $order['status'] ?></div> -->
+                                <div class="order-details">
+                                    <div class="product-details">
+                                        <img src="<?= $order['product_image_url'] ?>" alt="Product Image" width="100" height="100">
+                                        <p><?= $order['product_name'] ?></p>
+                                    </div>
+                                    <!-- <img src="path/to/your/image.jpg" alt="Order Item Image" width="100" height="100"> -->
+                                    <p>Qty: <?= $order['quantity'] ?></p>
+                                    <div class="status"><?= $order['status'] ?></div>
+                                    <!-- <p> <?= $order['status'] ?></p> -->
+                                    <p><small>Updated on  <?= $order['created_at'] ?></small></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     <?php else : ?>
                         <p>No orders found.</p>
                     <?php endif; ?>
