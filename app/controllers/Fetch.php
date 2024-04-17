@@ -49,6 +49,7 @@ class Fetch extends Controller
                         $data['customers'][$key]->address_line_2 = $address->address_line_2;
                         $data['customers'][$key]->city = $address->city;
                         $data['customers'][$key]->zip_code = $address->zip_code;
+                        $data['customers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -86,6 +87,7 @@ class Fetch extends Controller
                         $data['workers'][$key]->address_line_2 = $address->address_line_2;
                         $data['workers'][$key]->city = $address->city;
                         $data['workers'][$key]->zip_code = $address->zip_code;
+                        $data['workers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -141,6 +143,7 @@ class Fetch extends Controller
                         $data['staff'][$key]->address_line_2 = $address->address_line_2;
                         $data['staff'][$key]->city = $address->city;
                         $data['staff'][$key]->zip_code = $address->zip_code;
+                        $data['staff'][$key]->province = $address->province;
                     }
                 }
             }

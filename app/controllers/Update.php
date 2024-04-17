@@ -39,10 +39,12 @@ class Update extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            // $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, province = :province WHERE address_id = $address_id", $address_arr);
 
             show(3);
             // $worker['address_id'] = $address_id;
@@ -109,10 +111,12 @@ class Update extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            // $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code WHERE address_id = $address_id", $address_arr);
+            $db->query("UPDATE address SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, province = :province WHERE address_id = $address_id", $address_arr);
 
             show(3);
 
@@ -516,9 +520,9 @@ class Update extends Controller
         $delivery = new Delivery;
 
         $result = $delivery->validate($_POST);
-        show($result);
+        // show($result);
 
-        show(1);
+        // show(1);
 
         if ($result) {
             $db = new Database;
@@ -530,17 +534,37 @@ class Update extends Controller
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
                 'zip_code' => $_POST['zip_code'],
-                'percentage' => $_POST['percentage']
+                'percentage' => $_POST['percentage'],
+                'province' => $_POST['province']
             ];
 
-            show($delivery_arr);
+            $available_provinces = $_POST['available_provinces'];
+            
+            $available_provinces = explode(",", $available_provinces);
 
-            $db->query("UPDATE delivery SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, percentage = :percentage WHERE id = 1", $delivery_arr);
-            show(3);
+            $delivery = new Delivery();
+            $allProvinces = $delivery->allProvinces();
+
+            foreach ($allProvinces as $province) {
+                $db->query("UPDATE available_provinces SET availability = 0 WHERE province = '$province'");
+            }
+
+            if (isset($available_provinces)) {
+                foreach ($available_provinces as $province) {
+                    $db->query("UPDATE available_provinces SET availability = 1 WHERE province = '$province'");
+                }
+            }
+
+
+            // show($delivery_arr);
+
+            // $db->query("UPDATE delivery SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, percentage = :percentage WHERE id = 1", $delivery_arr);
+            $db->query("UPDATE delivery SET address_line_1 = :address_line_1, address_line_2 = :address_line_2, city = :city, zip_code = :zip_code, percentage = :percentage, province = :province WHERE id = 1", $delivery_arr);
+            // show(3);
             message("Delivery info updated successfully!");
             redirect('admin/delivery');
         } else {
-            show(4);
+            // show(4);
             $data['errors'] = array_merge($delivery->errors);
             show($data['errors']);
 

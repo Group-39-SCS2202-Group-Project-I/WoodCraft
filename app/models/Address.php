@@ -13,7 +13,7 @@ class Address
         "address_line_1",
         "address_line_2",
         "city",
-        "state",
+        "province",
         "zip_code"
     ];
 
@@ -44,6 +44,11 @@ class Address
         else if(strlen($data['zip_code']) != 5)
         {
             $this->errors['zip_code'] = "Zip code must be 5 digits";
+        }
+        
+        if(empty($data['province']))
+        {
+            $this->errors['province'] = "Province is required";
         }
 
 		
