@@ -17,15 +17,6 @@
             width: 100%;
             position: relative; 
         }
-        .order::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: #ddd;
-        }
         .status {
             background-color: #ddd;
             color: black;
@@ -48,6 +39,9 @@
         .order-info p {
             margin: 0;
         }
+        .order-info small {
+            font-size: 14px;
+        }
         .order-details {
             padding: 20px;
             display: flex;
@@ -56,9 +50,6 @@
         }
         .order-details p {
             margin: 0;
-        }
-        .order-info small {
-            font-size: 14px;
         }
         .product-details {
             width: 120px;
@@ -106,7 +97,7 @@
                                     <div class="order-header">
                                         <div class="order-info">
                                             <p>order  <strong style="color: blue;"><?= $orderDetailsId ?></strong></p>
-                                                <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
+                                            <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
                                         </div>
                                         <a href="<?= ROOT ?>/customer/orders/<?= $orderDetailsId ?>">Manage</a>
                                     </div>
