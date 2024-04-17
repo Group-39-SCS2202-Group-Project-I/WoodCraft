@@ -99,35 +99,49 @@
                     </select>
                 </div>
 
+                <?php
+                // Group orders by order_details_id
+                $groupedOrders = [];
+                foreach ($orders as $order) {
+                    $orderDetailsId = $order['order_details_id'];
+                    if (!isset($groupedOrders[$orderDetailsId])) {
+                        $groupedOrders[$orderDetailsId] = [];
+                    }
+                    $groupedOrders[$orderDetailsId][] = $order;
+                }
+                ?>
+
                 <div class="content-orders">
-                <?php if (!empty($orders)) : ?>
-                        <?php foreach ($orders as $order) : ?>
-                            <div class="order">
-                                <div class="order-header">
-                                    <div class="order-info">
-                                        <p> order  <strong style="color: blue;"><?= $order['order_details_id'] ?></strong></p>
-                                        <p><small>Placed on <?= $order['created_at'] ?></small></p>
+                    <?php if (!empty($orders)) : ?>
+                            <?php foreach ($groupedOrders as $orderDetailsId => $orderItems) { ?>
+                                <div class="order">
+                                    <div class="order-header">
+                                        <div class="order-info">
+                                            <p>order  <strong style="color: blue;"><?= $orderDetailsId ?></strong></p>
+                                            <?php if (!empty($orderItems)) : ?>
+                                                <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
+                                            <?php endif; ?>
+                                        </div>
+                                        <a href="<?= ROOT ?>/customer/orders/<?= $orderDetailsId ?>">Manage</a>
                                     </div>
-                                    <a href="<?= ROOT ?>/customer/orders/<?= $order['order_details_id'] ?>">Manage</a>
+                                    <?php foreach ($orderItems as $orderItem) : ?>
+                                        <div class="order-details">
+                                            <div class="product-details">
+                                                <img src="<?= $orderItem['product_image_url'] ?>" alt="Product Image" width="100" height="100">
+                                                <p><?= $orderItem['product_name'] ?></p>
+                                            </div>
+                                            <p>Qty: <?= $orderItem['quantity'] ?></p>
+                                            <div class="status"><?= $orderItem['status'] ?></div>
+                                            <p><small>Updated on  <?= $orderItem['created_at'] ?></small></p>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <!-- <div class="status"><?= $order['status'] ?></div> -->
-                                <div class="order-details">
-                                    <div class="product-details">
-                                        <img src="<?= $order['product_image_url'] ?>" alt="Product Image" width="100" height="100">
-                                        <p><?= $order['product_name'] ?></p>
-                                    </div>
-                                    <!-- <img src="path/to/your/image.jpg" alt="Order Item Image" width="100" height="100"> -->
-                                    <p>Qty: <?= $order['quantity'] ?></p>
-                                    <div class="status"><?= $order['status'] ?></div>
-                                    <!-- <p> <?= $order['status'] ?></p> -->
-                                    <p><small>Updated on  <?= $order['created_at'] ?></small></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php } ?>
                     <?php else : ?>
                         <p>No orders found.</p>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
     </main>

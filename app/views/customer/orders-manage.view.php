@@ -10,11 +10,11 @@
             <h2>Order Details</h2>
         </div>
 
-        <!-- <div class="content-manage-orders">
+        <div class="content-manage-orders">
             <div class="content-manage-order">
-                <p>Order <?php echo $data['order']['order_id']; ?></p>
-                <p>Total Cost: <?php echo $data['order']['total']; ?></p>
-                <p>Order Date: <?php echo $data['order']['created_at']; ?></p>
+                <p>Order</p>
+                <p>Total Cost:</p>
+                <p>Order Date:</p>
             </div>
 
             <div class="content-manage-detail">
@@ -41,7 +41,7 @@
                     <p>Total: <?php echo $data['order']['total']; ?></p>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 </main>

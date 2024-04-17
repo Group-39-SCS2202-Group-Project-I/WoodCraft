@@ -334,7 +334,7 @@ class Customer extends Controller
 		$this->view('customer/edit-address', $data);
 	}
 
-	public function orders($id = '')
+	public function orders($order_id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -349,8 +349,8 @@ class Customer extends Controller
 		// $customer = [];
 		$customer = null; 
 
-		if ($id == '') {
-			$url = ROOT . "/fetch/customers/" . $id;
+		if ($order_id == '') {
+			$url = ROOT . "/fetch/customers/" . $order_id;
 			$response = file_get_contents($url);
 			$customer = json_decode($response, true);
 
@@ -372,12 +372,13 @@ class Customer extends Controller
 					LEFT JOIN product_image pi ON p.product_id = pi.product_id
 					LEFT JOIN customer c ON od.user_id = c.user_id
 					LEFT JOIN address a ON c.address_id = a.address_id
-					WHERE od.order_details_id = :id";
+					WHERE od.order_details_id = :id
+					GROUP BY od.order_details_id, p.product_id";
 
-					$params = array(':id' => $id);
+					$params = array(':id' => $order_id);
 					$db = new Database;
 					$result = $db->query($query, $params, PDO::FETCH_ASSOC);
-					// show($result);
+					show($result);
 
 					$data['order'] = $result;
 					$this->view('customer/orders-manage', $data);
