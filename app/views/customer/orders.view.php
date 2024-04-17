@@ -105,10 +105,10 @@
                             <div class="order">
                                 <div class="order-header">
                                     <div class="order-info">
-                                        <p><?= $order['order_type'] ?> order  <strong style="color: blue;"><?= $order['order_details_id'] ?></strong></p>
+                                        <p> order  <strong style="color: blue;"><?= $order['order_details_id'] ?></strong></p>
                                         <p><small>Placed on <?= $order['created_at'] ?></small></p>
                                     </div>
-                                    <a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a>
+                                    <a href="<?= ROOT ?>/customer/orders/<?= $order['order_details_id'] ?>">Manage</a>
                                 </div>
                                 <!-- <div class="status"><?= $order['status'] ?></div> -->
                                 <div class="order-details">
@@ -131,6 +131,47 @@
             </div>
         </div>
     </main>
+
+    <script>
+    // Get the select element
+    var selectDisplayOptions = document.getElementById("display-options");
+
+    // Add event listener to handle selection change
+    selectDisplayOptions.addEventListener("change", function() {
+        // Get the selected value
+        var selectedValue = this.value;
+
+        // Get all rows in the table body
+        var tableRows = document.querySelectorAll(".content-orders table tr");
+
+        // Loop through each row
+        for (var i = 1; i < tableRows.length; i++) {
+            // Show or hide rows based on the selected value
+            switch (selectedValue) {
+                case "last-5":
+                    // Loop through each row starting from the last row
+                    for (var i = tableRows.length - 1; i >= 0; i--) {
+                        // Calculate the index of the row relative to the end of the table
+                        var reverseIndex = tableRows.length - 1 - i;
+
+                        // Show or hide rows based on their position relative to the end of the table
+                        if (reverseIndex < 5) {
+                            tableRows[i].style.display = "table-row";
+                        } else {
+                            tableRows[i].style.display = "none";
+                        }
+                    }
+                    break;
+                case "all-orders":
+                    // Show all rows
+                    tableRows[i].style.display = "table-row";
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+</script>
 
 </body>
 

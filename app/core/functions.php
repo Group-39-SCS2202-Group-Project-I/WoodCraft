@@ -90,18 +90,6 @@ function esc($str){
     return nl2br(htmlspecialchars($str));
 }
 
-function get_value($key, $default = ''){
-    if(isset($_POST[$key])){
-        return $_POST[$key];
-    } elseif(isset($data[$key])) {
-        return $data[$key];
-    } elseif(!empty($default)){
-        return $default;
-    }
-
-    return '';
-}
-
 function sanitize($input)
 {
     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');

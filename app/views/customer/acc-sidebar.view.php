@@ -27,7 +27,7 @@
                         </li>
                 </li>
                 <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') || isCurrentPage('manageOrder') ? 'selected' : '' ?>" id="orders-nav">
-                    <a href="<?=ROOT?>/customer/orders/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">My Orders</span></a>
+                    <a href="<?=ROOT?>/customer/orders"><span style="margin-left: 5px;">My Orders</span></a>
 
                         <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('retailOrders') ? 'selected' : '' ?>" id="retail-nav">
                             <a href="<?=ROOT?>/customer/retailOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Retail Orders</span></a>
