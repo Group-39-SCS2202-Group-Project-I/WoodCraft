@@ -98,19 +98,7 @@
                         <option value="bulk-orders">Bulk orders</option>
                     </select>
                 </div>
-
-                <?php
-                // Group orders by order_details_id
-                $groupedOrders = [];
-                foreach ($orders as $order) {
-                    $orderDetailsId = $order['order_details_id'];
-                    if (!isset($groupedOrders[$orderDetailsId])) {
-                        $groupedOrders[$orderDetailsId] = [];
-                    }
-                    $groupedOrders[$orderDetailsId][] = $order;
-                }
-                ?>
-
+                
                 <div class="content-orders">
                     <?php if (!empty($orders)) : ?>
                             <?php foreach ($groupedOrders as $orderDetailsId => $orderItems) { ?>
@@ -118,9 +106,7 @@
                                     <div class="order-header">
                                         <div class="order-info">
                                             <p>order  <strong style="color: blue;"><?= $orderDetailsId ?></strong></p>
-                                            <?php if (!empty($orderItems)) : ?>
                                                 <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
-                                            <?php endif; ?>
                                         </div>
                                         <a href="<?= ROOT ?>/customer/orders/<?= $orderDetailsId ?>">Manage</a>
                                     </div>
