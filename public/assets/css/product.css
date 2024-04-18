@@ -19,7 +19,6 @@
   }
 
   body{
-    background-color: #d1d1d1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +34,7 @@
   }
 
   /* Breadcrumbs */
-  .breadcrumbs {
+  /* .breadcrumbs {
     display: flex;
     font-size: 14px;
     color: #777;
@@ -50,7 +49,43 @@
   
   .breadcrumbs a:hover {
     color: #333;
-  }
+  } */
+
+  .breadcrumbs {
+    margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+.breadcrumb {
+    padding: 8px 15px;
+    border-radius: 4px;
+    display: flex;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    margin-right: 5px; /* Adjust spacing between breadcrumb items */
+    color: var(--green);
+}
+
+.breadcrumb-item a{
+  color: var(--coal_black);
+}
+
+.breadcrumb-item a:hover{
+  color: var(--green);
+}
+
+.breadcrumb-item:last-child {
+    font-weight: bold; /* Style the last breadcrumb item differently (e.g., bold) */
+}
+
+.breadcrumb-item::after {
+    content: '>'; /* Separator symbol */
+    margin-left: 5px;
+    margin-right: 5px;
+    color: var(--green); /* Color of separator */
+}
+
   
   .separator {
     text-align: center;
@@ -87,6 +122,10 @@
 
   .product-image img {
     width: 400px;
+  }
+
+  .product-image-grid .selected-image {
+    border: 2px solid var(--green); /* Change color to your desired border color */
   }
 
   /* Product Details */
@@ -199,7 +238,6 @@
   }
   
   .amount-selector .label {
-    font-size: 14px;
     margin-right: 10px;
   }
   
@@ -208,7 +246,7 @@
     background-color:  #F0F0F0;
     outline: none;
     border-radius: 18px 0 0 18px;
-    padding: 10px 15px;
+    padding: 8px 15px;
     cursor: pointer;
   }
 
@@ -217,7 +255,7 @@
     background-color:  #F0F0F0;
     outline: none;
     border-radius: 0 18px 18px 0;
-    padding: 10px 15px;
+    padding: 8px 15px;
     cursor: pointer;
   }
   
@@ -236,7 +274,7 @@
   }
   
   .product-details {
-    padding: 20px;
+    padding: 50px;
   }
   
   .product-details h3 {
@@ -247,11 +285,18 @@
   .product-details p {
     margin-bottom: 15px;
   }
+
+  .product-specifications {
+    padding-left: 40px;
+  }
+
+  .rating-reviews {
+    padding: 50px;
+  }
   
   .reviews {
     padding: 10px 20px;
-    border-top: 1px solid #ddd;
-    margin-bottom: 20px;
+
   }
   
   .review {
@@ -268,3 +313,123 @@
     font-size: 12px;
     color: #999;
   }
+
+  .review-analyzer-container {
+    border: 1px solid #ddd;
+    width: 70%;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.review-analyzer {
+    display: flex;
+}
+
+.left-side {
+    width: 40%;
+}
+
+.right-side {
+  width: 60%;
+  margin-top: 30px;
+}
+
+.divider {
+    width: 1px;
+    border-left: px solid #ddd;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.average-rating {
+    font-size: 54px;
+    font-weight: bold;
+    color: #ffc107; /* Yellow color for average rating */
+    margin-bottom: 10px;
+}
+
+.average-info {
+  display: flex;
+  flex-direction: column;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    padding: 0 20px;
+    margin-right: 40px;
+}
+
+.average-star-rating {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  color: #ffc107;
+  margin-bottom: 10px;
+}
+
+.average-star-rating i {
+  margin-right: 5px;
+}
+
+.star-ratings {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 20px; /* Add spacing between rating items */
+}
+
+.stars {
+    width: 80px;
+}
+
+.rating-bar {
+    width: 100px; /* Adjust width of rating bars */
+    height: 10px;
+    background-color: #ffc107; /* Gray color for uncolored portion */
+    border-radius: 4px 0 0 4px; /* Rounded corners for left side */
+    overflow: hidden;
+}
+
+.rating-bar-remaining {
+    width: 100px; /* Adjust width of remaining bars */
+    height: 10px;
+    background-color: #6c757d; /* Gray color for uncolored portion */
+    border-radius: 0 4px 4px 0; /* Rounded corners for right side */
+    overflow: hidden;
+}
+
+.faq-container {
+  max-width: 100%;
+  padding: 50px;
+  background-color: #fff;
+}
+
+.faq {
+  border-bottom: 1px solid #ccc;
+  padding: 20px 0;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.question h3 {
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+.answer {
+  margin-top: 10px;
+}
+
+.material-icons {
+  font-size: 24px;
+  vertical-align: middle;
+}

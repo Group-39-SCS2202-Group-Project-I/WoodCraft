@@ -91,7 +91,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let role = item.role.toUpperCase();
                                     let email = item.email;
                                     let mobile_number = item.mobile_number;
-                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> " + item.zip_code;
+                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> "+item.province +' Province.<br>' + item.zip_code;
                                     // let updated_at = item.updated_at;
 
                                     row.insertCell().innerHTML = staff_id;
@@ -221,6 +221,67 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
                     <input value="<?php echo $form_data['city'] ?>" type="text" id="city" name="city" class="form-input input-popup">
+                </div>
+
+                <?php if (!empty($errors['province'])) : ?>
+                    <p class="validate-mzg"><?= $errors['province'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="province" class="form-label label-popup">Province</label>
+                    <!-- 'Central','Eastern','North Central','Northern','North Western','Sabaragamuwa','Southern','Uva','Western' -->
+                    <select id="province" name="province" class="form-select input-popup">
+                        <?php if (empty($form_data['province'])) : ?>
+                            <option value="" selected disabled>Select Province</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Province</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Central') : ?>
+                            <option value="Central" selected>Central</option>
+                        <?php else : ?>
+                            <option value="Central">Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Eastern') : ?>
+                            <option value="Eastern" selected>Eastern</option>
+                        <?php else : ?>
+                            <option value="Eastern">Eastern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Central') : ?>
+                            <option value="North Central" selected>North Central</option>
+                        <?php else : ?>
+                            <option value="North Central">North Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Northern') : ?>
+                            <option value="Northern" selected>Northern</option>
+                        <?php else : ?>
+                            <option value="Northern">Northern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Western') : ?>
+                            <option value="North Western" selected>North Western</option>
+                        <?php else : ?>
+                            <option value="North Western">North Western</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Sabaragamuwa') : ?>
+                            <option value="Sabaragamuwa" selected>Sabaragamuwa</option>
+                        <?php else : ?>
+                            <option value="Sabaragamuwa">Sabaragamuwa</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Southern') : ?>
+                            <option value="Southern" selected>Southern</option>
+                        <?php else : ?>
+                            <option value="Southern">Southern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Uva') : ?>
+                            <option value="Uva" selected>Uva</option>
+                        <?php else : ?>
+                            <option value="Uva">Uva</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Western') : ?>
+                            <option value="Western" selected>Western</option>
+                        <?php else : ?>
+                            <option value="Western">Western</option>
+                        <?php endif; ?>
+                    </select>
+
                 </div>
 
                 <?php if (!empty($errors['zip_code'])) : ?>
@@ -371,6 +432,65 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <input value="<?php echo $form_data['city'] ?>" type="text" id="city_update" name="city" class="form-input input-popup">
                 </div>
 
+                <?php if (!empty($errors['province'])) : ?>
+                    <p class="validate-mzg"><?= $errors['province'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="province" class="form-label label-popup">Province</label>
+                    <select id="province_update" name="province" class="form-select input-popup">
+                        <?php if (empty($form_data['province'])) : ?>
+                            <option value="" selected disabled>Select Province</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Province</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Central') : ?>
+                            <option value="Central" selected>Central</option>
+                        <?php else : ?>
+                            <option value="Central">Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Eastern') : ?>
+                            <option value="Eastern" selected>Eastern</option>
+                        <?php else : ?>
+                            <option value="Eastern">Eastern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Central') : ?>
+                            <option value="North Central" selected>North Central</option>
+                        <?php else : ?>
+                            <option value="North Central">North Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Northern') : ?>
+                            <option value="Northern" selected>Northern</option>
+                        <?php else : ?>
+                            <option value="Northern">Northern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Western') : ?>
+                            <option value="North Western" selected>North Western</option>
+                        <?php else : ?>
+                            <option value="North Western">North Western</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Sabaragamuwa') : ?>
+                            <option value="Sabaragamuwa" selected>Sabaragamuwa</option>
+                        <?php else : ?>
+                            <option value="Sabaragamuwa">Sabaragamuwa</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Southern') : ?>
+                            <option value="Southern" selected>Southern</option>
+                        <?php else : ?>
+                            <option value="Southern">Southern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Uva') : ?>
+                            <option value="Uva" selected>Uva</option>
+                        <?php else : ?>
+                            <option value="Uva">Uva</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Western') : ?>
+                            <option value="Western" selected>Western</option>
+                        <?php else : ?>
+                            <option value="Western">Western</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
                 <?php if (!empty($errors['zip_code'])) : ?>
                     <p class="validate-mzg"><?= $errors['zip_code'] ?></p>
                 <?php endif; ?>
@@ -412,6 +532,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     document.getElementById('address_line_2_update').value = data.address_line_2;
                     document.getElementById('city_update').value = data.city;
                     document.getElementById('zip_code_update').value = data.zip_code;
+                    document.getElementById('province_update').value = data.province;
 
                 })
                 .catch(error => console.error(error));

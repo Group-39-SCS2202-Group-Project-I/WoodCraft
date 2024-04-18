@@ -1,4 +1,4 @@
-<!-- 
+<?php
 
 /**
  * authentication class
@@ -151,17 +151,17 @@ class Auth
         return $_SESSION['USER_DATA']->user_id;
     }
 
-    public static function getCustomerID()
-    {
-        $userID = $_SESSION['USER_DATA']->user_id;
+    // public static function getCustomerID()
+    // {
+    //     $userID = $_SESSION['USER_DATA']->user_id;
 
-        $db = new Database;
-        $query = "SELECT * FROM customer WHERE user_id = $userID";
+    //     $db = new Database;
+    //     $query = "SELECT * FROM customer WHERE user_id = $userID";
 
-        $customer = $db->query($query);
+    //     $customer = $db->query($query);
 
-        return $customer[0]->customer_id;
-    }
+    //     return $customer[0]->customer_id;
+    // }
 
     public static function getCustomerName()
     {
@@ -179,32 +179,6 @@ class Auth
         // return $customer[0];
     }
 
-
-    
-	
-}  -->
-<?php
-
-class Auth
-{
-    public static function authenticate($row)
-    {
-        if (is_object($row)) {
-            $_SESSION['USER_DATA'] = $row;
-        }
-    }
-
-    public static function logout()
-    {
-        if (!empty($_SESSION['USER_DATA'])) {
-            unset($_SESSION['USER_DATA']);
-        }
-    }
-
-    public static function logged_in()
-    {
-        return isset($_SESSION['USER_DATA']);
-    }
 
     public static function is_role($role)
     {

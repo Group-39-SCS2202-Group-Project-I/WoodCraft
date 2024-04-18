@@ -49,8 +49,11 @@
                                     let address_line_1 = item.address_line_1;
                                     let address_line_2 = item.address_line_2;
                                     let city = item.city;
+                                    // let zip_code = item.zip_code;
+                                    let province = item.province;
 
-                                    let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
+                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> "+item.province +' Province.<br>' + item.zip_code;
+
 
                                     row.insertCell().innerHTML = customer_id;
                                     row.insertCell().innerHTML = name;

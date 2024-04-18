@@ -1,11 +1,6 @@
 <?php
-$production = $data['production'];
-$workers = $data['workers'];
-$materials = $data['materials'];
 
-// show($production);
-// show($workers);
-// show($materials);
+// show($data);
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +9,7 @@ $materials = $data['materials'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>)</title>
+    <title>Production Report (<?= $data['start_date'] . ' - ' . $data['end_date']  ?>)</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
@@ -338,7 +333,7 @@ $materials = $data['materials'];
         }
 
         .py-10 {
-            padding-top: 1rem;
+            padding-top: 2.5rem;
             padding-bottom: 2.5rem;
         }
 
@@ -445,16 +440,6 @@ $materials = $data['materials'];
             color: #6D9886;
         }
 
-        .cent {
-            font-size: 20px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
-
         /* .sidebar-brand span {
             color: #404040;
         } */
@@ -506,13 +491,25 @@ $materials = $data['materials'];
                                     <table class="border-collapse border-spacing-0">
                                         <tbody>
                                             <tr>
-                                                <td class="pr-4">
+                                                <td class="border-r pr-4">
                                                     <div>
-                                                        <p class="whitespace-nowrap text-slate-400 text-right">Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>) </p>
+                                                        <p class="whitespace-nowrap text-slate-400 text-right">Production Report</p>
                                                         <!-- <p class="whitespace-nowrap font-bold text-main text-right">April 26, 2023</p> -->
                                                     </div>
                                                 </td>
+                                                <td class="pl-4">
+                                                    <div>
+                                                        <p class="whitespace-nowrap text-slate-400 text-right">Start Date #</p>
+                                                        <p class="whitespace-nowrap font-bold text-main text-right"><?= $data['start_date'] ?></p>
+                                                    </div>
+                                                </td>
 
+                                                <td class="pl-4">
+                                                    <div>
+                                                        <p class="whitespace-nowrap text-slate-400 text-right">End Date #</p>
+                                                        <p class="whitespace-nowrap font-bold text-main text-right"><?= $data['end_date'] ?></p>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -539,173 +536,56 @@ $materials = $data['materials'];
                             </td>
                             <td class="w-1/2 align-top text-right">
                                 <div class="text-sm text-neutral-600">
-                                    <p class="font-bold">Production ID : <?= "PXN-" . str_pad($production->production_id, 3, '0', STR_PAD_LEFT) ?></p>
-                                    <p>Product ID : <?= "PRD-" . str_pad($production->product_id, 3, '0', STR_PAD_LEFT) ?></p>
-                                    <p>Product Name : <?= $production->name ?></p>
-                                    <p>Quantity : <?= $production->quantity ?></p>
-                                    <p>Status : <?= ucfirst($production->status) ?></p>
-                                    <p>Started : <?= $production->created_at ?></p>
-                                    <?php
-                                    if ($production->status == 'completed') {
-                                    ?>
-                                        <p>Completed : <?= $production->updated_at ?></p>
-                                    <?php
-                                    }
-                                    ?>
-
+                                    <p class="font-bold">No of productions : <?= $data['count'] ?></p>
+                                    <!-- <p class="font-bold">Customer Company</p>
+                                    <p>Number: 123456789</p>
+                                    <p>VAT: 23456789</p>
+                                    <p>9552 Vandervort Spurs</p>
+                                    <p>Paradise, 43325</p>
+                                    <p>United States</p> -->
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <!--  -->
-            <div class="px-14 py-6">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-full align-top">
-                                <div class="sidebar-brand cent">
-                                    Materials
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
 
             <div class="px-14 py-10 text-sm text-neutral-700">
                 <table class="w-full border-collapse border-spacing-0">
                     <thead class="py-10">
                         <tr>
+
+                            <!-- [production_id] => 1
+                    [product_id] => 1
+                    [quantity] => 10
+                    [status] => completed
+                    [created_at] => 2024-01-28 20:30:39
+                    [updated_at] => 2024-01-28 20:47:02
+                    [product_name] => MICKE Desk -->
                             <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material Name</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Stock ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Price Per Unit</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Production ID</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Product ID</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Product Name
                             <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Quantity</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Total</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Started</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Completed</td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
+                        $pxn = $data['pxn'];
                         $i = 1;
-                        foreach ($materials as $material) : ?>
+                        // show($pxn);
+
+                        foreach ($pxn as $production) : ?>
                             <tr>
                                 <td class="border-b py-3 pl-3"><?= $i++ ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "MAT-" . str_pad($material['material_id'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['material_name'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "STK-" . str_pad($material['stock_no'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['price_per_unit'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['quantity'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['cost'] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-
-
-
-
-                        <tr>
-                            <td colspan="7">
-                                <table class="w-full border-collapse border-spacing-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="w-full"></td>
-                                            <td>
-                                                <table class="w-full border-collapse border-spacing-0">
-                                                    <tbody>
-                                                        <!-- <tr>
-                                                            <td class="border-b p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">Net total:</div>
-                                                            </td>
-                                                            <td class="border-b p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main">$320.00</div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
-                                                            </td>
-                                                            <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main">$64.00</div>
-                                                            </td>
-                                                        </tr> -->
-                                                        <tr>
-                                                            <td class="bg-main p-3">
-                                                                <div class="whitespace-nowrap font-bold text-white">Total Material Cost :</div>
-                                                            </td>
-                                                            <td class="bg-main p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['total_cost'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <!--  -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- <div class="px-14 text-sm text-neutral-700">
-                <p class="text-main font-bold">PAYMENT DETAILS</p>
-                <p>Banks of Banks</p>
-                <p>Bank/Sort Code: 1234567</p>
-                <p>Account Number: 123456678</p>
-                <p>Payment Reference: BRA-00335</p>
-            </div> -->
-
-            <!--  -->
-            <div class="px-14 py-6">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-full align-top">
-                                <div class="sidebar-brand cent">
-                                    Workers
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-
-
-            <div class="px-14 py-10 text-sm text-neutral-700">
-                <table class="w-full border-collapse border-spacing-0">
-                    <thead class="py-10">
-                        <tr>
-                            <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker Name</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Role</td>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-
-                        $i = 1;
-
-
-                        foreach ($workers as $worker) : ?>
-                            <tr>
-                                <td class="border-b py-3 pl-3"><?= $i++ ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "WRK-" . str_pad($worker['worker_id'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['first_name']) . " " . ucfirst($worker['last_name']) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['worker_role']) ?></td>
-                            </tr>
+                                <td class="border-b py-3 pl-2 text-center"><?= "PXN-" . str_pad($production['production_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= "PRD-" . str_pad($production['product_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $production['product_name'] ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $production['quantity'] ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $production['created_at'] ?></td>
+                                <td class="border-b py-3 pl-2  text-center"><?= $production['updated_at'] ?></td>
                             </tr>
 
                         <?php endforeach; ?>
@@ -724,34 +604,26 @@ $materials = $data['materials'];
                                                     <tbody>
                                                         <tr>
                                                             <td class="border-b p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Supervisors:</div>
+                                                                <div class="whitespace-nowrap text-slate-400">Net total:</div>
                                                             </td>
                                                             <td class="border-b p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_sup'] ?></div>
+                                                                <div class="whitespace-nowrap font-bold text-main">$320.00</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Carpenters:</div>
+                                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
                                                             </td>
                                                             <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_car'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Painters:</div>
-                                                            </td>
-                                                            <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_paint'] ?></div>
+                                                                <div class="whitespace-nowrap font-bold text-main">$64.00</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="bg-main p-3">
-                                                                <div class="whitespace-nowrap font-bold text-white">No of Workers:</div>
+                                                                <div class="whitespace-nowrap font-bold text-white">Total:</div>
                                                             </td>
                                                             <td class="bg-main p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['workers_count'] ?></div>
+                                                                <div class="whitespace-nowrap font-bold text-white">$384.00</div>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -761,50 +633,36 @@ $materials = $data['materials'];
                                     </tbody>
                                 </table>
                             </td>
-                        </tr>  -->
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="bg-slate-100 px-14 py-6 text-sm">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-1/2 align-top">
-                                <div class="text-sm text-neutral-600">
-                                    <!-- <p class="font-bold">Supplier Company INC</p> -->
-                                    <p>No of Supervisors: <?= $data['no_sup'] ?></p>
-                                    <p>No of Carpenters: <?= $data['no_car'] ?></p>
-                                    <p>No of Painters: <?= $data['no_paint'] ?></p>
-                                    <p class="font-bold">Total Workers: <?= $data['workers_count'] ?></p>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <!--  -->
+            <!-- <div class="px-14 text-sm text-neutral-700">
+                <p class="text-main font-bold">PAYMENT DETAILS</p>
+                <p>Banks of Banks</p>
+                <p>Bank/Sort Code: 1234567</p>
+                <p>Account Number: 123456678</p>
+                <p>Payment Reference: BRA-00335</p>
+            </div> -->
 
             <!-- <div class="px-14 py-10 text-sm text-neutral-700">
                 <p class="text-main font-bold">Notes</p>
                 <p class="italic">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries
                     for previewing layouts and visual mockups.</p>
-            </div> -->
+                </div> -->
 
-            <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
-                Woodcraft Furnitures
-                <span class="text-slate-300 px-2">|</span>
-                info@company.com
-                <span class="text-slate-300 px-2">|</span>
-                +1-202-555-0106
-            </footer>
+                <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
+                    Woodcraft Furnitures
+                    <span class="text-slate-300 px-2">|</span>
+                    info@company.com
+                    <span class="text-slate-300 px-2">|</span>
+                    +1-202-555-0106
+                </footer>
+            </div>
         </div>
-    </div>
 
-    <button id="printButton" class="print-button">Print</button>
+        <button id="printButton" class="print-button">Print</button>
 </body>
 
 <script>
@@ -814,6 +672,7 @@ $materials = $data['materials'];
         window.print();
         printBtn.style.display = 'block';
     });
+    
 </script>
 
 

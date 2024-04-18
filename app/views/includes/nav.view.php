@@ -1,39 +1,59 @@
 <?php 
-$cartItemCount = // logic to get the count of items in the cart;
+$cartItemCount = 0;// logic to get the count of items in the cart;
 $data['cartItemCount'] = $cartItemCount;
 ?>
 
-<nav class="nav-main">
-    <div class="logo"><img src="<?php echo ROOT ?>/assets/images/Logo_green.png"></div>
-    <div class="nav-item">
-        <li><a id="tohome">Home</a></li>
-        <li><a id="toproducts">Shop</a></li>
-        <li><a id="toabout">About Us</a></li>
-        <li><a id="tocontact">Contact Us</a></li>
-    </div>
-    <div class="nav-items-right">
+    <nav class="nav-main">
+        <div class="logo"><img src="<?php echo ROOT ?>/assets/images/Logo_green.png"></div>
+        <div class="nav-item">
+            <li><a id="tohome">Home</a></li>
+            <li><a id="toproducts">Shop</a></li>
+            <li><a id="toabout">About Us</a></li>
+            <li><a id="tocontact">Contact Us</a></li>
+        </div>
+        <div class="nav-items-right">
         <form class="search-form" action="#">
-            <div class="search-hidden">
-                <span class="search-icon-hidden fas fa-search"></span>
-            </div>
-            <div class="search">
-                <span class="search-icon fas fa-search"></span>
-                <input type="search" class="search-item" placeholder="Search for products.." required>
-            </div>
-        </form>
-        <li>
+                <div class="search-hidden">
+                <span class="search-icon-hidden material-symbols-outlined">search</span>
+                </div>
+                <div class="search">
+                    <span class="search-icon material-symbols-outlined">search</span>
+                    <input type="search" class="search-item" placeholder="Search for products.." required>
+                </div>
+            </form> 
+            <li>
+                <a id="tocart">
 
-            <a id="tocart">
-                <a href="#" class="fas fa-shopping-cart" aria-hidden="true"></a>
-                <span id="tocart" class="fas fa-shopping-cart" style="color: white;"></span>
+                <span class="material-symbols-outlined">shopping_cart</span>
                 <span id="tocart" class="cart-badge"><?php echo $cartItemCount ?></span>
-
-            </a>
-
-            <!-- <ul class="dropdown-menu hidden">
+                </a>
+                <ul class="dropdown-menu hidden">
                   <li class="empty">Your cart is empty.</li>
-                </ul> -->
+                </ul>
         </li>
+
+        <!-- <li>
+                <a href="#">
+                <span class="material-symbols-outlined">account_circle</span>
+                  <span>Profile</span>
+                </a>
+                <ul class="dropdown-menu hidden">
+                  <li id="toprofile"><a>My Account</a></li>
+                  <li><a href="#">Orders</a></li>
+                  <li><a href="#">Wishlist</a></li>
+                  <li>
+                    <button id="tologin">Login</button>
+                  </li>
+                  <li id="logout">
+                    <button>Logout</button>
+                  </li>
+                  <hr>
+                  <li>
+                    <span>not registered yet?</span>
+                    <button id="toregister">Signup</button>
+                  </li>
+                </ul>
+            </li> -->
 
         <?php if(!Auth::logged_in()):?>
         <li><a id="tologin">Login</a></li>
@@ -41,12 +61,15 @@ $data['cartItemCount'] = $cartItemCount;
         <?php else:?>
         <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getCustomerName()?></span></a>
             <ul class="dropdown-menu hidden">
-                <li><a id="tomanage-acc">Manage My Account</a></li>
+                <li><a id="tomanage-acc">My Account</a></li>
                 <li><a id="toorders">My Orders</a></li>
-                <li><a id="towishlist">My Wishlist</a></li>
-                <li><a id="toreviews"><span>My Reviews</span></a></li>
-                <li><a id="toreturns"><span>My Returns & Cancellations</span></a></li>
-                <li><a id="tohome"><span>LogOut</span></a></li>
+                <!-- <li><a id="towishlist">My Wishlist</a></li> -->
+                <li><a id="toreviews">My Reviews</a></li>
+                <li><a id="toreturns">My Returns</a></li>
+                <hr>
+                <li id="tologout">
+                    <button>Logout</button>
+                </li>
             </ul>
         </li>
         <?php endif;?>
@@ -113,6 +136,9 @@ $data['cartItemCount'] = $cartItemCount;
             case 'tologin':
                 window.location.href = '<?= ROOT ?>/login';
                 break;
+            // case 'tologout':
+            //     window.location.href = '<?= ROOT ?>/logout';
+            //     break;
             case 'toorders':
                 window.location.href = '<?= ROOT ?>/customer/orders';
                 break;
@@ -129,6 +155,17 @@ $data['cartItemCount'] = $cartItemCount;
                 break;
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // Find the logout button
+            const logoutButton = document.querySelector('#tologout button');
+
+            // Add a click event listener to the logout button
+            logoutButton.addEventListener('click', function() {
+                // Perform a direct navigation to a URL that will trigger logout
+                window.location.href = '<?= ROOT ?>/logout';
+            });
+        });
     </script>
 
 

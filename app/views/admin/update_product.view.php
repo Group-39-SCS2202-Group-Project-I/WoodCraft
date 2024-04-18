@@ -15,7 +15,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     $url = ROOT . "/fetch/product/$product_id";
     $response = file_get_contents($url);
     $product = json_decode($response, true);
-
     // show($product);
 
     $form_data = $product;
@@ -37,7 +36,6 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
         flex-wrap: wrap;
         justify-content: space-between;
         gap: 20px;
-        /* Add some space between form sections */
     }
 </style>
 
@@ -109,6 +107,15 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
                 <input value="<?php echo $form_data['price'] ?>" class="page-input" type="text" id="price" name="price">
             </div>
 
+            <!-- bulkmin -->
+            <?php if (!empty($errors['bulkmin'])) : ?>
+                <p class="validate-mzg"><?= $errors['bulkmin'] ?></p>
+            <?php endif; ?>
+            <div class="form-group">
+                <label class="page-label" for="bulkmin">Minimun Qty for Bulk Orders:</label>
+                <input value="<?php echo isset($form_data['bulkmin']) ? $form_data['bulkmin'] : 10 ?>" class="page-input" type="number" id="bulkmin" name="bulkmin" min="10">
+            </div>
+
 
             <div>
                 <?php if (!empty($errors['height'])) : ?>
@@ -124,6 +131,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
                     <p class="validate-mzg" style="width: 100%;"><?= $errors['weight'] ?></p>
                 <?php endif; ?>
             </div>
+
             <div class="form-group">
                 <!-- height, width, length, weight -->
 

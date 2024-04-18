@@ -13,6 +13,7 @@ class Product extends Model
         "product_inventory_id",
         "product_measurement_id",
         "price",
+        "bulkmin",
         "created_at",
         "updated_at",
         "deleted_at",
@@ -42,6 +43,13 @@ class Product extends Model
             $this->errors['price'] = "Product price must be numeric";
         } else if ($data['price'] < 0) {
             $this->errors['price'] = "Product price must be greater than 0";
+        }
+        if (empty($data['bulkmin'])) {
+            $this->errors['bulkmin'] = "This field is required";
+        } else if (!is_numeric($data['bulkmin'])) {
+            $this->errors['bulkmin'] = "Value must be numeric";
+        } else if ($data['bulkmin'] < 10) {
+            $this->errors['bulkmin'] = "Value must be greater than or equal to 10";
         }
         //product_category_id
         if (empty($data['product_category_id'])) {

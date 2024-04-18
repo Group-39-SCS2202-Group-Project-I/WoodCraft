@@ -5,12 +5,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
     $errors = $_SESSION['errors'];
     $form_data = $_SESSION['form_data'];
 
-    // unset the session variables so they don't persist on page refresh
+
     unset($_SESSION['errors']);
     unset($_SESSION['form_data']);
-
-    // display the errors and repopulate the form with the data
-    // show($form_data);
 }
 
 // show($form_data);
@@ -91,48 +88,58 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data'])) {
                 <input value="<?php echo $form_data['price'] ?>" class="page-input" type="text" id="price" name="price">
             </div>
 
-
-            <div>
-                <?php if (!empty($errors['height'])) : ?>
-                    <p class="validate-mzg" style="width: 100%;"><?= $errors['height'] ?></p>
-                <?php endif; ?>
-                <?php if (!empty($errors['width'])) : ?>
-                    <p class="validate-mzg" style="width: 100%;"><?= $errors['width'] ?></p>
-                <?php endif; ?>
-                <?php if (!empty($errors['length'])) : ?>
-                    <p class="validate-mzg" style="width: 100%;"><?= $errors['length'] ?></p>
-                <?php endif; ?>
-                <?php if (!empty($errors['weight'])) : ?>
-                    <p class="validate-mzg" style="width: 100%;"><?= $errors['weight'] ?></p>
-                <?php endif; ?>
-            </div>
+            <!-- bulkmin -->
+            <?php if (!empty($errors['bulkmin'])) : ?>
+                <p class="validate-mzg"><?= $errors['bulkmin'] ?></p>
+            <?php endif; ?>
             <div class="form-group">
-                <!-- height, width, length, weight -->
-
-
-                <label class="page-label" for="height">Height:</label>
-                <input value="<?php echo $form_data['height'] ?>" class="page-input" type="text" id="height" name="height" style="margin-right:1rem; margin-left:0.2rem">
-                <label class="page-label" for="width">Width:</label>
-                <input value="<?php echo $form_data['width'] ?>" class="page-input" type="text" id="width" name="width" style="margin-right:1rem; margin-left:0.2rem">
-                <label class="page-label" for="length">Length:</label>
-                <input value="<?php echo $form_data['length'] ?>" class="page-input" type="text" id="length" name="length" style="margin-right:1rem; margin-left:0.2rem">
-                <label class="page-label" for="weight">Weight:</label>
-                <input value="<?php echo $form_data['weight'] ?>" class="page-input" type="text" id="weight" name="weight" style="margin-left:0.2rem">
-
-
-
+                <label class="page-label" for="bulkmin">Minimun Qty for Bulk Orders:</label>
+                <input value="<?php echo isset($form_data['bulkmin']) ? $form_data['bulkmin'] : 10 ?>" class="page-input" type="number" id="bulkmin" name="bulkmin" min="10">
             </div>
+        </div>
 
 
+        <div>
+            <?php if (!empty($errors['height'])) : ?>
+                <p class="validate-mzg" style="width: 100%;"><?= $errors['height'] ?></p>
+            <?php endif; ?>
+            <?php if (!empty($errors['width'])) : ?>
+                <p class="validate-mzg" style="width: 100%;"><?= $errors['width'] ?></p>
+            <?php endif; ?>
+            <?php if (!empty($errors['length'])) : ?>
+                <p class="validate-mzg" style="width: 100%;"><?= $errors['length'] ?></p>
+            <?php endif; ?>
+            <?php if (!empty($errors['weight'])) : ?>
+                <p class="validate-mzg" style="width: 100%;"><?= $errors['weight'] ?></p>
+            <?php endif; ?>
+        </div>
+        <div class="form-group">
+            <!-- height, width, length, weight -->
 
 
+            <label class="page-label" for="height">Height:</label>
+            <input value="<?php echo $form_data['height'] ?>" class="page-input" type="text" id="height" name="height" style="margin-right:1rem; margin-left:0.2rem">
+            <label class="page-label" for="width">Width:</label>
+            <input value="<?php echo $form_data['width'] ?>" class="page-input" type="text" id="width" name="width" style="margin-right:1rem; margin-left:0.2rem">
+            <label class="page-label" for="length">Length:</label>
+            <input value="<?php echo $form_data['length'] ?>" class="page-input" type="text" id="length" name="length" style="margin-right:1rem; margin-left:0.2rem">
+            <label class="page-label" for="weight">Weight:</label>
+            <input value="<?php echo $form_data['weight'] ?>" class="page-input" type="text" id="weight" name="weight" style="margin-left:0.2rem">
 
 
-            <div style="display: flex; justify-content: center; width:100%">
-                <button type="submit" class="form-btn submit-btn" style="max-width: 400px;">Add New Product</button>
-            </div>
 
         </div>
+
+
+
+
+
+
+        <div style="display: flex; justify-content: center; width:100%">
+            <button type="submit" class="form-btn submit-btn" style="max-width: 400px;">Add New Product</button>
+        </div>
+
+    </div>
     </div>
 
 
