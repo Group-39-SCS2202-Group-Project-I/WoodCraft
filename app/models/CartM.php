@@ -24,6 +24,11 @@ class CartM extends Model
         return $this->id;
     }
 
+    public function getItemsById()
+    {
+        $result = $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $this->getId()]);
+        return $result;
+    }
 
     public function getItemsByCustomerId($customerId)
     {

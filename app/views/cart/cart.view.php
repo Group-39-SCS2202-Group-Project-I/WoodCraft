@@ -138,6 +138,10 @@
       const totalElement = document.getElementById("total");
       const delivery = <?php echo $delivery; ?>;
 
+
+    //////////////////////////////////
+
+    
       function updateTotal() {
         let newSubtotal = 0;
 
@@ -161,6 +165,8 @@
         totalElement.innerText = "Total: $" + newTotal.toFixed(2);
       }
 
+
+      /////////////////////////////////////////////////////////
 
 
       decreaseButtons.forEach(function(button) {
@@ -226,7 +232,7 @@
       document.querySelectorAll('.remove-button').forEach(button => {
         button.addEventListener('click', function(event) {
           const productId = button.dataset.productId; // Get the product ID from the button's data attribute
-          console.log(productId);
+          // console.log(productId);
           removeFromCart(productId); // Call the removeFromCart function
         });
       });
