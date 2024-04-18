@@ -86,9 +86,9 @@ function averageStarRating($reviews) {
 }
 
 // ...
-function esc($str){
-    return nl2br(htmlspecialchars($str));
-}
+// function esc($str){
+//     return nl2br(htmlspecialchars($str));
+// }
 
 function get_value($key, $default = ''){
     if(!empty($_POST[$key])){

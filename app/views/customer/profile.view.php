@@ -13,23 +13,25 @@
             <div class="content-profile">
                 <div class="profile-info">
                     <span class="info-label">Full Name</span>
-                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Email</span>
-                    <span class="info-value"><?= esc($data['email']) ?></span>
+                    <span class="info-value"><?= $data['email'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Mobile</span>
-                    <span class="info-value"><?= esc($data['telephone']) ?></span>
+                    <span class="info-value"><?= $data['telephone'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Birthday</span>
-                    <span class="info-value"><?= esc($data['birth_day']) ?> - <?= esc($data['birth_month']) ?> - <?= esc($data['birth_year']) ?></span>
+                    <?php if (!empty($data['birth_day'])) : ?>
+                        <span class="info-value"><?= $data['birth_day'] ?> - <?= $data['birth_month'] ?> - <?= $data['birth_year'] ?></span>
+                    <?php endif; ?>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Gender</span>
-                    <span class="info-value"><?= esc($data['gender']) ?></span>
+                    <span class="info-value"><?= $data['gender'] ?></span>
                 </div>
 
                 <div class="bottom-profile">

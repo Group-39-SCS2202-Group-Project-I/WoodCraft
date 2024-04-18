@@ -21,10 +21,10 @@
                         <div class="profile-content">
                             <?php if (isset($data) && $data): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                                 </div>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['email']) ?></span>
+                                    <span class="info-value"><?= $data['email'] ?></span>
                                 </div>
                             <?php else: ?>
                                 <p>User data not available</p>
@@ -42,15 +42,15 @@
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                                 </div>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['telephone']) ?></span>
+                                    <span class="info-value"><?= $data['telephone'] ?></span>
                                 </div>
 
                                 <!-- Display address information -->
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['address_line_1']) ?> <?= esc($data['address_line_2']) ?>.</span>
+                                    <span class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?>.</span>
                                 </div>
                             <?php else: ?>
                                 <div class="shipping">
