@@ -13,7 +13,13 @@ define('APP_DESC', '');//
 if($_SERVER['SERVER_NAME'] == 'localhost')
 {
 	//database config for local server
-	define('DBHOST', 'localhost');
+	// define('DBHOST', 'localhost');
+	// define('DBNAME', 'wcdb');
+	// define('DBUSER', 'root');
+	// define('DBPASS', '');
+	// define('DBDRIVER', 'mysql');
+
+	define('DBHOST', 'wcdb.mysql.database.azure.com');
 	define('DBNAME', 'wcdb');
 	define('DBUSER', 'root');
 	define('DBPASS', '');
@@ -24,11 +30,11 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 }else
 {
 	//database config for live server
-	define('DBHOST', 'localhost');
-	define('DBNAME', 'wcdf');
-	define('DBUSER', 'root');
-	define('DBPASS', '');
-	define('DBDRIVER', 'mysql');
+	// define('DBHOST', 'localhost');
+	// define('DBNAME', 'wcdf');
+	// define('DBUSER', 'root');
+	// define('DBPASS', '');
+	// define('DBDRIVER', 'mysql');
 
 	//root path e.g https://www.yourwebsite.com
 	// define('ROOT', 'http://');
