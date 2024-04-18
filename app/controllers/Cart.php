@@ -17,14 +17,14 @@ class Cart extends Controller
                     $productId = $product[0]->product_id;
 
                     $cartModel = new CartM();
-                    $data['customer_id'] = 1; // Assuming a static customer ID for demonstration
+                    $data['customer_id'] = Auth::getCustomerID(); // Assuming a static customer ID for demonstration
                     $data['product_id'] = $productId;
                     $data['quantity'] = 1;
                     $data['created_at'] = date('Y-m-d H:i:s');
                     $data['updated_at'] = date('Y-m-d H:i:s');
                     $cartModel->insert($data);
 
-                    $cartModel->setId(1); // Assuming a static customer ID for demonstration
+                    $cartModel->setId($data['customer_id']); // Assuming a static customer ID for demonstration
                     $cartItems = $cartModel->getItemsById();
                     $cartItemCount = isset($cartItems) ? count($cartItems) : 0;
                     print($cartItemCount);
@@ -53,20 +53,33 @@ class Cart extends Controller
 
                     // Add a new method to the CartM class to update the quantity
 
+                case 'remove':
+                    if (isset($_POST['productId'])) {
+                        $productId = $_POST['productId'];
+
+                        $cartModel = new CartM();
+                        $cartModel->removeCartItem($productId);
+                    } else {
+                        echo "Invalid request.";
+                    }
+                    exit;
+
+                case 'updateSelectedItems':
+                    if (isset($_POST['productId']) && isset($_POST['selected'])) {
+                        $productId = $_POST['productId'];
+                        $selected = $_POST['selected'];
+
+                        $cartModel = new CartM();
+                        $cartModel->updateSelectedStatus($productId, $selected);
+                    } else {
+                        echo "Invalid request.";
+                    }
+                    exit;
                 default:
                     break;
             }
         }
 
         $this->view('cart/cart', $data);
-    }
-
-
-    // Function to remove an item from the cart
-    private function removeCartItem($cart, $productId)
-    {
-        $cart->removeItem($productId); // Call the removeItem method from the CartM class
-        echo "Item removed from cart."; // Send a response back to the client
-        exit; // Terminate script execution after handling the AJAX request
     }
 }
