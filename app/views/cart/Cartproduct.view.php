@@ -95,7 +95,7 @@ $cartItem = $data['cart'];
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a href="<?= ROOT . '/cart' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
+            <a href="<?= ROOT . '/cartC' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
         </div>
     </div>
 
