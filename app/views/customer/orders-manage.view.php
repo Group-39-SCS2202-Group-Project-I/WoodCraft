@@ -4,7 +4,7 @@
 
 <div class="main-container"> 
 
-    <!-- points -->
+    <!-- orders -->
     <div class="container">
         <div class="title">
             <h2>Order Details</h2>

@@ -5,7 +5,7 @@
         
         <div class="main-container">
 
-        <!-- manage my account -->
+            <!-- manage my account -->
             <div class="container">
                 <div class="title">
                     <h2>Manage My Account</h2>
@@ -14,8 +14,8 @@
                 <div class="content">
                     <div class="profile">
                         <div class="content-title">
-                            <h3>Personal Profile  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <h3>Personal Profile  <span class="highlight">|</span></h3>
+                            <h3><a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">
@@ -36,8 +36,8 @@
                     
                     <div class="address">
                         <div class="content-title">
-                            <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/address/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <h3>Address Book  <span class="highlight">|</span></h3>
+                            <h3><a href="<?=ROOT?>/customer/address/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>
@@ -81,6 +81,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </main>
 
         <script src="<?php echo ROOT; ?>/assets/js/manage-account.js"></script>
