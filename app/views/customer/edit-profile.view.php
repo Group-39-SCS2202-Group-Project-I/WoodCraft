@@ -111,9 +111,9 @@
             <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
                 <h3>Newsletter subscription</h3>
-                <p>I have read and understood <a href="##.html">Privacy Policy</a></p>
+                <p>I have read and understood <a href="##">Privacy Policy</a></p>
 
-                <div class="buttons-popup">
+                <div class="buttons">
                     <button class="cancel" onclick="closePopup()">Cancel</button>
                     <button class="subscribe" onclick="subscribe()">Subscribe</button>
                 </div>

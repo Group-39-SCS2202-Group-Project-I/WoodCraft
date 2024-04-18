@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-change-password">
-                <form method="post" action="<?= ROOT ?>/customer/profile/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/customer/changepassword/<?= Auth::getCustomerId()?>">
                     <div class="field-change-password">
                         <label class="label-with-eye" for="current-password">
                             Current Password

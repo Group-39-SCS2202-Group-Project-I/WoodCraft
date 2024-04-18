@@ -177,9 +177,9 @@
     padding: 20px;
     background-color: var(--bg2);
 
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(2, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 20px; */
 }
 
 .address-box {
