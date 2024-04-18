@@ -1,10 +1,11 @@
 <?php
 
-class CartC extends Controller
+
+class Cart extends Controller
 {
     public function index()
     {
-        $cart = new Cart();
+        $cart = new CartM();
         $data['cart'] = $cart->findAll();
         show($_POST);
         if (isset($_POST['action'])) {
@@ -15,7 +16,7 @@ class CartC extends Controller
                     $product = $productCart->getProductsById();
                     $productId = $product[0]->product_id;
 
-                    $cartModel = new Cart();
+                    $cartModel = new CartM();
                     $data['customer_id'] = 1; // Assuming a static customer ID for demonstration
                     $data['product_id'] = $productId;
                     $data['quantity'] = 1;
@@ -29,22 +30,7 @@ class CartC extends Controller
                     print($cartItemCount);
                     show($cartItems);
                     break;
-                    
-                    case 'updateSelectedItems':
-                        if (isset($_POST['productId'], $_POST['selected'])) {
-                            $productId = $_POST['productId'];
-                            $selected = $_POST['selected'] == 'true' ? 'Yes' : 'No'; // Convert 'true' to 'Yes' and 'false' to 'No'
-                            
-                            $cartModel = new Cart();
-                            $cartModel->updateSelectedStatus($productId, $selected); // Update selected status in the database
-                            
-                            echo "Selected item updated successfully.";
-                        } else {
-                            echo "Invalid request.";
-                        }
-                        exit;
-                    
-                    
+
 
                 case 'update':
                     if (isset($_POST['pid']) && isset($_POST['quantity'])) {
@@ -53,29 +39,20 @@ class CartC extends Controller
                         $quantity = $_POST['quantity'];
                         show($_POST);
                         // Update the quantity in the database
-                        $cartModel = new Cart();
+                        $cartModel = new CartM();
                         $cartModel->updateQuantity($productId, $quantity);
+
+
 
                         echo "Quantity updated successfully.";
                     } else {
                         echo "Invalid request.";
                     }
                     exit;
-                   case 'remove':
-                    if (isset($_POST['pid'])) {
-                        $productId = $_POST['pid'];
-                        
-                        $cartModel = new Cart();
-                        $cartModel->removeCartItem($productId);
-                        
-                        echo "Item removed successfully.";
-                    } else {
-                        echo "Invalid request.";
-                    }
-                    exit;
-                
-            
-             
+
+
+                    // Add a new method to the CartM class to update the quantity
+
                 default:
                     break;
             }
@@ -83,6 +60,13 @@ class CartC extends Controller
 
         $this->view('cart/cart', $data);
     }
+
+
+    // Function to remove an item from the cart
+    private function removeCartItem($cart, $productId)
+    {
+        $cart->removeItem($productId); // Call the removeItem method from the CartM class
+        echo "Item removed from cart."; // Send a response back to the client
+        exit; // Terminate script execution after handling the AJAX request
+    }
 }
-
-

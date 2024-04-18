@@ -19,7 +19,7 @@ $cartItem = $data['cart'];
         $('#loader').show();
         var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle the cart addition
+            url: ROOT + 'Cart', // Endpoint to handle the cart addition
             data: { pid: pid, action: 'add' },
             method: "POST",
         }).done(function(response) {

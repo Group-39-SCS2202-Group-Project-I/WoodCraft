@@ -93,7 +93,7 @@ if (Auth::logged_in()) {
 
                     <div class="showcase-actions">
 
-                      <button class="btn-action">
+                      <!-- <button class="btn-action">
                         <ion-icon name="heart-outline"></ion-icon>
                       </button>
 
@@ -103,7 +103,7 @@ if (Auth::logged_in()) {
 
                       <button class="btn-action">
                         <ion-icon name="repeat-outline"></ion-icon>
-                      </button>
+                      </button> -->
 
                       <button class="btn-action">
                         <ion-icon name="bag-add-outline"></ion-icon>

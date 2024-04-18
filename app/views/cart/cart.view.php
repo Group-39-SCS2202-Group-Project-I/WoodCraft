@@ -201,13 +201,13 @@ document.addEventListener("DOMContentLoaded", function () {
     updateTotal();
 
     // AJAX function to update the cart
-    function updateCart(productId, quantity) {
-        const ROOT = "http://localhost/wcf/"; // Update with your server URL
-        $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle updating the cart
-            data: { pid: productId, quantity: quantity, action: 'update' }, // Include the updated quantity and action
-            method: "POST",
-        }).done(function(response) {
+    function updateCart(pid, quantity) {
+      const ROOT = "http://localhost/wcf/"; // Update with your server URL
+      $.ajax({
+        url: ROOT + 'cart', // Endpoint to handle updating the cart
+        data: { pid: pid, quantity: quantity, action: 'update' }, // Include the updated quantity and action
+        method: "POST",
+      }).done(function(response) {
             console.log(response);
             $('#loader').hide();
             $('.alert').show();
@@ -225,27 +225,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function removeFromCart(productId) {
-    const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-    $.ajax({
-        url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
-        data: { pid: productId, action: 'remove' }, // Data to be sent in the AJAX request
-        method: "POST", // Method of the AJAX request
-    }).done(function(response) {
-        // Handle the response here (if needed)
-        console.log(response);
-        // Reload the page after successful removal
-        window.location.reload();
-    });
-}
-
-    // Function to update selected items
-    function updateSelectedItems(productId, selected) {
-        const ROOT = "http://localhost/wcf/"; // Update with your server URL
+        const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle updating selected items
-            data: { productId: productId, selected: selected, action: 'updateSelectedItems' },
-            method: "POST",
+            url: ROOT + 'cart', // Endpoint to handle removing the item from the cart
+            data: { productId: productId, action: 'remove' }, // Data to be sent in the AJAX request
+            method: "POST", // Method of the AJAX request
         }).done(function(response) {
+            // Handle the response here (if needed)
             console.log(response);
         });
     }
@@ -263,7 +249,7 @@ function handleCheckboxChange(checkbox) {
     function updateSelectedItems(productId, selected) {
         const ROOT = "http://localhost/wcf/";
         $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle updating selected items
+            url: ROOT + 'cart', // Endpoint to handle updating selected items
             method: 'POST',
             data: { productId: productId, selected: selected, action: 'updateSelectedItems' }, // Include the action parameter
             success: function(response) {
