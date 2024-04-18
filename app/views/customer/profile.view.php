@@ -45,8 +45,8 @@
             </div>
         </div>
 
-        <!-- address book -->
-        <!-- <div class="container">
+        <!-- address -->
+        <div class="container">
             <div class="title">
                 <h3>My Address</h3>
             </div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
             </div>
-        </div> -->
+        </div>
         
         <!-- Popup for newsletter subscription -->
         <div id="popup" class="popup">
