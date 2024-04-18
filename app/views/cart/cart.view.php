@@ -175,7 +175,7 @@
     function updateCart(pid, quantity) {
       const ROOT = "http://localhost/wcf/"; // Update with your server URL
       $.ajax({
-        url: ROOT + 'CartC', // Endpoint to handle updating the cart
+        url: ROOT + 'cart', // Endpoint to handle updating the cart
         data: { pid: pid, quantity: quantity, action: 'update' }, // Include the updated quantity and action
         method: "POST",
       }).done(function(response) {
@@ -200,7 +200,7 @@
     function removeFromCart(productId) {
         const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle removing the item from the cart
+            url: ROOT + 'cart', // Endpoint to handle removing the item from the cart
             data: { productId: productId, action: 'remove' }, // Data to be sent in the AJAX request
             method: "POST", // Method of the AJAX request
         }).done(function(response) {

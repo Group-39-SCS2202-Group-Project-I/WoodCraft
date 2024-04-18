@@ -19,7 +19,7 @@ $cartItem = $data['cart'];
         $('#loader').show();
         var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
-            url: ROOT + 'CartC', // Endpoint to handle the cart addition
+            url: ROOT + 'Cart', // Endpoint to handle the cart addition
             data: { pid: pid, action: 'add' },
             method: "POST",
         }).done(function(response) {
@@ -95,7 +95,7 @@ $cartItem = $data['cart'];
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a href="<?= ROOT . '/cartC' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
+            <a href="<?= ROOT . '/cart' ?>" class="btn btn-success">cart view <span class="glyphicon glyphicon-play"></span></a>
         </div>
     </div>
 
