@@ -24,16 +24,28 @@
       $discount = 0;
       $total = 0;
       $delivery = 15;
-      $cart = new cartM();
-      $data['cart'] = $cart->findAll();
-      $tables = ['product'];
-      $columns = ['*'];
-      $condition = ['product.product_id = cart.product_id'];
-      $cartItem = $cart->join($tables, $columns, $condition,);
+      // $cartProdcts = new cartProduct();
+      // $data['cart_products'] = $cartProdcts->findAll();
+      $cartProdcts = $data['cart_products'];
+      show($cartProdcts);
 
+      // $cart = new CartDetails();
+      // $data['cart'] = $cart->findAll();
+      $cart = $data['cart'];
+      show($cart);
+
+      // $tables = ['product'];
+      // $columns = ['*'];
+      // $condition = ['product.product_id = cart_products.product_id'];
+      // $cartItem = $cartProducts->join($tables, $columns, $condition,);
+      ?>
+
+      
+
+      <?php
       if (isset($cartItem) && !empty($cartItem)) {
         foreach ($cartItem as $cartItems) {
-          // show($cartItems);
+          show($cartItems);
       ?>
           <td>
             <div class="smallcart">

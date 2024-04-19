@@ -1,8 +1,8 @@
 <?php
 
-class CartM extends Model
+class CartProduct extends Model
 {
-    public $table = 'cart';
+    public $table = 'cart_products';
     public $allowedColumns = [
         'id',
         'customer_id',
@@ -34,6 +34,23 @@ class CartM extends Model
     {
         return $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $customerId]);
     }
+
+    /////////////////////////////////////////////////
+
+    public function addItem($data)
+    {
+        $query = "INSERT INTO $this->table (customer_id, product_id, quantity, created_at, updated_at) VALUES (:customer_id, :product_id, :quantity, :created_at, :updated_at)";
+        $params = array(
+            'customer_id' => $data['customer_id'],
+            'product_id' => $data['product_id'],
+            'quantity' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        $this->query($query, $params);
+    }
+
+    //////////////
 
     public function updateCartItem($id, $data)
     {
