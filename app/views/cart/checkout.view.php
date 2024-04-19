@@ -26,7 +26,7 @@
         $discount = 0;
         $total = 0;
         $delivery = 15;
-        $cart = new cartM();
+        $cart = new cart();
         $data['cart'] = $cart->findAll();
         $tables = ['product'];
         $columns = ['*'];
@@ -67,19 +67,33 @@
         ?>
       </div>
     </div>
-      <div class="summary">
-        <div class="top">
-          <h2>Order Summary</h2>
-        </div>
-        <div class="detail">
-          <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
-          <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
-          <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
-          <hr />
-          <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
-        </div>
-      </div>
-    </div>
+    <div class="summary">
+  <div class="top">
+    <h2>Order Summary</h2>
+  </div>
+  <div class="detail">
+  <div class="delivery-option">
+  <label for="delivery-toggle">Do you want delivery?</label>
+  <input type="checkbox" id="delivery-toggle">
+  <div class="toggle-container">
+    <i class="fas fa-toggle-off toggle-icon unchecked"></i>
+    <i class="fas fa-toggle-on toggle-icon checked"></i>
+  </div>
+</div>
+
+
+
+    <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
+    <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
+    <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
+    <hr />
+    <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
+  </div>
+  <div class="confirm-button">
+    <button class="button">Confirm Order</button>
+  </div>
+</div>
+
   </div>
 
 <?php $this->view('includes/footer', $data) ?>
@@ -90,221 +104,223 @@
 </html>
 
   <style>
-   .containercheckout {
+ .containercheckout {
   display: flex;
-  flex-direction: column; /* Align divs vertically */
-  align-items: center; /* Center align divs horizontally */
-  border-radius: 2rem;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  width: 70%;
+  margin: auto;
+  padding-left: 10px; /* Add padding to the left side */
 }
 
+
 .changeaddress {
+  width: 100%;
   border: 1px solid #ccc;
-  padding: 10px 20px; /* Adjust left and right padding */
+  padding: 10px 20px;
   margin-bottom: 20px;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  margin-left: 20px; /* Add small left padding */
+  margin-right: 20px; /* Add small right padding */
 }
 
 .contentcheckout {
-  width: 100%; /* Take full width of the container */
+  width: 100%;
 }
 
 .cartitems {
-  width: 100%; /* Take full width of the container */
+  width: 100%;
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
 }
 
-    .contentcheckout{
-      display: flex;
-    flex-direction: column;
-    border-radius: 2rem;
-    justify-content: space-evenly;
-    }
-    .changeaddress {
-  border: 1px solid #ccc; /* Add border */
+.summary {
+  width: 30%;
+  border: 1px solid #bdbdbd;
   padding: 10px;
   margin-bottom: 20px;
-  border-radius: 5px; /* Add border radius for rounded corners */
+  border-radius: 0.5rem;
+  margin-left: 10px; /* Add small left padding */
+  padding-right: 10px; /* Add padding to the left side */
 }
- .cartitems{
- 
-    display: flex;
-    flex-direction: row;
-    border-radius: 2rem;
-    justify-content: space-evenly;
- }
-    .summerycheckout {
-    width: 45%;
-    border: 1px solid #bdbdbd;
-    padding: 10px;
+
+/* Hide the checkbox */
+/* Hide the checkbox */
+input[type="checkbox"] {
+  display: none;
+}
+
+/* Styling for the toggle container */
+.toggle-container {
+  display: inline-block;
+  position: relative;
+  width: 50px; /* Adjust width as needed */
+  height: 26px; /* Adjust height as needed */
+  background-color: #ccc; /* Background color of the toggle */
+  border-radius: 15px; /* Roundness of the toggle */
+  cursor: pointer;
+}
+
+/* Styling for the toggle icons */
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff; /* Color of the toggle icons */
+  transition: transform 0.3s ease; /* Smooth transition effect */
+}
+
+/* Styling for the "on" state of the toggle */
+.checked {
+  left: calc(100% - 25px); /* Adjust left position for the "on" state */
+}
+
+/* Styling for the "off" state of the toggle */
+.unchecked {
+  left: 0; /* Adjust left position for the "off" state */
+}
+
+/* Change background color and icon color when checkbox is checked */
+input[type="checkbox"]:checked + .toggle-container {
+  background-color: #28a745; /* Color when toggled on */
+}
+
+input[type="checkbox"]:checked + .toggle-container .unchecked {
+  transform: translateX(-100%);
+}
+
+input[type="checkbox"]:checked + .toggle-container .checked {
+  transform: translateX(0%);
+}
+
+/* Change color of toggle icons when checkbox is unchecked */
+input[type="checkbox"]:not(:checked) + .toggle-container .unchecked {
+  transform: translateX(0%);
+}
+
+input[type="checkbox"]:not(:checked) + .toggle-container .checked {
+  transform: translateX(100%);
+}
+
+
+
+.cart {
+  width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
     margin-bottom: 20px;
-    border-radius: 2rem;
-    margin-left: 10%;
-    height: 50%;
-    
+    border-radius: 0.5rem;
+    margin-left: 20px;
+    margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+  /* Add small left padding */
 }
-.cart{
-  width: 55%;
-    border: 1px solid #bdbdbd;
-    border-radius: .5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-content: center;
-    margin-left: 5%;
-    margin-bottom: 5%;
+
+  
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 20px 0;
 }
-  
-  .top {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    margin: 20px 0;
-  }
-  
-  
-  .detail h2 {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 5px 0; 
-    font-size: 1vw;
-    color: #333;
-    font-weight: lighter;
-  }
-  
-  .detail h2 span {
-    color: #333;
-  }
-  
-  .detail h2#discount span {
-    color: red;
-  }
-  
-  .detail h2::after {
-    content: '';
-    flex-grow: 1;
-  }
-  
-  .detail h2 span {
-    margin-left: 10px; /* Adjust as needed */
-  }
-  .smallcart {
-    display: flex;
-    flex-direction: row;
+
+.detail h2 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 5px 0;
+  font-size: 1vw;
+  color: #333;
+  font-weight: lighter;
+}
+
+.detail h2 span {
+  color: #333;
+}
+
+.detail h2#discount span {
+  color: red;
+}
+
+.detail h2::after {
+  content: '';
+  flex-grow: 1;
+}
+
+.detail h2 span {
+  margin-left: 10px;
+}
+
+.smallcart {
+  display: flex;
+  flex-direction: row;
 }
 
 .product {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 5%;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5%;
 }
 
 .details {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .pdetails {
-    flex-direction: row;
+  flex-direction: row;
 }
 
 .product-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .product-details p {
-    line-height: 1.5;
-    margin-bottom: 5px;
-    display: block;
-    font-size: 1vw;
-    font-weight: lighter;
-    color: #333;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 1vw;
+  font-weight: lighter;
+  color: #333;
 }
 
 .product-details .title {
-    line-height: 1.5;
-    margin-bottom: 5px;
-    display: block;
-    font-size: 1vw;
-    font-weight: bolder;
-    color: #000;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 1vw;
+  font-weight: bolder;
+  color: #000;
 }
 
 hr {
-    margin: 5px 0;
-    border: 1px solid #ddd;
+  margin: 5px 0;
+  border: 1px solid #ddd;
 }
 
-/* Summary styles */
-
-.summary {
-    width: 45%;
-    border: 1px solid #bdbdbd;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 2rem;
-    margin-left: 10%;
-    height: 50%;
-    
-}
-  
-  .top {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    margin: 20px 0;
-  }
-  
-  
-  .detail h2 {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 5px 0; 
-    font-size: 1vw;
-    color: #333;
-    font-weight: lighter;
-  }
-  
-  .detail h2 span {
-    color: #333;
-  }
-  
-  .detail h2#discount span {
-    color: red;
-  }
-  
-  .detail h2::after {
-    content: '';
-    flex-grow: 1;
-  }
-  
-  .detail h2 span {
-    margin-left: 10px; /* Adjust as needed */
-  }
-  
- .promo{
+.promo {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
- }
-  
- 
-  
-  .button {
-   
-    background-color:#000;
-    color: #fff;
-    padding: 8px 30px;
-   
-    cursor: pointer;
-    margin-bottom: 15px;
-    border-radius: 15rem;
-    margin-top: }
+}
+
+.button {
+  background-color: #000;
+  color: #fff;
+  padding: 8px 30px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
 
   </style>
 </body>

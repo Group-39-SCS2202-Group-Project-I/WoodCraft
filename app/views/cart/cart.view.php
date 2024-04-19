@@ -24,7 +24,7 @@
         $discount = 0;
         $total = 0;
         $delivery = 15;
-        $cart = new cartM();
+        $cart = new cart();
         $data['cart'] = $cart->findAll();
         $tables = ['product'];
         $columns = ['*'];
@@ -96,17 +96,17 @@ if ($cartItems->selected === 'true') {
         <h2>Order Summary</h2>
       </div>
       <div class="detail">
-        <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
-        <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
-        <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
-        <hr />
-        <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
-      </div>
+            <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
+            <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
+            <h2 id="delivery">Delivery<span>-$<?php echo number_format($delivery, 2); ?></span></h2>
+            <hr>
+            <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
+        </div>
       <div class="promo">
         <div class="promocode">
           <input class="promocode" type="text" placeholder="Add the promocode " id="promoCode" />
         </div>
-        <button class="cart-first-btn" id="promo" onclick="promo()">Apply</button>
+        <button class="applybutton" id="promo" onclick="promo()">Apply</button>
       </div>
       <div style="padding: 0 10px; margin-bottom: 20px">
     <button class="checkout" onclick="redirectToCheckout()">Check Out</button>
