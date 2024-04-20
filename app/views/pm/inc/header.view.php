@@ -72,7 +72,9 @@ if (isset($_SESSION['USER_DATA'])) {
                 </li>
                 <li class="sidebar-list-item nav-btn" id="prod-nav">
                     <a>
-                        <span class="material-icons-outlined">chair</span>
+                        <span class="material-symbols-outlined">
+                            event_seat
+                        </span>
                         <span style="margin-left: 5px;">Productions</span>
                     </a>
                 </li>
@@ -98,19 +100,23 @@ if (isset($_SESSION['USER_DATA'])) {
                 <!-- Add Production -->
                 <li class="sidebar-list-item nav-btn" id="add_prod-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Add Production</span>
+                        <span class="material-symbols-outlined">
+                            post_add
+                        </span> <span style="margin-left: 5px;">Add Production</span>
                     </a>
                 </li>
                 <!-- Approved Bulk Orders -->
                 <li class="sidebar-list-item nav-btn" id="app_bulk-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Approved Bulk Orders</span>
+                        <span class="material-icons-outlined">task_alt</span> <span style="margin-left: 5px;">Approved Bulk Orders</span>
                     </a>
                 </li>
                 <!-- Product Materials -->
                 <li class="sidebar-list-item nav-btn" id="prod_mat-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span> <span style="margin-left: 5px;">Product Materials</span>
+                        <span class="material-symbols-outlined">
+                            home_improvement_and_tools
+                        </span> <span style="margin-left: 5px;">Product Materials</span>
                     </a>
                 </li>
                 <!-- <li class="sidebar-list-item">
@@ -171,9 +177,9 @@ if (isset($_SESSION['USER_DATA'])) {
                                 // case 'delivery-nav':
                                 //     window.location.href = '<?= ROOT ?>/admin/delivery';
                                 //     break;
-                            // case 'on_prod-nav':
-                            //     window.location.href = '<?= ROOT ?>/pm/ongoing_productions';
-                            //     break;
+                                // case 'on_prod-nav':
+                                //     window.location.href = '<?= ROOT ?>/pm/ongoing_productions';
+                                //     break;
                             case 'prod-nav':
                                 window.location.href = '<?= ROOT ?>/pm/productions';
                                 break;
