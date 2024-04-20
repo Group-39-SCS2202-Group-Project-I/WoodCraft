@@ -128,6 +128,9 @@ class GM extends Controller
 
                 $data['total_cost'] = $total_cost;
 
+                $delivery = new Delivery();
+                $data['delivery_info'] = $delivery->getDeliveryInfo();
+
                 $this->view('gm/production', $data);
             } else {
                 $data['title'] = "GM Productions";
@@ -195,8 +198,8 @@ class GM extends Controller
                 $data['pxn'] = $filtered;
                 $data['count'] = $count;
 
-
-
+                $delivery = new Delivery();
+                $data['delivery_info'] = $delivery->getDeliveryInfo();
 
 
                 $this->view('gm/rpt', $data);
