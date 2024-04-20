@@ -130,14 +130,14 @@ foreach ($products_without_materials as $product_without_materials) {
 </div>
 
 <div class="dashboard">
-    <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
+    <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav','pending')">
         <div class="card">
             <h3 class="card-title">No of Pending Productions</h3>
             <span class="material-icons-outlined card-icon">pending_actions</span>
             <p class="card-text"><?= $nopxn_pnd ?></p>
         </div>
     </a>
-    <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav')">
+    <a href="<?= ROOT . '/pm/productions' ?>" style="text-decoration:none" onclick="navfunc('prod-nav','processing')">
         <div class="card">
             <h3 class="card-title">No of Ongoing Productions</h3>
             <span class="material-icons-outlined card-icon">hourglass_top</span>
@@ -159,7 +159,7 @@ foreach ($products_without_materials as $product_without_materials) {
 
 
 <div class="dashboard2" id="pwc-table">
-<div>
+    <div>
         <div class="charts-card">
             <p class="chart-title">Available Workers</p>
             <div id="chart"></div>
@@ -170,7 +170,7 @@ foreach ($products_without_materials as $product_without_materials) {
     <?php if ($products_without_materials_count > 0) : ?>
         <div class="table-section" style="width: 100%;margin:0; padding:0% ">
             <div class="mzg-box col-danger">
-                <div class="messege"><?= (($products_without_materials_count == 1) ? 'There is a product in the system for which the materials have not yet been configured':$products_without_materials_count. ' products exist in the system for which materials have not yet been configured')  ?>!</div>
+                <div class="messege"><?= (($products_without_materials_count == 1) ? 'There is a product in the system for which the materials have not yet been configured' : $products_without_materials_count . ' products exist in the system for which materials have not yet been configured')  ?>!</div>
             </div>
             <table class="table-section__table" style="margin:0; padding:0%" id="pwi">
                 <thead>
@@ -198,7 +198,8 @@ foreach ($products_without_materials as $product_without_materials) {
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
 <script>
-    navfunc = (id) => {
+    navfunc = (id, x) => {
+        sessionStorage.setItem('x', x);
         let nav = document.getElementById(id);
         nav.click();
     }
@@ -208,50 +209,48 @@ foreach ($products_without_materials as $product_without_materials) {
     available_supervisors = <?= $avail_sup ?>;
 
     const barChartOptions = {
-  series: [
-    {
-      data: [available_carpenters, available_painters, available_supervisors],
-    },
-    
-  ],
-  chart: {
-    type: 'bar',
-    height: 300,
-    toolbar: {
-      show: false,
-    },
-  },
-  colors: ['var(--blk)', 'var(--blk)', 'var(--blk)'],
-  plotOptions: {
-    bar: {
-      distributed: true,
-      borderRadius: 4,
-      horizontal: true,
-    //   columnWidth: '40%',
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    show: false,
-  },
-  xaxis: {
-    categories: ['Carpenters', 'Painters', 'Supervisors'],
-  },
-  yaxis: {
-    title: {
-    //   text: 'Worker Role',
-    },
-  },
-};
+        series: [{
+                data: [available_carpenters, available_painters, available_supervisors],
+            },
 
-const barChart = new ApexCharts(
-  document.querySelector('#chart'),
-  barChartOptions
-);
-barChart.render();
+        ],
+        chart: {
+            type: 'bar',
+            height: 300,
+            toolbar: {
+                show: false,
+            },
+        },
+        colors: ['var(--blk)', 'var(--blk)', 'var(--blk)'],
+        plotOptions: {
+            bar: {
+                distributed: true,
+                borderRadius: 4,
+                horizontal: true,
+                //   columnWidth: '40%',
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        legend: {
+            show: false,
+        },
+        xaxis: {
+            categories: ['Carpenters', 'Painters', 'Supervisors'],
+        },
+        yaxis: {
+            title: {
+                //   text: 'Worker Role',
+            },
+        },
+    };
 
+    const barChart = new ApexCharts(
+        document.querySelector('#chart'),
+        barChartOptions
+    );
+    barChart.render();
 </script>
 
 <?php include "inc/footer.view.php"; ?>

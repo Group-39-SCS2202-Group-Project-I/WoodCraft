@@ -93,7 +93,9 @@ if (isset($_SESSION['USER_DATA'])) {
                 <!-- productions -->
                 <li class="sidebar-list-item nav-btn" id="productions-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span><span style="margin-left: 5px;">Productions</span>
+                        <span class="material-symbols-outlined">
+                            event_seat
+                        </span><span style="margin-left: 5px;">Productions</span>
                     </a>
                 </li>
 
