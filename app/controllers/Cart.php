@@ -24,19 +24,34 @@ class Cart extends Controller
 
         // Iterate over each cart product
         foreach ($cart_data['cart_products'] as $cart_product) {
+            $error = [];
+
             $product_id = $cart_product->product_id;
 
             // Fetch product data for the current cart product
             $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
 
             // Fetch product images for the current product
-            $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            $images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            $product_image = (array) $images[0];
 
             // Prepare product inventory ID
             $product_inventory_id = $product[0]->product_inventory_id;
 
             // Fetch product inventory data for the current product
             $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+
+            if (empty($product_inventory) || !isset($product_inventory[0])) {
+                $product_inventory = ['quantity' => 0];
+                $cart_product->quantity = 0;
+            } elseif($cart_product->quantity > $product_inventory[0]->quantity) {
+                $cart_product->quantity = $product_inventory[0]->quantity;
+                $error[] = "Quantity exceeds available stock";
+                $cart_product->selected = 0;
+            }
+            else {
+                $product_inventory = (array) $product_inventory[0];
+            }
 
             // Construct the product array for the current cart item
             $mapped_product = [
@@ -45,8 +60,10 @@ class Cart extends Controller
                 'description' => $product[0]->description,
                 'price' => $product[0]->price,
                 'quantity' => $cart_product->quantity,
-                'images' => $product_images, // Array of product images
-                'inventory' => $product_inventory, // Product inventory details
+                'selected' => $cart_product->selected,
+                'image_url' => $product_image['image_url'],
+                'reamaing_quantity' => $product_inventory['quantity'],
+                'error' => $error
             ];
 
             // Add the mapped product to the products array
@@ -65,41 +82,38 @@ class Cart extends Controller
 
     public function edit()
     {
-        $cart= new CartDetails();
-        $cartProducts = new CartProduct();
+        // $cart= new CartDetails();
+        // $cartProducts = new CartProduct();
 
-        $data['cart_products'] = $cartProducts->findAll();
-        $data['cart'] = $cart->findAll();
-        show($data['cart']);
+        // $data['cart_products'] = $cartProducts->findAll();
+        // $data['cart'] = $cart->findAll();
+        // show($data['cart']);
         show($_POST);
         if (isset($_POST['action'])) {
             switch ($_POST['action']) {
                 case 'add':
-                    // $productCart = new ProductCart();
-                    // $productCart->setId($_POST['pid']);
-                    // $product = $productCart->getProductsById();
-                    // $productId = $product[0]->product_id;
 
                     $cartModel = new CartProduct();
-                    $data['customer_id'] = Auth::getCustomerID(); // Assuming a static customer ID for demonstration
-                    $data['product_id'] = $productId;
+                    $data['customer_id'] = $_POST['customerId']; // Assuming a static customer ID for demonstration
+                    $data['product_id'] = $_POST['productId'];
                     $data['quantity'] = 1;
+                    $data['selected'] = 1;
                     $data['created_at'] = date('Y-m-d H:i:s');
                     $data['updated_at'] = date('Y-m-d H:i:s');
-                    $cartModel->insert($data);
+                    $cartModel->addItem($data);
 
                     $cartModel->setId(Auth::getCustomerID()); // Assuming a static customer ID for demonstration
                     $cartItems = $cartModel->getItemsById();
                     $cartItemCount = isset($cartItems) ? count($cartItems) : 0;
-                    print($cartItemCount);
-                    show($cartItems);
+                    // print($cartItemCount);
+                    // show($cartItems);
                     break;
 
 
                 case 'update':
-                    if (isset($_POST['pid']) && isset($_POST['quantity'])) {
+                    if (isset($_POST['productId']) && isset($_POST['quantity'])) {
 
-                        $productId = $_POST['pid'];
+                        $productId = $_POST['productId'];
                         $quantity = $_POST['quantity'];
                         show($_POST);
                         // Update the quantity in the database

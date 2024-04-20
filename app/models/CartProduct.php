@@ -8,9 +8,9 @@ class CartProduct extends Model
         'customer_id',
         'product_id',
         'quantity',
-        'created_at',
-        'updated_at',
         'selected',
+        'created_at',
+        'updated_at'
     ];
 
     public $id;
@@ -39,15 +39,8 @@ class CartProduct extends Model
 
     public function addItem($data)
     {
-        $query = "INSERT INTO $this->table (customer_id, product_id, quantity, created_at, updated_at) VALUES (:customer_id, :product_id, :quantity, :created_at, :updated_at)";
-        $params = array(
-            'customer_id' => $data['customer_id'],
-            'product_id' => $data['product_id'],
-            'quantity' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        );
-        $this->query($query, $params);
+        $query = "INSERT INTO $this->table (customer_id, product_id, quantity, selected, created_at, updated_at) VALUES (:customer_id, :product_id, :quantity, :selected, :created_at, :updated_at)";
+        $this->query($query, $data);
     }
 
     //////////////

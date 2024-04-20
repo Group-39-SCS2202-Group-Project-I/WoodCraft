@@ -24,15 +24,14 @@
       $discount = 0;
       $total = 0;
       $delivery = 15;
-      // $cartProdcts = new cartProduct();
-      // $data['cart_products'] = $cartProdcts->findAll();
-      $cartProdcts = $data['cart_products'];
-      show($cartProdcts);
 
-      // $cart = new CartDetails();
-      // $data['cart'] = $cart->findAll();
+
       $cart = $data['cart'];
-      show($cart);
+      // show($cart);
+
+      $cartProducts = $data['cart_products'];
+      // show($cartProducts);
+
 
       // $tables = ['product'];
       // $columns = ['*'];
@@ -40,30 +39,29 @@
       // $cartItem = $cartProducts->join($tables, $columns, $condition,);
       ?>
 
-      
+
 
       <?php
-      if (isset($cartItem) && !empty($cartItem)) {
-        foreach ($cartItem as $cartItems) {
-          show($cartItems);
+      if (isset($cartProducts) && !empty($cartProducts)) {
+        foreach ($cartProducts as $cartProduct) {
+          show($cartProduct);
       ?>
           <td>
             <div class="smallcart">
               <div class="product">
                 <div class="checkboxe">
-                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartItems->product_id; ?>" <?php echo ($cartItems->selected == 1) ? 'checked' : ''; ?>>
+                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>" <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
 
 
                 </div>
                 <div class="imag-box">
-                  <!-- check this -->
-                  <img class="img" src="img1/<?php echo $cartItems->product_image; ?>" width="80vw" height="80vw" alt="<?php echo $cartItems->product_name; ?>">
+                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>" alt="<?php echo $cartProduct['name'] . '2'; ?>" width="80vw" height="80vw">
                 </div>
                 <div class="details">
                   <div class="pdetails">
                     <div class="product-details">
-                      <p><?php echo  $cartItems->name ?></p>
-                      <p class="unit-price"><?php echo  $cartItems->price ?></p>
+                      <p><?php echo  $cartProduct['name'] ?></p>
+                      <p class="unit-price"><?php echo  $cartProduct['price'] ?></p>
                     </div>
                   </div>
                 </div>
@@ -73,7 +71,7 @@
 
 
                   <div class="remove">
-                    <button type="button" class="remove-button" data-product-id="<?php echo $cartItems->product_id; ?>">
+                    <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
                       <i class="fas fa-trash"></i>
                     </button>
                   </div>
@@ -81,9 +79,9 @@
 
 
                   <div class="quantity">
-                    <button type="button" class="decrease" data-product-id="<?php echo $cartItems->product_id; ?>"><i class="fas fa-minus"></i></button>
-                    <input type="text" value="<?php echo $cartItems->quantity; ?>" class="form-control">
-                    <button type="button" class="increase" data-product-id="<?php echo $cartItems->product_id; ?>"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="decrease" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-minus"></i></button>
+                    <input type="text" value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                    <button type="button" class="increase" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-plus"></i></button>
                   </div>
                 </div>
               </div>
@@ -91,9 +89,9 @@
           </td>
       <?php
 
-          if ($cartItems->selected === 'true') {
+          if ($cartProduct->selected === 'true') {
             // Only consider selected items for calculation
-            $subtotal += $cartItems->price; // Accumulate subtotal
+            $subtotal += $cart['price']; // Accumulate subtotal
             $selectedItemsCount++; // Increment the selected items counter
           }
           // Accumulate subtotal
@@ -151,9 +149,9 @@
       const delivery = <?php echo $delivery; ?>;
 
 
-    //////////////////////////////////
+      //////////////////////////////////
 
-    
+
       function updateTotal() {
         let newSubtotal = 0;
 
@@ -221,12 +219,12 @@
       updateTotal();
 
       // AJAX function to update the cart
-      function updateCart(pid, quantity) {
+      function updateCart(productId, quantity) {
         const ROOT = "http://localhost/wcf/"; // Update with your server URL
         $.ajax({
-          url: ROOT + 'Cart', // Endpoint to handle updating the cart
+          url: ROOT + 'Cart/edit', // Endpoint to handle updating the cart
           data: {
-            pid: pid,
+            productId: productId,
             quantity: quantity,
             action: 'update'
           }, // Include the updated quantity and action
@@ -252,7 +250,7 @@
       function removeFromCart(productId) {
         const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
-          url: ROOT + 'Cart', // Endpoint to handle removing the item from the cart
+          url: ROOT + 'Cart/edit', // Endpoint to handle removing the item from the cart
           data: {
             productId: productId,
             action: 'remove'
@@ -269,7 +267,7 @@
     // Function to handle checkbox change event
     function handleCheckboxChange(checkbox) {
       const productId = checkbox.dataset.productId;
-      const selected = checkbox.checked ? 1:0;
+      const selected = checkbox.checked ? 1 : 0;
       // console.log(productId, selected);
       updateSelectedItems(productId, selected); // Call the function to update selected items
     }
@@ -278,7 +276,7 @@
     function updateSelectedItems(productId, selected) {
       const ROOT = "http://localhost/wcf/";
       $.ajax({
-        url: ROOT + 'Cart', // Endpoint to handle updating selected items
+        url: ROOT + 'Cart/edit', // Endpoint to handle updating selected items
         method: 'POST',
         data: {
           productId: productId,
