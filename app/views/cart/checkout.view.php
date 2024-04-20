@@ -77,12 +77,9 @@
   <input type="checkbox" id="delivery-toggle">
   <div class="toggle-container">
     <i class="fas fa-toggle-off toggle-icon unchecked"></i>
-    <i class="fas fa-toggle-on toggle-icon checked"></i>
+   
   </div>
 </div>
-
-
-
     <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
     <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
     <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
@@ -100,9 +97,21 @@
 
 <!-- Your JavaScript code goes here -->
 
-</body>
-</html>
 
+<!-- JavaScript code -->
+<script>
+  // Function to handle toggle switch
+  document.getElementById('delivery-toggle').addEventListener('change', function() {
+    const toggleContainer = document.querySelector('.toggle-container');
+    if (this.checked) {
+      toggleContainer.classList.remove('unchecked');
+      toggleContainer.classList.add('checked');
+    } else {
+      toggleContainer.classList.remove('checked');
+      toggleContainer.classList.add('unchecked');
+    }
+  });
+</script>
   <style>
  .containercheckout {
   display: flex;
@@ -151,29 +160,32 @@ input[type="checkbox"] {
   display: none;
 }
 
-/* Styling for the toggle container */
+/* CSS styling for toggle switch */
+
+/* Adjust the size of the toggle container */
 .toggle-container {
   display: inline-block;
   position: relative;
-  width: 50px; /* Adjust width as needed */
-  height: 26px; /* Adjust height as needed */
+  width: 40px; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
   background-color: #ccc; /* Background color of the toggle */
-  border-radius: 15px; /* Roundness of the toggle */
+  border-radius: 10px; /* Roundness of the toggle */
   cursor: pointer;
 }
 
-/* Styling for the toggle icons */
+/* Adjust the size and position of the toggle icons */
 .toggle-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   color: #fff; /* Color of the toggle icons */
   transition: transform 0.3s ease; /* Smooth transition effect */
+  font-size: 12px; /* Adjust the size of the icons */
 }
 
 /* Styling for the "on" state of the toggle */
 .checked {
-  left: calc(100% - 25px); /* Adjust left position for the "on" state */
+  left: calc(100% - 20px); /* Adjust left position for the "on" state */
 }
 
 /* Styling for the "off" state of the toggle */
@@ -203,7 +215,9 @@ input[type="checkbox"]:not(:checked) + .toggle-container .checked {
   transform: translateX(100%);
 }
 
-
+.delivery-option input[type="checkbox"] {
+    display: none;
+  }
 
 .cart {
   width: 100%;
