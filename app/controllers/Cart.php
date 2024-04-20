@@ -161,7 +161,7 @@ class Cart extends Controller
         $this->view('cart/cart', $data);
     }
 
-    public function getCartItemsCount()
+    public static function getCartItemsCount()
     {
         $cartModel = new CartProduct();
         $cartModel->setId(6); // Assuming a static customer ID for demonstration
@@ -170,7 +170,7 @@ class Cart extends Controller
 
         $data['cart_item_count'] = $cartItemCount;
 
-        show($data['cart_item_count']);
+        // show($data['cart_item_count']);
         return $data['cart_item_count'];
     }
 

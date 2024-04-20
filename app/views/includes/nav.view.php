@@ -1,8 +1,9 @@
 <?php 
 $cartItemCount = 0;// logic to get the count of items in the cart;
-$cartModel = new Cart();
-$cartItemCount = $cartModel->getCartItemsCount();
-//show($cartItemCount);
+// $cartModel = new Cart();
+$cartItemCount = Cart::getCartItemsCount();
+show($cartItemCount);
+
 
 ?>
 
@@ -131,7 +132,7 @@ $cartItemCount = $cartModel->getCartItemsCount();
                 window.location.href = '<?= ROOT ?>/cart';
                 break;
             case 'tomanage-acc':
-                window.location.href = '<?= ROOT ?>/customer/<?= Auth::getCustomerID() ?>';
+                window.location.href = '<?= ROOT ?>/customer/<?= (Auth::logged_in() == 1)? Auth::getCustomerID()  : 0 ?>';
                 break;
             case 'toregister':
                 window.location.href = '<?= ROOT ?>/signup';
