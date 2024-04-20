@@ -1,6 +1,9 @@
 <?php 
 $cartItemCount = 0;// logic to get the count of items in the cart;
-$data['cartItemCount'] = $cartItemCount;
+$cartModel = new Cart();
+$cartItemCount = $cartModel->getCartItemsCount();
+//show($cartItemCount);
+
 ?>
 
     <nav class="nav-main">

@@ -160,4 +160,32 @@ class Cart extends Controller
 
         $this->view('cart/cart', $data);
     }
+
+    public function getCartItemsCount()
+    {
+        $cartModel = new CartProduct();
+        $cartModel->setId(6); // Assuming a static customer ID for demonstration
+        $cartItems = $cartModel->getItemsById();
+        $cartItemCount = isset($cartItems) ? count($cartItems) : 0;
+
+        $data['cart_item_count'] = $cartItemCount;
+
+        show($data['cart_item_count']);
+        return $data['cart_item_count'];
+    }
+
+    // public function checkout()
+    // {
+    //     $db = new Database();
+
+    //     $customer_id = 6;
+
+    //     // Fetch cart data
+    //     $data['cart'] = $db->query("SELECT * FROM cart WHERE customer_id = $customer_id ");
+    //     $cart_owner = $data['cart'][0]->customer_id;
+
+    //     // Fetch cart products
+    //     $cart_data['cart_products'] = $db->query("SELECT * FROM cart_products WHERE customer_id = :customer_id AND selected = 1", [':customer_id' => $cart_owner]);
+    // }
+
 }
