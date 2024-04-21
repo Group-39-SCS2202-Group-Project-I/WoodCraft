@@ -57,6 +57,14 @@
                         <span style="margin-left: 5px;">Productions</span>
                     </a>
                 </li>
+                <li class="sidebar-list-item nav-btn" id="bulk-nav">
+                    <a>
+                        <span class="material-symbols-outlined">
+                            order_play
+                        </span>
+                        <span style="margin-left: 5px;">Bulk Order Requests</span>
+                    </a>
+                </li>
 
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
@@ -109,6 +117,9 @@
                             break;
                         case 'workers-nav':
                             window.location.href = '<?= ROOT ?>/gm/workers';
+                            break;
+                        case 'bulk-nav':
+                            window.location.href = '<?= ROOT ?>/gm/bulk_order_requests';
                             break;
 
                         default:

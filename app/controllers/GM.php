@@ -228,4 +228,18 @@ class GM extends Controller
             }
         }
     }
+
+    public function bulk_order_requests()
+    {
+        if (!Auth::logged_in()) {
+            message('Please login to view the GM section');
+            redirect('login');
+        }
+
+        if (!Auth::is_gm()) {
+            $this->view('404');
+        } else {
+            $this->view('gm/bulk_req');
+        }
+    }
 }
