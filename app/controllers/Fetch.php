@@ -254,7 +254,7 @@ class Fetch extends Controller
             //     $product_data['reviews'] = [];
             // }
 
-            
+
             // $avarage_rating = 0;
             // if (count($product_reviews) > 0) {
             //     $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
@@ -829,7 +829,6 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($product_rating);
-
     }
 
     public function material_stk_by_material_id($id)
@@ -1083,6 +1082,83 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($count);
-        
+    }
+
+    public function new_bulk_req()
+    {
+        $db = new Database();
+        $newBulkRequests = $db->query("SELECT * FROM bulk_order_req WHERE status = 'new'");
+
+        foreach ($newBulkRequests as $key => $newBulkRequest) {
+            $product_id = $newBulkRequest->product_id;
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+            $newBulkRequests[$key]->product_name = $product[0]->name;
+            $cat_id = $product[0]->product_category_id;
+            $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+            $newBulkRequests[$key]->category_name = $category[0]->category_name;
+            $user_id = $newBulkRequest->user_id;
+            $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+            $newBulkRequests[$key]->customer_id = $customer[0]->customer_id;
+            
+            
+
+
+            $piid = $product[0]->product_inventory_id;
+
+            $quantity_available = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $piid");
+            $newBulkRequests[$key]->quantity_available = $quantity_available[0]->quantity;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($newBulkRequests);
+    }
+
+    public function bulk_req()
+    {
+        $db = new Database();
+        $bulkReq = $db->query("SELECT * FROM bulk_order_req WHERE status != 'new'");
+
+        foreach ($bulkReq as $key => $newBulkRequest) {
+            $product_id = $newBulkRequest->product_id;
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+            $bulkReq[$key]->product_name = $product[0]->name;
+            $cat_id = $product[0]->product_category_id;
+            $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+            $bulkReq[$key]->category_name = $category[0]->category_name;
+
+            $user_id = $newBulkRequest->user_id;
+            $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+            $bulkReq[$key]->customer_id = $customer[0]->customer_id;
+
+           
+
+            // $piid = $product[0]->product_inventory_id;
+
+            // $quantity_available = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $piid");
+            // $newBulkRequests[$key]->quantity_available = $quantity_available[0]->quantity;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($bulkReq);
+    }
+
+    public function bulk_req_by_id($id)
+    {
+        $db = new Database();
+        $bulkReq = $db->query("SELECT * FROM bulk_order_req WHERE bulk_req_id = $id");
+
+        $product_id = $bulkReq[0]->product_id;
+        $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+        $bulkReq[0]->product_name = $product[0]->name;
+        $cat_id = $product[0]->product_category_id;
+        $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+        $bulkReq[0]->category_name = $category[0]->category_name;
+
+        $user_id = $bulkReq[0]->user_id;
+        $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+        $bulkReq[0]->customer_id = $customer[0]->customer_id;
+
+        header("Content-Type: application/json");
+        echo json_encode($bulkReq[0]);
     }
 }

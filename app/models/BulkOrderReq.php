@@ -9,7 +9,11 @@ class BulkOrderReq extends Model
     protected $allowedColumns = [
         "product_id",
         "quantity",
-        "status"
+        "status",
+        'user_id',
+        'price_per_unit',
+        'total',
+        'estimated_date'
     ];
 
     public function validate($data)
@@ -18,6 +22,10 @@ class BulkOrderReq extends Model
 
         if (empty($data['product_id'])) {
             $this->errors['product_id'] = "Product ID is required";
+        }
+
+        if (empty($data['user_id'])) {
+            $this->errors['user_id'] = "User ID is required";
         }
 
         if (empty($data['quantity'])) {

@@ -229,7 +229,7 @@ class GM extends Controller
         }
     }
 
-    public function bulk_order_requests()
+    public function bulk_order_requests($id = '')
     {
         if (!Auth::logged_in()) {
             message('Please login to view the GM section');
@@ -239,7 +239,31 @@ class GM extends Controller
         if (!Auth::is_gm()) {
             $this->view('404');
         } else {
-            $this->view('gm/bulk_req');
+
+            if ($id == '') {
+                $url = ROOT . "/fetch/new_bulk_req";
+                $response = file_get_contents($url);
+                $bulk_reqs = json_decode($response, true);
+
+                $data['new_bulk_requests'] = $bulk_reqs;
+
+                $url2 = ROOT . "/fetch/bulk_req";
+                $response2 = file_get_contents($url2);
+                $bulk_reqs2 = json_decode($response2, true);
+
+                $data['bulk_requests'] = $bulk_reqs2;
+
+                $this->view('gm/bulk_req', $data);
+            }
+            else
+            {
+                $url = ROOT . "/fetch/bulk_req_by_id/$id";
+                $response = file_get_contents($url);
+                $bulk_req = json_decode($response, true);
+
+                $data['bulk_req'] = $bulk_req;
+                $this->view('gm/bulk_req_details', $data);
+            }
         }
     }
 }
