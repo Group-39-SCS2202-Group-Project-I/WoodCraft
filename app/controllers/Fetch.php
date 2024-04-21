@@ -1150,6 +1150,13 @@ class Fetch extends Controller
         $product_id = $bulkReq[0]->product_id;
         $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
         $bulkReq[0]->product_name = $product[0]->name;
+        $bulkReq[0]->product_description = $product[0]->description;
+        $bulkReq[0]->product_price = $product[0]->price;
+
+        $product_inventory_id = $product[0]->product_inventory_id;
+        $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+        $bulkReq[0]->quantity_available = $product_inventory[0]->quantity;
+
         $cat_id = $product[0]->product_category_id;
         $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
         $bulkReq[0]->category_name = $category[0]->category_name;
@@ -1157,6 +1164,12 @@ class Fetch extends Controller
         $user_id = $bulkReq[0]->user_id;
         $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
         $bulkReq[0]->customer_id = $customer[0]->customer_id;
+        $bulkReq[0]->customer_name = ucfirst($customer[0]->first_name) . ' ' . ucfirst($customer[0]->last_name);
+
+        $bulkReq[0]->customer_email = $db->query("SELECT email FROM user WHERE user_id = $user_id")[0]->email;
+
+
+
 
         header("Content-Type: application/json");
         echo json_encode($bulkReq[0]);

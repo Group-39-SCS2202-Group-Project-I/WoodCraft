@@ -25,13 +25,13 @@ $bulkRequests = $data['bulk_requests'];
         <tbody class="table-section__tbody">
             <?php foreach ($newBulkRequests as $request) : ?>
                 <tr>
-                    <td><?= $request['bulk_req_id'] ?></td>
-                    <td><?= $request['customer_id'] ?></td>
+                    <td><?= 'BRI-' . str_pad($request['bulk_req_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                    <td><?= 'CUS-' . str_pad($request['customer_id'], 3, '0', STR_PAD_LEFT) ?></td>
                     <td><?= $request['product_name'] ?></td>
                     <td><?= $request['category_name'] ?></td>
                     <td><?= $request['status'] ?></td>
                     <td>
-                        <a href="<?= ROOT ?>/gm/bulk_order_requests/<?= $request['bulk_req_id'] ?>">View</a>
+                        <a class="table-section__button" href="<?= ROOT ?>/gm/bulk_order_requests/<?= $request['bulk_req_id'] ?>">Approve/Reject</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -51,21 +51,21 @@ $bulkRequests = $data['bulk_requests'];
                 <th>Product</th>
                 <th>Category</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <!-- <th>Actions</th> -->
             </tr>
 
         </thead>
         <tbody class="table-section__tbody">
             <?php foreach ($bulkRequests as $request) : ?>
                 <tr>
-                    <td><?= $request['bulk_req_id'] ?></td>
-                    <td><?= $request['customer_id'] ?></td>
+                    <td><?= 'BRI-' . str_pad($request['bulk_req_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                    <td><?= 'CUS-' . str_pad($request['customer_id'], 3, '0', STR_PAD_LEFT) ?></td>
                     <td><?= $request['product_name'] ?></td>
                     <td><?= $request['category_name'] ?></td>
                     <td><?= $request['status'] ?></td>
-                    <td>
+                    <!-- <td>
                         <a href="<?= ROOT ?>/gm/bulk_order_requests/<?= $request['bulk_req_id'] ?>">View</a>
-                    </td>
+                    </td> -->
                 </tr>
             <?php endforeach; ?>
 
