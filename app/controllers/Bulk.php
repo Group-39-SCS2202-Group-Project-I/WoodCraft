@@ -12,7 +12,7 @@ class Bulk extends Controller
 		// $products = json_decode($response, true);
 
 		// $data['products'] = $products['products'];
-		if (!Auth::logged_in()) {
+		if (!Auth::is_customer()) {
 			message('Please login to view this section');
 			redirect('login');
 		}
