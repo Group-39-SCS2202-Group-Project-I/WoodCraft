@@ -21,7 +21,7 @@ class Login extends Controller
 			]);
 
 			$a = $row[0];
-
+			// show($a);
 			
 			if ($a) 
 			{

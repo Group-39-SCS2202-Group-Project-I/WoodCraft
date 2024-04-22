@@ -92,6 +92,8 @@ class Customer extends Controller
 			message('Validation failed. Please check your inputs.');
 			redirect('customer/editProfile/' . $id);
 		}
+
+
 		
 		// Validate and sanitize form data
 		$updatedData = [
@@ -107,7 +109,7 @@ class Customer extends Controller
 		show($updatedData);
 
 		// Perform the database update
-		$success = $this->updateCustomerProfile($id, $updatedData);
+		$success = $customerModel->updateCustomerProfile($id, $updatedData);
 		show($success);
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -124,7 +126,7 @@ class Customer extends Controller
 
 		if ($success) {
 			message('Profile updated successfully');
-			redirect('customer/updateProfile/' . $id);
+			redirect('customer/profile/' . $id);
 		} 
 		else {
 			message('Failed to update profile. Please try again.');
@@ -150,7 +152,8 @@ class Customer extends Controller
 
 		// Perform the database update
 		$db = new Database;
-		return $db->query($query, $data);
+		$db->query($query, $data);
+		return 1;
 	}
 
 	public function changepassword($id = '')
