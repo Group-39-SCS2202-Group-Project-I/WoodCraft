@@ -292,6 +292,10 @@ class GM extends Controller
 
         $db->query($query, $data);
 
+        $url = ROOT . "/fetch/bulk_req_by_id/$id";
+        $response = file_get_contents($url);
+        $bulk_req = json_decode($response, true);
+
         if($_POST['status'] == 'accepted')
         {
             $message = "Your bulk order request has been accepted. The estimated delivery date is " . $_POST['estimated_date'] . ". The total cost is " . $_POST['total'];
