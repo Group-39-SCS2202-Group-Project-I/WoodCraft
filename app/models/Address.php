@@ -59,5 +59,18 @@ class Address
 
 		return false;
 	}
-	
+    public function getAddressByCustomerId($customerId)
+    {
+        $db = new Database();
+        
+        // Fetch the customer's address_id from the customer table
+        $customerAddressId = $db->select('customer', 'customer_id = ?', [$customerId])[0]->address_id;
+    
+        // Fetch the address using the retrieved address_id
+        $address = $db->select($this->table, 'address_id = ?', [$customerAddressId])[0] ?? null;
+    
+        return $address;
+    }
+    
+    
 }

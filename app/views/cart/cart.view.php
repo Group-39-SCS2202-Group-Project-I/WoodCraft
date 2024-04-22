@@ -39,6 +39,11 @@
       $cart = $data['cart'];
       // show($cart);
 
+      $subtotal = $cart[0]->sub_total;
+      $discount = 0;
+      $total = $cart[0]->total;
+      $delivery = 0;
+
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
 
@@ -60,7 +65,7 @@
       <?php
       if (isset($cartProducts) && !empty($cartProducts)) {
         foreach ($cartProducts as $cartProduct) {
-          show($cartProduct);
+          // show($cartProduct);
       ?>
           <td>
             <div class="smallcart">
@@ -105,11 +110,11 @@
           </td>
       <?php
 
-          if ($cartProduct->selected === 'true') {
-            // Only consider selected items for calculation
-            $subtotal += $cart['price']; // Accumulate subtotal
-            $selectedItemsCount++; // Increment the selected items counter
-          }
+          // if ($cartProduct->selected === 'true') {
+          //   // Only consider selected items for calculation
+          //   $subtotal += $cart['price']; // Accumulate subtotal
+          //   $selectedItemsCount++; // Increment the selected items counter
+          // }
           // Accumulate subtotal
         }
       } else {
@@ -123,17 +128,17 @@
         <h2>Order Summary</h2>
       </div>
       <div class="detail">
-        <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
-        <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
-        <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
-        <hr />
-        <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
-      </div>
+            <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
+            <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
+            <h2 id="delivery">Delivery<span>-$<?php echo number_format($delivery, 2); ?></span></h2>
+            <hr>
+            <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
+        </div>
       <div class="promo">
         <div class="promocode">
           <input class="promocode" type="text" placeholder="Add the promocode " id="promoCode" />
         </div>
-        <button class="cart-first-btn" id="promo" onclick="promo()">Apply</button>
+        <button class="applybutton" id="promo" onclick="promo()">Apply</button>
       </div>
       <div style="padding: 0 10px; margin-bottom: 20px">
         <button class="checkout" onclick="redirectToCheckout()">Check Out</button>
@@ -178,32 +183,32 @@
   console.log("Customer ID:", customer_id);
 
   // Function to update cart totals
-  function updateTotal() {
-    console.log("Updating Total...");
+  // function updateTotal() {
+  //   console.log("Updating Total...");
 
-    let newSubtotal = 0;
+  //   let newSubtotal = 0;
 
-    // Loop through each product
-    quantityInputs.forEach(function(input, index) {
-      const quantity = parseInt(input.value, 10);
-      const unitPrice = parseFloat(unitPrices[index].innerText);
+  //   // Loop through each product
+  //   quantityInputs.forEach(function(input, index) {
+  //     const quantity = parseInt(input.value, 10);
+  //     const unitPrice = parseFloat(unitPrices[index].innerText);
 
-      // Check if the checkbox is checked
-      if (selectCheckboxes[index].checked) {
-        newSubtotal += quantity * unitPrice;
-      }
-    });
+  //     // Check if the checkbox is checked
+  //     if (selectCheckboxes[index].checked) {
+  //       newSubtotal += quantity * unitPrice;
+  //     }
+  //   });
 
-    const newDiscount = 0.2 * newSubtotal;
-    const newTotal = newSubtotal - newDiscount + delivery;
+  //   const newDiscount = 0.2 * newSubtotal;
+  //   const newTotal = newSubtotal - newDiscount + delivery;
 
-    subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
-    discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
-    deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
-    totalElement.innerText = "Total: $" + newTotal.toFixed(2);
+  //   subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
+  //   discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
+  //   deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
+  //   totalElement.innerText = "Total: $" + newTotal.toFixed(2);
 
-    console.log("Total Updated:", newTotal);
-  }
+  //   console.log("Total Updated:", newTotal);
+  // }
 
   // Attach event listeners
   decreaseButtons.forEach(function(button) {
@@ -215,7 +220,7 @@
 
       if (currentValue > 1) {
         input.value = currentValue - 1;
-        updateTotal();
+        // updateTotal();
         updateCart(customer_id, productId, input.value); // Update cart with new quantity
       }
     });
@@ -227,7 +232,7 @@
           const currentValue = parseInt(input.value, 10);
           const productId = button.dataset.productId;
           input.value = currentValue + 1;
-          updateTotal();
+          // updateTotal();
           updateCart(customer_id, productId, input.value); // Update cart with new quantity
         });
       });
@@ -235,7 +240,7 @@
       quantityInputs.forEach(function(input) {
         input.addEventListener("input", function() {
           const productId = input.dataset.productId;
-          updateTotal();
+          // updateTotal();
           updateCart(customer_id, productId, input.value); // Update cart with new quantity
         });
       });
@@ -245,7 +250,7 @@
       });
 
       // Initial update
-      updateTotal();
+      // updateTotal();
 
       // AJAX function to update the cart
       function updateCart(customer_id, productId, quantity) {

@@ -20,16 +20,13 @@ $product_inventory = json_decode($response4, true);
 
 $cart_products = $_SESSION['cart_products'];
 
-// Flag to track if the product ID is found
+
 $productFound = false;
 
-// Iterate through each cart product object in the array
 foreach ($cart_products as $cart_product) {
-    // Check if the 'product_id' property of the cart product matches the $product_id you are looking for
     if ($cart_product->product_id == $product_id) {
-        // Product ID found in cart products array
         $productFound = true;
-        break; // Exit the loop early since we found the product ID
+        break;
     }
 }
 
@@ -39,7 +36,7 @@ foreach ($cart_products as $cart_product) {
 // show($product_ratings);
 // unset($_SESSION['cart']);
 // unset($_SESSION['cart_products']);
-show($_SESSION);
+// show($_SESSION);
 // show($productFound);
 
 ?>

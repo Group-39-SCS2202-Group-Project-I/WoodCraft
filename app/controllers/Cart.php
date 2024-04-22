@@ -8,7 +8,7 @@ class Cart extends Controller
         // show(Auth::getCustomerID());
         $db = new Database();
 
-        $customer_id = 6;
+        $customer_id = Auth::getCustomerID();
 
 
         // Fetch cart data
@@ -47,7 +47,7 @@ class Cart extends Controller
             } elseif ($cart_product->quantity > $product_inventory[0]->quantity) {
                 $cart_product->quantity = $product_inventory[0]->quantity;
                 $error[] = "Quantity exceeds available stock";
-                $cart_product->selected = 0;
+                // $cart_product->selected = 0;
             } else {
                 $product_inventory = (array) $product_inventory[0];
             }
