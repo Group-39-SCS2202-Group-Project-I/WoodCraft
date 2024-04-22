@@ -19,7 +19,7 @@ class Checkout extends Controller {
         $customerModel = new Customer();
         $customerAddress = $customerModel->getCustomerAddress($customerId); // Replace with your actual method
         $data['customerAddress'] = $customerAddress;
-        show($customerAddress);
+       
 
         // Load the checkout view
         $this->view('cart/checkout', $data);
