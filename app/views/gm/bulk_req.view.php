@@ -6,6 +6,11 @@ $bulkRequests = $data['bulk_requests'];
 // show($newBulkRequests);
 // show($bulkRequests);
 ?>
+<?php if (message()) : ?>
+    <div class="mzg-box">
+        <div class="messege"><?= message('', true) ?></div>
+    </div>
+<?php endif; ?>
 
 <div class="table-section">
     <h2 class="table-section__title">New Bulk Requests</h2>
