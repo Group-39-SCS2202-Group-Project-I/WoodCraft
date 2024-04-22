@@ -155,16 +155,27 @@ class SK extends Controller
             else if($x == 'bulk')
             {
                 $db = new Database();
-                $bulk_orders = "SELECT * FROM bulk_order_details WHERE  status = 'processing' OR status = 'pending'";
+                $bulk_orders = "SELECT * FROM bulk_order_details WHERE  status = 'processing' OR status = 'pending' OR status = 'ready to pick up' OR status = 'delivering'";
                 $bulks = $db->query($bulk_orders);
 
                 foreach($bulks as $bulk)
                 {
+                    $user_id = $bulk->user_id;
+                    $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+                    $x = $db->query($customer_name)[0];
+                    $bulk->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
                     $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $bulk->bulk_req_id";
                     $x = $db->query($bulk_req)[0];
                     $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
                     $y = $db->query($product_name)[0];
                     $x->product_name = $y->name;
+
+                    $product_inventory_id = "SELECT product_inventory_id FROM product WHERE product_id = $x->product_id";
+                    $y = $db->query($product_inventory_id)[0];
+                    $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
+                    $z = $db->query($quantity_available)[0];
+                    $x->quantity_available = $z->quantity;
 
                     $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
                     $z = $db->query($product_category_id)[0];
@@ -172,10 +183,38 @@ class SK extends Controller
                     $a = $db->query($category_name)[0];
                     $x->category_name = $a->category_name;
 
+
+
                     $bulk->bulk_req = $x;
                 }
 
-                $data['bulk_orders'] = $bulks;
+                // filter type=pickup and type=delivery from $bulks
+                $pickups = [];
+                $deliveries = [];
+                foreach($bulks as $bulk)
+                {
+                    if($bulk->type == 'pickup')
+                    {
+                        array_push($pickups, $bulk);
+                    }
+                    else
+                    {
+                        array_push($deliveries, $bulk);
+                    }
+                }
+                foreach($deliveries as $d)
+                {
+                    $address = "SELECT * FROM address WHERE address_id = $d->delivery_address_id";
+                    $x = $db->query($address)[0];
+                    // $x = (array) $x;
+                    $d->delivery_address = $x;
+                }
+
+                $data['pickups'] = $pickups;
+                $data['deliveries'] = $deliveries;
+                
+                $data['pickup_count'] = count($pickups);
+                $data['delivery_count'] = count($deliveries);
 
                 $this->view('sk/bulk_orders', $data);
             }
