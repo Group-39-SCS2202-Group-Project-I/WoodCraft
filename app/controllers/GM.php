@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Psr7\Query;
 
 class GM extends Controller
 {
@@ -254,9 +255,7 @@ class GM extends Controller
                 $data['bulk_requests'] = $bulk_reqs2;
 
                 $this->view('gm/bulk_req', $data);
-            }
-            else
-            {
+            } else {
                 $url = ROOT . "/fetch/bulk_req_by_id/$id";
                 $response = file_get_contents($url);
                 $bulk_req = json_decode($response, true);
@@ -265,5 +264,47 @@ class GM extends Controller
                 $this->view('gm/bulk_req_details', $data);
             }
         }
+    }
+
+    public function update_bulk_req($id)
+    {
+        // show($_POST);
+
+        $db = new Database;
+        $email = $_POST['email'];
+
+        if ($_POST['status'] == 'accepted') {
+            $data = [
+                'status' => 'accepted',
+                'estimated_date' => $_POST['estimated_date'],
+                'price_per_unit' => $_POST['price_per_unit'],
+                'total' => $_POST['total'],
+            ];
+
+            $query = "UPDATE bulk_order_req SET status = :status, estimated_date = :estimated_date, price_per_unit = :price_per_unit, total = :total WHERE bulk_req_id = $id";
+        } else {
+            $data = [
+                'status' => 'rejected'
+            ];
+
+            $query = "UPDATE bulk_order_req SET status = :status WHERE bulk_req_id = $id";
+        }
+
+        $db->query($query, $data);
+
+        if($_POST['status'] == 'accepted')
+        {
+            $message = "Your bulk order request has been accepted. The estimated delivery date is " . $_POST['estimated_date'] . ". The total cost is " . $_POST['total'];
+            // email
+        }
+        else
+        {
+            $message = "Your bulk order request has been rejected";
+            // email
+        }
+
+        message('Bulk Order Request updated successfully');
+        show('Bulk Order Request updated successfully');
+        redirect('gm/bulk_order_requests');
     }
 }
