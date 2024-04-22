@@ -142,6 +142,10 @@ class SK extends Controller
             {
                 $this->view('sk/completed_orders', $data);
             }
+            else if($x == 'bulk')
+            {
+                $this->view('sk/bulk_orders', $data);
+            }
             else
             {
                 $this->view('sk/orders', $data);
