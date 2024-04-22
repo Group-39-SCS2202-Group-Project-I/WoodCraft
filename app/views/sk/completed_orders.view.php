@@ -1,5 +1,7 @@
 <?php include "inc/header.view.php"; ?>
 
+<?php show($data); ?>
+
 <style>
     .top-btn-selected {
         background-color: var(--blk);

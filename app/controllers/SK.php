@@ -140,10 +140,43 @@ class SK extends Controller
 
             if($x == 'completed')
             {
+                $db = new Database();   
+                $cro = "SELECT * FROM order_details WHERE  status = 'completed'";
+                $retail_orders = $db->query($cro);
+
+                $cbo = "SELECT * FROM bulk_order_details WHERE  status = 'completed'";
+                $bulk_orders = $db->query($cbo);
+
+
+                $data['retail_orders'] = $retail_orders;
+                $data['bulk_orders'] = $bulk_orders;
                 $this->view('sk/completed_orders', $data);
             }
             else if($x == 'bulk')
             {
+                $db = new Database();
+                $bulk_orders = "SELECT * FROM bulk_order_details WHERE  status = 'processing' OR status = 'pending'";
+                $bulks = $db->query($bulk_orders);
+
+                foreach($bulks as $bulk)
+                {
+                    $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $bulk->bulk_req_id";
+                    $x = $db->query($bulk_req)[0];
+                    $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
+                    $y = $db->query($product_name)[0];
+                    $x->product_name = $y->name;
+
+                    $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
+                    $z = $db->query($product_category_id)[0];
+                    $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $z->product_category_id";
+                    $a = $db->query($category_name)[0];
+                    $x->category_name = $a->category_name;
+
+                    $bulk->bulk_req = $x;
+                }
+
+                $data['bulk_orders'] = $bulks;
+
                 $this->view('sk/bulk_orders', $data);
             }
             else
@@ -164,6 +197,11 @@ class SK extends Controller
                         $y = $db->query($product)[0];
                         $item->product_name = $y->name;
                         $item->price = $y->price;
+
+                        $product_category_id = $y->product_category_id;
+                        $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                        $z = $db->query($category_name)[0];
+                        $item->category_name = $z->category_name;
                     }
                     $pickup->items = $x;
                 }
@@ -189,6 +227,11 @@ class SK extends Controller
                         $z = $db->query($product)[0];
                         $item->product_name = $z->name;
                         $item->price = $z->price;
+
+                        $product_category_id = $z->product_category_id;
+                        $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                        $p = $db->query($category_name)[0];
+                        $item->category_name = $p->category_name;
                     }
                     $delivery->items = $y;
 
