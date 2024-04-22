@@ -203,6 +203,40 @@
             margin-bottom: 15px;
             border-radius: 0.5rem;
         }
+
+        /* CSS for form buttons */
+.form-buttons {
+    margin-top: 20px;
+}
+
+.form-buttons button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-buttons button[type="submit"] {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.form-buttons button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.form-buttons button[type="button"] {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.form-buttons button[type="button"]:hover {
+    background-color: #da190b;
+}
+
     </style>
 </head>
 <body>
@@ -213,13 +247,22 @@
     </header>
 
     <div class="contentcheckout">
-        <div class="cartitems">
-            <div class="containercheckout">
-                <div class="changeaddress">
-                    <h2 onclick="showChangeAddressForm()">Change Your Address</h2>
-                    <div class="change-address-form" id="changeAddressForm" style="display: none;">
+    <div class="cartitems">
+        <div class="containercheckout">
+            <div class="changeaddress">
+                <h2 onclick="openModal()"><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
+                <p><?php echo $customerAddress->address_line_1; ?></p>
+                 <p><?php echo $customerAddress->address_line_2; ?></p>
+                  <p><?php echo $customerAddress->city; ?></p>
+                   <p><?php echo $customerAddress->zip_code; ?></p>
+            </div>
+            <!-- Modal for Change Address Form -->
+            <div id="changeAddressModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <!-- Change Address Form -->
+                    <div class="change-address-form">
                         <h2>Change Address</h2>
-
                         <form action="#" method="post" class="address-form">
                             <label for="fullName">Full Name</label>
                             <input type="text" id="fullName" name="fullName" required>
@@ -265,12 +308,18 @@
                             <input type="checkbox" id="defaultBilling" name="defaultBilling">
                             
                             <p>Your existing default address setting will be replaced if you make some changes here.</p>
-                            
-                            <button type="submit">Save</button>
+                            <div class="form-buttons">
+        <button type="submit">Save</button>
+        <button type="button" onclick="closeModal()">Cancel</button>
+    </div>
                         </form>
                     </div>
                 </div>
-                <div class="cart">
+            </div>
+            <!-- End of Modal -->
+            <div class="cart">
+          
+
                     <?php
                     $subtotal = 0;
                     $discount = 0;
@@ -353,6 +402,28 @@
             var form = document.getElementById('changeAddressForm');
             form.style.display = 'block';
         }
+    
+    // Function to open the modal
+    function openModal() {
+        var modal = document.getElementById('changeAddressModal');
+        modal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        var modal = document.getElementById('changeAddressModal');
+        modal.style.display = 'none';
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        var modal = document.getElementById('changeAddressModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+
     </script>
 </body>
 </html>
