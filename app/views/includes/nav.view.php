@@ -1,8 +1,6 @@
 <?php 
 $cartItemCount = 0;// logic to get the count of items in the cart;
-// $cartModel = new Cart();
-$cartItemCount = Cart::getCartItemsCount();
-show($cartItemCount);
+$cartItemCount = $_SESSION['cart']->cart_item_count;
 
 
 ?>

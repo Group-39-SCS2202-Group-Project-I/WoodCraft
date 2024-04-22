@@ -261,7 +261,20 @@
   
   /* Add to Cart Button */
   .add-to-cart {
-    background-color: #333;
+    background-color: var(--coal_black);
+    color: #fff;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .add-to-cart.grayout{
+    background-color: var(--bg1);
     color: #fff;
     padding: 10px 20px;
     margin-left: 10px;

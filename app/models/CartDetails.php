@@ -57,6 +57,40 @@ class CartDetails extends Model
 
         return false;
     }
-}
 
-?>
+    public function getCartByCustomerId($customerId)
+    {
+        $query = "SELECT * FROM cart WHERE customer_id = :customerId";
+        $params = [':customerId' => $customerId];
+        $this->query($query, $params);
+
+        $result = $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $customerId]);
+        // show($result);
+        return $result;
+    }
+
+    public function createCart($customerId)
+    {
+        $query = "INSERT INTO cart (customer_id, created_at, updated_at) VALUES (:customerId, NOW(), NOW())";
+        $params = [':customerId' => $customerId];
+        $this->query($query, $params);
+        show('works');
+    }
+
+
+    public function updateCartTotals($customerId)
+    {
+        $query = "UPDATE cart
+        SET cart_item_count = (SELECT SUM(quantity) FROM cart_products WHERE Customer_id = :customerId),
+            sub_total = (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId),
+            total = (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId) + 0.2 * (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId)
+        WHERE customer_id = :customerId;
+        ";
+
+        // $query = "SELECT COUNT(*) FROM cart_products WHERE cart_id = :cartId";
+        
+        $params = [':customerId' => $customerId];
+        $this->query($query, $params);
+        show('update_works');
+    }
+}

@@ -25,6 +25,16 @@
       $total = 0;
       $delivery = 15;
 
+      // $cartModel = new CartDetails();
+
+      //               // Check if cart record already exists for the customer
+      //               $existingCart = $cartModel->getCartByCustomerId(Auth::getCustomerID());
+      //               show($existingCart);
+      //               show($existingCart[0]->cart_id);
+
+      //               $tot = $cartModel->updateCartTotals($existingCart[0]->customer_id);
+      //               show($tot);
+
 
       $cart = $data['cart'];
       // show($cart);
@@ -32,7 +42,13 @@
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
 
+      // $customer_id = $existingCart[0]->customer_id;
+      // $product_id = $cartProducts[0]['product_id'];
+      // // show($customer_id);
 
+      // $cartpmodel = new CartProduct();
+      // $cartitem = $cartpmodel->getCartItem($customer_id, $product_id);
+      // show($cartitem);
       // $tables = ['product'];
       // $columns = ['*'];
       // $condition = ['product.product_id = cart_products.product_id'];
@@ -55,7 +71,7 @@
 
                 </div>
                 <div class="imag-box">
-                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>" alt="<?php echo $cartProduct['name'] . '2'; ?>" width="80vw" height="80vw">
+                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>" alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
                 </div>
                 <div class="details">
                   <div class="pdetails">
@@ -135,62 +151,75 @@
       window.location.href = checkoutURL;
     }
 
+    const customer_id = <?php echo isset($_SESSION['cart']->customer_id) ? $_SESSION['cart']->customer_id : 'null'; ?>;
+
+  // Check if customer_id is valid before using it
+  if (customer_id !== null) {
+    console.log("Customer ID:", customer_id);
+    // You can use customer_id in your JavaScript code here
+  } else {
+    console.log("Customer ID not found in session");
+  }
 
     document.addEventListener("DOMContentLoaded", function() {
-      const decreaseButtons = document.querySelectorAll(".decrease");
-      const increaseButtons = document.querySelectorAll(".increase");
-      const quantityInputs = document.querySelectorAll(".quantity input");
-      const unitPrices = document.querySelectorAll(".unit-price");
-      const selectCheckboxes = document.querySelectorAll(".select-checkbox");
-      const subtotalElement = document.getElementById("subtotal");
-      const discountElement = document.getElementById("discount");
-      const deliveryElement = document.getElementById("delivery");
-      const totalElement = document.getElementById("total");
-      const delivery = <?php echo $delivery; ?>;
+  console.log("DOM Loaded");
 
+  const decreaseButtons = document.querySelectorAll(".decrease");
+  const increaseButtons = document.querySelectorAll(".increase");
+  const quantityInputs = document.querySelectorAll(".quantity input");
+  const unitPrices = document.querySelectorAll(".unit-price");
+  const selectCheckboxes = document.querySelectorAll(".select-checkbox");
+  const subtotalElement = document.getElementById("subtotal");
+  const discountElement = document.getElementById("discount");
+  const deliveryElement = document.getElementById("delivery");
+  const totalElement = document.getElementById("total");
+  const delivery = <?php echo $delivery; ?>;
 
-      //////////////////////////////////
+  console.log("Customer ID:", customer_id);
 
+  // Function to update cart totals
+  function updateTotal() {
+    console.log("Updating Total...");
 
-      function updateTotal() {
-        let newSubtotal = 0;
+    let newSubtotal = 0;
 
-        // Loop through each product
-        quantityInputs.forEach(function(input, index) {
-          const quantity = parseInt(input.value, 10);
-          const unitPrice = parseFloat(unitPrices[index].innerText);
+    // Loop through each product
+    quantityInputs.forEach(function(input, index) {
+      const quantity = parseInt(input.value, 10);
+      const unitPrice = parseFloat(unitPrices[index].innerText);
 
-          // Check if the checkbox is checked
-          if (selectCheckboxes[index].checked) {
-            newSubtotal += quantity * unitPrice;
-          }
-        });
-
-        const newDiscount = 0.2 * newSubtotal;
-        const newTotal = newSubtotal - newDiscount + delivery;
-
-        subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
-        discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
-        deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
-        totalElement.innerText = "Total: $" + newTotal.toFixed(2);
+      // Check if the checkbox is checked
+      if (selectCheckboxes[index].checked) {
+        newSubtotal += quantity * unitPrice;
       }
+    });
 
+    const newDiscount = 0.2 * newSubtotal;
+    const newTotal = newSubtotal - newDiscount + delivery;
 
-      /////////////////////////////////////////////////////////
+    subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
+    discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
+    deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
+    totalElement.innerText = "Total: $" + newTotal.toFixed(2);
 
+    console.log("Total Updated:", newTotal);
+  }
 
-      decreaseButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-          const input = button.nextElementSibling;
-          const currentValue = parseInt(input.value, 10);
-          const productId = button.dataset.productId;
-          if (currentValue > 1) {
-            input.value = currentValue - 1;
-            updateTotal();
-            updateCart(productId, input.value); // Update cart with new quantity
-          }
-        });
-      });
+  // Attach event listeners
+  decreaseButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      console.log("Decrease Button Clicked");
+      const input = button.nextElementSibling;
+      const currentValue = parseInt(input.value, 10);
+      const productId = button.dataset.productId;
+
+      if (currentValue > 1) {
+        input.value = currentValue - 1;
+        updateTotal();
+        updateCart(customer_id, productId, input.value); // Update cart with new quantity
+      }
+    });
+  });
 
       increaseButtons.forEach(function(button) {
         button.addEventListener("click", function() {
@@ -199,7 +228,7 @@
           const productId = button.dataset.productId;
           input.value = currentValue + 1;
           updateTotal();
-          updateCart(productId, input.value); // Update cart with new quantity
+          updateCart(customer_id, productId, input.value); // Update cart with new quantity
         });
       });
 
@@ -207,7 +236,7 @@
         input.addEventListener("input", function() {
           const productId = input.dataset.productId;
           updateTotal();
-          updateCart(productId, input.value); // Update cart with new quantity
+          updateCart(customer_id, productId, input.value); // Update cart with new quantity
         });
       });
 
@@ -219,12 +248,13 @@
       updateTotal();
 
       // AJAX function to update the cart
-      function updateCart(productId, quantity) {
+      function updateCart(customer_id, productId, quantity) {
         const ROOT = "http://localhost/wcf/"; // Update with your server URL
         $.ajax({
           url: ROOT + 'Cart/edit', // Endpoint to handle updating the cart
           data: {
-            productId: productId,
+            customer_id: customer_id,
+            product_id: productId,
             quantity: quantity,
             action: 'update'
           }, // Include the updated quantity and action
@@ -243,16 +273,17 @@
         button.addEventListener('click', function(event) {
           const productId = button.dataset.productId; // Get the product ID from the button's data attribute
           // console.log(productId);
-          removeFromCart(productId); // Call the removeFromCart function
+          removeFromCart(customer_id, productId); // Call the removeFromCart function
         });
       });
 
-      function removeFromCart(productId) {
+      function removeFromCart(customer_id, productId) {
         const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
           url: ROOT + 'Cart/edit', // Endpoint to handle removing the item from the cart
           data: {
-            productId: productId,
+            customer_id: customer_id,
+            product_id: productId,
             action: 'remove'
           }, // Data to be sent in the AJAX request
           method: "POST", // Method of the AJAX request
@@ -269,17 +300,18 @@
       const productId = checkbox.dataset.productId;
       const selected = checkbox.checked ? 1 : 0;
       // console.log(productId, selected);
-      updateSelectedItems(productId, selected); // Call the function to update selected items
+      updateSelectedItems(customer_id, productId, selected); // Call the function to update selected items
     }
 
     // Function to update selected items in the database
-    function updateSelectedItems(productId, selected) {
+    function updateSelectedItems(customer_id, productId, selected) {
       const ROOT = "http://localhost/wcf/";
       $.ajax({
         url: ROOT + 'Cart/edit', // Endpoint to handle updating selected items
         method: 'POST',
         data: {
-          productId: productId,
+          customer_id: customer_id,
+          product_id: productId,
           selected: selected,
           action: 'updateSelectedItems'
         }, // Include the action parameter

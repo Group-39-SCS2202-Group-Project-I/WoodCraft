@@ -14,10 +14,33 @@ $url3 = ROOT . "/fetch/product_rating/$product_id";
 $response3 = file_get_contents($url3);
 $product_ratings = json_decode($response3, true);
 
+$url4 = ROOT . "/fetch/product_inventory/$product_id";
+$response4 = file_get_contents($url4);
+$product_inventory = json_decode($response4, true);
+
+$cart_products = $_SESSION['cart_products'];
+
+// Flag to track if the product ID is found
+$productFound = false;
+
+// Iterate through each cart product object in the array
+foreach ($cart_products as $cart_product) {
+    // Check if the 'product_id' property of the cart product matches the $product_id you are looking for
+    if ($cart_product->product_id == $product_id) {
+        // Product ID found in cart products array
+        $productFound = true;
+        break; // Exit the loop early since we found the product ID
+    }
+}
 
 // show($images);
+// show($product_inventory);
 // show($data);
 // show($product_ratings);
+// unset($_SESSION['cart']);
+// unset($_SESSION['cart_products']);
+show($_SESSION);
+// show($productFound);
 
 ?>
 
@@ -87,12 +110,13 @@ if (Auth::logged_in()) {
                     </div>
                     <div class="amount-selector">
                         <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
-                        <input class="amount-selector-input" type="number" min="1" value="1">
+                        <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
                         <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
+                        <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
                         <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
-                        <?php show(Auth::getCustomerID()) ?>
-                        <!-- this -->
-
+                        <?php else :?>
+                            <button class="add-to-cart grayout">Add to Cart</button>
+                        <?php endif?>
                     </div>
                 </div>
             </div>
@@ -312,15 +336,18 @@ if (Auth::logged_in()) {
     </script>
 
     <script>
+        
         function addToCart(productId, customerId) {
+            var quantity = document.getElementById('quantityInput').value;
             $('#loader').show();
 
             var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
             $.ajax({
                 url: ROOT + 'cart/edit',
                 data: {
-                    customerId: customerId,
-                    productId: productId,
+                    customer_id: customerId,
+                    product_id: productId,
+                    quantity: quantity,
                     action: 'add'
                 },
                 method: "POST",
