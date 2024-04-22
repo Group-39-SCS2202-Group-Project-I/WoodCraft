@@ -20,6 +20,11 @@ if (isset($data['delivery_count'])) {
         background-color: var(--blk);
         color: white;
     }
+
+    .disable-row {
+        pointer-events: none;
+        background-color: #fde7e7;
+    }
 </style>
 
 
@@ -98,6 +103,7 @@ if (isset($data['delivery_count'])) {
                     <th>Order Details</th>
                     <th>Total Cost</th>
                     <th>Status</th>
+                    <th>Target Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -113,8 +119,9 @@ if (isset($data['delivery_count'])) {
                         </td>
                         <td><?= $order->total_cost ?></td>
                         <td><?= $order->status ?></td>
+                        <td><?= $order->bulk_req->estimated_date ?></td>
                         <td>
-                            <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
+                            <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -135,6 +142,7 @@ if (isset($data['delivery_count'])) {
                     <th>Total Cost</th>
                     <th>Delivery Address</th>
                     <th>Status</th>
+                    <th>Target Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -145,7 +153,7 @@ if (isset($data['delivery_count'])) {
                         <td><?= $order->customer_name ?></td>
                         <td>
                             <?php
-                             echo $order->bulk_req->product_name . " x " . $order->bulk_req->quantity;
+                            echo $order->bulk_req->product_name . " x " . $order->bulk_req->quantity;
                             ?>
                         </td>
                         <td><?= $order->total_cost ?></td>
@@ -159,16 +167,82 @@ if (isset($data['delivery_count'])) {
                                 $address->zip_code;
                             ?>
                         </td>
-                        <td><?= $order->status ?>
-                        </td>
+                        <td><?= $order->status ?></td>
+                        <td><?= $order->bulk_req->estimated_date ?></td>
+
                         <td>
-                            <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
+                            <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
         </table>
     </div>
 <?php endif; ?>
+
+<div class="popup-form" id="update-popup">
+    <div class="popup-form__content">
+        <form action="" method="POST" class="form">
+            <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+            <!-- <p>Are you sure you want to delete this item?</p> -->
+            <p class="confirmation-text"> </p>
+
+            <input type="hidden" name="status" value="" id="hidden-inp">
+            <input type="hidden" name="product_inventory_id" value="" id="hidden-inp2">
+            <input type="hidden" name="quantity_required" value="" id="hidden-inp3">
+
+
+            <div class="form-group frm-btns">
+                <button type="submit" class="form-btn submit-btn">Yes</button>
+                <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    openPopup = (id, status, type, name, qty, product_inventory_id) => {
+        const popup = document.getElementById('update-popup');
+        const confirmationText = document.querySelector('.confirmation-text');
+        x = "ORD-" + String(id).padStart(3, '0');
+
+        if (status == 'pending') {
+            confirmationText.innerHTML += "Are you sure you want to allocate " + name + " x " + qty + " to order " + x + " ?";
+            document.getElementById('hidden-inp').value = 'processing';
+            document.getElementById('hidden-inp2').value = product_inventory_id;
+            document.getElementById('hidden-inp3').value = qty;
+        } else if (type == "pickup") {
+            if (status == "processing") {
+                status = "ready to pick up";
+            } else if (status == "ready to pick up") {
+                status = "completed";
+            }
+            confirmationText.innerHTML += "Are you sure you want to update the status of order " + x + " to " + status + " ?";
+            document.getElementById('hidden-inp').value = status;
+            document.getElementById('hidden-inp2').value = '';
+            document.getElementById('hidden-inp3').value = '';
+        } else if (type == "delivery") {
+            if (status == "processing") {
+                status = "delivering";
+            } else if (status == "delivering") {
+                status = "completed";
+            }
+            confirmationText.innerHTML += "Are you sure you want to update the status of order " + x + " to " + status + " ?";
+            document.getElementById('hidden-inp').value = status;
+            document.getElementById('hidden-inp2').value = '';
+            document.getElementById('hidden-inp3').value = '';
+        }
+
+        popup.classList.add('popup-form--open');
+        popup.querySelector('form').action = "<?php echo ROOT ?>/sk/update_bulk_order_status/" + id;
+    }
+
+    closePopup = () => {
+        const popup = document.getElementById('update-popup');
+        popup.classList.remove('popup-form--open');
+        const confirmationText = document.querySelector('.confirmation-text');
+        confirmationText.innerHTML = "";
+    }
+</script>
 
 
 

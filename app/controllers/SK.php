@@ -176,6 +176,7 @@ class SK extends Controller
                     $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
                     $z = $db->query($quantity_available)[0];
                     $x->quantity_available = $z->quantity;
+                    $x->product_inventory_id = $y->product_inventory_id;
 
                     $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
                     $z = $db->query($product_category_id)[0];
@@ -323,5 +324,30 @@ class SK extends Controller
         $db->query($q);
         message('Order status updated successfully');
         redirect('sk/orders');
+    }
+
+    public function update_bulk_order_status($bulk_order_details_id)
+    {
+        show($_POST);
+        $db = new Database();
+        $status = $_POST['status'];
+
+        if($status == 'processing')
+        {
+            $quntity_required = $_POST['quantity_required'];
+            $product_inventory_id = $_POST['product_inventory_id'];
+            $q = "UPDATE product_inventory SET quantity = quantity - $quntity_required WHERE product_inventory_id = $product_inventory_id";
+            $db->query($q);
+        }
+        
+        $q = "UPDATE bulk_order_details SET status = '$status' WHERE bulk_order_details_id = $bulk_order_details_id";
+        $db->query($q);
+        message('Order status updated successfully');
+        if($_POST['status']=='processing')
+        {
+           message('Product allocated  and order status updated successfully');
+        }
+        
+        redirect('sk/orders/bulk');
     }
 }
