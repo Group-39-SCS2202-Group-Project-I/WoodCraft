@@ -236,7 +236,9 @@
 .form-buttons button[type="button"]:hover {
     background-color: #da190b;
 }
-
+.modal-content {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -247,24 +249,25 @@
     </header>
 
     <div class="contentcheckout">
-    <div class="cartitems">
-        <div class="containercheckout">
-            <div class="changeaddress">
-                <h2 onclick="openModal()"><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
-                <p><?php echo $customerAddress->address_line_1; ?></p>
+        <div class="cartitems">
+            <div class="containercheckout">
+                <div class="changeaddress">
+                    <h2 onclick="openModal()"><i class="far fa-circle-plus"></i> Change Your Address</h2>
+                     <p><?php echo $customerAddress->address_line_1; ?></p>
                  <p><?php echo $customerAddress->address_line_2; ?></p>
                   <p><?php echo $customerAddress->city; ?></p>
                    <p><?php echo $customerAddress->zip_code; ?></p>
-            </div>
-            <!-- Modal for Change Address Form -->
-            <div id="changeAddressModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <!-- Change Address Form -->
-                    <div class="change-address-form">
-                        <h2>Change Address</h2>
-                        <form action="#" method="post" class="address-form">
-                            <label for="fullName">Full Name</label>
+                </div>
+                <!-- Modal for Change Address Form -->
+                <div id="changeAddressModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <!-- Change Address Form -->
+                        <div class="change-address-form" id="changeAddressForm">
+                            <h2>Change Address</h2>
+                            <form action="#" method="post" class="address-form">
+                                <!-- Form fields go here -->
+                                <label for="fullName">Full Name</label>
                             <input type="text" id="fullName" name="fullName" required>
                             
                             <label for="mobileNumber">Mobile Number</label>
@@ -308,11 +311,13 @@
                             <input type="checkbox" id="defaultBilling" name="defaultBilling">
                             
                             <p>Your existing default address setting will be replaced if you make some changes here.</p>
-                            <div class="form-buttons">
-        <button type="submit">Save</button>
-        <button type="button" onclick="closeModal()">Cancel</button>
-    </div>
-                        </form>
+                                <!-- Add more form fields as needed -->
+                                
+                                <div class="form-buttons">
+                                    <button type="submit">Save</button>
+                                    <button type="button" onclick="closeModal()">Cancel</button>
+                                </div>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -373,12 +378,12 @@
                 </div>
                 <div class="detail">
                 <div class="delivery-option">
-    <input type="radio" id="pickup" name="delivery-option" class="delivery-option-input" checked>
-    <label for="pickup" class="delivery-option-label">Pickup</label>
-    <input type="radio" id="delivery" name="delivery-option" class="delivery-option-input">
-    <label for="delivery" class="delivery-option-label">Delivery</label>
-    <div class="toggle"></div>
-</div>
+              <input type="radio" id="pickup" name="delivery-option" class="delivery-option-input" checked>
+              <label for="pickup" class="delivery-option-label">Pickup</label>
+              <input type="radio" id="delivery" name="delivery-option" class="delivery-option-input">
+              <label for="delivery" class="delivery-option-label">Delivery</label>
+              <div class="toggle"></div>
+              </div>
 
                     <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
                     <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
@@ -398,11 +403,11 @@
     <?php $this->view('includes/footer', $data) ?>
 
     <script>
-        function showChangeAddressForm() {
-            var form = document.getElementById('changeAddressForm');
-            form.style.display = 'block';
-        }
-    
+    function showChangeAddressForm() {
+        var form = document.getElementById('changeAddressForm');
+        form.style.display = 'block';
+    }
+
     // Function to open the modal
     function openModal() {
         var modal = document.getElementById('changeAddressModal');
@@ -422,8 +427,7 @@
             modal.style.display = 'none';
         }
     }
+</script>
 
-
-    </script>
 </body>
 </html>
