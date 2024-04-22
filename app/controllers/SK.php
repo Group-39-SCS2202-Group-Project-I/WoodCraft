@@ -148,6 +148,54 @@ class SK extends Controller
             }
             else
             {
+                $db = new Database();
+                $pickup_orders = "SELECT * FROM order_details WHERE  status = 'processing' AND type = 'pickup'";
+                $delivery_orders = "SELECT * FROM order_details WHERE  status = 'processing' AND type = 'delivery'";
+
+                $pickups = $db->query($pickup_orders);
+
+                foreach($pickups as $pickup)
+                {
+                    $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $pickup->order_details_id";
+                    $x = $db->query($items);
+                    foreach($x as $item)
+                    {
+                        $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                        $y = $db->query($product)[0];
+                        $item->product_name = $y->name;
+                        $item->price = $y->price;
+                    }
+                    $pickup->items = $x;
+                }
+
+
+
+                $data['pickup_orders'] = $pickups;
+
+
+                $deliveries = $db->query($delivery_orders);
+                foreach($deliveries as $delivery)
+                {
+                    $address = "SELECT * FROM address WHERE address_id = $delivery->delivery_address_id";
+                    $x = $db->query($address)[0];
+                    // $x = (array) $x;
+                    $delivery->delivery_address = $x;
+
+                    $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $delivery->order_details_id";
+                    $y = $db->query($items);
+                    foreach($y as $item)
+                    {
+                        $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                        $z = $db->query($product)[0];
+                        $item->product_name = $z->name;
+                        $item->price = $z->price;
+                    }
+                    $delivery->items = $y;
+
+                }
+                $data['delivery_orders'] = $deliveries;
+
+
                 $this->view('sk/orders', $data);
             }
 
