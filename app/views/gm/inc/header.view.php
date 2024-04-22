@@ -60,14 +60,16 @@
 
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
-                        <span class="material-icons-outlined">shopping_cart</span>
+                        <span class="material-symbols-outlined">
+                            order_approve
+                        </span>
                         <span style="margin-left: 5px;">Orders</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="workers-nav">
                     <a>
-                        <span class="material-icons-outlined">shopping_cart</span>
+                        <span class="material-icons-outlined">engineering</span>
                         <span style="margin-left: 5px;">Workers</span>
                     </a>
                 </li>

@@ -79,19 +79,23 @@ if (isset($_SESSION['USER_DATA'])) {
                 <!-- orders -->
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
-                        <span class="material-icons-outlined">shopping_cart</span><span style="margin-left: 5px;">Orders</span>
+                        <span class="material-symbols-outlined">
+                            order_approve
+                        </span><span style="margin-left: 5px;">Orders</span>
                     </a>
                 </li>
                 <!-- products -->
                 <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Products</span>
+                        <span class="material-icons-outlined">chair</span><span style="margin-left: 5px;">Products</span>
                     </a>
                 </li>
                 <!-- productions -->
                 <li class="sidebar-list-item nav-btn" id="productions-nav">
                     <a>
-                        <span class="material-icons-outlined">engineering</span><span style="margin-left: 5px;">Productions</span>
+                        <span class="material-symbols-outlined">
+                            event_seat
+                        </span><span style="margin-left: 5px;">Productions</span>
                     </a>
                 </li>
 

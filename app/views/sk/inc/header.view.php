@@ -72,13 +72,17 @@ if (isset($_SESSION['USER_DATA'])) {
                 </li>
                 <li class="sidebar-list-item nav-btn" id="materials-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Material Stock</span>
+                        <span class="material-symbols-outlined">
+                            service_toolbox
+                        </span><span style="margin-left: 5px;">Material Stock</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Product Stock</span>
+                        <span class="material-symbols-outlined">
+                            shelves
+                        </span><span style="margin-left: 5px;">Product Stock</span>
                     </a>
                 </li>
 
@@ -86,35 +90,41 @@ if (isset($_SESSION['USER_DATA'])) {
 
                 <li class="sidebar-list-item nav-btn" id="mat_req-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Material Requests</span>
+                        <span class="material-symbols-outlined">
+                            hardware
+                        </span><span style="margin-left: 5px;">Material Requests</span>
                     </a>
                 </li>
 
-                
+
 
                 <li class="sidebar-list-item nav-btn" id="mat_ord-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Received Material Orders</span>
+                        <span class="material-icons-outlined">receipt_long</span><span style="margin-left: 5px;">Received Material Orders</span>
                     </a>
                 </li>
 
-                
+
 
                 <li class="sidebar-list-item nav-btn" id="fin_prod-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Finished Productions</span>
+                        <span class="material-icons-outlined">inventory</span><span style="margin-left: 5px;">Finished Productions</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Orders</span>
+                        <span class="material-symbols-outlined">
+                            order_approve
+                        </span><span style="margin-left: 5px;">Orders</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="sup-nav">
                     <a>
-                        <span class="material-icons-outlined">inventory_2</span><span style="margin-left: 5px;">Suppliers</span>
+                        <span class="material-symbols-outlined">
+                            conveyor_belt
+                        </span><span style="margin-left: 5px;">Suppliers</span>
                     </a>
                 </li>
 

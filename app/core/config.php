@@ -12,7 +12,6 @@ define('APP_DESC', '');//
 */
 if($_SERVER['SERVER_NAME'] == 'localhost')
 {
-	//database config for local server
 	define('DBHOST', 'localhost');
 	define('DBNAME', 'wcdb');
 	define('DBUSER', 'root');
@@ -30,7 +29,6 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 	define('DBPASS', '');
 	define('DBDRIVER', 'mysql');
 
-	//root path e.g https://www.yourwebsite.com
 	// define('ROOT', 'http://');
 }
 

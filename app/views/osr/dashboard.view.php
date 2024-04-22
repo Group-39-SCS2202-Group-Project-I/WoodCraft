@@ -121,7 +121,9 @@ $pxn_count = json_decode($pxn_count_response, true);
     <a href="<?= ROOT . '/osr/productions' ?>" style="text-decoration:none" onclick="navfunc('productions-nav')">
         <div class="card">
             <h3 class="card-title">Ongoing Productons</h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-symbols-outlined card-icon">
+                event_seat
+            </span>
             <p class="card-text"><?= $pxn_count ?></p>
         </div>
     </a>

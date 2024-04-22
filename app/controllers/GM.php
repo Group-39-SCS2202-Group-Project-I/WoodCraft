@@ -36,7 +36,7 @@ class GM extends Controller
         }
     }
 
-    public function orders()
+    public function orders($x = '')
     {
         if (!Auth::logged_in()) {
             message('Please login to view the GM section');
@@ -48,7 +48,13 @@ class GM extends Controller
         } else {
             $data['title'] = "GM Orders";
 
-            $this->view('gm/orders', $data);
+            if ($x == 'retail') {
+                $this->view('gm/retail', $data);
+            } else if ($x == 'bulk') {
+                $this->view('gm/bulk', $data);
+            } else {
+                $this->view('gm/orders', $data);
+            }
         }
     }
 
@@ -82,8 +88,8 @@ class GM extends Controller
 
                 $url = ROOT . "/fetch/production_workers/$id";
                 $response = file_get_contents($url);
-                $workers = json_decode($response, true);   
-                
+                $workers = json_decode($response, true);
+
                 $workers_count = count($workers);
                 $data['workers_count'] = $workers_count;
 
@@ -114,13 +120,16 @@ class GM extends Controller
 
                 $data['materials'] = $materials;
 
-                
+
                 $total_cost = 0;
                 foreach ($materials as $material) {
                     $total_cost += $material['cost'];
                 }
 
                 $data['total_cost'] = $total_cost;
+
+                $delivery = new Delivery();
+                $data['delivery_info'] = $delivery->getDeliveryInfo();
 
                 $this->view('gm/production', $data);
             } else {
@@ -189,8 +198,8 @@ class GM extends Controller
                 $data['pxn'] = $filtered;
                 $data['count'] = $count;
 
-
-
+                $delivery = new Delivery();
+                $data['delivery_info'] = $delivery->getDeliveryInfo();
 
 
                 $this->view('gm/rpt', $data);

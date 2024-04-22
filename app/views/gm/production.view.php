@@ -2,10 +2,7 @@
 $production = $data['production'];
 $workers = $data['workers'];
 $materials = $data['materials'];
-
-// show($production);
-// show($workers);
-// show($materials);
+$address = $data['delivery_info'];
 ?>
 
 <!DOCTYPE html>
@@ -529,12 +526,12 @@ $materials = $data['materials'];
                         <tr>
                             <td class="w-1/2 align-top">
                                 <div class="text-sm text-neutral-600">
-                                    <p class="font-bold">Supplier Company INC</p>
-                                    <p>Number: 23456789</p>
-                                    <p>VAT: 23456789</p>
-                                    <p>6622 Abshire Mills</p>
-                                    <p>Port Orlofurt, 05820</p>
-                                    <p>United States</p>
+                                    <p class="font-bold">WoodCraft Furnitures</p>
+                                    <p><?= $address->address_line_1 . ','; ?></p>
+                                    <p><?= $address->address_line_2 . ','; ?></p>
+                                    <p><?= $address->city . '.'; ?></p>
+                                    <p><?= $address->province . ' Province'; ?></p>
+                                    <p><?= $address->zip_code; ?></p>
                                 </div>
                             </td>
                             <td class="w-1/2 align-top text-right">
@@ -797,9 +794,9 @@ $materials = $data['materials'];
             <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
                 Woodcraft Furnitures
                 <span class="text-slate-300 px-2">|</span>
-                info@company.com
+                woodcraftfurnitureslk@gmail.com
                 <span class="text-slate-300 px-2">|</span>
-                +1-202-555-0106
+                +(94) 112435200
             </footer>
         </div>
     </div>

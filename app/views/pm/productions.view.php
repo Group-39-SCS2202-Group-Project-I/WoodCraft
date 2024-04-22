@@ -23,6 +23,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     $errors = $_SESSION['errors'];
     $form_data = $_SESSION['form_data'];
     $form_id = $_SESSION['form_id'];
+    // $x = $_SESSION['x'];
     // unset the session variables so they don't persist on page refresh
     unset($_SESSION['errors']);
     unset($_SESSION['form_data']);
@@ -46,6 +47,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             <div class="messege"><?= message('', true) ?></div>
         </div>
     <?php endif; ?>
+    <!-- <?= $x ?> -->
     <h2 class="table-section__title">Productions</h2>
     <div class="table-section__search" style="margin-bottom: 0;">
         <input type="text" id="searchPenProductions" placeholder="Search Pending Productions..." class="table-section__search-input">
@@ -139,6 +141,34 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     }
 
                     updateTable('all');
+
+                    if (sessionStorage.getItem('x')) {
+                        const penbtn = document.getElementById('pen-btn');
+                        const probtn = document.getElementById('pro-btn');
+
+                        let x = sessionStorage.getItem('x');
+                        sessionStorage.removeItem('x');
+                        if (x == 'pending') {
+                            console.log('pen clicked!')
+                            updateTable('pending');
+
+                            document.getElementById('pen-btn').classList.add('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+                        } else if (x == 'processing') {
+                            console.log('pro clicked!')
+                            updateTable('processing');
+
+                            document.getElementById('pro-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+
+                        }
+
+
+                    }
 
                     // Button click event handlers
                     document.getElementById('pen-btn').addEventListener('click', function() {
