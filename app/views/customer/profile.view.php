@@ -38,7 +38,7 @@
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
-                        <a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerId()?>" class="edit-profile">EDIT PROFILE</a>
+                        <a href="<?=ROOT?>/customer/editProfile/<?= Auth::getCustomerId()?>" class="edit-profile">EDIT PROFILE</a>
                         <a href="<?=ROOT?>/customer/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         <div class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?></div>
 
                         <div class="buttons-profile">
-                            <a href="<?=ROOT?>/customer/address/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
+                            <a href="<?=ROOT?>/customer/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
                         </div>
                     </div>
             </div>

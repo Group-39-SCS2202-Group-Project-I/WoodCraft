@@ -13,7 +13,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/editAddress/<?= Auth::getCustomerID() ?>">  
+                <form method="post" action="<?= ROOT ?>/customer/updateAddress/<?= Auth::getCustomerID() ?>">  
                     <div class="field-edit-profile">
                         <label for="first-name">First Name</label>
                         <div class="input-wrapper">

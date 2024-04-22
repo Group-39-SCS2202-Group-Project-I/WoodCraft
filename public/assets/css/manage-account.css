@@ -131,6 +131,7 @@
     margin-top: 20px;
     display: flex;
     justify-content: flex-end;
+    flex-direction: column;
 }
 
 .buttons-profile a {

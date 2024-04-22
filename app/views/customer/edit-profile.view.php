@@ -23,9 +23,9 @@
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="full-name">Last Name</label>
+                        <label for="last_-name">Last Name</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Enter your last name" value="<?=get_value('last_name', $data['last_name'])?>">
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name" value="<?=get_value('last_name', $data['last_name'])?>">
                         </div>
                     </div>
         

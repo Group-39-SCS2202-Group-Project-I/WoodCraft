@@ -44,7 +44,7 @@ class Customer extends Controller
 		}
     }
 
-	public function edit($id = '')
+	public function editProfile($id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -73,19 +73,42 @@ class Customer extends Controller
 			redirect('login');
 		}
 
+		$customerModel = new Customer();
+
+		// Validate form data
+		$postData = [
+			'first_name' => $_POST['first_name'],
+			'last_name' => $_POST['last_name'],
+			'telephone' => $_POST['telephone'],
+			'birth_month' => $_POST['birth-month'],
+			'birth_day' => $_POST['birth-day'],
+			'birth_year' => $_POST['birth-year'],
+			'gender' => $_POST['gender'],
+		];
+		show($postData);
+	
+		if (!$customerModel->validate($postData)) {
+			// Validation failed, redirect back to the edit profile page with errors
+			message('Validation failed. Please check your inputs.');
+			redirect('customer/editProfile/' . $id);
+		}
+		
 		// Validate and sanitize form data
 		$updatedData = [
-			'first_name' => sanitize($_POST['first_name']),
-			'last_name' => sanitize($_POST['last-name']),
-			// 'email' => sanitize($_POST['email']),
-			'telephone' => sanitize($_POST['telephone']),
-			'birth_month' => sanitize($_POST['birth-month']),
-			'birth_day' => sanitize($_POST['birth-day']),
-			'birth_year' => sanitize($_POST['birth-year']),
-			'gender' => sanitize($_POST['gender']),
+			'first_name' => $_POST['first_name'],
+			'last_name' => $_POST['last_name'],
+			// 'email' => $_POST['email'],
+			'telephone' => $_POST['telephone'],
+			'birth_month' => $_POST['birth-month'],
+			'birth_day' => $_POST['birth-day'],
+			'birth_year' => $_POST['birth-year'],
+			'gender' => $_POST['gender'],
 		];
-
 		show($updatedData);
+
+		// Perform the database update
+		$success = $this->updateCustomerProfile($id, $updatedData);
+		show($success);
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$first_name = $_POST['first_name'];
@@ -99,16 +122,13 @@ class Customer extends Controller
 			}
 		}
 
-		// Perform the database update
-		$success = $this->updateCustomerProfile($id, $updatedData);
-		show($success);
-
 		if ($success) {
 			message('Profile updated successfully');
-			redirect('customer/index/' . $id);
-		} else {
+			redirect('customer/updateProfile/' . $id);
+		} 
+		else {
 			message('Failed to update profile. Please try again.');
-			redirect('customer/edit/' . $id);
+			redirect('customer/editProfile/' . $id);
 		}
 	}
 
@@ -177,7 +197,7 @@ class Customer extends Controller
 		}
 	}
 
-    public function address($id = '')
+    public function editAddress($id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -199,68 +219,68 @@ class Customer extends Controller
 		}
 	}
 
-    public function addAddress($id = '')
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
+    // public function addAddress($id = '')
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
 		
-		// $id = Auth::getCustomerID();
+	// 	// $id = Auth::getCustomerID();
 
-		$data['title'] = "add-address";
-		$data['errors'] = [];
-		$customer = []; 
-		$address = new Address;
+	// 	$data['title'] = "add-address";
+	// 	$data['errors'] = [];
+	// 	$customer = []; 
+	// 	$address = new Address;
 
-		if ($id != '') {
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
 
-			$data = $customer;
-			$this->view('customer/add-address', $data);
-		}
+	// 		$data = $customer;
+	// 		$this->view('customer/add-address', $data);
+	// 	}
 
-		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	// 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-			$_POST['role'] = "customer";
+	// 		$_POST['role'] = "customer";
 
 
-			$result1 = $address->validate($_POST);
-			$result2 = $customer->validate($_POST);
+	// 		$result1 = $address->validate($_POST);
+	// 		$result2 = $customer->validate($_POST);
 
-			// show($_POST);
+	// 		// show($_POST);
 
-			if ($result1 && $result2) {
-				$db = new Database;
+	// 		if ($result1 && $result2) {
+	// 			$db = new Database;
 
-				// $user_arr['role'] = "customer";
+	// 			// $user_arr['role'] = "customer";
 
-				$address_arr['address_line_1'] = $_POST['address_line_1'];
-				$address_arr['address_line_2'] = $_POST['address_line_2'];
-				$address_arr['city'] = $_POST['city'];
-				$address_arr['zip_code'] = $_POST['zip_code'];
-				$address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)";
-				$db->query($address_query, $address_arr);
+	// 			$address_arr['address_line_1'] = $_POST['address_line_1'];
+	// 			$address_arr['address_line_2'] = $_POST['address_line_2'];
+	// 			$address_arr['city'] = $_POST['city'];
+	// 			$address_arr['zip_code'] = $_POST['zip_code'];
+	// 			$address_query = "INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)";
+	// 			$db->query($address_query, $address_arr);
 
-				// Get the last inserted address_id
-				// $last_address_id = $db->query("SELECT address_id FROM address WHERE address_line_1 = $_POST[address_line_1] AND address_line_2 = $_POST[address_line_2] AND city = $_POST[city] AND zip_code = $_POST[zip_code]")
-				$last_address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)");
+	// 			// Get the last inserted address_id
+	// 			// $last_address_id = $db->query("SELECT address_id FROM address WHERE address_line_1 = $_POST[address_line_1] AND address_line_2 = $_POST[address_line_2] AND city = $_POST[city] AND zip_code = $_POST[zip_code]")
+	// 			$last_address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)");
 
-				// $customer_arr['user_id'] = $last_user_id;
-				$customer_arr['first_name'] = $_POST['first_name'];
-				$customer_arr['last_name'] = $_POST['last_name'];
-				$customer_arr['telephone'] = $_POST['telephone'];
-				// $customer_arr['address_id'] = $last_address_id;
+	// 			// $customer_arr['user_id'] = $last_user_id;
+	// 			$customer_arr['first_name'] = $_POST['first_name'];
+	// 			$customer_arr['last_name'] = $_POST['last_name'];
+	// 			$customer_arr['telephone'] = $_POST['telephone'];
+	// 			// $customer_arr['address_id'] = $last_address_id;
 
-				show($customer_arr);
-			}
-		}
+	// 			show($customer_arr);
+	// 		}
+	// 	}
 
-		$data['errors'] = array_merge($data['errors'], $address->errors);
-		$data['errors'] = array_merge($data['errors'], $customer->errors);
-	}
+	// 	$data['errors'] = array_merge($data['errors'], $address->errors);
+	// 	$data['errors'] = array_merge($data['errors'], $customer->errors);
+	// }
 
 	private function updateCustomerAddress($id, $data)
 	{
@@ -283,7 +303,7 @@ class Customer extends Controller
 		return $db->query($query, $data);
 	}
 
-	public function editAddress($customerId)
+	public function updateAddress($customerId)
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -300,16 +320,16 @@ class Customer extends Controller
 
 		// Validate and sanitize form data
 		$updatedCustomerData = [
-			'first_name' => sanitize($_POST['first_name']),
-			'last_name' => sanitize($_POST['last_name']),
-			'telephone' => sanitize($_POST['telephone']),
+			'first_name' => $_POST['first_name'],
+			'last_name' => $_POST['last_name'],
+			'telephone' => $_POST['telephone'],
 		];
 
 		$updatedAddressData = [
-			'city' => sanitize($_POST['city']),
-			'zip_code' => sanitize($_POST['zip_code']),
-			'address_line_1' => sanitize($_POST['address_line_1']),
-			'address_line_2' => sanitize($_POST['address_line_2']),
+			'city' => $_POST['city'],
+			'zip_code' => $_POST['zip_code'],
+			'address_line_1' => $_POST['address_line_1'],
+			'address_line_2' => $_POST['address_line_2'],
 		];
 
 		show($updatedCustomerData);
@@ -328,10 +348,10 @@ class Customer extends Controller
 			}
 
 		// Pass customer data to the view
-		$data['customer'] = $customer;
-		$data['title'] = "edit-address";
+		// $data['customer'] = $customer;
+		// $data['title'] = "edit-address";
 
-		$this->view('customer/edit-address', $data);
+		// $this->view('customer/edit-address', $data);
 	}
 
 	public function orders($order_id = '')
