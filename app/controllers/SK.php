@@ -182,13 +182,18 @@ class SK extends Controller
             else
             {
                 $db = new Database();
-                $pickup_orders = "SELECT * FROM order_details WHERE  status = 'processing' AND type = 'pickup'";
-                $delivery_orders = "SELECT * FROM order_details WHERE  status = 'processing' AND type = 'delivery'";
+                $pickup_orders = "SELECT * FROM order_details WHERE type = 'pickup' AND (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering')";
+                $delivery_orders = "SELECT * FROM order_details WHERE  (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering') AND type = 'delivery'";
 
                 $pickups = $db->query($pickup_orders);
 
                 foreach($pickups as $pickup)
                 {
+                    $user_id = $pickup->user_id;
+                    $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+                    $x = $db->query($customer_name)[0];
+                    $pickup->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+                   
                     $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $pickup->order_details_id";
                     $x = $db->query($items);
                     foreach($x as $item)
@@ -209,11 +214,16 @@ class SK extends Controller
 
 
                 $data['pickup_orders'] = $pickups;
+                $data['pickup_count'] = count($pickups);
 
 
                 $deliveries = $db->query($delivery_orders);
                 foreach($deliveries as $delivery)
                 {
+                    $user_id = $delivery->user_id;
+                    $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+                    $x = $db->query($customer_name)[0];
+                    $delivery->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
                     $address = "SELECT * FROM address WHERE address_id = $delivery->delivery_address_id";
                     $x = $db->query($address)[0];
                     // $x = (array) $x;
@@ -237,6 +247,7 @@ class SK extends Controller
 
                 }
                 $data['delivery_orders'] = $deliveries;
+                $data['delivery_count'] = count($deliveries);
 
 
                 $this->view('sk/orders', $data);
@@ -261,5 +272,17 @@ class SK extends Controller
 
             $this->view('sk/suppliers', $data);
         }
+    }
+
+    public function update_order_status($order_details_id)
+    {
+        show($_POST);
+        $db = new Database();
+        $status = $_POST['status'];
+        
+        $q = "UPDATE order_details SET status = '$status' WHERE order_details_id = $order_details_id";
+        $db->query($q);
+        message('Order status updated successfully');
+        redirect('sk/orders');
     }
 }

@@ -268,7 +268,7 @@ $request = $data['bulk_req'];
             <h2 class="popup-form-title">Approve Bulk Order Request</h2>
 
             <div class="form-group">
-                <label for="first_name" class="form-label label-popup" >Price Per Unit</label>
+                <label for="first_name" class="form-label label-popup">Price Per Unit</label>
                 <input type="number" id="price_per_unit" name="price_per_unit" class="form-input input-popup" min="0" step="0.01" required>
             </div>
             <div class="form-group">
@@ -286,7 +286,7 @@ $request = $data['bulk_req'];
                 <input type="date" id="estimated_date" name="estimated_date" class="form-input input-popup" min="<?php echo date('Y-m-d'); ?>" required>
             </div>
             <input type="hidden" name="status" value="accepted">
-            <input type="hidden" name="email" value="<?=$request['customer_email']?>">
+            <input type="hidden" name="email" value="<?= $request['customer_email'] ?>">
             <div class="form-group form-btns">
                 <button type="submit" class="form-btn submit-btn">Approve</button>
                 <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Cancel</button>
@@ -305,7 +305,7 @@ $request = $data['bulk_req'];
 
             <!-- hidden input for reject -->
             <input type="hidden" name="status" value="rejected">
-            <input type="hidden" name="email" value="<?=$request['customer_email']?>">
+            <input type="hidden" name="email" value="<?= $request['customer_email'] ?>">
 
             <div class="form-group form-btns">
                 <button type="submit" class="form-btn submit-btn">Reject</button>
@@ -366,11 +366,7 @@ $request = $data['bulk_req'];
 
         total.innerHTML = totalValue;
     });
-
-   
-
-
 </script>
-</script>
+
 
 <?php include "inc/footer.view.php"; ?>
