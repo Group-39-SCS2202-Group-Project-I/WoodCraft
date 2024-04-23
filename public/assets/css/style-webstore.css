@@ -117,7 +117,7 @@ button {
   cursor: pointer;
 }
 
-img, ion-icon, button, a { display: block; }
+img, ion-symbol, button, a { display: block; }
 
 span { display: inline-block; }
 
@@ -374,7 +374,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
 
 .modal-close-btn:hover { opacity: 0.9; }
 
-.modal-close-btn ion-icon { --ionicon-stroke-width: 70px; }
+.modal-close-btn ion-symbol { --ionicon-stroke-width: 70px; }
 
 .newsletter {
   padding: 50px 30px;
@@ -513,7 +513,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   color: var(--sonic-silver);
 }
 
-.toast-close-btn ion-icon { --ionicon-stroke-width: 50px; }
+.toast-close-btn ion-symbol { --ionicon-stroke-width: 50px; }
 
 .toast-banner {
   width: 70px;
@@ -714,7 +714,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   font-size: 22px;
 }
 
-.menu-close-btn ion-icon { --ionicon-stroke-width: 50px; }
+.menu-close-btn ion-symbol { --ionicon-stroke-width: 50px; }
 
 .mobile-menu-category-list { margin-bottom: 30px; }
 
@@ -745,16 +745,16 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
 
 .accordion-menu > div { font-size: 14px; }
 
-.accordion-menu ion-icon {
+.accordion-menu ion-symbol {
   color: var(--onyx);
   --ionicon-stroke-width: 90px;
 }
 
-.accordion-menu.active .add-icon,
-.accordion-menu .remove-icon { display: none; }
+.accordion-menu.active .add-symbol,
+.accordion-menu .remove-symbol { display: none; }
 
-.accordion-menu .add-icon,
-.accordion-menu.active .remove-icon { display: block; }
+.accordion-menu .add-symbol,
+.accordion-menu.active .remove-symbol { display: block; }
 
 .menu-category .submenu-category-list { margin-left: 10px; }
 
@@ -847,14 +847,9 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 10px;
   -webkit-border-radius: var(--border-radius-md);
           border-radius: var(--border-radius-md);
-  overflow: auto hidden;
-  -webkit-scroll-snap-type: inline mandatory;
-      -ms-scroll-snap-type: inline mandatory;
-          scroll-snap-type: inline mandatory;
-  overscroll-behavior-inline: contain;
+  overflow: hidden;
 }
 
 .slider-item {
@@ -865,7 +860,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   -webkit-border-radius: var(--border-radius-md);
           border-radius: var(--border-radius-md);
   overflow: hidden;
-  scroll-snap-align: start;
 }
 
 .slider-item .banner-img {
@@ -1085,7 +1079,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   font-weight: var(--weight-600);
 }
 
-.sidebar-close-btn ion-icon { --ionicon-stroke-width: 50px; }
+.sidebar-close-btn ion-symbol { --ionicon-stroke-width: 50px; }
 
 .sidebar-accordion-menu {
   width: 100%;
@@ -1122,7 +1116,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   font-weight: var(--weight-500);
 }
 
-.sidebar-accordion-menu ion-icon {
+.sidebar-accordion-menu ion-symbol {
   color: var(--sonic-silver);
   font-size: 14px;
   --ionicon-stroke-width: 70px;
@@ -1166,11 +1160,11 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
 
 .sidebar .product-name { text-transform: capitalize; }
 
-.sidebar-accordion-menu.active .add-icon,
-.sidebar-accordion-menu .remove-icon { display: none; }
+.sidebar-accordion-menu.active .add-symbol,
+.sidebar-accordion-menu .remove-symbol { display: none; }
 
-.sidebar-accordion-menu .add-icon,
-.sidebar-accordion-menu.active .remove-icon { display: block; }
+.sidebar-accordion-menu .add-symbol,
+.sidebar-accordion-menu.active .remove-symbol { display: block; }
 
 .sidebar .showcase-heading {
   font-size: var(--fs-5);
@@ -2542,3 +2536,270 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   }
 
 }
+
+/* ----------------------------------- */
+
+.section-top {
+  position: relative;
+  display: inline-block;
+  color: var(--green);
+  margin-left: 25px;
+  }
+  
+  .section-top::before {
+  content: "";
+  position: absolute;
+  bottom: 45%;
+  left: -15px;
+  width: 0.5cm;
+  height: 2px;
+  background-color: var(--green);
+  transform: translateX(-50%);
+  }
+  
+  /* Benefits Section */
+  /* --------------------------------------------- */
+  
+  .section-benefits {
+  background-color: #fff;
+  padding: 80px;
+  }
+  
+  .tab-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 60px;
+  }
+  
+  .tab-benefits-description {
+  border-left: 3px solid var(--green);
+  padding: 10px;
+  }
+  
+  .card-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  }
+  
+  .card-benefits-member {
+  padding: 30px;
+  height: 250px;
+  text-align: left;
+  align-items: baseline;
+  background-color: #edebeb;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  }
+  
+  .card-benefits-member h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  }
+  
+  .card-benefits-member p {
+  font-size: 14px;
+  margin-bottom: 0;
+  }
+  
+  
+  /* Category Section */
+  /* --------------------------------------------- */
+  
+  .section-group {
+  text-align: center;
+  padding: 80px;
+  padding-bottom: 0px;
+  background-color: #edebeb;
+  }
+  
+  .tab-group-title {
+  padding-bottom: 60px;
+  }
+  
+  .card-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  }
+  
+  .card-group-half {
+  width: 100%;
+  }
+  
+  .card-group-quarter {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  }
+  
+  .group {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  }
+  
+  .group img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+  }
+  
+  .group-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  }
+  
+  .group-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  text-align: left;
+  color: #fff;
+  z-index: 1;
+  }
+  
+  .group-info h2,
+  .group-info p {
+  color: #fff;
+  margin: 5px;
+  }
+  
+  #group1 {
+  grid-column: span 2;
+  height: 75%;
+  }
+  
+  #group2 {
+  grid-row: span 2;
+  height: 95%;
+  width: 200%;
+  }
+  
+  #group3,
+  #group4 {
+  width: 100%;
+  height: 55%;
+  }
+  
+  .explore-button {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  }
+  
+  .explore-button:hover {
+  color: #000;
+  }
+  
+  
+  /* Newsletter Section */
+  /* --------------------------------------------- */
+  
+  .section-newsletter {
+  text-align: center;
+  padding: 80px;
+  background-color: #fff;
+  }
+  
+  .tab-newsletter-description {
+  color: var(--green);
+  padding-bottom: 30px;
+  }
+  
+  .card-newsletter {
+  display: grid;
+  grid-template-areas: 1fr auto;
+  grid-gap: 10px;
+  align-items: center;
+  justify-content: center;
+  }
+  
+  #subscribe-form {
+  width: 100%;
+  max-width: 400px;
+  }
+  
+  .container-input {
+  grid-area: input;
+  display: flex;
+  border: 1px solid #b3afaf;
+  border-radius: 30px;
+  padding: 5px;
+  margin-bottom: 10px;
+  }
+  
+  .symbol {
+  flex: 0 0 40px;
+  }
+  
+  .filler {
+  flex: 1;
+  }
+  
+  input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 0px solid #fff;
+  border-radius: 20px;
+  }
+  
+  .container-button {
+  grid-area: button;
+  text-align: center;
+  }
+  
+  .subscribe-button {
+  padding: 10px 20px;
+  background-color: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  
+  .subscribe-button:hover {
+  background-color: #000;
+  }
+  
+  /* icons */
+  
+  /* .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24
+  } */
+  
+  .card-benefits-member i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  .explore-button i {
+  font-size: 24px;
+  }
+  
+  .symbol i {
+    font-size: 24px;
+    color: var(--green);
+    background-color: #edebeb;
+    border-radius:20px;
+    padding: 4px;
+  }  
+  

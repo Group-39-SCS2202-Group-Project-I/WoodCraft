@@ -167,6 +167,25 @@
         border: 2px solid var(--primary);
     }
 
+    select {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--light);
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    select:focus {
+        outline: none;
+        border: 2px solid var(--primary);
+    }
+
+    select::placeholder {
+        color: red;
+    }
+
     button {
         padding: 15px 20px;
         background-color: var(--blk);
@@ -343,6 +362,23 @@
                             <p class="validate-mzg "><?= $errors['city'] ?></p>
                         <?php endif; ?>
                         <input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
+
+                        <?php if (!empty($errors['province'])) : ?>
+                            <p class="validate-mzg "><?= $errors['province'] ?></p>
+                        <?php endif; ?>
+                        <!-- 'Central','Eastern','North Central','Northern','North Western','Sabaragamuwa','Southern','Uva','Western' -->
+                        <select name="province" id="province">
+                            <!-- <option value="" style="color:#757575;">Province</option> -->
+                            <option value="Western" selected>Western Province</option>
+                            <option value="Central">Central Province</option>
+                            <option value="Eastern">Eastern Province</option>
+                            <option value="North Central">North Central Province</option>
+                            <option value="Northern">Northern Province</option>
+                            <option value="North Western">North Western Province</option>
+                            <option value="Sabaragamuwa">Sabaragamuwa Province</option>
+                            <option value="Southern">Southern Province</option>
+                            <option value="Uva">Uva Province</option>
+                        </select>
                         <?php if (!empty($errors['zip_code'])) : ?>
                             <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
                         <?php endif; ?>

@@ -84,3 +84,25 @@ function averageStarRating($reviews) {
 
 	return $sumRating/sizeof($reviews);
 }
+
+// ...
+// function esc($str){
+//     return nl2br(htmlspecialchars($str));
+// }
+
+function get_value($key, $default = ''){
+    if(!empty($_POST[$key])){
+        return $_POST[$key];
+    }else
+    if(!empty($default)){
+        return $default;
+    }
+
+    return '';
+}
+
+// function sanitize($input)
+// {
+//     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+// }
+

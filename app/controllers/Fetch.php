@@ -49,6 +49,7 @@ class Fetch extends Controller
                         $data['customers'][$key]->address_line_2 = $address->address_line_2;
                         $data['customers'][$key]->city = $address->city;
                         $data['customers'][$key]->zip_code = $address->zip_code;
+                        $data['customers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -86,6 +87,7 @@ class Fetch extends Controller
                         $data['workers'][$key]->address_line_2 = $address->address_line_2;
                         $data['workers'][$key]->city = $address->city;
                         $data['workers'][$key]->zip_code = $address->zip_code;
+                        $data['workers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -141,6 +143,7 @@ class Fetch extends Controller
                         $data['staff'][$key]->address_line_2 = $address->address_line_2;
                         $data['staff'][$key]->city = $address->city;
                         $data['staff'][$key]->zip_code = $address->zip_code;
+                        $data['staff'][$key]->province = $address->province;
                     }
                 }
             }
@@ -251,13 +254,13 @@ class Fetch extends Controller
             //     $product_data['reviews'] = [];
             // }
 
-            // 
-            $avarage_rating = 0;
-            if (count($product_reviews) > 0) {
-                $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
-            }
 
-            $product_data['average_rating'] = $avarage_rating;
+            // $avarage_rating = 0;
+            // if (count($product_reviews) > 0) {
+            //     $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
+            // }
+
+            // $product_data['average_rating'] = $avarage_rating;
 
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -389,6 +392,23 @@ class Fetch extends Controller
             echo json_encode($data['product_images']);
         }
     }
+
+    // public function product_category_images($id = '')
+    // {
+    //     if ($id != '') {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category WHERE product_category_id = $id");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     } else {
+    //         $db = new Database();
+    //         $data['product_category_images'] = $db->query("SELECT product_category_img FROM product_category");
+
+    //         header("Content-Type: application/json");
+    //         echo json_encode($data['product_category_images']);
+    //     }
+    // }
 
     public function materials($id = '')
     {
@@ -597,9 +617,9 @@ class Fetch extends Controller
             }, $data['material_orders']);
 
             // show($data['material_orders']);
-            
+
             $material_stks = [];
-            if(count($data['material_orders']) > 0){
+            if (count($data['material_orders']) > 0) {
                 // get material_stk from material_order_id
                 $material_order_ids = array_column($data['material_orders'], 'material_order_id');
                 $material_order_ids = implode(',', $material_order_ids);
@@ -688,6 +708,7 @@ class Fetch extends Controller
                     if ($production_worker->worker_id == $worker->worker_id) {
                         $data['production_workers'][$key]->first_name = $worker->first_name;
                         $data['production_workers'][$key]->last_name = $worker->last_name;
+                        $data['production_workers'][$key]->worker_role = $worker->worker_role;
                     }
                 }
             }
@@ -699,13 +720,12 @@ class Fetch extends Controller
 
     public function pxn_worker($id = '')
     {
-        if($id != '')
-        {
+        if ($id != '') {
             $db = new Database();
             $pxn_worker = $db->query("SELECT * FROM production_worker WHERE worker_id = $id");
 
             // $production_ids = array_column($pxn_worker, 'production_id');
-            header ("Content-Type: application/json");
+            header("Content-Type: application/json");
             echo json_encode($pxn_worker);
         }
     }
@@ -794,6 +814,32 @@ class Fetch extends Controller
         echo json_encode($data['product_reviews']);
     }
 
+    public function product_rating($product_id)
+    {
+        $db = new Database();
+        $data = $db->query("SELECT * FROM product_rating WHERE product_id = $product_id");
+
+        $product_rating = array_merge((array) $data[0]);
+
+        if (!$data) {
+            header("Content-Type: application/json");
+            echo json_encode('');
+            return;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($product_rating);
+    }
+
+    public function material_stk_by_material_id($id)
+    {
+        $db = new Database();
+        $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE material_id = $id AND quantity > 0");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['material_stk']);
+    }
+
 
     public function material_stk($id = '')
     {
@@ -838,15 +884,24 @@ class Fetch extends Controller
 
         $data['material_stk'] = $db->query("SELECT * FROM material_stk WHERE stock_no IN ($stock_nos)");
 
-        // map production materials and material_stk by stock_no
-        // $data['production_materials'] = array_map(function ($production_material) use ($data) {
-        //     foreach ($data['material_stk'] as $material_stk) {
-        //         if ($production_material->stock_no == $material_stk->stock_no) {
-        //             $production_material->material_stk = $material_stk;
-        //         }
-        //     }
-        //     return $production_material;
-        // }, $data['production_materials']);
+        // show($stock_nos);
+
+        // // map production materials and material_stk by stock_no
+        $data['production_materials'] = array_map(function ($production_material) use ($data) {
+            foreach ($data['material_stk'] as $material_stk) {
+                if ($production_material->stock_no == $material_stk->stock_no) {
+                    $production_material->material_id = $material_stk->material_id;
+                    $db = new Database();
+                    $query = "SELECT * FROM material WHERE material_id = $material_stk->material_id";
+                    $material = $db->query($query);
+                    $production_material->material_name = $material[0]->material_name;
+                }
+            }
+            return $production_material;
+        }, $data['production_materials']);
+        // show($stock_nos);
+
+
 
         // get price per unit from material_stk and map to production_materials by stock_no
         $data['production_materials'] = array_map(function ($production_material) use ($data) {
@@ -871,7 +926,491 @@ class Fetch extends Controller
 
         // show($data['production_materials']);
 
+        $result = [];
+        foreach ($data['production_materials'] as $key => $object) {
+            $result[$key] = (array)$object;
+        }
+        $result = array_values($result);
+        // show($result);
+
         header("Content-Type: application/json");
-        echo json_encode($data['production_materials']);
+        echo json_encode($result);
+    }
+
+    public function chat($id = '')
+    {
+        if ($id != '') {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat WHERE chat_id = $id");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat'][0]);
+        } else {
+            $db = new Database();
+            $data['chat'] = $db->query("SELECT * FROM chat");
+
+            header("Content-Type: application/json");
+            echo json_encode($data['chat']);
+        }
+    }
+
+    public function chat_rec_all()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat_records']);
+    }
+
+    public function chat_by_cus_id($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat WHERE customer_user_id = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat'][0]);
+    }
+
+    public function chat_records($id)
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records WHERE connection = $id");
+
+        header("Content-Type: application/json");
+        echo json_encode($data['chat']);
+    }
+
+    public function last_chat_record_id()
+    {
+        $db = new Database();
+        $data['chat'] = $db->query("SELECT * FROM chat_records ORDER BY chat_rec_id DESC LIMIT 1");
+
+        $chat_rec_id = $data['chat'][0]->chat_rec_id;
+
+        header("Content-Type: application/json");
+        echo json_encode($chat_rec_id);
+    }
+
+    public function inquiry_list()
+    {
+        $db = new Database();
+        $data['chat_records'] = $db->query("SELECT * FROM chat_records");
+        // show($data['chat_records']);
+
+        // get last chat record for each connection 
+        $last_chat_records = [];
+        foreach ($data['chat_records'] as $chat_record) {
+            $last_chat_records[$chat_record->connection] = $chat_record;
+        }
+        // show($last_chat_records);
+
+        $data['chat'] = $db->query("SELECT * FROM chat");
+        // show($data['chat']);
+
+        // map chat to last_chat_record  by connection==chat_id
+        $last_chat_records = array_map(function ($last_chat_record) use ($data) {
+            foreach ($data['chat'] as $chat) {
+                if ($last_chat_record->connection == $chat->chat_id) {
+                    $last_chat_record->cus_name = $chat->cus_name;
+                    $last_chat_record->customer_user_id = $chat->customer_user_id;
+                }
+            }
+            return $last_chat_record;
+        }, $last_chat_records);
+
+        // show($last_chat_records);
+        foreach ($last_chat_records as $last_chat_record) {
+            if ($last_chat_record->customer_user_id == $last_chat_record->sent_by) {
+                $last_chat_record->resp = 0;
+            } else {
+                $last_chat_record->resp = 1;
+            }
+        }
+
+        // show($last_chat_records);
+
+        // responded chats 
+        $responded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 1;
+        });
+
+        // show($responded_chats);
+        // sort $responded_chats by created_at desc
+        usort($responded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+
+
+        // unresponded chats
+        $unresponded_chats = array_filter($last_chat_records, function ($last_chat_record) {
+            return $last_chat_record->resp == 0;
+        });
+
+        usort($unresponded_chats, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
+
+        // merge unresponded and responded chats
+        $x = array_merge($unresponded_chats, $responded_chats);
+
+        // show($x);
+
+
+        header("Content-Type: application/json");
+        echo json_encode($x);
+    }
+
+    public function products_count()
+    {
+        $db = new Database();
+        $data['products'] = $db->query("SELECT * FROM product");
+
+        $count = count($data['products']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+    }
+
+    public function ongoing_pxn_count()
+    {
+        $db = new Database();
+        $data['production'] = $db->query("SELECT * FROM production WHERE status = 'processing'");
+
+        $count = count($data['production']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+    }
+
+    public function new_bulk_req()
+    {
+        $db = new Database();
+        $newBulkRequests = $db->query("SELECT * FROM bulk_order_req WHERE status = 'new'");
+
+        foreach ($newBulkRequests as $key => $newBulkRequest) {
+            $product_id = $newBulkRequest->product_id;
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+            $newBulkRequests[$key]->product_name = $product[0]->name;
+            $cat_id = $product[0]->product_category_id;
+            $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+            $newBulkRequests[$key]->category_name = $category[0]->category_name;
+            $user_id = $newBulkRequest->user_id;
+            $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+            $newBulkRequests[$key]->customer_id = $customer[0]->customer_id;
+
+
+
+
+            $piid = $product[0]->product_inventory_id;
+
+            $quantity_available = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $piid");
+            $newBulkRequests[$key]->quantity_available = $quantity_available[0]->quantity;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($newBulkRequests);
+    }
+
+    public function bulk_req()
+    {
+        $db = new Database();
+        $bulkReq = $db->query("SELECT * FROM bulk_order_req WHERE status != 'new'");
+
+        foreach ($bulkReq as $key => $newBulkRequest) {
+            $product_id = $newBulkRequest->product_id;
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+            $bulkReq[$key]->product_name = $product[0]->name;
+            $cat_id = $product[0]->product_category_id;
+            $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+            $bulkReq[$key]->category_name = $category[0]->category_name;
+
+            $user_id = $newBulkRequest->user_id;
+            $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+            $bulkReq[$key]->customer_id = $customer[0]->customer_id;
+
+
+
+            // $piid = $product[0]->product_inventory_id;
+
+            // $quantity_available = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $piid");
+            // $newBulkRequests[$key]->quantity_available = $quantity_available[0]->quantity;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($bulkReq);
+    }
+
+    public function bulk_req_by_id($id)
+    {
+        $db = new Database();
+        $bulkReq = $db->query("SELECT * FROM bulk_order_req WHERE bulk_req_id = $id");
+
+        $product_id = $bulkReq[0]->product_id;
+        $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+        $bulkReq[0]->product_name = $product[0]->name;
+        $bulkReq[0]->product_description = $product[0]->description;
+        $bulkReq[0]->product_price = $product[0]->price;
+
+        $product_inventory_id = $product[0]->product_inventory_id;
+        $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+        $bulkReq[0]->quantity_available = $product_inventory[0]->quantity;
+
+        $cat_id = $product[0]->product_category_id;
+        $category = $db->query("SELECT * FROM product_category WHERE product_category_id = $cat_id");
+        $bulkReq[0]->category_name = $category[0]->category_name;
+
+        $user_id = $bulkReq[0]->user_id;
+        $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
+        $bulkReq[0]->customer_id = $customer[0]->customer_id;
+        $bulkReq[0]->customer_name = ucfirst($customer[0]->first_name) . ' ' . ucfirst($customer[0]->last_name);
+
+        $bulkReq[0]->customer_email = $db->query("SELECT email FROM user WHERE user_id = $user_id")[0]->email;
+
+
+
+
+        header("Content-Type: application/json");
+        echo json_encode($bulkReq[0]);
+    }
+
+    public function completed_retail_orders()
+    {
+        $db = new Database();
+        $cro = "SELECT * FROM order_details WHERE  status = 'completed'";
+        $retail_orders = $db->query($cro);
+
+        foreach ($retail_orders as $retail) {
+            $user_id = $retail->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $retail->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $retail->order_details_id";
+            $y = $db->query($items);
+            foreach ($y as $item) {
+                $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                $z = $db->query($product)[0];
+                $item->product_name = $z->name;
+                $item->price = $z->price;
+
+                $product_category_id = $z->product_category_id;
+                $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                $p = $db->query($category_name)[0];
+                $item->category_name = $p->category_name;
+            }
+            $retail->items = $y;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($retail_orders);
+    }
+
+    public function completed_bulk_orders()
+    {
+        $db = new Database();
+        $cbo = "SELECT * FROM bulk_order_details WHERE  status = 'completed'";
+        $bulk_orders = $db->query($cbo);
+
+        foreach ($bulk_orders as $bulk) {
+            $user_id = $bulk->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $bulk->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $bulk->bulk_req_id";
+            $x = $db->query($bulk_req)[0];
+            $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_name)[0];
+            $x->product_name = $y->name;
+
+            $product_inventory_id = "SELECT product_inventory_id FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_inventory_id)[0];
+            $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
+            $z = $db->query($quantity_available)[0];
+            $x->quantity_available = $z->quantity;
+            $x->product_inventory_id = $y->product_inventory_id;
+
+            $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
+            $z = $db->query($product_category_id)[0];
+            $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $z->product_category_id";
+            $a = $db->query($category_name)[0];
+            $x->category_name = $a->category_name;
+            $bulk->bulk_req = $x;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($bulk_orders);
+    }
+
+    public function pxn_bulk_orders($id = '')
+    {
+        $db = new Database();
+        $cbo = "SELECT * FROM bulk_order_details WHERE  status = 'pending'";
+        $bulk_orders = $db->query($cbo);
+
+        foreach ($bulk_orders as $b) {
+            $user_id = $b->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $b->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $b->bulk_req_id";
+            $x = $db->query($bulk_req)[0];
+            $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_name)[0];
+            $x->product_name = $y->name;
+
+            $product_inventory_id = "SELECT product_inventory_id FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_inventory_id)[0];
+            $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
+            $z = $db->query($quantity_available)[0];
+            $x->quantity_available = $z->quantity;
+            $x->product_inventory_id = $y->product_inventory_id;
+
+            $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
+            $z = $db->query($product_category_id)[0];
+            $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $z->product_category_id";
+            $a = $db->query($category_name)[0];
+            $x->category_name = $a->category_name;
+            $b->bulk_req = $x;
+
+            $product_meterials = "SELECT * FROM product_material WHERE product_id = $x->product_id";
+            $x = $db->query($product_meterials);
+            $b->product_materials = $x;
+
+            $missing_materials = [];
+
+            foreach ($x as $p) {
+                $material_id = $p->material_id;
+                $z = "SELECT material_name,stock_available FROM material WHERE material_id = $material_id";
+                $y = $db->query($z)[0];
+                $p->material_name = $y->material_name;
+                $p->stock_available = $y->stock_available;
+
+                if ($p->stock_available < $b->bulk_req->quantity * $p->quantity_needed) {
+                    $missing_materials[] = [
+                        'material_name' => $p->material_name,
+                        'missing_qty' => ($b->bulk_req->quantity * $p->quantity_needed) - $p->stock_available,
+                        'material_id' => $p->material_id
+                    ];
+                }
+            }
+            $b->missing_materials = $missing_materials;
+            $b->missing_materials_count = count($missing_materials);
+        }
+
+        if ($id == '') {
+            header("Content-Type: application/json");
+            echo json_encode($bulk_orders);
+        }
+        else
+        {
+            // get $b , $b->bulk_order_details_id = $id
+            $b = array_filter($bulk_orders, function ($bulk_order) use ($id) {
+                return $bulk_order->bulk_order_details_id == $id;
+            });
+            $b = array_values($b)[0];
+
+            header("Content-Type: application/json");
+            echo json_encode($b);
+        }
+    }
+
+    public function pxn_missing($id)
+    {
+        $url = ROOT.'/fetch/pxn_bulk_orders/'.$id;
+        $data = json_decode(file_get_contents($url), true);
+        $missing_materials = $data['missing_materials'];
+
+        header("Content-Type: application/json");
+        echo json_encode($missing_materials);
+    }
+
+    public function blk_chart()
+    {
+        $db = new Database();
+
+        $bulk_req_ids = $db->query("SELECT bulk_req_id FROM bulk_order_details WHERE status != 'pending' OR status != 'cancelled'");
+        $bulk_req_ids = array_column($bulk_req_ids, 'bulk_req_id');
+
+        $arr = [];
+
+        foreach($bulk_req_ids as $blk)
+        {
+            $bulk_req = $db->query("SELECT product_id,quantity FROM bulk_order_req WHERE bulk_req_id = $blk");
+            $quantity = $bulk_req[0]->quantity;
+            $product_id = $bulk_req[0]->product_id;
+
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $product_name = $product[0]->name;
+
+            if(array_key_exists($product_name,$arr))
+            {
+                $arr[$product_name] += $quantity;
+            }
+            else
+            {
+                $arr[$product_name] = $quantity;
+            }
+        }
+
+
+        $product_names = array_keys($arr);
+        $quantities = array_values($arr);
+
+        $arr2 = [
+            'product_names' => $product_names,
+            'quantities' => $quantities
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+    }
+
+    public function retail_chart()
+    {
+        $db = new Database();
+
+        $order_ids = $db->query("SELECT order_details_id FROM order_details WHERE status != 'pending' OR status != 'cancelled'");
+        $order_ids = array_column($order_ids, 'order_details_id');
+
+        $arr = [];
+
+        foreach($order_ids as $order)
+        {
+            $order_items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order");
+
+            foreach($order_items as $item)
+            {
+                $quantity = $item->quantity;
+                $product_id = $item->product_id;
+
+                $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+                $product_name = $product[0]->name;
+
+                if(array_key_exists($product_name,$arr))
+                {
+                    $arr[$product_name] += $quantity;
+                }
+                else
+                {
+                    $arr[$product_name] = $quantity;
+                }
+            }
+        }
+
+        $product_names = array_keys($arr);
+        $quantities = array_values($arr);
+
+        $arr2 = [
+            'product_names' => $product_names,
+            'quantities' => $quantities
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+
     }
 }

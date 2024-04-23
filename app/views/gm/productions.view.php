@@ -39,67 +39,26 @@ if ($completed) {
     $com_count = count($completed);
 }
 
-// show($pen_count);
-// show($pro_count);
-// show($com_count);
-
-//select created_at from productions 
-$created_at_array = [];
-foreach ($productions as $production) {
-    $created_at_array[] = $production['created_at'];
-}
-// show($created_at_array);
-// get month and year from created_at timestamp
-$month_year_array = [];
-foreach ($created_at_array as $created_at) {
-    $month_year_array[] = date("M Y", strtotime($created_at));
-}
-// show($month_year_array);
-// count the number of productions in each month
-$month_year_count = array_count_values($month_year_array);
-// show($month_year_count);
-// get the month and year and count as key value pair
-$month_year_count_array = [];
-foreach ($month_year_count as $key => $value) {
-    $month_year_count_array[] = [
-        'month_year' => $key,
-        'count' => $value
-    ];
-}
-// show($month_year_count_array);
-
-// get current month and year and 12 months before to a array
-// $month_year_array2 = [];
-// for ($i = 0; $i < 12; $i++) {
-//     $month_year_array2[] = date("M Y", strtotime("-$i month"));
-// }
-// show($month_year_array2);
-
-$month_year_count_array2 = [];
-for ($i = 0; $i < 12; $i++) {
-    $month_year_count_array2[] = [
-        'month_year' => date("M Y", strtotime("-$i month")),
-        'count' => 0
-    ];
-}
-// show($month_year_count_array2);
-
-// merge the two arrays
-$month_year_count_array3 = array_merge($month_year_count_array, $month_year_count_array2);
-
-// reverse array
-$month_year_count_array3 = array_reverse($month_year_count_array3);
-// show($month_year_count_array3);
-
-$jsmonth_year_count_array3 = json_encode($month_year_count_array3);
 
 
+// show($completed);
+$comjson = json_encode($completed);
 
-// finished productions
 
+usort($completed, function ($a, $b) {
+    return strtotime($a['updated_at']) - strtotime($b['updated_at']);
+});
+
+$oldestProductionDate = $completed[0]['updated_at'];
+// show($oldestProductionDate);
+$date = date_create($oldestProductionDate);
+$oldestProductionDate = date_format($date, 'Y-m-d');
+// show($oldestProductionDate);
 
 
 ?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <style>
     .card-icon {
         font-size: 70px;
@@ -115,7 +74,104 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
         background-color: var(--blk);
         color: var(--light);
     }
+
+    /* flatpicker */
+    .flatpickr-weekdays .flatpickr-months {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .flatpickr-month {
+        font-size: 16px;
+    }
+
+    .flatpickr-current-month {
+        font-size: 100%;
+        font-weight: bolder;
+    }
+
+    .dayContainer>.selected {
+        background-color: var(--primary);
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--light);
+
+    }
+
+    .dayContainer>.selected:hover {
+        background-color: #959ea9;
+        background: #959ea9;
+        border-color: #959ea9;
+        color: var(--light);
+    }
+
+    .dayContainer>.prevMonthDay {
+        color: rgba(57, 57, 57, 0.3);
+        background: transparent;
+        border-color: transparent;
+        cursor: default
+    }
+
+    .flatpickr-day.selected.prevMonthDay,
+    .flatpickr-day.selected.nextMonthDay {
+        background-color: var(--primary);
+        background: var(--primary);
+        border-color: var(--primary);
+        color: var(--light);
+    }
+
+    .flatpickr-day {
+        border-radius: 10px;
+    }
+
+    .flatpickr-calendar {
+        border-radius: 10px;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        width: auto;
+        height: auto;
+    }
+
+    .reports_sec {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .reports_sec__input {
+        background-color: var(--light);
+    }
+
+    .btnx {
+        /* margin-top: 1rem; */
+        padding: 10px 20px;
+        background-color: var(--blk);
+        color: var(--light);
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+    }
 </style>
+
+<div class="table-section" style=" padding-bottom:0">
+    <h2 class="table-section__title" style=" margin-bottom:0">Completed Productions</h2>
+    <div class="reports_sec">
+
+        <div class="reports_sec__item">
+            <span class="reports_sec__label">Start Date:</span>
+            <input type="text" id="start-date" placeholder="Start date" value="2024-01-01" class="reports_sec__input">
+        </div>
+        <div class="reports_sec__item">
+            <span class="reports_sec__label">End Date:&nbsp&nbsp</span>
+            <input type="text" id="end-date" placeholder="End date" class="reports_sec__input">
+        </div>
+        <div class="reports_sec__item">
+            <a id="print-dates" class="reports_sec__button" style="width: 100%; text-align:center">Generate Report</a>
+        </div>
+    </div>
+</div>
 
 <div class="table-section" style=" padding-bottom:0">
     <h2 class="table-section__title" style=" margin-bottom:0">Productions</h2>
@@ -143,19 +199,65 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
             <p class="card-text"><?= $com_count ?></p>
         </div>
     </a>
-    <!-- Repeat for other cards -->
 </div>
 
+<!--  -->
 
-<div class="dashboard2" id="pxn-chart">
-    <div>
-        <div class="charts-card">
-            <p class="chart-title">Productions within a year</p>
-            <div id="chart"></div>
-        </div>
-    </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const startDatepicker = flatpickr("#start-date", {
+            defaultDate: "<?= $oldestProductionDate ?>",
+            minDate: "<?= $oldestProductionDate ?>",
+            maxDate: "today",
+            onChange: function(selectedDates, dateStr, instance) {
+                if (endDatepicker.selectedDates[0] && selectedDates[0] > endDatepicker.selectedDates[0]) {
+                    endDatepicker.setDate(selectedDates[0]);
+                }
+                endDatepicker.set('minDate', dateStr);
+            }
+        });
+
+        const endDatepicker = flatpickr("#end-date", {
+            defaultDate: "today",
+            minDate: "<?= $oldestProductionDate ?>",
+            maxDate: "today",
+            onChange: function(selectedDates, dateStr, instance) {
+                if (startDatepicker.selectedDates[0] && selectedDates[0] < startDatepicker.selectedDates[0]) {
+                    startDatepicker.setDate(selectedDates[0]);
+                }
+                startDatepicker.set('maxDate', dateStr);
+            }
+        });
+
+        const printButton = document.getElementById('print-dates');
+        printButton.addEventListener('click', () => {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            console.log('Start Date:', startDate);
+            console.log('End Date:', endDate);
+
+            var completed = <?php echo $comjson; ?>;
+            console.log(completed);
+
+            var filtered = completed.filter(function(a) {
+                return a.created_at >= startDate && a.updated_at <= endDate;
+            });
+
+            // console.log(count(filtered));
+
+            //get count of filtered
+            // var count = Object.keys(filtered).length;
+
+            // console.log(count);
+            generateAndOpenPdf(startDate, endDate, "Production Report", filtered);
+        });
+    });
+</script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.2/apexcharts.min.js"></script>
 <script>
     var arr = <?php echo $jsmonth_year_count_array3; ?>;
     console.log(arr);
@@ -205,6 +307,13 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
         barChartOptions
     );
     barChart.render();
+</script> -->
+
+
+<script>
+    function generateAndOpenPdf(startDate, endDate, Title = "Production Report", data = []) {
+        window.location.href = `<?php echo ROOT ?>/gm/productions/report/${startDate}/${endDate}`;
+    }
 </script>
 
 <div class="table-section">
@@ -213,13 +322,7 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
     </div>
 
     <table class="table-section__table" id="pen-productions-table">
-        <!-- [production_id] => 2
-            [product_id] => 7
-            [quantity] => 1
-            [status] => completed
-            [created_at] => 2024-01-01 22:46:18
-            [updated_at] => 2024-01-01 22:46:18
-            [product_name] => Brooklyn Sofa -->
+
         <thead>
             <tr>
                 <th>Production ID</th>
@@ -344,13 +447,13 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
     // filterProductions function
 
     // prevent
-    
+
     function filterProductions(filter) {
         event.preventDefault();
 
         document.getElementById('pxn-chart').style.display = 'none';
 
-        
+
         //btn select
         if (filter == 'pending') {
             document.getElementById('pen-card').classList.add('card-clicked');
@@ -421,8 +524,6 @@ $jsmonth_year_count_array3 = json_encode($month_year_count_array3);
                 });
             }).catch(error => console.error(error));
     }
-    
-
 </script>
 
 

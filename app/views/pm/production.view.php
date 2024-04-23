@@ -19,6 +19,15 @@ $workers = json_decode($response, true);
 show($workers);
 ?>
 
+<h1>Production materials</h1>
+<!-- fetch production materials-->
+<?php
+$url = ROOT."/fetch/production_material/$id";
+$response = file_get_contents($url);
+$materials = json_decode($response, true);
+show($materials);
+?>
+
 
 
 

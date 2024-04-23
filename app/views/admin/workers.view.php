@@ -39,12 +39,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <thead>
             <tr>
                 <th onclick="sortTable(0)">Worker ID</th>
-                <th onclick="sortTable(1)" >Name</th>
+                <th onclick="sortTable(1)">Name</th>
                 <th onclick="sortTable(2)">Mobile Number</th>
                 <th onclick="sortTable(3)">Address</th>
                 <th onclick="sortTable(4)">Availability</th>
                 <th onclick="sortTable(5)">Role</th>
-                
+
                 <!-- <th onclick="sortTable(6)">Date Added</th> -->
                 <!-- <th onclick="sortTable(7)">Date Updated</th> -->
 
@@ -73,7 +73,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     item.last_name = item.last_name.charAt(0).toUpperCase() + item.last_name.slice(1).toLowerCase();
                                     name = item.first_name + ' ' + item.last_name;
                                     let mobile_number = item.mobile_number;
-                                    let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
+                                    let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.province + ' Province.<br>' + item.zip_code;
                                     let availability = item.availability;
                                     let worker_role = item.worker_role;
                                     worker_role = worker_role.charAt(0).toUpperCase() + worker_role.slice(1);
@@ -195,7 +195,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                         <?php else : ?>
                             <option value="supervisor">Supervisor</option>
                         <?php endif; ?>
-                       
+
 
                     </select>
                 </div>
@@ -224,6 +224,71 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     <label for="city" class="form-label label-popup">City</label>
                     <input value="<?php echo $form_data['city'] ?>" type="text" id="city" name="city" class="form-input input-popup">
                 </div>
+
+                <?php if (!empty($errors['province'])) : ?>
+                    <p class="validate-mzg"><?= $errors['province'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="province" class="form-label label-popup">Province</label>
+                    <!-- 'Central','Eastern','North Central','Northern','North Western','Sabaragamuwa','Southern','Uva','Western' -->
+                    <select id="province" name="province" class="form-select input-popup">
+                        <?php if (empty($form_data['province'])) : ?>
+                            <option value="" selected disabled>Select Province</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Province</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Central') : ?>
+                            <option value="Central" selected>Central</option>
+                        <?php else : ?>
+                            <option value="Central">Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Eastern') : ?>
+                            <option value="Eastern" selected>Eastern</option>
+                        <?php else : ?>
+                            <option value="Eastern">Eastern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Central') : ?>
+                            <option value="North Central" selected>North Central</option>
+                        <?php else : ?>
+                            <option value="North Central">North Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Northern') : ?>
+                            <option value="Northern" selected>Northern</option>
+                        <?php else : ?>
+                            <option value="Northern">Northern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Western') : ?>
+                            <option value="North Western" selected>North Western</option>
+                        <?php else : ?>
+                            <option value="North Western">North Western</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Sabaragamuwa') : ?>
+                            <option value="Sabaragamuwa" selected>Sabaragamuwa</option>
+                        <?php else : ?>
+                            <option value="Sabaragamuwa">Sabaragamuwa</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Southern') : ?>
+                            <option value="Southern" selected>Southern</option>
+                        <?php else : ?>
+                            <option value="Southern">Southern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Uva') : ?>
+                            <option value="Uva" selected>Uva</option>
+                        <?php else : ?>
+                            <option value="Uva">Uva</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Western') : ?>
+                            <option value="Western" selected>Western</option>
+                        <?php else : ?>
+                            <option value="Western">Western</option>
+                        <?php endif; ?>
+                    </select>
+
+
+
+
+                </div>
+
 
                 <?php if (!empty($errors['zip_code'])) : ?>
                     <p class="validate-mzg"><?= $errors['zip_code'] ?></p>
@@ -298,12 +363,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                         <?php else : ?>
                             <option value="supervisor" disabled>Supervisor</option>
                         <?php endif; ?>
-                        
+
 
                     </select>
                 </div>
 
-                
+
 
                 <?php if (!empty($errors['address_line_1'])) : ?>
                     <p class="validate-mzg"><?= $errors['address_line_1'] ?></p>
@@ -324,10 +389,75 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 <div class="form-group">
                     <label for="city" class="form-label label-popup">City</label>
                     <?php if (!empty($errors['city'])) : ?>
-                    <p class="validate-mzg"><?= $errors['city'] ?></p>
-                <?php endif; ?>
+                        <p class="validate-mzg"><?= $errors['city'] ?></p>
+                    <?php endif; ?>
                     <input value="<?php echo $form_data['city'] ?>" type="text" id="city_update" name="city" class="form-input input-popup">
                 </div>
+
+                <!--  -->
+                <?php if (!empty($errors['province'])) : ?>
+                    <p class="validate-mzg"><?= $errors['province'] ?></p>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label for="province" class="form-label label-popup">Province</label>
+                    <select id="province_update" name="province" class="form-select input-popup">
+                        <?php if (empty($form_data['province'])) : ?>
+                            <option value="" selected disabled>Select Province</option>
+                        <?php else : ?>
+                            <option value="" disabled>Select Province</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Central') : ?>
+                            <option value="Central" selected>Central</option>
+                        <?php else : ?>
+                            <option value="Central">Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Eastern') : ?>
+                            <option value="Eastern" selected>Eastern</option>
+                        <?php else : ?>
+                            <option value="Eastern">Eastern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Central') : ?>
+                            <option value="North Central" selected>North Central</option>
+                        <?php else : ?>
+                            <option value="North Central">North Central</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Northern') : ?>
+                            <option value="Northern" selected>Northern</option>
+                        <?php else : ?>
+                            <option value="Northern">Northern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'North Western') : ?>
+                            <option value="North Western" selected>North Western</option>
+                        <?php else : ?>
+                            <option value="North Western">North Western</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Sabaragamuwa') : ?>
+                            <option value="Sabaragamuwa" selected>Sabaragamuwa</option>
+                        <?php else : ?>
+                            <option value="Sabaragamuwa">Sabaragamuwa</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Southern') : ?>
+                            <option value="Southern" selected>Southern</option>
+                        <?php else : ?>
+                            <option value="Southern">Southern</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Uva') : ?>
+                            <option value="Uva" selected>Uva</option>
+                        <?php else : ?>
+                            <option value="Uva">Uva</option>
+                        <?php endif; ?>
+                        <?php if ($form_data['province'] === 'Western') : ?>
+                            <option value="Western" selected>Western</option>
+                        <?php else : ?>
+                            <option value="Western">Western</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
+
+
+
+
 
                 <?php if (!empty($errors['zip_code'])) : ?>
                     <p class="validate-mzg"><?= $errors['zip_code'] ?></p>
@@ -369,11 +499,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                     document.getElementById('address_line_2_update').value = data.address_line_2;
                     document.getElementById('city_update').value = data.city;
                     document.getElementById('zip_code_update').value = data.zip_code;
+                    document.getElementById('province_update').value = data.province;
                     // document.getElementById('zip_code_update').disabled = true;
 
 
                     // document.getElementById('worker_role-u').value = data.worker_role;
-                    
+
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
@@ -399,7 +530,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         function closePopup() {
             const popups = document.querySelectorAll('.popup-form');
             confirmText = document.querySelector('.confirmation-text');
-            
+
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
@@ -413,7 +544,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
             // Session storage
             sessionStorage.removeItem('worker_id');
-            
+
         }
     </script>
 

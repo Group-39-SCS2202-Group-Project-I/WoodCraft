@@ -223,6 +223,10 @@ if ($images) {
                 <p class="pc-lable">Quantity Available :&nbsp</p>
                 <p><?php echo $data['quantity'] ?></p>
             </div>
+            <div class="product-container-item">
+                <p class="pc-lable">Minimum Quantity for Bulk Orders :&nbsp</p>
+                <p><?php echo $data['bulkmin'] ?></p>
+            </div>
         </div>
 
 
@@ -508,7 +512,7 @@ if ($images) {
     }
 
     function handleFiles(files) {
-        const images = Array.from(files); 
+        const images = Array.from(files);
         uploadFile(images[0]);
     }
 

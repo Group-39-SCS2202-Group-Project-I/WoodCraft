@@ -27,7 +27,7 @@ if (isset($_SESSION['USER_DATA'])) {
     <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <title>WoodCraft Furniture - Admin</title>
+    <title>WoodCraft Furniture - Online Sales Representative</title>
 </head>
 
 <body>
@@ -70,8 +70,36 @@ if (isset($_SESSION['USER_DATA'])) {
                         <span class="material-icons-outlined">dashboard</span><span style="margin-left: 5px;">Dashboard</span>
                     </a>
                 </li>
-                
-               
+
+                <li class="sidebar-list-item nav-btn" id="inquiries-nav">
+                    <a>
+                        <span class="material-icons-outlined">question_answer</span><span style="margin-left: 5px;">Inquiries</span>
+                    </a>
+                </li>
+                <!-- orders -->
+                <!-- <li class="sidebar-list-item nav-btn" id="orders-nav">
+                    <a>
+                        <span class="material-symbols-outlined">
+                            order_approve
+                        </span><span style="margin-left: 5px;">Orders</span>
+                    </a>
+                </li> -->
+                <!-- products -->
+                <li class="sidebar-list-item nav-btn" id="products-nav">
+                    <a>
+                        <span class="material-icons-outlined">chair</span><span style="margin-left: 5px;">Products</span>
+                    </a>
+                </li>
+                <!-- productions -->
+                <li class="sidebar-list-item nav-btn" id="productions-nav">
+                    <a>
+                        <span class="material-symbols-outlined">
+                            event_seat
+                        </span><span style="margin-left: 5px;">Productions</span>
+                    </a>
+                </li>
+
+
                 <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
                     <a>
                         <span class="material-icons-outlined">logout</span><span style="margin-left: 5px;">Logout</span>
@@ -80,12 +108,13 @@ if (isset($_SESSION['USER_DATA'])) {
 
                 <script>
                     const dashNav = document.getElementById('dash-nav');
+                    const inquiriesNav = document.getElementById('inquiries-nav');
                     // const productsNav = document.getElementById('products-nav');
                     // const customersNav = document.getElementById('customers-nav');
                     // const workersNav = document.getElementById('workers-nav');
                     // const staffNav = document.getElementById('staff-nav');
                     // const deliveryNav = document.getElementById('delivery-nav');
-                    
+
 
 
                     // Add event listener to the parent element
@@ -96,7 +125,19 @@ if (isset($_SESSION['USER_DATA'])) {
                         // Handle different menu items based on their IDs
                         switch (id) {
                             case 'dash-nav':
-                                window.location.href = '<?= ROOT ?>/pm/dashboard';
+                                window.location.href = '<?= ROOT ?>/osr/dashboard';
+                                break;
+                            case 'inquiries-nav':
+                                window.location.href = '<?= ROOT ?>/osr/inquiries';
+                                break;
+                            // case 'orders-nav':
+                            //     window.location.href = '<?= ROOT ?>/osr/orders';
+                            //     break;
+                            case 'products-nav':
+                                window.location.href = '<?= ROOT ?>/osr/products';
+                                break;
+                            case 'productions-nav':
+                                window.location.href = '<?= ROOT ?>/osr/productions';
                                 break;
                                 // case 'products-nav':
                                 //     window.location.href = '<?= ROOT ?>/admin/products';
@@ -113,7 +154,7 @@ if (isset($_SESSION['USER_DATA'])) {
                                 // case 'delivery-nav':
                                 //     window.location.href = '<?= ROOT ?>/admin/delivery';
                                 //     break;
-                            
+
                             default:
                                 break;
                         }

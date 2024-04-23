@@ -1,276 +1,817 @@
-<?php include "inc/header.view.php"; ?>
 <?php
-
-$production_id = $data['id'];
-
-$url = ROOT . "/fetch/production/" . $production_id;
-
-// show($url);
-$response = file_get_contents($url);
-$production = json_decode($response, true);
-
-show($production);
-
-// production workers
-$url2 = ROOT . "/fetch/production_workers/" . $production_id;
-$response2 = file_get_contents($url2);
-$production_workers = json_decode($response2, true);
-
-// show($url2);
-// show($production_workers);
-
-// production materials
-$url3 = ROOT . "/fetch/production_material/" . $production_id;
-$response3 = file_get_contents($url3);
-$production_materials = json_decode($response3, true);
-// show($production_materials);
-
-//total material cost
-$total_material_cost = 0;
-foreach ($production_materials as $production_material) {
-    $total_material_cost += $production_material['cost'];
-}
-show($total_material_cost);
-
-$productionNumber = sprintf("PXN-%03d", $production_id);
+$production = $data['production'];
+$workers = $data['workers'];
+$materials = $data['materials'];
+$address = $data['delivery_info'];
 ?>
 
-<style>
-    .product-container {
-        background-color: white;
-        border-radius: 10px;
-        padding: 10px;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .product-container-title {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        text-align: center;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>)</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
-    .product-container-item {
-        display: flex;
-        /* justify-content:first baseline; */
-        /* justify-items: center; */
-        margin-bottom: 0.5rem;
-    }
-
-    .product-container-d {
-        /* display: flex;  */
-        /* justify-content:first baseline;
-        /* justify-items: center; */
-        margin-bottom: 0.5rem;
-    }
-
-    .product-review-item {
-        background-color: var(--light);
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 0.5rem;
-    }
-
-    .pc-lable {
-        font-weight: 500;
-        margin-right: 0.5rem;
-    }
-
-    .dash-button {
-        padding: 10px 20px;
-        background-color: var(--blk);
-        color: var(--light);
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 16px;
-        transition: background-color 0.2s ease-in-out;
-        cursor: pointer;
-    }
-
-    .dash-button:hover {
-        background-color: var(--primary);
-        color: var(--light);
-    }
-
-    .dash-danger:hover {
-        background-color: var(--danger);
-        color: var(--light);
-    }
-
-
-    /* drag */
-    .drag-area {
-        background-color: var(--light);
-        border-radius: 10px;
-        /* height: 500px;
-        width: 700px; */
-        padding: 2rem 0;
-        width: 100%;
-        margin-bottom: 1rem;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .drag-area.active {
-        border: 2px solid var(--blk);
-    }
-
-    .drag-area .icon {
-        font-size: 100px;
-        color: #fff;
-    }
-
-    .drag-area header {
-        font-size: 20px;
-        font-weight: 500;
-        color: var(--blk);
-    }
-
-    .drag-area span {
-        font-size: 20px;
-        font-weight: 500;
-        color: var(--blk);
-        margin: 10px 0 15px 0;
-    }
-
-    .drag-area button {
-        padding: 10px 25px;
-        font-size: 20px;
-        /* font-weight: 500; */
-        border: none;
-        outline: none;
-        background: var(--blk);
-        color: var(--light);
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.5s;
-    }
-
-    .drag-area button:hover {
-        background: var(--primary);
-        color: var(--light);
-    }
-
-    .drag-area img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        border-radius: 5px;
-    }
-
-
-
-    /* @media (max-width: 745px) {
-
-        .drag-area button {
-            padding: 8px 20px;
-            font-size: 18px;
-            font-weight: 450;
+    <style>
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
         }
 
-        .drag-area {
-            height: 400px;
-            width: 450px;
+        ::before,
+        ::after {
+            --tw-content: '';
         }
 
-        .drag-area header {
-            font-size: 25px;
-            font-weight: 450;
-            color: var(--blk);
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-feature-settings: normal;
+            font-variation-settings: normal;
         }
 
-        .drag-area .icon {
-            font-size: 80px;
+        body {
+            margin: 0;
+            line-height: inherit;
         }
 
-    } */
-    /* .tbl{
-        width: 70% !important;
-    }
-    .tbl-btn{
-        background-color: white !important;
-    }
-    .tbl-btn:hover{
-        background-color: var(--primary) !important;
-        color: var(--light) !important;
-    } */
-</style>
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px;
+        }
 
-<div class="table-section" style=" padding-bottom:0">
-    <h2 class="table-section__title" style=" margin-bottom:0">Production Details - <?= $productionNumber ?></h2>
-</div>
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted;
+        }
 
-<!-- [product_id] => 1
-    [quantity] => 1
-    [status] => completed
-    [created_at] => 2024-01-24 21:32:16
-    [updated_at] => 2024-01-29 10:46:17
-    [name] => MICKE Desk -->
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+        }
 
-<div class="dashboard2" id="pwc-table">
-    <div class="product-container">
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
 
-        <div class="product-review-item" style="margin-bottom:0;height: 100%;">
-            <div class="product-container-item">
-                <p class="pc-lable">Product ID :&nbsp</p>
-                <p><?php echo sprintf("PRD-%03d", $production['product_id']) ?></p>
-            </div>
-            <div class="product-container-item">
-                <p class="pc-lable"> Product Name :&nbsp</p>
-                <p><?php echo ucfirst($production['name']); ?></p>
-            </div>
-            <div class="product-container-item">
-                <p class="pc-lable">Quantity :&nbsp</p>
-                <p><?php echo $production['quantity']  ?></p>
-            </div>
+        b,
+        strong {
+            font-weight: bolder;
+        }
 
+        code,
+        kbd,
+        samp,
+        pre {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 1em;
+        }
 
-        </div>
+        small {
+            font-size: 80%;
+        }
 
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
 
-    </div>
+        sub {
+            bottom: -0.25em;
+        }
 
-    <div class="product-container">
+        sup {
+            top: -0.5em;
+        }
 
-        <div class="product-review-item" style="margin-bottom:0;height: 100%;">
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse;
+        }
 
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+        }
 
-            <div class="product-container-item">
-                <p class="pc-lable">Status :&nbsp</p>
-                <p><?php echo ucfirst($production['status']); ?></p>
-            </div>
-            <div class="product-container-item">
-                <p class="pc-lable"> Production Created at :&nbsp</p>
-                <p><?php echo  $production['created_at'] ?></p>
-            </div>
-            <?php
-            if ($production['status'] == 'completed') {
-                echo '<div class="product-container-item">
-                                <p class="pc-lable"> Production Completed at :&nbsp</p>
-                                <p>' . $production['updated_at'] . '</p>
-                            </div>';
-            } elseif ($production['status'] == 'processing') {
-                echo '<div class="product-container-item">
-                                <p class="pc-lable"> Updated aat :&nbsp</p>
-                                <p>' . $production['updated_at'] . '</p>
-                            </div>';
+        button,
+        select {
+            text-transform: none;
+        }
+
+        button,
+        [type='button'],
+        [type='reset'],
+        [type='submit'] {
+            appearance: button;
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none;
+        }
+
+        :-moz-focusring {
+            outline: auto;
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none;
+        }
+
+        progress {
+            vertical-align: baseline;
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto;
+        }
+
+        [type='search'] {
+            appearance: textfield;
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none;
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit;
+        }
+
+        summary {
+            display: list-item;
+        }
+
+        blockquote,
+        dl,
+        dd,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        figure,
+        p,
+        pre {
+            margin: 0;
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0;
+        }
+
+        legend {
+            padding: 0;
+        }
+
+        ol,
+        ul,
+        menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        dialog {
+            padding: 0;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af;
+        }
+
+        button,
+        [role="button"] {
+            cursor: pointer;
+        }
+
+        :disabled {
+            cursor: default;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        audio,
+        iframe,
+        embed,
+        object {
+            display: block;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        [hidden] {
+            display: none;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .bottom-0 {
+            bottom: 0px;
+        }
+
+        .left-0 {
+            left: 0px;
+        }
+
+        .table {
+            display: table;
+        }
+
+        .h-12 {
+            height: 3rem;
+        }
+
+        .w-1\/2 {
+            width: 50%;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .border-collapse {
+            border-collapse: collapse;
+        }
+
+        .border-spacing-0 {
+            --tw-border-spacing-x: 0px;
+            --tw-border-spacing-y: 0px;
+            border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+        }
+
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+
+        .border-b {
+            border-bottom-width: 1px;
+        }
+
+        .border-b-2 {
+            border-bottom-width: 2px;
+        }
+
+        .border-r {
+            border-right-width: 1px;
+        }
+
+        .border-main {
+            border-color: #6D9886;
+        }
+
+        .bg-main {
+            background-color: #6D9886;
+        }
+
+        .bg-slate-100 {
+            background-color: #f1f5f9;
+        }
+
+        .p-3 {
+            padding: 0.75rem;
+        }
+
+        .px-14 {
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
+        }
+
+        .px-2 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .py-10 {
+            padding-top: 1rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .pb-3 {
+            padding-bottom: 0.75rem;
+        }
+
+        .pl-2 {
+            padding-left: 0.5rem;
+        }
+
+        .pl-3 {
+            padding-left: 0.75rem;
+        }
+
+        .pl-4 {
+            padding-left: 1rem;
+        }
+
+        .pr-3 {
+            padding-right: 0.75rem;
+        }
+
+        .pr-4 {
+            padding-right: 1rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .align-top {
+            vertical-align: top;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .text-main {
+            color: #6D9886;
+        }
+
+        .text-neutral-600 {
+            color: #525252;
+        }
+
+        .text-neutral-700 {
+            color: #404040;
+        }
+
+        .text-slate-300 {
+            color: #cbd5e1;
+        }
+
+        .text-slate-400 {
+            color: #94a3b8;
+        }
+
+        .text-white {
+            color: #fff;
+        }
+
+        .sidebar-brand {
+            margin-top: 15px;
+            font-size: 26px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            color: #6D9886;
+        }
+
+        .cent {
+            font-size: 20px;
+            color: #525252;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        /* .sidebar-brand span {
+            color: #404040;
+        } */
+
+        @page {
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
             }
-            ?>
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #212121;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 15px 22px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <div class="py-4">
+            <div class="px-14 py-6">
+                <table class="w-full border-collapse border-spacing-0">
+                    <tbody>
+                        <tr>
+                            <td class="w-full align-top">
+                                <div class="sidebar-brand">
+                                    <span class="material-icons-outlined" style="font-size: 36px; padding-right:5px"> living </span> WoodCraft Furnitures
+                                </div>
+                            </td>
+
+                            <td class="align-top">
+                                <div class="text-sm">
+                                    <table class="border-collapse border-spacing-0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="pr-4">
+                                                    <div>
+                                                        <p class="whitespace-nowrap text-slate-400 text-right">Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>) </p>
+                                                        <!-- <p class="whitespace-nowrap font-bold text-main text-right">April 26, 2023</p> -->
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-slate-100 px-14 py-6 text-sm">
+                <table class="w-full border-collapse border-spacing-0">
+                    <tbody>
+                        <tr>
+                            <td class="w-1/2 align-top">
+                                <div class="text-sm text-neutral-600">
+                                    <p class="font-bold">WoodCraft Furnitures</p>
+                                    <p><?= $address->address_line_1 . ','; ?></p>
+                                    <p><?= $address->address_line_2 . ','; ?></p>
+                                    <p><?= $address->city . '.'; ?></p>
+                                    <p><?= $address->province . ' Province'; ?></p>
+                                    <p><?= $address->zip_code; ?></p>
+                                </div>
+                            </td>
+                            <td class="w-1/2 align-top text-right">
+                                <div class="text-sm text-neutral-600">
+                                    <p class="font-bold">Production ID : <?= "PXN-" . str_pad($production->production_id, 3, '0', STR_PAD_LEFT) ?></p>
+                                    <p>Product ID : <?= "PRD-" . str_pad($production->product_id, 3, '0', STR_PAD_LEFT) ?></p>
+                                    <p>Product Name : <?= $production->name ?></p>
+                                    <p>Quantity : <?= $production->quantity ?></p>
+                                    <p>Status : <?= ucfirst($production->status) ?></p>
+                                    <p>Started : <?= $production->created_at ?></p>
+                                    <?php
+                                    if ($production->status == 'completed') {
+                                    ?>
+                                        <p>Completed : <?= $production->updated_at ?></p>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--  -->
+            <div class="px-14 py-6">
+                <table class="w-full border-collapse border-spacing-0">
+                    <tbody>
+                        <tr>
+                            <td class="w-full align-top">
+                                <div class="sidebar-brand cent">
+                                    Materials
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+            <div class="px-14 py-10 text-sm text-neutral-700">
+                <table class="w-full border-collapse border-spacing-0">
+                    <thead class="py-10">
+                        <tr>
+                            <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material ID</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material Name</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Stock ID</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Price Per Unit</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Quantity</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Total</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($materials as $material) : ?>
+                            <tr>
+                                <td class="border-b py-3 pl-3"><?= $i++ ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= "MAT-" . str_pad($material['material_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $material['material_name'] ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= "STK-" . str_pad($material['stock_no'], 3, '0', STR_PAD_LEFT) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $material['price_per_unit'] ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $material['quantity'] ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= $material['cost'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+
+
+
+
+                        <tr>
+                            <td colspan="7">
+                                <table class="w-full border-collapse border-spacing-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-full"></td>
+                                            <td>
+                                                <table class="w-full border-collapse border-spacing-0">
+                                                    <tbody>
+                                                        <!-- <tr>
+                                                            <td class="border-b p-3">
+                                                                <div class="whitespace-nowrap text-slate-400">Net total:</div>
+                                                            </td>
+                                                            <td class="border-b p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-main">$320.00</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-3">
+                                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
+                                                            </td>
+                                                            <td class="p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-main">$64.00</div>
+                                                            </td>
+                                                        </tr> -->
+                                                        <tr>
+                                                            <td class="bg-main p-3">
+                                                                <div class="whitespace-nowrap font-bold text-white">Total Material Cost :</div>
+                                                            </td>
+                                                            <td class="bg-main p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['total_cost'] ?></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <!--  -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- <div class="px-14 text-sm text-neutral-700">
+                <p class="text-main font-bold">PAYMENT DETAILS</p>
+                <p>Banks of Banks</p>
+                <p>Bank/Sort Code: 1234567</p>
+                <p>Account Number: 123456678</p>
+                <p>Payment Reference: BRA-00335</p>
+            </div> -->
+
+            <!--  -->
+            <div class="px-14 py-6">
+                <table class="w-full border-collapse border-spacing-0">
+                    <tbody>
+                        <tr>
+                            <td class="w-full align-top">
+                                <div class="sidebar-brand cent">
+                                    Workers
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+            <div class="px-14 py-10 text-sm text-neutral-700">
+                <table class="w-full border-collapse border-spacing-0">
+                    <thead class="py-10">
+                        <tr>
+                            <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker ID</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker Name</td>
+                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Role</td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+
+                        $i = 1;
+
+
+                        foreach ($workers as $worker) : ?>
+                            <tr>
+                                <td class="border-b py-3 pl-3"><?= $i++ ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= "WRK-" . str_pad($worker['worker_id'], 3, '0', STR_PAD_LEFT) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['first_name']) . " " . ucfirst($worker['last_name']) ?></td>
+                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['worker_role']) ?></td>
+                            </tr>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+
+
+
+                        <!-- <tr>
+                            <td colspan="7">
+                                <table class="w-full border-collapse border-spacing-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-full"></td>
+                                            <td>
+                                                <table class="w-full border-collapse border-spacing-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="border-b p-3">
+                                                                <div class="whitespace-nowrap text-slate-400">No of Supervisors:</div>
+                                                            </td>
+                                                            <td class="border-b p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_sup'] ?></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-3">
+                                                                <div class="whitespace-nowrap text-slate-400">No of Carpenters:</div>
+                                                            </td>
+                                                            <td class="p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_car'] ?></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-3">
+                                                                <div class="whitespace-nowrap text-slate-400">No of Painters:</div>
+                                                            </td>
+                                                            <td class="p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_paint'] ?></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="bg-main p-3">
+                                                                <div class="whitespace-nowrap font-bold text-white">No of Workers:</div>
+                                                            </td>
+                                                            <td class="bg-main p-3 text-right">
+                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['workers_count'] ?></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>  -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-slate-100 px-14 py-6 text-sm">
+                <table class="w-full border-collapse border-spacing-0">
+                    <tbody>
+                        <tr>
+                            <td class="w-1/2 align-top">
+                                <div class="text-sm text-neutral-600">
+                                    <!-- <p class="font-bold">Supplier Company INC</p> -->
+                                    <p>No of Supervisors: <?= $data['no_sup'] ?></p>
+                                    <p>No of Carpenters: <?= $data['no_car'] ?></p>
+                                    <p>No of Painters: <?= $data['no_paint'] ?></p>
+                                    <p class="font-bold">Total Workers: <?= $data['workers_count'] ?></p>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!--  -->
+
+            <!-- <div class="px-14 py-10 text-sm text-neutral-700">
+                <p class="text-main font-bold">Notes</p>
+                <p class="italic">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries
+                    for previewing layouts and visual mockups.</p>
+            </div> -->
+
+            <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
+                Woodcraft Furnitures
+                <span class="text-slate-300 px-2">|</span>
+                woodcraftfurnitureslk@gmail.com
+                <span class="text-slate-300 px-2">|</span>
+                +(94) 112435200
+            </footer>
         </div>
-
-
-
-        <!--  -->
-
-
-
     </div>
-</div>
+
+    <button id="printButton" class="print-button">Print</button>
+</body>
+
+<script>
+    document.getElementById('printButton').addEventListener('click', function() {
+        printBtn = document.getElementById('printButton');
+        printBtn.style.display = 'none';
+        window.print();
+        printBtn.style.display = 'block';
+    });
+</script>
 
 
-
-
-
-<?php include "inc/footer.view.php"; ?>
+</html>

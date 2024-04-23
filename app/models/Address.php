@@ -13,7 +13,7 @@ class Address
         "address_line_1",
         "address_line_2",
         "city",
-        "state",
+        "province",
         "zip_code"
     ];
 
@@ -45,6 +45,11 @@ class Address
         {
             $this->errors['zip_code'] = "Zip code must be 5 digits";
         }
+        
+        if(empty($data['province']))
+        {
+            $this->errors['province'] = "Province is required";
+        }
 
 		
 		if(empty($this->errors))
@@ -54,5 +59,18 @@ class Address
 
 		return false;
 	}
-	
+    public function getAddressByCustomerId($customerId)
+    {
+        $db = new Database();
+        
+        // Fetch the customer's address_id from the customer table
+        $customerAddressId = $db->select('customer', 'customer_id = ?', [$customerId])[0]->address_id;
+    
+        // Fetch the address using the retrieved address_id
+        $address = $db->select($this->table, 'address_id = ?', [$customerAddressId])[0] ?? null;
+    
+        return $address;
+    }
+    
+    
 }

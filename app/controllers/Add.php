@@ -15,7 +15,8 @@ class Add extends Controller
             'address_line_1' => $_POST['address_line_1'],
             'address_line_2' => $_POST['address_line_1'],
             'city' => $_POST['city'],
-            'zip_code' => $_POST['zip_code']
+            'zip_code' => $_POST['zip_code'],
+            'province' => $_POST['province']
         ];
 
         $worker = [
@@ -44,10 +45,12 @@ class Add extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            // $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code, province) VALUES (:address_line_1, :address_line_2, :city, :zip_code, :province)", $address);
             $address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)")[0]->address_id;
 
             // show($address_id);
@@ -102,7 +105,8 @@ class Add extends Controller
             'address_line_1' => $_POST['address_line_1'],
             'address_line_2' => $_POST['address_line_1'],
             'city' => $_POST['city'],
-            'zip_code' => $_POST['zip_code']
+            'zip_code' => $_POST['zip_code'],
+            'province' => $_POST['province']
         ];
 
         $staff = [
@@ -143,10 +147,12 @@ class Add extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            // $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code, province) VALUES (:address_line_1, :address_line_2, :city, :zip_code, :province)", $address);
             $address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)")[0]->address_id;
 
             show($address_id);
@@ -297,7 +303,8 @@ class Add extends Controller
                 'price' => $_POST['price'],
                 'product_category_id' => $_POST['product_category_id'],
                 'product_inventory_id' => $product_inventory_id,
-                'product_measurement_id' => $product_measurement_id
+                'product_measurement_id' => $product_measurement_id,
+                'bulkmin' => $_POST['bulkmin'],
             ];
 
             show($product);
@@ -612,13 +619,13 @@ class Add extends Controller
             // if (isset($_POST['nopain'])) {
             //     $number_of_painters_needed = $_POST['nopain'];
             // }
-            if($_POST['nocar'] != ''){
+            if ($_POST['nocar'] != '') {
                 $number_of_carpenters_needed = $_POST['nocar'];
             }
-            if($_POST['nosup'] != ''){
+            if ($_POST['nosup'] != '') {
                 $number_of_supervisors_needed = $_POST['nosup'];
             }
-            if($_POST['nopain'] != ''){
+            if ($_POST['nopain'] != '') {
                 $number_of_painters_needed = $_POST['nopain'];
             }
 
@@ -661,7 +668,7 @@ class Add extends Controller
             //         $workers_assigned[] = $available_carpenters[$i];
             //     }
             // }
-            if($number_of_carpenters_needed != ''){
+            if ($number_of_carpenters_needed != '') {
                 for ($i = 0; $i < $number_of_carpenters_needed; $i++) {
                     $carpenters_assigned[] = $available_carpenters[$i];
                     $workers_assigned[] = $available_carpenters[$i];
@@ -677,7 +684,7 @@ class Add extends Controller
             //         $workers_assigned[] = $available_supervisors[$i];
             //     }
             // }
-            if($number_of_supervisors_needed != ''){
+            if ($number_of_supervisors_needed != '') {
                 for ($i = 0; $i < $number_of_supervisors_needed; $i++) {
                     $supervisors_assigned[] = $available_supervisors[$i];
                     $workers_assigned[] = $available_supervisors[$i];
@@ -691,7 +698,7 @@ class Add extends Controller
             //         $workers_assigned[] = $available_painters[$i];
             //     }
             // }
-            if($number_of_painters_needed != ''){
+            if ($number_of_painters_needed != '') {
                 for ($i = 0; $i < $number_of_painters_needed; $i++) {
                     $painters_assigned[] = $available_painters[$i];
                     $workers_assigned[] = $available_painters[$i];
@@ -818,10 +825,10 @@ class Add extends Controller
                 // show("Production material added successfully!");
                 $c++;
             }
-            if($c == $count_pm){
+            if ($c == $count_pm) {
                 redirect('pm/productions');
             }
-        
+
             message("Production added successfully!");
             redirect('pm/productions');
         } else {
@@ -973,5 +980,30 @@ class Add extends Controller
             redirect('sk/material_orders/add');
         }
     }
-}
 
+    public function chat_record()
+    {
+        $db = new Database;
+
+        if (!isset($_POST)) {
+            $array['Status'] = "Post not set";
+            echo json_encode($array);
+            die();
+        }
+
+        $chat_record = [
+            'connection' => $_POST['connection'],
+            'sent_by' => $_POST['sent_by'],
+            'message' => $_POST['message'],
+            'created_at' => $_POST['created_at']
+        ];
+
+        $query = "INSERT INTO chat_records (connection, sent_by, message, created_at) VALUES (:connection, :sent_by, :message, :created_at)";
+        $db->query($query, $chat_record);
+
+        $array['Status'] = "Success";
+
+        header("Content-Type: application/json");
+        echo json_encode($array);
+    }
+}

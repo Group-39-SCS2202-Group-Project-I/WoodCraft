@@ -45,5 +45,7 @@ class Material extends Model
         if (empty($this->errors)) {
             return true;
         }
+        
+        return false;
     }
 }

@@ -1,0 +1,456 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  --white: #fff;
+  --red: #e40202;
+  --bg1: #9A9A9A;
+  --bg2: #F0EEED;
+  --light: #F6F6F6;
+  --green1: #688272;
+  --green2: #5cb85c;
+  --coal_black: #262626;
+  --coal_black_light: #2f2f2f;
+  --coal_black_lighter: #3b3b3b;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.title {
+    text-align: left;
+    margin: 20px 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-value {
+    padding-bottom: 10px;
+}
+
+.info-label {
+    font-weight: bold;
+}
+
+.highlight {
+    color: var(--bg1);
+}
+
+/* -- manage my account -- */
+.content {
+    display: grid;
+    grid-template-columns: 2fr 2fr; 
+    gap: 20px;
+}
+
+.content-title {
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile,
+.address {
+    padding: 20px;
+    background-color: var(--bg2);
+}
+
+.address a {
+    text-decoration: none;
+    color: var(--green2);
+}
+
+.profile a {
+    text-decoration: none;
+    color: var(--green2);
+}
+
+.profile-info {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.subscribe-link-manage-account {
+    display: block;
+    margin-top: 30px;
+    color: var(--green2);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* .address-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+} */
+
+.billing {
+    padding-left: 20px;
+    border-left: 1px solid var(--bg1);
+}
+
+.billing, .shipping {
+    color: var(--bg1);
+}
+
+/* -- my profile -- */
+.content-profile {
+    padding: 20px;
+    background-color: var(--bg2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+}
+
+.content-profile a {
+    text-decoration: none;
+    color: var(--green2);
+    font-size: 12px;
+}
+
+.bottom-profile {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.buttons-profile {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.buttons-profile a {
+    display: block;
+    margin-bottom: 10px;
+    width: 250px;
+    font-size: 1em;
+
+    background-color: var(--green1);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons-profile a:hover {
+    background-color: var(--coal_black);
+}
+
+.subscribe-link-profile {
+    grid-column: span 3;
+    margin-top: 10px;
+    color: var(--green2);
+    cursor: pointer;
+}
+
+/* -- address book -- */
+.new-address {
+    text-align: right;
+}
+
+.add-address-link {
+    text-decoration: none;
+    color: var(--green2);
+    border-bottom: none;
+    font-size: 13px;
+}
+
+.highlight-plus {
+    color: var(--red);
+}
+
+.content-addressbook {
+    padding: 20px;
+    background-color: var(--bg2);
+
+    /* display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: 20px; */
+}
+
+.address-box {
+    border: 1px solid var(--bg1);
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.3s;
+}
+
+.additional-addressbook {
+    display: grid;
+    grid-template-columns: repeat(2, auto); 
+    gap: 10px;
+}
+
+.address-box:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.edit-option {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.edit-option a {
+    text-decoration: none;
+    color: var(--green2);
+    font-weight: bold;
+}
+
+.address-type, .additional-info {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: var(--green1);
+    color: var(--white);
+    text-align: center;
+}
+
+.additional-info {
+    background-color: var(--bg1);
+}
+
+/* -- popup -- */
+.popup {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white);
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.popup-content {
+    background-color: var(--bg2);
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.buttons-popup {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.buttons-popup:hover .cancel {
+    background-color: var(--bg1);
+}
+
+.buttons-popup:hover .subscribe {
+    background-color: var(--green1);
+}
+
+.cancel {
+    background-color: var(--bg1);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.subscribe {
+    background-color: var(--green1);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel:hover,
+.subscribe:hover {
+    background-color: var(--coal_black);
+}
+
+.popup-content p {
+    margin-bottom: 10px;
+}
+
+.popup-content a {
+    text-decoration: none;
+    color: var(--green2);
+}
+
+/* -- edit profile -- */
+.content-edit-profile {
+    padding: 20px;
+    background-color: var(--bg2);
+    height: fit-content;
+}
+
+.field-edit-profile {
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+select {
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.subscribe-link-edit-profile {
+    display: block;
+    margin-top: 20px;
+    color: var(--green2);
+    cursor: pointer;
+    font-size: 12px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.content-edit-profile a {
+    text-decoration: none;
+}
+
+.save-changes-edit-profile,.cancel-edit-profile {
+    background-color: var(--green1);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 200px;
+    margin: 10px;
+    /* margin-bottom: 10px; */
+}
+
+.save-changes-edit-profile:hover, .cancel-edit-profile:hover {
+    background-color: var(--coal_black);
+}
+
+/* -- change password -- */
+.content-change-password {
+    padding: 20px;
+    background-color: var(--bg2);
+}
+
+.field-change-password {
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+.label-with-eye {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.label-with-eye .input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.label-with-eye .eye-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.eye-icon {
+    cursor: pointer;
+}
+
+.eye-icon .material-icons {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.save-changes-change-password,.cancel-change-password {
+    background-color: var(--green1);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 200px;
+    margin-top: 20px; 
+    margin-right: 10px;
+}
+
+.save-changes-change-password:hover, .cancel-change-password:hover {
+    background-color: var(--coal_black);
+}
+
+/* .error-message {
+    color: red;
+    margin-top: 5px;
+} */
