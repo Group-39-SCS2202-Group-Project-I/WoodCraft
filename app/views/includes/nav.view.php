@@ -67,7 +67,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
                 <li><a id="toorders">My Orders</a></li>
                 <!-- <li><a id="towishlist">My Wishlist</a></li> -->
                 <li><a id="toreviews">My Reviews</a></li>
-                <li><a id="toreturns">My Returns</a></li>
+                <!-- <li><a id="toreturns">My Returns</a></li> -->
                 <hr>
                 <li id="tologout">
                     <button>Logout</button>
@@ -144,15 +144,15 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
             case 'toorders':
                 window.location.href = '<?= ROOT ?>/orders';
                 break;
-            case 'towishlist':
-                window.location.href = '<?= ROOT ?>/profile/wishlist';
-                break;
+            // case 'towishlist':
+            //     window.location.href = '<?= ROOT ?>/profile/wishlist';
+            //     break;
             case 'toreviews':
-                window.location.href = '<?= ROOT ?>/profile/reviews';
+                window.location.href = '<?= ROOT ?>/review';
                 break;
-            case 'toreturns':
-                window.location.href = '<?= ROOT ?>/profile/returns';
-                break;
+            // case 'toreturns':
+            //     window.location.href = '<?= ROOT ?>/profile/returns';
+            //     break;
             default:
                 break;
         }

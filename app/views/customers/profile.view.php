@@ -58,25 +58,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- address -->
-        <!-- <div class="container">
-            <div class="title">
-                <h3>My Address</h3>
-            </div>
-
-            <div class="content-addressbook">
-                    <div class="address-info">
-                        <div class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></div>
-                        <div class="info-value"><?= $data['telephone'] ?></div>
-                        <div class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?></div>
-
-                        <div class="buttons-profile">
-                            <a href="<?=ROOT?>/profile/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
-                        </div>
-                    </div>
-            </div>
-        </div> -->
         
         <!-- Popup for newsletter subscription -->
         <div id="popup" class="popup">
