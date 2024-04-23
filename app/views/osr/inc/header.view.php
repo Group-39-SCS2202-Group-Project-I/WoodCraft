@@ -77,13 +77,13 @@ if (isset($_SESSION['USER_DATA'])) {
                     </a>
                 </li>
                 <!-- orders -->
-                <li class="sidebar-list-item nav-btn" id="orders-nav">
+                <!-- <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
                         <span class="material-symbols-outlined">
                             order_approve
                         </span><span style="margin-left: 5px;">Orders</span>
                     </a>
-                </li>
+                </li> -->
                 <!-- products -->
                 <li class="sidebar-list-item nav-btn" id="products-nav">
                     <a>
@@ -130,9 +130,9 @@ if (isset($_SESSION['USER_DATA'])) {
                             case 'inquiries-nav':
                                 window.location.href = '<?= ROOT ?>/osr/inquiries';
                                 break;
-                            case 'orders-nav':
-                                window.location.href = '<?= ROOT ?>/osr/orders';
-                                break;
+                            // case 'orders-nav':
+                            //     window.location.href = '<?= ROOT ?>/osr/orders';
+                            //     break;
                             case 'products-nav':
                                 window.location.href = '<?= ROOT ?>/osr/products';
                                 break;

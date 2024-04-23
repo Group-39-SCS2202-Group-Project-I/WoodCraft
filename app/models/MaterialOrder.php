@@ -67,6 +67,8 @@ class MaterialOrder extends Model
         if (empty($this->errors)) {
             return true;
         }
+
+        return false;
     }
 }
     

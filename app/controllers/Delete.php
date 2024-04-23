@@ -173,6 +173,13 @@ class Delete extends Controller
     {
         $db = new Database();
 
+        $orders = $db->query("SELECT material_order_id FROM material_order WHERE supplier_id = $id");
+        if (!empty($orders))
+        {
+            message("Supplier (".sprintf('SUP-%03d', $id).") cannot be deleted!");
+            redirect('sk/suppliers');
+        }
+
         // show($id);
 
         $supplier = $db->query("SELECT * FROM supplier_details WHERE supplier_id = $id");

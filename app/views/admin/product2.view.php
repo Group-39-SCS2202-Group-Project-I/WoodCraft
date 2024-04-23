@@ -512,7 +512,7 @@ if ($images) {
     }
 
     function handleFiles(files) {
-        const images = Array.from(files); 
+        const images = Array.from(files);
         uploadFile(images[0]);
     }
 

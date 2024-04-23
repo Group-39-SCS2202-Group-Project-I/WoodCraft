@@ -135,6 +135,11 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .reports_sec__input {
+        background-color: var(--light);
     }
 
     .btnx {
@@ -163,7 +168,7 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
             <input type="text" id="end-date" placeholder="End date" class="reports_sec__input">
         </div>
         <div class="reports_sec__item">
-            <a id="print-dates" class="reports_sec__button">Generate Report</a>
+            <a id="print-dates" class="reports_sec__button" style="width: 100%; text-align:center">Generate Report</a>
         </div>
     </div>
 </div>
@@ -309,8 +314,6 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
     function generateAndOpenPdf(startDate, endDate, Title = "Production Report", data = []) {
         window.location.href = `<?php echo ROOT ?>/gm/productions/report/${startDate}/${endDate}`;
     }
-
-   
 </script>
 
 <div class="table-section">

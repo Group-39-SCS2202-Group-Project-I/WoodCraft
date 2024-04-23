@@ -54,8 +54,7 @@ $available_workers_count = count($available_workers);
         /* Add some space between form sections */
     }
 
-    .addp
-    {
+    .addp {
         margin-top: 0;
         margin-bottom: 0;
         padding: 0.5rem;
@@ -63,8 +62,7 @@ $available_workers_count = count($available_workers);
         background-color: var(--primary);
     }
 
-    .addp-danger
-    {
+    .addp-danger {
         margin-top: 0;
         margin-bottom: 0;
         padding: 0.5rem;
@@ -126,7 +124,9 @@ $available_workers_count = count($available_workers);
             <!-- Number of products can be made -->
             <!-- <p class="validate-mzg hidden" id="nop"></p> -->
             <div class="mzg-box col-danger addp hidden" id="nop">
-                <div class="messege"><p class="validate-mzg hidden" id="nop"></p></div>
+                <div class="messege">
+                    <p class="validate-mzg hidden" id="nop"></p>
+                </div>
             </div>
             <div class="form-group">
                 <label class="page-label" for="quantity">Quantity:</label>
@@ -144,7 +144,9 @@ $available_workers_count = count($available_workers);
 
             <!-- <p class="validate-mzg" id="awcar"></p> -->
             <div class="mzg-box col-danger addp" id="awcar">
-                <div class="messege"><p class="validate-mzg" id="awcar"></p></div>
+                <div class="messege">
+                    <p class="validate-mzg" id="awcar"></p>
+                </div>
             </div>
 
             <div class="form-group">
@@ -154,7 +156,9 @@ $available_workers_count = count($available_workers);
 
             <!-- <p class="validate-mzg" id="awpain"></p> -->
             <div class="mzg-box col-danger addp" id="awpain">
-                <div class="messege"><p class="validate-mzg" id="awpain"></p></div>
+                <div class="messege">
+                    <p class="validate-mzg" id="awpain"></p>
+                </div>
             </div>
             <div class="form-group">
                 <label class="page-label" for="now">Number of Painters:</label>
@@ -163,7 +167,9 @@ $available_workers_count = count($available_workers);
 
             <!-- <p class="validate-mzg" id="awsup"></p> -->
             <div class="mzg-box col-danger addp" id="awsup">
-                <div class="messege"><p class="validate-mzg" id="awsup"></p></div>
+                <div class="messege">
+                    <p class="validate-mzg" id="awsup"></p>
+                </div>
             </div>
             <div class="form-group">
                 <label class="page-label" for="now">Number of Supervisors:</label>
@@ -196,7 +202,7 @@ $available_workers_count = count($available_workers);
             document.getElementById('nop').classList.remove('addp-danger');
             document.getElementById('nop').classList.add('addp');
         }
-    
+
 
         // set input value of quantity to minimum 0 and maximum nop
         document.getElementById('quantity').setAttribute('min', 0);
@@ -224,7 +230,7 @@ $available_workers_count = count($available_workers);
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 let nop = 0;
 
                 let arr = [];
@@ -246,7 +252,7 @@ $available_workers_count = count($available_workers);
 
                 });
 
-                console.log(nop);
+                // console.log(nop);
 
                 // document.getElementById('nop').innerHTML = `Maximum ${nop} products can be made with the available materials`;
                 // document.getElementById('nop').classList.remove('hidden');
@@ -289,7 +295,7 @@ $available_workers_count = count($available_workers);
     fetch(url2)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             let awc = 0;
 
             let awcar = 0;
@@ -312,7 +318,7 @@ $available_workers_count = count($available_workers);
             // console.log(awc);
             // document.getElementById('awc').innerHTML = `Number of available workers: ${awc}`;
             // document.getElementById('awc').classList.remove('hidden');
-            
+
 
             // document.getElementById('awcar').innerHTML = `Number of available carpenters: ${awcar}`;
             if (awcar == 0) {
@@ -389,6 +395,19 @@ $available_workers_count = count($available_workers);
 
             // document.getElementById('awc').classList.remove('hidden');
         })
+</script>
+
+<script>
+    if (sessionStorage.getItem('product_id') && sessionStorage.getItem('quantity')) {
+        const product_id = sessionStorage.getItem('product_id')
+        const quantity = sessionStorage.getItem('quantity')
+
+        document.getElementById('product_id').value = product_id;
+        document.getElementById('quantity').value = quantity;
+
+        sessionStorage.removeItem('product_id');
+        sessionStorage.removeItem('quantity');
+    }
 </script>
 
 
