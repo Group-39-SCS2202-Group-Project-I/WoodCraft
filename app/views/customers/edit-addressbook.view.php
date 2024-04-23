@@ -64,7 +64,7 @@
                     </div>
         
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/profile/addressbook/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>
