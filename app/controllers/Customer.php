@@ -468,4 +468,12 @@ class Customer extends Controller
 
 		return $result;
 	}
+	public function cart($id =''){
+		if (!Auth::logged_in()) {
+			message('Please login to view your account');
+			redirect('login');
+		}
+
+		$id = $id ?? Auth::getCustomerId();
+	}
 }

@@ -124,7 +124,7 @@ class SK extends Controller
         }
     }
 
-    public function orders()
+    public function orders($x='')
     {
 
         if (!Auth::logged_in()) {
@@ -138,7 +138,16 @@ class SK extends Controller
         else {
             $data['title'] = "Orders";
 
-            $this->view('sk/orders', $data);
+            if($x == 'completed')
+            {
+                $this->view('sk/completed_orders', $data);
+            }
+            else
+            {
+                $this->view('sk/orders', $data);
+            }
+
+            
         }
     }
 

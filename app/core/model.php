@@ -28,6 +28,46 @@ class Model extends Database
 
 		$this->query($query, $data);
 	}
+	public function findAll()
+	{
+		$query = "select * from " . $this->table;
+		//define query to add user data
+		$res = $this->query($query);
+		if (is_array($res)) {
+			return $res;
+		}
+
+		return false;
+	}
+
+	function join($tables, $columns, $conditions, $order = null, $limit = null)
+    {
+        // Build the query
+        $query = "SELECT " . implode(", ", $columns) . " FROM " . $this->table;
+
+        foreach ($tables as $table) {
+            $query .= " JOIN $table";
+        }
+
+        // Add conditions
+        if (!empty($conditions)) {
+            $query .= " ON " . implode(" AND ", $conditions);
+        }
+
+        // Add order and limit clauses if provided
+        if ($order) {
+            $query .= " ORDER BY $order";
+        }
+
+        if ($limit) {
+            $query .= " LIMIT $limit";
+        }
+
+        // Execute the query
+       // show($query);
+        return $this->query($query);
+    }
+
 
 	public function where($data)
 	{

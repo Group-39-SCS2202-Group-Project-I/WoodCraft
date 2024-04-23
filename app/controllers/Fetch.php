@@ -49,6 +49,7 @@ class Fetch extends Controller
                         $data['customers'][$key]->address_line_2 = $address->address_line_2;
                         $data['customers'][$key]->city = $address->city;
                         $data['customers'][$key]->zip_code = $address->zip_code;
+                        $data['customers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -86,6 +87,7 @@ class Fetch extends Controller
                         $data['workers'][$key]->address_line_2 = $address->address_line_2;
                         $data['workers'][$key]->city = $address->city;
                         $data['workers'][$key]->zip_code = $address->zip_code;
+                        $data['workers'][$key]->province = $address->province;
                     }
                 }
             }
@@ -141,6 +143,7 @@ class Fetch extends Controller
                         $data['staff'][$key]->address_line_2 = $address->address_line_2;
                         $data['staff'][$key]->city = $address->city;
                         $data['staff'][$key]->zip_code = $address->zip_code;
+                        $data['staff'][$key]->province = $address->province;
                     }
                 }
             }
@@ -251,13 +254,13 @@ class Fetch extends Controller
             //     $product_data['reviews'] = [];
             // }
 
-            // 
-            $avarage_rating = 0;
-            if (count($product_reviews) > 0) {
-                $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
-            }
+            
+            // $avarage_rating = 0;
+            // if (count($product_reviews) > 0) {
+            //     $avarage_rating = array_sum(array_column($product_reviews, 'rating')) / count($product_reviews);
+            // }
 
-            $product_data['average_rating'] = $avarage_rating;
+            // $product_data['average_rating'] = $avarage_rating;
 
             header("Content-Type: application/json");
             echo json_encode($product_data);
@@ -705,6 +708,7 @@ class Fetch extends Controller
                     if ($production_worker->worker_id == $worker->worker_id) {
                         $data['production_workers'][$key]->first_name = $worker->first_name;
                         $data['production_workers'][$key]->last_name = $worker->last_name;
+                        $data['production_workers'][$key]->worker_role = $worker->worker_role;
                     }
                 }
             }
@@ -808,6 +812,24 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($data['product_reviews']);
+    }
+
+    public function product_rating($product_id)
+    {
+        $db = new Database();
+        $data = $db->query("SELECT * FROM product_rating WHERE product_id = $product_id");
+
+        $product_rating = array_merge((array) $data[0]);
+
+        if (!$data) {
+            header("Content-Type: application/json");
+            echo json_encode('');
+            return;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($product_rating);
+
     }
 
     public function material_stk_by_material_id($id)
@@ -1039,5 +1061,28 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($x);
+    }
+
+    public function products_count()
+    {
+        $db = new Database();
+        $data['products'] = $db->query("SELECT * FROM product");
+
+        $count = count($data['products']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+    }
+
+    public function ongoing_pxn_count()
+    {
+        $db = new Database();
+        $data['production'] = $db->query("SELECT * FROM production WHERE status = 'processing'");
+
+        $count = count($data['production']);
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+        
     }
 }

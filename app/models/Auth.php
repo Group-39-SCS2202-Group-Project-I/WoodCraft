@@ -152,16 +152,16 @@ class Auth
     }
 
     public static function getCustomerID()
-    {
-        $userID = $_SESSION['USER_DATA']->user_id;
+     {
+         $userID = $_SESSION['USER_DATA']->user_id;
 
-        $db = new Database;
-        $query = "SELECT * FROM customer WHERE user_id = $userID";
+         $db = new Database;
+         $query = "SELECT * FROM customer WHERE user_id = $userID";
 
-        $customer = $db->query($query);
+         $customer = $db->query($query);
 
-        return $customer[0]->customer_id;
-    }
+         return $customer[0]->customer_id;
+     }
 
     public static function getCustomerName()
     {
@@ -181,6 +181,31 @@ class Auth
     }
 
 
-    
-	
+    public static function is_role($role)
+    {
+        return isset($_SESSION['USER_DATA']) && $_SESSION['USER_DATA']->role === $role;
+    }
+
+    public static function getUserData()
+    {
+        return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA'] : null;
+    }
+
+    public static function getUserId()
+    {
+        return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA']->user_id : null;
+    }
+
+    // Add more role checking functions if needed
+
+    // Other functions remain unchanged
+    //public static function getCustomerID()
+    //{
+    //   if (!empty($_SESSION['USER_DATA']) && $_SESSION['USER_DATA']->role === 'customer') {
+    //        return $_SESSION['USER_DATA']->customer_id;
+    //    }
+    //    return null;
+    //}
+
 }
+?>

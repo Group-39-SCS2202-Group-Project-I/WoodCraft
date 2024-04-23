@@ -15,7 +15,8 @@ class Add extends Controller
             'address_line_1' => $_POST['address_line_1'],
             'address_line_2' => $_POST['address_line_1'],
             'city' => $_POST['city'],
-            'zip_code' => $_POST['zip_code']
+            'zip_code' => $_POST['zip_code'],
+            'province' => $_POST['province']
         ];
 
         $worker = [
@@ -44,10 +45,12 @@ class Add extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            // $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code, province) VALUES (:address_line_1, :address_line_2, :city, :zip_code, :province)", $address);
             $address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)")[0]->address_id;
 
             // show($address_id);
@@ -102,7 +105,8 @@ class Add extends Controller
             'address_line_1' => $_POST['address_line_1'],
             'address_line_2' => $_POST['address_line_1'],
             'city' => $_POST['city'],
-            'zip_code' => $_POST['zip_code']
+            'zip_code' => $_POST['zip_code'],
+            'province' => $_POST['province']
         ];
 
         $staff = [
@@ -143,10 +147,12 @@ class Add extends Controller
                 'address_line_1' => $_POST['address_line_1'],
                 'address_line_2' => $_POST['address_line_2'],
                 'city' => $_POST['city'],
-                'zip_code' => $_POST['zip_code']
+                'zip_code' => $_POST['zip_code'],
+                'province' => $_POST['province']
             ];
 
-            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            // $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code) VALUES (:address_line_1, :address_line_2, :city, :zip_code)", $address);
+            $db->query("INSERT INTO address (address_line_1, address_line_2, city, zip_code, province) VALUES (:address_line_1, :address_line_2, :city, :zip_code, :province)", $address);
             $address_id = $db->query("SELECT address_id FROM address WHERE address_id = (SELECT MAX(address_id) FROM address)")[0]->address_id;
 
             show($address_id);
@@ -297,7 +303,8 @@ class Add extends Controller
                 'price' => $_POST['price'],
                 'product_category_id' => $_POST['product_category_id'],
                 'product_inventory_id' => $product_inventory_id,
-                'product_measurement_id' => $product_measurement_id
+                'product_measurement_id' => $product_measurement_id,
+                'bulkmin' => $_POST['bulkmin'],
             ];
 
             show($product);

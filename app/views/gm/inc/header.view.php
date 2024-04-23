@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <!-- <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script> -->
     <title>WoodCraft Furniture - General Manager</title>
 </head>
 
@@ -59,14 +60,16 @@
 
                 <li class="sidebar-list-item nav-btn" id="orders-nav">
                     <a>
-                        <span class="material-icons-outlined">shopping_cart</span>
+                        <span class="material-symbols-outlined">
+                            order_approve
+                        </span>
                         <span style="margin-left: 5px;">Orders</span>
                     </a>
                 </li>
 
                 <li class="sidebar-list-item nav-btn" id="workers-nav">
                     <a>
-                        <span class="material-icons-outlined">shopping_cart</span>
+                        <span class="material-icons-outlined">engineering</span>
                         <span style="margin-left: 5px;">Workers</span>
                     </a>
                 </li>

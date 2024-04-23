@@ -174,6 +174,12 @@ class Admin extends Controller
 		else{
 			$data['title'] = "Delivery";
 
+			$delivery = new Delivery();
+			$data['delivery_info'] = $delivery->getDeliveryInfo();
+
+			$data['available_provinces'] = $delivery->getAvailableProvinces();
+			
+			
 			$this->view('admin/delivery', $data);
 		}
 	}
