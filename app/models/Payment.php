@@ -7,47 +7,26 @@ class Payment extends Model
     protected $table = "payment";
 
     protected $allowedColumns = [
-        "order_details_id 	status",
-        " 	amount",
-        " 	provider",
-        " 	status"
-    ];
-    protected $allowedColumns = [
-        "cid",
-        "quantity",
         "amount",
-        "orderStatus",
-        "createdOn"
+        "provider",
+        "status"
     ];
-
     public function validate($data)
     {
         $this->errors = [];
-
-        if (empty($data['cid'])) {
-            $this->errors['cid'] = "Customer ID is required";
-        }
-
-        if (empty($data['quantity'])) {
-            $this->errors['quantity'] = "Quantity is required";
-        } else if (!is_numeric($data['quantity'])) {
-            $this->errors['quantity'] = "Quantity must be numeric";
-        }
-
+        
         if (empty($data['amount'])) {
             $this->errors['amount'] = "Amount is required";
         } else if (!is_numeric($data['amount'])) {
             $this->errors['amount'] = "Amount must be numeric";
         }
-
-        if (empty($data['orderStatus'])) {
-            $this->errors['orderStatus'] = "Order status is required";
+        
+        if (empty($data['provider'])) {
+            $this->errors['provider'] = "Provider is required";
         }
-
-        if (empty($data['createdOn'])) {
-            $this->errors['createdOn'] = "Created date is required";
-        } else if (!strtotime($data['createdOn'])) {
-            $this->errors['createdOn'] = "Invalid created date format";
+     
+        if (empty($data['status'])) {
+            $this->errors['status'] = "Status is required";
         }
 
         if (empty($this->errors)) {
@@ -57,19 +36,41 @@ class Payment extends Model
         return false;
     }
 
-    // public function getOrderStatusById($statusId)
+    public function getPaymentsByUserId($orderDetailsId)
+    {
+        $result = $this->select($this->table, "payment_id IN (SELECT payment_id FROM order_details WHERE order_details_id = :order_details_id)",[":order_details_id" => $orderDetailsId]);
+
+        return $result;
+    }
+
+    public function addPayment($data)
+    {
+        $query = "INSERT INTO payment (order_details_id, amount, provider, status) VALUES (:order_details_id, :amount, :provider, :status)";
+        $params = [
+            ":order_details_id" => $data['order_details_id'],
+            ":amount" => $data['amount'],
+            ":provider" => $data['provider'],
+            ":status" => $data['status']
+        ];
+        $this->query($query, $params);
+    }
+
+    // public function updatePayment($data, $id)
     // {
-    //     switch ($statusId) {
-    //         case 0:
-    //             return 'Initiated';
-    //         case 1:
-    //             return 'Success';
-    //         case 2:
-    //             return 'Aborted';
-    //         case 3:
-    //             return 'Failed';
-    //         default:
-    //             return 'Unknown';
-    //     }
+    //     $query = "UPDATE payment SET  amount = :amount, provider = :provider, status = :status WHERE payment_id = :payment_id";
+    //     $params = [
+    //         ":amount" => $data['amount'],
+    //         ":provider" => $data['provider'],
+    //         ":status" => $data['status'],
+    //         ":payment_id" => $id
+    //     ];
+    //     $this->query($query, $params);
+    // }
+
+    // public function deletePayment($id)
+    // {
+    //     $query = "DELETE FROM payment WHERE payment_id = :payment_id";
+    //     $params = [":payment_id" => $id];
+    //     $this->query($query, $params);
     // }
 }

@@ -116,13 +116,45 @@ class Cart extends Controller
                     $validateItem = $cartProducts->validate($_POST);
 
                     if ($validateItem) {
-                        $cartProducts->addItemToCart($cart_customer, $productId, $quantity);
 
-                        // Update cart totals
-                        $cartModel->updateCartTotals($cart_customer);
-                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
-                        $cart = $cartModel->getCartByCustomerId($customerId);
-                        $_SESSION['cart'] = $cart[0];
+                        $quantityAddable = $cartModel->getQuantitybyProductId($productId);
+
+                        if($quantityAddable < 1){
+                            $error['out of stock'] = "Product is out of stock";
+
+                            $cartProducts->addItemToCart($cart_customer, $productId, 0);
+
+                            $cartProducts->updateSelectedStatus($customerId, $productId, 0);
+
+                            $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+
+                            $cartModel->updateCartTotals($customerId);
+                            $cart = $cartModel->getCartByCustomerId($customerId);
+                            $_SESSION['cart'] = $cart[0];
+
+                            $_SESSION['error'] = $error;
+
+                        } elseif($quantity > $quantityAddable){
+                            $error['exceeds available stock'] = "Quantity exceeds available stock";
+
+                            $cartProducts->addItemToCart($cart_customer, $productId, $quantityAddable);
+
+                            $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+
+                            $cartModel->updateCartTotals($customerId);
+                            $cart = $cartModel->getCartByCustomerId($customerId);
+                            $_SESSION['cart'] = $cart[0];
+
+                            $_SESSION['error'] = $error;
+                        } else {
+                            $cartProducts->addItemToCart($cart_customer, $productId, $quantity);
+    
+                            // Update cart totals
+                            $cartModel->updateCartTotals($cart_customer);
+                            $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+                            $cart = $cartModel->getCartByCustomerId($customerId);
+                            $_SESSION['cart'] = $cart[0];
+                        }
                     } else {
                         $data['errors'] = array_merge($cartProducts->errors);
                         show($data['errors']);
@@ -131,14 +163,13 @@ class Cart extends Controller
 
                         $_SESSION['errors'] = $data['errors'];
                     }
-
-
-                    break;
+                    exit;
+                
 
                 case 'update':
                     if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
 
-                        $customer_id = $_POST['customer_id'];
+                        $customerId = $_POST['customer_id'];
                         $productId = $_POST['product_id'];
                         $quantity = $_POST['quantity'];
                         show($_POST);
@@ -148,36 +179,70 @@ class Cart extends Controller
                         $cartProducts = new CartProduct();
 
                         $validateItem = $cartProducts->validate($_POST);
-                        $cartProducts->updateQuantity($customer_id, $productId, $quantity);
 
-                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customer_id);
+                        if ($validateItem) {
 
-                        $cartModel->updateCartTotals($customer_id);
-                        $cart = $cartModel->getCartByCustomerId($customer_id);
-                        $_SESSION['cart'] = $cart[0];
+                            $quantityAddable = $cartModel->getQuantitybyProductId($productId);
+    
+                            if($quantityAddable < 1){
+                                $error['out of stock'] = "Product is out of stock";
 
-                        echo "Quantity updated successfully.";
-                    } else {
-                        echo "Invalid request.";
+                                $cartProducts->updateQuantity($customerId, $productId, 0);
+    
+                                $cartProducts->updateSelectedStatus($customerId, $productId, 0);
+    
+                                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+    
+                                $cartModel->updateCartTotals($customerId);
+                                $cart = $cartModel->getCartByCustomerId($customerId);
+                                $_SESSION['cart'] = $cart[0];
+    
+                                $_SESSION['error'] = $error;
+  
+                            } elseif($quantity > $quantityAddable){
+                                $error['exceeds available stock'] = "Quantity exceeds available stock";
+                                $error['available_quantity'] = $quantityAddable;
+
+                                $cartProducts->updateQuantity($customerId, $productId, $quantityAddable);
+    
+                                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+    
+                                $cartModel->updateCartTotals($customerId);
+                                $cart = $cartModel->getCartByCustomerId($customerId);
+                                $_SESSION['cart'] = $cart[0];
+    
+                                $_SESSION['error'] = $error;
+                            } else {
+                                $cartProducts->updateQuantity($customerId, $productId, $quantity);
+        
+                                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+
+                                // Update cart totals
+                                $cartModel->updateCartTotals($customerId);
+                                $cart = $cartModel->getCartByCustomerId($customerId);
+                                $_SESSION['cart'] = $cart[0];
+                            }
+
+                            echo "Quantity updated successfully.";
+                        } else {
+                            echo "Invalid request.";
+                        }
                     }
                     exit;
 
-
-                    // Add a new method to the CartM class to update the quantity
-
-                case 'remove':
+                    case 'remove':
                     if (isset($_POST['product_id'])) {
-                        $customer_id = $_POST['customer_id'];
+                        $customerId = $_POST['customer_id'];
                         $productId = $_POST['product_id'];
 
                         $cartModel = new CartDetails();
                         $cartProducts = new CartProduct();
-                        $cartProducts->removeCartItem($customer_id, $productId);
+                        $cartProducts->removeCartItem($customerId, $productId);
 
-                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customer_id);
+                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
 
-                        $cartModel->updateCartTotals($customer_id);
-                        $cart = $cartModel->getCartByCustomerId($customer_id);
+                        $cartModel->updateCartTotals($customerId);
+                        $cart = $cartModel->getCartByCustomerId($customerId);
                         $_SESSION['cart'] = $cart[0];
                     } else {
                         echo "Invalid request.";
@@ -200,6 +265,7 @@ class Cart extends Controller
                         $cartModel->updateCartTotals($customer_id);
                         $cart = $cartModel->getCartByCustomerId($customer_id);
                         $_SESSION['cart'] = $cart[0];
+                        echo "Selected items updated successfully.";
                     } else {
                         echo "Invalid request.";
                     }

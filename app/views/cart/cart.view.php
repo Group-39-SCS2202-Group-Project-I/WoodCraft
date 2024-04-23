@@ -42,7 +42,7 @@
       $subtotal = $cart[0]->sub_total;
       $discount = 0;
       $total = $cart[0]->total;
-      $delivery = 0;
+      $delivery = $cart[0]->delivery_cost;
 
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
@@ -101,7 +101,7 @@
 
                   <div class="quantity">
                     <button type="button" class="decrease" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-minus"></i></button>
-                    <input type="text" value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                    <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>" value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
                     <button type="button" class="increase" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-plus"></i></button>
                   </div>
                 </div>
@@ -128,12 +128,12 @@
         <h2>Order Summary</h2>
       </div>
       <div class="detail">
-            <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
-            <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
-            <h2 id="delivery">Delivery<span>-$<?php echo number_format($delivery, 2); ?></span></h2>
-            <hr>
-            <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
-        </div>
+        <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
+        <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
+        <h2 id="delivery">Delivery<span>-$<?php echo number_format($delivery, 2); ?></span></h2>
+        <hr>
+        <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
+      </div>
       <div class="promo">
         <div class="promocode">
           <input class="promocode" type="text" placeholder="Add the promocode " id="promoCode" />
@@ -158,79 +158,81 @@
 
     const customer_id = <?php echo isset($_SESSION['cart']->customer_id) ? $_SESSION['cart']->customer_id : 'null'; ?>;
 
-  // Check if customer_id is valid before using it
-  if (customer_id !== null) {
-    console.log("Customer ID:", customer_id);
-    // You can use customer_id in your JavaScript code here
-  } else {
-    console.log("Customer ID not found in session");
-  }
+    // Check if customer_id is valid before using it
+    if (customer_id !== null) {
+      console.log("Customer ID:", customer_id);
+      // You can use customer_id in your JavaScript code here
+    } else {
+      console.log("Customer ID not found in session");
+    }
 
     document.addEventListener("DOMContentLoaded", function() {
-  console.log("DOM Loaded");
+      console.log("DOM Loaded");
 
-  const decreaseButtons = document.querySelectorAll(".decrease");
-  const increaseButtons = document.querySelectorAll(".increase");
-  const quantityInputs = document.querySelectorAll(".quantity input");
-  const unitPrices = document.querySelectorAll(".unit-price");
-  const selectCheckboxes = document.querySelectorAll(".select-checkbox");
-  const subtotalElement = document.getElementById("subtotal");
-  const discountElement = document.getElementById("discount");
-  const deliveryElement = document.getElementById("delivery");
-  const totalElement = document.getElementById("total");
-  const delivery = <?php echo $delivery; ?>;
+      const decreaseButtons = document.querySelectorAll(".decrease");
+      const increaseButtons = document.querySelectorAll(".increase");
+      const removeButton = document.querySelectorAll(".remove-button");
+      const quantityInputs = document.querySelectorAll(".quantity input");
+      const unitPrices = document.querySelectorAll(".unit-price");
+      const selectCheckboxes = document.querySelectorAll(".select-checkbox");
+      const subtotalElement = document.getElementById("subtotal");
+      const discountElement = document.getElementById("discount");
+      const deliveryElement = document.getElementById("delivery");
+      const totalElement = document.getElementById("total");
+      const delivery = <?php echo $delivery; ?>;
 
-  console.log("Customer ID:", customer_id);
+      console.log("Customer ID:", customer_id);
 
-  // Function to update cart totals
-  // function updateTotal() {
-  //   console.log("Updating Total...");
+      // Function to update cart totals
+      // function updateTotal() {
+      //   console.log("Updating Total...");
 
-  //   let newSubtotal = 0;
+      //   let newSubtotal = 0;
 
-  //   // Loop through each product
-  //   quantityInputs.forEach(function(input, index) {
-  //     const quantity = parseInt(input.value, 10);
-  //     const unitPrice = parseFloat(unitPrices[index].innerText);
+      //   // Loop through each product
+      //   quantityInputs.forEach(function(input, index) {
+      //     const quantity = parseInt(input.value, 10);
+      //     const unitPrice = parseFloat(unitPrices[index].innerText);
 
-  //     // Check if the checkbox is checked
-  //     if (selectCheckboxes[index].checked) {
-  //       newSubtotal += quantity * unitPrice;
-  //     }
-  //   });
+      //     // Check if the checkbox is checked
+      //     if (selectCheckboxes[index].checked) {
+      //       newSubtotal += quantity * unitPrice;
+      //     }
+      //   });
 
-  //   const newDiscount = 0.2 * newSubtotal;
-  //   const newTotal = newSubtotal - newDiscount + delivery;
+      //   const newDiscount = 0.2 * newSubtotal;
+      //   const newTotal = newSubtotal - newDiscount + delivery;
 
-  //   subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
-  //   discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
-  //   deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
-  //   totalElement.innerText = "Total: $" + newTotal.toFixed(2);
+      //   subtotalElement.innerText = "Subtotal: $" + newSubtotal.toFixed(2);
+      //   discountElement.innerText = "Discount(-20%): -$" + newDiscount.toFixed(2);
+      //   deliveryElement.innerText = "Delivery: -$" + delivery.toFixed(2);
+      //   totalElement.innerText = "Total: $" + newTotal.toFixed(2);
 
-  //   console.log("Total Updated:", newTotal);
-  // }
+      //   console.log("Total Updated:", newTotal);
+      // }
 
-  // Attach event listeners
-  decreaseButtons.forEach(function(button) {
-    button.addEventListener("click", function() {
-      console.log("Decrease Button Clicked");
-      const input = button.nextElementSibling;
-      const currentValue = parseInt(input.value, 10);
-      const productId = button.dataset.productId;
+      // Attach event listeners
+      decreaseButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          console.log("Decrease Button Clicked");
+          const input = button.nextElementSibling;
+          const currentValue = parseInt(input.value, 10);
+          const productId = button.dataset.productId;
 
-      if (currentValue > 1) {
-        input.value = currentValue - 1;
-        // updateTotal();
-        updateCart(customer_id, productId, input.value); // Update cart with new quantity
-      }
-    });
-  });
+          if (currentValue > 1) {
+            input.value = currentValue - 1;
+            // updateTotal();
+            updateCart(customer_id, productId, input.value); // Update cart with new quantity
+          }
+        });
+      });
 
       increaseButtons.forEach(function(button) {
         button.addEventListener("click", function() {
           const input = button.previousElementSibling;
           const currentValue = parseInt(input.value, 10);
           const productId = button.dataset.productId;
+          // console.log("Increase Button Clicked", productId, currentValue);
           input.value = currentValue + 1;
           // updateTotal();
           updateCart(customer_id, productId, input.value); // Update cart with new quantity
@@ -242,13 +244,24 @@
           const productId = input.dataset.productId;
           // updateTotal();
           updateCart(customer_id, productId, input.value); // Update cart with new quantity
+          // console.log("Input Changed", productId, input.value);
         });
       });
 
       selectCheckboxes.forEach(function(checkbox) {
-        checkbox.addEventListener("change", updateTotal); // Update total whenever a checkbox is checked or unchecked
+        checkbox.addEventListener("change", updateSelectedItems); // Update total whenever a checkbox is checked or unchecked
       });
 
+      console.log("Remove buttons:", removeButton.length);
+
+      // Function to handle the click event of the "Remove" button
+      removeButton.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+          const productId = button.dataset.productId; // Get the product ID from the button's data attribute
+          console.log(productId);
+          removeFromCart(customer_id, productId); // Call the removeFromCart function
+        });
+      });
       // Initial update
       // updateTotal();
 
@@ -273,15 +286,6 @@
         });
       }
 
-      // Function to handle the click event of the "Remove" button
-      document.querySelectorAll('.remove-button').forEach(button => {
-        button.addEventListener('click', function(event) {
-          const productId = button.dataset.productId; // Get the product ID from the button's data attribute
-          // console.log(productId);
-          removeFromCart(customer_id, productId); // Call the removeFromCart function
-        });
-      });
-
       function removeFromCart(customer_id, productId) {
         const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
         $.ajax({
@@ -295,6 +299,9 @@
         }).done(function(response) {
           // Handle the response here (if needed)
           console.log(response);
+          $('#loader').hide();
+          $('.alert').show();
+          $('#result').html(response);
         });
       }
     });
@@ -322,6 +329,9 @@
         }, // Include the action parameter
         success: function(response) {
           console.log(response); // Log the response for debugging
+          $('#loader').hide();
+          $('.alert').show();
+          $('#result').html(response);
         },
         error: function(xhr, status, error) {
           console.error(error); // Log any errors for debugging

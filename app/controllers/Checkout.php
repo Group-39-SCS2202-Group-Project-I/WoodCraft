@@ -88,6 +88,80 @@ class Checkout extends Controller {
         $this->view('cart/Checkout', $data);
     }
 
+    public function getCheckoutProducts() {
+        $customerId = Auth::getCustomerID();
+
+        $db = new Database();
+
+        $query = "SELECT * FROM cart_products WHERE Customer_id = :customer_id AND selected = 1";
+        $checkout_data['checkout_products'] = $db->query($query, [':customer_id' => $customerId]);
+        show($checkout_data);
+        
+        $products = [];
+
+        foreach ($checkout_data['checkout_products'] as $checkout_product){
+            $error = [];
+
+            $product_id = $checkout_product->product_id;
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+            $product_inventory_id = $product[0]->product_inventory_id;
+            $quantity = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
+            $quantity = $quantity[0]->quantity;
+            show($quantity);
+
+            if($quantity[0]->quantity < 1){
+                $error['out of stock'] = "Product is out of stock";
+                $data['error'] = $error;
+
+                $cartModel = new CartDetails();
+                $cartProducts = new CartProduct();
+
+                $cartProducts->updateSelectedStatus($customerId, $product_id, 0);
+
+                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+
+                $cartModel->updateCartTotals($customerId);
+                $cart = $cartModel->getCartByCustomerId($customerId);
+                $_SESSION['cart'] = $cart[0];
+
+                $this->view('cart', $data);
+
+                // $_SESSION['error'] = $error;
+
+                // message('Product is out of stock');
+			    // redirect('cart');
+            } elseif($checkout_product->quantity > $quantity[0]->quantity){
+                $error['exceeds available stock'] = "Quantity exceeds available stock";
+
+                $cartModel = new CartDetails();
+                $cartProducts = new CartProduct();
+
+                $cartProducts->updateSelectedStatus($customerId, $product_id, $quantity[0]->quantity);
+
+                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+
+                $cartModel->updateCartTotals($customerId);
+                $cart = $cartModel->getCartByCustomerId($customerId);
+                $_SESSION['cart'] = $cart[0];
+
+                $data['error'] = $error;
+                $this->view('cart', $data);
+            } else {
+                $mapped_product = [
+                    'product_id' => $product[0]->product_id,
+                    'name' => $product[0]->name,
+                    'price' => $product[0]->price,
+                    'quantity' => $checkout_product->quantity,
+                ];
+                
+            }
+            $products[] = $mapped_product;
+        }
+        $data['cart_products'] = $products;
+        show($data);
+        return $data;
+    }
+
     // Function to add selected items to the checkout table
 
     //     public function addSelectedItems() {

@@ -355,7 +355,7 @@
                     $subtotal = $cart[0]->sub_total;
                     $discount = 0;
                     $total = $cart[0]->total;
-                    $delivery = 0;
+                    $delivery = $cart[0]->delivery_cost;
 
 
 
