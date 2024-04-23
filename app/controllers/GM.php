@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Psr7\Query;
 
 class GM extends Controller
 {
