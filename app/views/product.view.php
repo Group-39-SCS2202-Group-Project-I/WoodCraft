@@ -14,10 +14,30 @@ $url3 = ROOT . "/fetch/product_rating/$product_id";
 $response3 = file_get_contents($url3);
 $product_ratings = json_decode($response3, true);
 
+$url4 = ROOT . "/fetch/product_inventory/$product_id";
+$response4 = file_get_contents($url4);
+$product_inventory = json_decode($response4, true);
+
+$cart_products = $_SESSION['cart_products'];
+
+
+$productFound = false;
+
+foreach ($cart_products as $cart_product) {
+    if ($cart_product->product_id == $product_id) {
+        $productFound = true;
+        break;
+    }
+}
 
 // show($images);
+// show($product_inventory);
 // show($data);
 // show($product_ratings);
+// unset($_SESSION['cart']);
+// unset($_SESSION['cart_products']);
+// show($_SESSION);
+// show($productFound);
 
 ?>
 
@@ -87,9 +107,13 @@ if (Auth::logged_in()) {
                     </div>
                     <div class="amount-selector">
                         <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
-                        <input class="amount-selector-input" type="number" min="1" value="1">
+                        <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
                         <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
-                        <button class="add-to-cart">Add to Cart</button>
+                        <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
+                        <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
+                        <?php else :?>
+                            <button class="add-to-cart grayout">Add to Cart</button>
+                        <?php endif?>
                     </div>
                 </div>
             </div>
@@ -235,78 +259,112 @@ if (Auth::logged_in()) {
                 </div>
             </div>
         </div>
-    </div>                
+    </div>
 
-        <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
+    <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
 
-        <script>
-            // Function to switch main product image and show border on selected image
-            function switchMainImage(imageElement) {
-                var mainImage = document.querySelector('.product-image img');
+    <script>
+        // Function to switch main product image and show border on selected image
+        function switchMainImage(imageElement) {
+            var mainImage = document.querySelector('.product-image img');
 
-                // Remove 'selected-image' class from all images in grid
-                var gridImages = document.querySelectorAll('.product-image-grid img');
-                gridImages.forEach(function(img) {
-                    img.classList.remove('selected-image');
-                });
-
-                // Apply 'selected-image' class to the clicked image
-                imageElement.classList.add('selected-image');
-
-                // Update main product image with the clicked image
-                mainImage.src = imageElement.src;
-            }
-
-            // Add click event listeners to grid images
-            document.querySelectorAll('.product-image-grid img').forEach(function(img) {
-                img.addEventListener('click', function() {
-                    switchMainImage(this);
-                });
+            // Remove 'selected-image' class from all images in grid
+            var gridImages = document.querySelectorAll('.product-image-grid img');
+            gridImages.forEach(function(img) {
+                img.classList.remove('selected-image');
             });
-        </script>
 
-        <script>
-            // Sample ratings data (you can replace this with your actual data)
-            const ratings = {
-                '5': <?php echo $product_ratings['rating_5star'] ?? 0; ?>,
-                '4': <?php echo $product_ratings['rating_4star'] ?? 0; ?>,
-                '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
-                '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
-                '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
-                'average': <?php echo $product_ratings['avg_rating']; ?> // Average rating value
-            };
+            // Apply 'selected-image' class to the clicked image
+            imageElement.classList.add('selected-image');
 
-            // Function to update the review analyzer section
-            function updateReviewAnalyzer() {
-                const totalReviews = Object.values(ratings).reduce((acc, val) => acc + val, 0);
+            // Update main product image with the clicked image
+            mainImage.src = imageElement.src;
+        }
 
-                // Update star ratings bars
-                Object.keys(ratings).forEach(key => {
-                    if (key !== 'average') {
-                        const percentage = (ratings[key] / totalReviews) * 100;
-                        const ratingBar = document.querySelector(`.bar-${key}`);
-                        ratingBar.style.width = `${percentage}%`;
-                        const remainingPercentage = 100 - percentage;
-                        const ratingBarRemaining = document.querySelector(`.bar-${key}-remaining`);
-                        ratingBarRemaining.style.width = `${remainingPercentage}%`;
-
-                    }
-                });
-
-                // Update average rating bar and display average value
-                const averagePercentage = (ratings.average / 5) * 100;
-                const averageBar = document.querySelector('.average-rating .average-value');
-                averageBar.style.width = `${averagePercentage}%`;
-
-                const averageValue = document.querySelector('.average-value');
-                averageValue.textContent = ratings.average.toFixed(1); // Display average rating with one decimal place
-            }
-
-            // Call the function to update the review analyzer on page load
-            document.addEventListener('DOMContentLoaded', function() {
-                updateReviewAnalyzer();
+        // Add click event listeners to grid images
+        document.querySelectorAll('.product-image-grid img').forEach(function(img) {
+            img.addEventListener('click', function() {
+                switchMainImage(this);
             });
-        </script>
+        });
+    </script>
+
+    <script>
+        // Sample ratings data (you can replace this with your actual data)
+        const ratings = {
+            '5': <?php echo $product_ratings['rating_5star'] ?? 0; ?>,
+            '4': <?php echo $product_ratings['rating_4star'] ?? 0; ?>,
+            '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
+            '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
+            '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
+            'average': <?php echo $product_ratings['avg_rating']; ?> // Average rating value
+        };
+
+        // Function to update the review analyzer section
+        function updateReviewAnalyzer() {
+            const totalReviews = Object.values(ratings).reduce((acc, val) => acc + val, 0);
+
+            // Update star ratings bars
+            Object.keys(ratings).forEach(key => {
+                if (key !== 'average') {
+                    const percentage = (ratings[key] / totalReviews) * 100;
+                    const ratingBar = document.querySelector(`.bar-${key}`);
+                    ratingBar.style.width = `${percentage}%`;
+                    const remainingPercentage = 100 - percentage;
+                    const ratingBarRemaining = document.querySelector(`.bar-${key}-remaining`);
+                    ratingBarRemaining.style.width = `${remainingPercentage}%`;
+
+                }
+            });
+
+            // Update average rating bar and display average value
+            const averagePercentage = (ratings.average / 5) * 100;
+            const averageBar = document.querySelector('.average-rating .average-value');
+            averageBar.style.width = `${averagePercentage}%`;
+
+            const averageValue = document.querySelector('.average-value');
+            averageValue.textContent = ratings.average.toFixed(1); // Display average rating with one decimal place
+        }
+
+        // Call the function to update the review analyzer on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateReviewAnalyzer();
+        });
+    </script>
+
+    <script>
+        
+        function addToCart(productId, customerId) {
+            var quantity = document.getElementById('quantityInput').value;
+            $('#loader').show();
+
+            var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
+            $.ajax({
+                url: ROOT + 'cart/edit',
+                data: {
+                    customer_id: customerId,
+                    product_id: productId,
+                    quantity: quantity,
+                    action: 'add'
+                },
+                method: "POST",
+            }).done(function(response) {
+                $('#loader').hide();
+                $('.alert').show();
+                $('#result').html(response);
+            });
+            // var data = JSON.parse(response);
+            // 		$('#loader').hide();
+            // 		$('.alert').show();
+            // 		if(data.status == 0) {
+            // 			$('.alert').addClass('alert-danger');
+            // 			$('#result').html(data.msg);
+            // 		} else {
+            // 			$('.alert').addClass('alert-success');
+            // 			$('#result').html(data.msg);
+
+        }
+    </script>
 
 
 

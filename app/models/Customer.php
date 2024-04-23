@@ -15,7 +15,11 @@ class Customer extends Model
         "first_name",
         "last_name",
         "email",
-        "telephone"
+        "telephone",
+        "birth_day",
+        "birth_month",
+        "birth_year",
+        "gender",
     ];
 
 	public function validate($data)
@@ -136,5 +140,14 @@ class Customer extends Model
         
     //     return false;
     // }
-	
+    public function getCustomerAddress($customerId)
+{
+    // Fetch the customer's address from the database based on the customer ID
+    $addressModel = new Address(); // Assuming you have an Address model
+    $customerAddress = $addressModel->getAddressByCustomerId($customerId);
+
+    return $customerAddress;
+}
+
+   
 }

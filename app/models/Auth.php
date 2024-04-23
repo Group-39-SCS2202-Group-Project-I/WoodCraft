@@ -151,17 +151,17 @@ class Auth
         return $_SESSION['USER_DATA']->user_id;
     }
 
-    // public static function getCustomerID()
-    // {
-    //     $userID = $_SESSION['USER_DATA']->user_id;
+    public static function getCustomerID()
+     {
+         $userID = $_SESSION['USER_DATA']->user_id;
 
-    //     $db = new Database;
-    //     $query = "SELECT * FROM customer WHERE user_id = $userID";
+         $db = new Database;
+         $query = "SELECT * FROM customer WHERE user_id = $userID";
 
-    //     $customer = $db->query($query);
+         $customer = $db->query($query);
 
-    //     return $customer[0]->customer_id;
-    // }
+         return $customer[0]->customer_id;
+     }
 
     public static function getCustomerName()
     {
@@ -173,9 +173,10 @@ class Auth
         $customer = $db->query($query);
 
         $first_name = $customer[0]->first_name;
-        $last_name = $customer[0]->last_name;
+        // $last_name = $customer[0]->last_name;
 
-        return $first_name . " " . $last_name;
+        // return $first_name . " " . $last_name;
+        return $first_name;
         // return $customer[0];
     }
 
@@ -194,6 +195,7 @@ class Auth
     {
         return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA']->user_id : null;
     }
+
 
     public static function getCustomerEmail()
     {

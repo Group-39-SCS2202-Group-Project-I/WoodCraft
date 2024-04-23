@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-change-password">
-                <form>
+                <form method="post" action="<?= ROOT ?>/customer/changepassword/<?= Auth::getCustomerId()?>">
                     <div class="field-change-password">
                         <label class="label-with-eye" for="current-password">
                             Current Password
@@ -51,8 +51,8 @@
                         </label>
                     </div>
         
-                    <button type="button" class="save-changes-change-password" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <button type="button" class="cancel-change-password" onclick="goToMyProfile()">CANCEL</button>
+                    <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
+                    <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>
