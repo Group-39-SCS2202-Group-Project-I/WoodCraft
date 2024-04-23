@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Your CSS styles go here */
-
-        .containercheckout {
+       /* Your CSS styles go here */
+       .containercheckout {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,6 +30,8 @@
             /* Add small left padding */
             margin-right: 20px;
             /* Add small right padding */
+            cursor: pointer;
+            /* Add cursor pointer for clickability */
         }
 
         .contentcheckout {
@@ -257,8 +258,14 @@
         .form-buttons button[type="button"]:hover {
             background-color: #da190b;
         }
+
+        .change-address-form {
+            display: none;
+            /* Hide the form initially */
+        }
     </style>
 </head>
+
 
 <body>
     <?php $this->view('includes/header', $data) ?>
@@ -270,8 +277,8 @@
     <div class="contentcheckout">
         <div class="cartitems">
             <div class="containercheckout">
-                <div class="changeaddress">
-                    <h2 onclick="openModal()"><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
+                <div class="changeaddress" onclick="toggleAddressForm()">
+                    <h2><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
                     <p><?php echo $customerAddress->address_line_1; ?></p>
                     <p><?php echo $customerAddress->address_line_2; ?></p>
                     <p><?php echo $customerAddress->city; ?></p>
@@ -280,64 +287,53 @@
                     <!-- <?php show($data['customerAddress']); ?> -->
                 </div>
                 <!-- Modal for Change Address Form -->
-                <div id="changeAddressModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <!-- Change Address Form -->
-                        <div class="change-address-form">
-                            <h2>Change Address</h2>
-                            <form action="#" method="post" class="address-form">
-                                <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" required>
+                
+                <div class="change-address-form">
+                    <h2><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
+                    <form action="#" method="post" class="address-form" onsubmit="saveAddress(); return false;">
+                    <?php if (!empty($errors['address_line_1'])) : ?>
+    <p class="validate-mzg "><?= $errors['address_line_1'] ?></p>
+<?php endif; ?>
+<input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1" placeholder="Address Line 1">
 
-                                <label for="mobileNumber">Mobile Number</label>
-                                <input type="text" id="mobileNumber" name="mobileNumber" required>
+<?php if (!empty($errors['address_line_2'])) : ?>
+    <p class="validate-mzg "><?= $errors['address_line_2'] ?></p>
+<?php endif; ?>
+<input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2" placeholder="Address Line 2">
 
-                                <label for="province">Province</label>
-                                <select id="province" name="province" required>
-                                    <option value="" disabled selected>Please choose your province</option>
-                                    <!-- Add options for provinces -->
-                                </select>
+<?php if (!empty($errors['city'])) : ?>
+    <p class="validate-mzg "><?= $errors['city'] ?></p>
+<?php endif; ?>
+<input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
 
-                                <label for="city">City</label>
-                                <select id="city" name="city" required>
-                                    <option value="" disabled selected>Please choose your city/municipality</option>
-                                    <!-- Add options for cities -->
-                                </select>
+<?php if (!empty($errors['province'])) : ?>
+    <p class="validate-mzg "><?= $errors['province'] ?></p>
+<?php endif; ?>
+<select name="province" id="province">
+    <!-- <option value="" style="color:#757575;">Province</option> -->
+    <option value="Western" selected>Western Province</option>
+    <option value="Central">Central Province</option>
+    <option value="Eastern">Eastern Province</option>
+    <option value="North Central">North Central Province</option>
+    <option value="Northern">Northern Province</option>
+    <option value="North Western">North Western Province</option>
+    <option value="Sabaragamuwa">Sabaragamuwa Province</option>
+    <option value="Southern">Southern Province</option>
+    <option value="Uva">Uva Province</option>
+</select>
 
-                                <label for="area">Area</label>
-                                <select id="area" name="area" required>
-                                    <option value="" disabled selected>Please choose your area</option>
-                                    <!-- Add options for areas -->
-                                </select>
-
-                                <label for="address">Address</label>
-                                <input type="text" id="address" name="address" required>
-
-                                <label for="landmark">Landmark (Optional)</label>
-                                <input type="text" id="landmark" name="landmark">
-
-                                <label for="deliveryLabel">Select a label for effective delivery:</label>
-                                <select id="deliveryLabel" name="deliveryLabel">
-                                    <option value="home">Home</option>
-                                    <option value="office">Office</option>
-                                    <option value="default">Default Address</option>
-                                </select>
-
-                                <label for="defaultDelivery">Default delivery address</label>
-                                <input type="checkbox" id="defaultDelivery" name="defaultDelivery">
-
-                                <label for="defaultBilling">Default billing address</label>
-                                <input type="checkbox" id="defaultBilling" name="defaultBilling">
+<?php if (!empty($errors['zip_code'])) : ?>
+    <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
+<?php endif; ?>
+<input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
 
                                 <p>Your existing default address setting will be replaced if you make some changes here.</p>
                                 <div class="form-buttons">
-                                    <button type="submit">Save</button>
-                                    <button type="button" onclick="closeModal()">Cancel</button>
-                                </div>
-                            </form>
+                                <button type="submit">Save Address</button>
+                            <button type="button" onclick="cancelAddressForm()">Cancel</button>
                         </div>
-                    </div>
+                    </form>
+                       
                 </div>
                 <!-- End of Modal -->
                 <div class="cart">
@@ -428,31 +424,34 @@
     <?php $this->view('includes/footer', $data) ?>
 
     <script>
-        function showChangeAddressForm() {
-            var form = document.getElementById('changeAddressForm');
-            form.style.display = 'block';
+       function toggleAddressForm() {
+            var form = document.querySelector('.change-address-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
-
-        // Function to open the modal
-        function openModal() {
-            var modal = document.getElementById('changeAddressModal');
-            modal.style.display = 'block';
-        }
-
-        // Function to close the modal
-        function closeModal() {
-            var modal = document.getElementById('changeAddressModal');
-            modal.style.display = 'none';
-        }
-
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            var modal = document.getElementById('changeAddressModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+        function cancelAddressForm() {
+    var form = document.querySelector('.change-address-form');
+    form.style.display = 'none';
+}
+function saveAddress() {
+        var formData = new FormData(document.querySelector('.address-form'));
+        // Send the form data to the saveAddress method in the Checkout controller
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Handle success response, if needed
+                console.log(xhr.responseText);
+            } else {
+                // Handle error response, if needed
+                console.error('Error:', xhr.statusText);
             }
-        }
+        };
+        xhr.send(formData);
+        console.log("Form submitted!");
+    }
+
     </script>
+
 </body>
 
 </html>

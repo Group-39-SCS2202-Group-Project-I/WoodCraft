@@ -65,7 +65,7 @@
       <?php
       if (isset($cartProducts) && !empty($cartProducts)) {
         foreach ($cartProducts as $cartProduct) {
-          // show($cartProduct);
+        //show($cartProduct);
       ?>
           <td>
             <div class="smallcart">
@@ -95,6 +95,7 @@
                     <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
                       <i class="fas fa-trash"></i>
                     </button>
+                  
                   </div>
 
 
@@ -283,21 +284,21 @@
       });
 
       function removeFromCart(customer_id, productId) {
-        const ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-        $.ajax({
-          url: ROOT + 'Cart/edit', // Endpoint to handle removing the item from the cart
-          data: {
+    const ROOT = "http://localhost/wcf/";
+    $.ajax({
+        url: ROOT + 'Cart/edit',
+        data: {
             customer_id: customer_id,
             product_id: productId,
             action: 'remove'
-          }, // Data to be sent in the AJAX request
-          method: "POST", // Method of the AJAX request
-        }).done(function(response) {
-          // Handle the response here (if needed)
-          console.log(response);
-        });
-      }
+        },
+        method: "POST",
+    }).done(function(response) {
+        // Handle the response here, if needed
+        console.log(response);
+        // Optionally, update the UI to reflect the changes
     });
+}
     // Function to handle the "Check Out" button click event
     // Function to handle the "Check Out" button click event
     // Function to handle checkbox change event

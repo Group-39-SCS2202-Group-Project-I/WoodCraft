@@ -74,7 +74,7 @@ class Cart extends Controller
 
 
 
-        // show($data);
+         show($data);
         $this->view('cart/cart', $data);
     }
 
@@ -165,24 +165,25 @@ class Cart extends Controller
 
                     // Add a new method to the CartM class to update the quantity
 
-                case 'remove':
-                    if (isset($_POST['product_id'])) {
-                        $customer_id = $_POST['customer_id'];
-                        $productId = $_POST['product_id'];
-
-                        $cartModel = new CartDetails();
-                        $cartProducts = new CartProduct();
-                        $cartProducts->removeCartItem($customer_id, $productId);
-
-                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customer_id);
-
-                        $cartModel->updateCartTotals($customer_id);
-                        $cart = $cartModel->getCartByCustomerId($customer_id);
-                        $_SESSION['cart'] = $cart[0];
-                    } else {
-                        echo "Invalid request.";
-                    }
-                    exit;
+                    case 'remove':
+                        if (isset($_POST['product_id'])) {
+                            $customer_id = $_POST['customer_id'];
+                            $productId = $_POST['product_id'];
+                    
+                            $cartModel = new CartDetails();
+                            $cartProducts = new CartProduct();
+                            $cartProducts->removeCartItem($customer_id, $productId);
+                    
+                            // Update session variables
+                            $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customer_id);
+                            $cartModel->updateCartTotals($customer_id);
+                            $cart = $cartModel->getCartByCustomerId($customer_id);
+                            $_SESSION['cart'] = $cart[0];
+                        } else {
+                            echo "Invalid request.";
+                        }
+                        exit;
+                    
 
                 case 'updateSelectedItems':
                     if (isset($_POST['product_id']) && isset($_POST['selected'])) {

@@ -3,7 +3,7 @@
 /**
  * users model
  */
-class Address
+class Address extends Model
 {
 	
 	public $errors = [];
@@ -72,5 +72,35 @@ class Address
         return $address;
     }
     
+    public function saveAddressD($addressData)
+    {
+        
+        // Validate the address data
+        if (!$this->validate($addressData)) {
+            return false; // Address data is not valid
+        }
+        show($addressData);
+        
+        // Prepare the query to insert data into the address table
+        $query = "INSERT INTO {$this->table} (";
+        $query .= implode(', ', array_keys($addressData)); // Columns
+        $query .= ") VALUES (";
+        $query .= implode(', ', array_map(function ($value) {
+            return ':' . $value;
+        }, array_keys($addressData))); // Parameter placeholders
+        $query .= ")";
+    
+        try {
+            // Execute the query
+            $this->query($query, $addressData);
+    
+            // Return true on successful insertion
+            return true;
+        } catch (Exception $e) {
+            // Log the exception for debugging
+            error_log('Error saving address: ' . $e->getMessage());
+            return false;
+        }
+    }
     
 }
