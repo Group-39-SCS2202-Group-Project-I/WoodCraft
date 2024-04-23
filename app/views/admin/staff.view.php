@@ -91,7 +91,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let role = item.role.toUpperCase();
                                     let email = item.email;
                                     let mobile_number = item.mobile_number;
-                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> "+item.province +' Province.<br>' + item.zip_code;
+                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> " + item.province + ' Province.<br>' + item.zip_code;
                                     // let updated_at = item.updated_at;
 
                                     row.insertCell().innerHTML = staff_id;
@@ -322,7 +322,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 message.innerHTML = '';
             });
 
-           
+
 
         }
     </script>
@@ -361,7 +361,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 </div>
 
                 <!-- password -->
-               
+
 
                 <!-- role -->
                 <?php if (!empty($errors['role'])) : ?>
@@ -537,7 +537,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 })
                 .catch(error => console.error(error));
             popup.classList.add('popup-form--open');
-            
+
             popup.querySelector('form').action = "<?php echo ROOT ?>/update/staff/" + id;
         }
     </script>
@@ -554,7 +554,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <?php endif; ?>
     </script>
 
-<div class="popup-form" id="delete-item-popup">
+    <div class="popup-form" id="delete-item-popup">
         <div class="popup-form__content">
             <form action="" method="POST" class="form">
                 <!-- <h2 class="popup-form-title">Delete Item</h2> -->

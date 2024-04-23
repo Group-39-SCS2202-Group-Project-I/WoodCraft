@@ -114,7 +114,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         openDeletePopup = (id) => {
             const popup = document.getElementById('delete-item-popup');
             const confirmationText = document.querySelector('.confirmation-text');
-            x = "WRK-" + String(id).padStart(3, '0');
+            x = "SUP-" + String(id).padStart(3, '0');
             confirmationText.innerHTML += "Supplier ID: " + x + "?";
             popup.classList.add('popup-form--open');
             popup.querySelector('form').action = "<?php echo ROOT ?>/delete/supplier/" + id;
