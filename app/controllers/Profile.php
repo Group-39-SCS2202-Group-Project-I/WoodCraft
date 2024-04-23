@@ -228,8 +228,6 @@ class Profile extends Controller
 	// 	$data['errors'] = array_merge($data['errors'], $customer->errors);
 	// }
 
-	
-
 	public function updateAddress()
 	{
 		if (!Auth::logged_in()) {
@@ -272,11 +270,5 @@ class Profile extends Controller
 				message('Failed to update customer address. Please try again.');
 				redirect('profile/addressbook/' . $id);
 			}
-
-		// Pass customer data to the view
-		// $data['customer'] = $customer;
-		// $data['title'] = "edit-address";
-
-		// $this->view('customers/edit-address', $data);
 	}
 }
