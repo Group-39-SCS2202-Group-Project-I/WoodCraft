@@ -52,122 +52,129 @@ if (isset($data['delivery_count'])) {
 </div>
 
 <div class="dashboard">
-    <?php if ($pickup_count != 0) : ?>
-        <a href="" style="text-decoration:none;">
-            <div class="card" id="pickup-card">
-                <h3 class="card-title">Pickup Orders</h3>
-                <span class="material-symbols-outlined card-icon">
-                    box
-                </span>
-                <p class="card-text"><?= $data['pickup_count'] ?></p>
-            </div>
-        </a>
+    <?php if (isset($data['pickup_orders'])) : ?>
+        <?php if ($pickup_count != 0) : ?>
+            <a href="" style="text-decoration:none;">
+                <div class="card" id="pickup-card">
+                    <h3 class="card-title">Pickup Orders</h3>
+                    <span class="material-symbols-outlined card-icon">
+                        box
+                    </span>
+                    <p class="card-text"><?= $data['pickup_count'] ?></p>
+                </div>
+            </a>
+        <?php endif; ?>
     <?php endif; ?>
-
-    <?php if ($delivery_count != 0) : ?>
-        <a href="" style="text-decoration:none">
-            <div class="card" id="delivery_card">
-                <h3 class="card-title">Delivery Orders</h3>
-                <span class="material-symbols-outlined card-icon">
-                    local_shipping
-                </span>
-                <p class="card-text"><?= $data['delivery_count'] ?></p>
-            </div>
-        </a>
+    <?php if (isset($data['delivery_orders'])) : ?>
+        <?php if ($delivery_count != 0) : ?>
+            <a href="" style="text-decoration:none">
+                <div class="card" id="delivery_card">
+                    <h3 class="card-title">Delivery Orders</h3>
+                    <span class="material-symbols-outlined card-icon">
+                        local_shipping
+                    </span>
+                    <p class="card-text"><?= $data['delivery_count'] ?></p>
+                </div>
+            </a>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
-<?php if ($pickup_count != 0) : ?>
-    <div class="table-section" id="pickup-table">
-        <h2 class="table-section__title">Pickup Orders</h2>
+<?php if (isset($data['pickup_orders']) && !empty($data['pickup_orders'])) : ?>
+    <?php if ($pickup_count != 0) : ?>
+        <div class="table-section" id="pickup-table">
+            <h2 class="table-section__title">Pickup Orders</h2>
 
-        <table class="table-section__table">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer Name</th>
-                    <th>Order Items</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="table-section__tbody">
-                <?php foreach ($data['pickup_orders'] as $order) : ?>
+            <table class="table-section__table">
+                <thead>
                     <tr>
-                        <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $order->customer_name ?></td>
-                        <td>
-                            <?php
-                            // $order_items = json_decode($order->items);
-                            $order_items = $order->items;
-                            foreach ($order_items as $item) {
-                                echo $item->product_name . " x " . $item->quantity . "<br>";
-                            }
-                            ?>
-                        </td>
-                        <td><?= $order->total ?></td>
-                        <td><?= $order->status ?></td>
-                        <td>
-                            <a class="table-section__button" onclick="openPopup('<?=$order->order_details_id?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
-                        </td>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Order Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
-                <?php endforeach; ?>
-        </table>
-    </div>
+                </thead>
+                <tbody id="table-section__tbody">
+                    <?php foreach ($data['pickup_orders'] as $order) : ?>
+                        <tr>
+                            <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
+                            <td><?= $order->customer_name ?></td>
+                            <td>
+                                <?php
+                                // $order_items = json_decode($order->items);
+                                $order_items = $order->items;
+                                foreach ($order_items as $item) {
+                                    echo $item->product_name . " x " . $item->quantity . "<br>";
+                                }
+                                ?>
+                            </td>
+                            <td><?= $order->total ?></td>
+                            <td><?= $order->status ?></td>
+                            <td>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+            </table>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
 
 
-<?php if ($delivery_count != 0) : ?>
-    <div class="table-section" id="pickup-table">
-        <h2 class="table-section__title">Delivery Orders</h2>
+<?php if (isset($data['delivery_orders']) && !empty($data['delivery_orders'])) : ?>
+    <?php if ($delivery_count != 0) : ?>
+        <div class="table-section" id="pickup-table">
+            <h2 class="table-section__title">Delivery Orders</h2>
 
-        <table class="table-section__table">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer Name</th>
-                    <th>Order Items</th>
-                    <th>Total</th>
-                    <th>Delivery Address</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="table-section__tbody">
-                <?php foreach ($data['delivery_orders'] as $order) : ?>
+            <table class="table-section__table">
+                <thead>
                     <tr>
-                        <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $order->customer_name ?></td>
-                        <td>
-                            <?php
-                            // $order_items = json_decode($order->items);
-                            $order_items = $order->items;
-                            foreach ($order_items as $item) {
-                                echo $item->product_name . " x " . $item->quantity . "<br>";
-                            }
-                            ?>
-                        </td>
-                        <td><?= $order->total ?></td>
-                        <td>
-                            <?php
-                            $address = $order->delivery_address;
-                            echo $address->address_line_1 . ",<br>" .
-                                $address->address_line_2 . ",<br>" .
-                                $address->city . ".<br>" .
-                                $address->province . " Province<br>" .
-                                $address->zip_code;
-                            ?>
-                        </td>
-                        <td><?= $order->status ?>
-                        </td>
-                        <td>
-                        <a class="table-section__button" onclick="openPopup('<?=$order->order_details_id?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
-                        </td>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Order Items</th>
+                        <th>Total</th>
+                        <th>Delivery Address</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
-                <?php endforeach; ?>
-        </table>
-    </div>
+                </thead>
+                <tbody id="table-section__tbody">
+                    <?php foreach ($data['delivery_orders'] as $order) : ?>
+                        <tr>
+                            <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
+                            <td><?= $order->customer_name ?></td>
+                            <td>
+                                <?php
+                                // $order_items = json_decode($order->items);
+                                $order_items = $order->items;
+                                foreach ($order_items as $item) {
+                                    echo $item->product_name . " x " . $item->quantity . "<br>";
+                                }
+                                ?>
+                            </td>
+                            <td><?= $order->total ?></td>
+                            <td>
+                                <?php
+                                $address = $order->delivery_address;
+                                echo $address->address_line_1 . ",<br>" .
+                                    $address->address_line_2 . ",<br>" .
+                                    $address->city . ".<br>" .
+                                    $address->province . " Province<br>" .
+                                    $address->zip_code;
+                                ?>
+                            </td>
+                            <td><?= $order->status ?>
+                            </td>
+                            <td>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+            </table>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
 
 <div class="popup-form" id="update-popup">
@@ -176,8 +183,8 @@ if (isset($data['delivery_count'])) {
             <!-- <h2 class="popup-form-title">Delete Item</h2> -->
             <!-- <p>Are you sure you want to delete this item?</p> -->
             <p class="confirmation-text"> </p>
-            
-            <input type="hidden" name="status" value="" id ="hidden-inp">
+
+            <input type="hidden" name="status" value="" id="hidden-inp">
 
 
             <div class="form-group frm-btns">
@@ -189,20 +196,17 @@ if (isset($data['delivery_count'])) {
 </div>
 
 <script>
-    openPopup = (id,status,type) => {
+    openPopup = (id, status, type) => {
         const popup = document.getElementById('update-popup');
         const confirmationText = document.querySelector('.confirmation-text');
         x = "ORD-" + String(id).padStart(3, '0');
-        if(type == "pickup")
-        {
+        if (type == "pickup") {
             if (status == "processing") {
                 status = "ready to pick up";
             } else if (status == "ready to pick up") {
                 status = "completed";
             }
-        }
-        else if(type == "delivery")
-        {
+        } else if (type == "delivery") {
             if (status == "processing") {
                 status = "delivering";
             } else if (status == "delivering") {
