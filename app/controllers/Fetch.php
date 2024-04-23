@@ -1317,4 +1317,14 @@ class Fetch extends Controller
             echo json_encode($b);
         }
     }
+
+    public function pxn_missing($id)
+    {
+        $url = ROOT.'/fetch/pxn_bulk_orders/'.$id;
+        $data = json_decode(file_get_contents($url), true);
+        $missing_materials = $data['missing_materials'];
+
+        header("Content-Type: application/json");
+        echo json_encode($missing_materials);
+    }
 }
