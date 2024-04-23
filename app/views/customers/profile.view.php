@@ -24,6 +24,11 @@
                     <span class="info-value"><?= $data['telephone'] ?></span>
                 </div>
                 <div class="profile-info">
+                    <span class="info-label">Address</span>
+                    <span class="info-value"><?= $data['address_line_1'] ?></span>
+                    <span class="info-value"><?= $data['address_line_2'] ?></span>
+                </div>
+                <!-- <div class="profile-info">
                     <span class="info-label">Birthday</span>
                     <?php if (!empty($data['birth_day'])) : ?>
                         <span class="info-value"><?= $data['birth_day'] ?> - <?= $data['birth_month'] ?> - <?= $data['birth_year'] ?></span>
@@ -32,21 +37,22 @@
                 <div class="profile-info">
                     <span class="info-label">Gender</span>
                     <span class="info-value"><?= $data['gender'] ?></span>
-                </div>
+                </div> -->
 
                 <div class="bottom-profile">
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
                         <a href="<?=ROOT?>/profile/editProfile" class="edit-profile">EDIT PROFILE</a>
-                        <!-- <a href="<?=ROOT?>/profile/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a> -->
+                        <a href="<?=ROOT?>/profile/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
+                        <a href="<?=ROOT?>/profile/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- address -->
-        <div class="container">
+        <!-- <div class="container">
             <div class="title">
                 <h3>My Address</h3>
             </div>
@@ -62,7 +68,7 @@
                         </div>
                     </div>
             </div>
-        </div>
+        </div> -->
         
         <!-- Popup for newsletter subscription -->
         <div id="popup" class="popup">

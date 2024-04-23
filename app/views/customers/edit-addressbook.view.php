@@ -34,13 +34,6 @@
                             <input type="tel" class="form-control" id="telephone" name="telephone" value="<?=get_value('telephone', $data['telephone'])?>" placeholder="Enter your mobile number">
                         </div>
                     </div>
-
-                    <!-- <div class="field-edit-profile">
-                        <label for="province">Province</label>
-                        <div class="input-wrapper">
-                            <input type="text" class="form-control" id="province" name="province" value="<?=get_value('province', $data['province'])?>" placeholder="Choose your province">
-                        </div>
-                    </div> -->
         
                     <div class="field-edit-profile">
                         <label for="city">City</label>
@@ -69,14 +62,6 @@
                             <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="street / area">
                         </div>
                     </div>
-
-        
-                    <!-- <div class="field-edit-profile">
-                        <label for="landmark">Landmark (optional)</label>
-                        <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="landmark" name="landmark" value="<?=get_value('land_mark', $data['land_mark'])?>" placeholder="E.g. beside train station">
-                        </div>
-                    </div> -->
         
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
                     <a href="<?=ROOT?>/profile/addressbook/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>

@@ -18,19 +18,18 @@ class Profile extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			// show($data);
 			$this->view('customers/manage-account', $data);
 		}
     }
 
-    public function myProfile($id = null)
+    public function myProfile()
     {
         if (!Auth::logged_in()) {
 			message('Please login to view your account');
 			redirect('login');
 		}
 
-		// $id = Auth::getCustomerID();
+		$id = Auth::getCustomerID();
 		$data['title'] = "profile";
 
 		if($id != ''){
@@ -43,17 +42,16 @@ class Profile extends Controller
 		}
     }
 
-	public function editProfile($id = '')
+	public function editProfile()
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
 
-		// $id = Auth::getCustomerID();
-
+		$id = Auth::getCustomerID();
 		$data['title'] = "edit-profile";
-		$customer = []; 
+		// $customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
@@ -65,67 +63,36 @@ class Profile extends Controller
 		}
     }
 
-	public function updateProfile($id)
+	public function updateProfile()
 	{
 		if (!Auth::logged_in()) {
 			message('Please login to update your profile');
 			redirect('login');
 		}
 
+		$id = Auth::getCustomerID();
+
 		$customerModel = new Customer();
 
 		// Validate form data
-		$postData = [
-			'first_name' => $_POST['first_name'],
-			'last_name' => $_POST['last_name'],
-			'telephone' => $_POST['telephone'],
-			'birth_month' => $_POST['birth-month'],
-			'birth_day' => $_POST['birth-day'],
-			'birth_year' => $_POST['birth-year'],
-			'gender' => $_POST['gender'],
-		];
-		show($postData);
-	
-		if (!$customerModel->validate($postData)) {
-			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs.');
-			redirect('customers/editProfile/' . $id);
-		}
-
-
-		
-		// Validate and sanitize form data
 		$updatedData = [
 			'first_name' => $_POST['first_name'],
 			'last_name' => $_POST['last_name'],
-			// 'email' => $_POST['email'],
 			'telephone' => $_POST['telephone'],
-			'birth_month' => $_POST['birth-month'],
-			'birth_day' => $_POST['birth-day'],
-			'birth_year' => $_POST['birth-year'],
-			'gender' => $_POST['gender'],
 		];
-		show($updatedData);
+	
+		if (!$customerModel->validate($updatedData)) {
+			// Validation failed, redirect back to the edit profile page with errors
+			message('Validation failed. Please check your inputs.');
+			redirect('profile/editProfile/' . $id);
+		}
 
 		// Perform the database update
 		$success = $customerModel->updateCustomerProfile($id, $updatedData);
-		show($success);
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$first_name = $_POST['first_name'];
-			$last_name = $_POST['last_name'];
-			$errors = [];
-			if (empty($first_name)) {
-				$errors['first_name'] = "You can't leave this empty.";
-			}
-			if (empty($last_name)) {
-				$errors['last_name'] = "You can't leave this empty.";
-			}
-		}
 
 		if ($success) {
 			message('Profile updated successfully');
-			redirect('customers/profile/' . $id);
+			redirect('profile/myProfile/' . $id);
 		} 
 		else {
 			message('Failed to update profile. Please try again.');
@@ -133,39 +100,16 @@ class Profile extends Controller
 		}
 	}
 
-	private function updateCustomerProfile($id, $data)
-	{
-		$table = 'customer';
-
-		$setClause = '';
-		foreach ($data as $key => $value) {
-			$setClause .= "`$key` = :$key, ";
-		}
-		$setClause = rtrim($setClause, ', ');
-
-		// Construct the full SQL query
-		$query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
-
-		// Add the customer ID to the data array
-		$data['id'] = $id;
-
-		// Perform the database update
-		$db = new Database;
-		$db->query($query, $data);
-		return 1;
-	}
-
-	public function changepassword($id = '')
+	public function changepassword()
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
 
-		// $id = Auth::getCustomerID();
-
+		$id = Auth::getCustomerID();
 		$data['title'] = "change-password";
-		$customer = []; 
+		// $customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
@@ -177,39 +121,39 @@ class Profile extends Controller
 		}
     }
 
-    public function addressbook($id = '')
+    // public function addressbook($id = '')
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
+
+	// 	// $id = Auth::getCustomerID();
+
+	// 	$data['title'] = "addressbook";
+	// 	$customer = []; 
+
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
+
+	// 		$data = $customer;
+	// 		$this->view('customers/addressbook', $data);
+	// 	}
+	// }
+
+    public function editAddress()
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
 
-		// $id = Auth::getCustomerID();
-
-		$data['title'] = "addressbook";
-		$customer = []; 
-
-		if ($id != '') {
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
-
-			$data = $customer;
-			$this->view('customers/addressbook', $data);
-		}
-	}
-
-    public function editAddress($id = '')
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
-
-		// $id = Auth::getCustomerID();
+		$id = Auth::getCustomerID();
 
 		$data['title'] = "edit-addressbook";
-		$customer = []; 
+		// $customer = []; 
 
 		if ($id != '') {
 			$url = ROOT . "/fetch/customers/" . $id;
@@ -284,43 +228,26 @@ class Profile extends Controller
 	// 	$data['errors'] = array_merge($data['errors'], $customer->errors);
 	// }
 
-	private function updateCustomerAddress($id, $data)
-	{
-		$table = 'address';
+	
 
-		$setClause = '';
-		foreach ($data as $key => $value) {
-			$setClause .= "`$key` = :$key, ";
-		}
-		$setClause = rtrim($setClause, ', ');
-
-		// Construct the full SQL query
-		$query = "UPDATE $table SET $setClause WHERE `address_id` = :id";
-
-		// Add the customer ID to the data array
-		$data['id'] = $id;
-
-		// Perform the database update
-		$db = new Database;
-		return $db->query($query, $data);
-	}
-
-	public function updateAddress($customerId)
+	public function updateAddress()
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
 			redirect('login');
 		}
 
-		// Fetch the customer data from your API using the provided $customerId
-		$url = ROOT . "/fetch/customers/" . $customerId;
+		$id = Auth::getCustomerID();
+		$customerModel = new Customer();
+
+		$url = ROOT . "/fetch/customers/" . $id;
 		$response = file_get_contents($url);
 		$customer = json_decode($response, true);
 
 		// Get the address ID associated with the customer ID
 		$addressId = $customer['address_id'];
 
-		// Validate and sanitize form data
+		// Validate form data
 		$updatedCustomerData = [
 			'first_name' => $_POST['first_name'],
 			'last_name' => $_POST['last_name'],
@@ -334,19 +261,16 @@ class Profile extends Controller
 			'address_line_2' => $_POST['address_line_2'],
 		];
 
-		show($updatedCustomerData);
-		show($updatedAddressData);
-
 			// Perform the database update
-			$customerSuccess = $this->updateCustomerProfile($customerId, $updatedCustomerData);
-			$addressSuccess = $this->updateCustomerAddress($addressId, $updatedAddressData);
+			$customerSuccess = $customerModel->updateCustomerProfile($id, $updatedCustomerData);
+			$addressSuccess = $customerModel->updateCustomerAddress($addressId, $updatedAddressData);
 
 			if ($customerSuccess && $addressSuccess) {
 				message('Customer address updated successfully');
-				redirect('customers/address/' . $customerId);
+				redirect('profile/address/' . $id);
 			} else {
 				message('Failed to update customer address. Please try again.');
-				redirect('customers/addressbook/' . $customerId);
+				redirect('profile/addressbook/' . $id);
 			}
 
 		// Pass customer data to the view
@@ -355,16 +279,4 @@ class Profile extends Controller
 
 		// $this->view('customers/edit-address', $data);
 	}
-
-    public function edit(){
-        if (!Auth::logged_in()) {
-			message('Please login to view your account');
-			redirect('login');
-		}
-
-		$id = Auth::getCustomerID();
-        $data['title'] = "edit-profile";
-
-        $this->view('customers/edit-profile', $data);
-    }
 }

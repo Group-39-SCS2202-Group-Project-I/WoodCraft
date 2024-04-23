@@ -32,13 +32,9 @@
                     <div class="field-edit-profile">
                         <label for="email">Email</label>
                         <div class="input-wrapper">
-                            <!-- <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>">
-                        </div> -->
                         <!-- Disable the email input field -->
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=get_value('email', $data['email'])?>" disabled>
                         </div>
-                        <!-- Show an error message -->
-                        <!-- <span class="error-message">You are not allowed to change your email address.</span> -->
                     </div>
         
                     <div class="field-edit-profile">
@@ -49,7 +45,7 @@
                     </div>
 
                     <!-- Birthday select options -->
-                    <?php
+                    <!-- <?php
                     // Define months, days, and years arrays
                     $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
                     $days = range(1, 31);
@@ -64,10 +60,10 @@
                         }
                         return $options;
                     }
-                    ?>
+                    ?> -->
 
                     <!-- Birthday select fields -->
-                    <div class="field-edit-profile">
+                    <!-- <div class="field-edit-profile">
                         <label for="birthday">Birthday</label>
                         <div class="input-wrapper">
                             <select id="birth-month" name="birth-month">
@@ -83,10 +79,10 @@
                                 <?= generateOptions($years, $data['birth_year']) ?>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Gender select field -->
-                    <div class="field-edit-profile">
+                    <!-- <div class="field-edit-profile">
                         <label for="gender">Gender</label>
                         <div class="input-wrapper">
                             <select id="gender" name="gender">
@@ -95,12 +91,11 @@
                                 <option value="female" <?= ($data['gender'] == 'female') ? 'selected' : '' ?>>Female</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
 
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <!-- <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button></a> -->
                     <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
