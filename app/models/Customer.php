@@ -16,10 +16,10 @@ class Customer extends Model
         "last_name",
         "email",
         "telephone",
-        "birth_day",
-        "birth_month",
-        "birth_year",
-        "gender",
+        // "birth_day",
+        // "birth_month",
+        // "birth_year",
+        // "gender",
     ];
 
 	public function validate($data)

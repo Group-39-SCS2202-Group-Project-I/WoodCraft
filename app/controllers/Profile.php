@@ -86,18 +86,19 @@ class Profile extends Controller
 			message('Validation failed. Please check your inputs.');
 			redirect('profile/editProfile');
 		}
+		else{
+			// Perform the database update
+			$success = $customerModel->updateCustomerProfile($id, $updatedData);
 
-		// Perform the database update
-		$success = $customerModel->updateCustomerProfile($id, $updatedData);
-
-		if ($success) {
-			message('Profile updated successfully');
-			redirect('profile/myProfile');
-		} 
-		else {
-			message('Failed to update profile. Please try again.');
-			redirect('customers/editProfile');
-		}
+			if ($success) {
+				message('Profile updated successfully');
+				redirect('profile/myProfile');
+			} 
+			else {
+				message('Failed to update profile. Please try again.');
+				redirect('customers/editProfile');
+			}
+		}	
 	}
 
 	public function changepassword()
@@ -237,6 +238,7 @@ class Profile extends Controller
 
 		$id = Auth::getCustomerID();
 		$customerModel = new Customer();
+		$addressModel = new Address();
 
 		$url = ROOT . "/fetch/customers/" . $id;
 		$response = file_get_contents($url);
@@ -259,6 +261,12 @@ class Profile extends Controller
 			'address_line_2' => $_POST['address_line_2'],
 		];
 
+		if (!$customerModel->validate($updatedCustomerData)) {
+			// Validation failed, redirect back to the edit profile page with errors
+			message('Validation failed. Please check your inputs.');
+			redirect('profile/editAddress');
+		}
+		else{
 			// Perform the database update
 			$customerSuccess = $customerModel->updateCustomerProfile($id, $updatedCustomerData);
 			$addressSuccess = $customerModel->updateCustomerAddress($addressId, $updatedAddressData);
@@ -270,5 +278,6 @@ class Profile extends Controller
 				message('Failed to update customer address. Please try again.');
 				redirect('profile/editAddress');
 			}
+		}	
 	}
 }
