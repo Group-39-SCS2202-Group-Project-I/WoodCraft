@@ -28,6 +28,14 @@
                     <span class="info-value"><?= $data['address_line_1'] ?></span>
                     <span class="info-value"><?= $data['address_line_2'] ?></span>
                 </div>
+                <div class="profile-info">
+                    <span class="info-label">City</span>
+                    <span class="info-value"><?= $data['city'] ?></span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Zip Code</span>
+                    <span class="info-value"><?= $data['zip_code'] ?></span>
+                </div>
                 <!-- <div class="profile-info">
                     <span class="info-label">Birthday</span>
                     <?php if (!empty($data['birth_day'])) : ?>
