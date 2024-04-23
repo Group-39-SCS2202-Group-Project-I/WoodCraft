@@ -69,7 +69,7 @@
         color: var(--danger);
     }
 
-    
+
 
     .styled-material-symbols {
         font-size: 24px;
@@ -160,17 +160,16 @@
     <div class="popup-form" id="approve-item-popup">
         <div class="popup-form__content">
             <form action="" method="POST" class="form">
-                <div class="popup-content styled-popup">
-                    <a type="button" class="close-btn styled-close-btn" onclick="closePopup()">
+                <!-- <div class="popup-content styled-popup"> -->
+                    <!-- <a type="button" class="close-btn styled-close-btn" onclick="closePopup()">
                         <span class="material-symbols-outlined styled-material-symbols">
                             cancel
                         </span>
-                    </a>
-                    <div>
-                        <h3 id="mat-details" class="styled-details"></h3>
-                        <p id="mat-quantity" class="styled-quantity"></p>
-                    </div>
-
+                    </a> -->
+                <!-- </div> -->
+                <div >
+                    <h3 id="mat-details" class="styled-details"></h3>
+                    <p id="mat-quantity" class="styled-quantity"></p>
                 </div>
                 <br>
                 <table id="mat_table" class="styled-table">
@@ -182,7 +181,12 @@
                     </tr>
                 </table>
 
-                <br>
+                <!-- <br> -->
+
+                <div class="form-group frm-btns">
+                    <!-- <button type="submit" class="form-btn submit-btn">Yes</button> -->
+                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">Close</button>
+                </div>
 
 
 
