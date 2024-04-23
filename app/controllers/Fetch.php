@@ -1327,4 +1327,90 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($missing_materials);
     }
+
+    public function blk_chart()
+    {
+        $db = new Database();
+
+        $bulk_req_ids = $db->query("SELECT bulk_req_id FROM bulk_order_details WHERE status != 'pending' OR status != 'cancelled'");
+        $bulk_req_ids = array_column($bulk_req_ids, 'bulk_req_id');
+
+        $arr = [];
+
+        foreach($bulk_req_ids as $blk)
+        {
+            $bulk_req = $db->query("SELECT product_id,quantity FROM bulk_order_req WHERE bulk_req_id = $blk");
+            $quantity = $bulk_req[0]->quantity;
+            $product_id = $bulk_req[0]->product_id;
+
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $product_name = $product[0]->name;
+
+            if(array_key_exists($product_name,$arr))
+            {
+                $arr[$product_name] += $quantity;
+            }
+            else
+            {
+                $arr[$product_name] = $quantity;
+            }
+        }
+
+
+        $product_names = array_keys($arr);
+        $quantities = array_values($arr);
+
+        $arr2 = [
+            'product_names' => $product_names,
+            'quantities' => $quantities
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+    }
+
+    public function retail_chart()
+    {
+        $db = new Database();
+
+        $order_ids = $db->query("SELECT order_details_id FROM order_details WHERE status != 'pending' OR status != 'cancelled'");
+        $order_ids = array_column($order_ids, 'order_details_id');
+
+        $arr = [];
+
+        foreach($order_ids as $order)
+        {
+            $order_items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order");
+
+            foreach($order_items as $item)
+            {
+                $quantity = $item->quantity;
+                $product_id = $item->product_id;
+
+                $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+                $product_name = $product[0]->name;
+
+                if(array_key_exists($product_name,$arr))
+                {
+                    $arr[$product_name] += $quantity;
+                }
+                else
+                {
+                    $arr[$product_name] = $quantity;
+                }
+            }
+        }
+
+        $product_names = array_keys($arr);
+        $quantities = array_values($arr);
+
+        $arr2 = [
+            'product_names' => $product_names,
+            'quantities' => $quantities
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+
+    }
 }
