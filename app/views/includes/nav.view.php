@@ -130,7 +130,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
                 window.location.href = '<?= ROOT ?>/cart';
                 break;
             case 'tomanage-acc':
-                window.location.href = '<?= ROOT ?>/customer/<?= (Auth::logged_in() == 1)? (Auth::getCustomerID())  : 0 ?>';
+                window.location.href = '<?= ROOT ?>/profile';
                 break;
             case 'toregister':
                 window.location.href = '<?= ROOT ?>/signup';
@@ -142,16 +142,16 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
             //     window.location.href = '<?= ROOT ?>/logout';
             //     break;
             case 'toorders':
-                window.location.href = '<?= ROOT ?>/customer/orders';
+                window.location.href = '<?= ROOT ?>/orders';
                 break;
             case 'towishlist':
-                window.location.href = '<?= ROOT ?>/customer/wishlist';
+                window.location.href = '<?= ROOT ?>/profile/wishlist';
                 break;
             case 'toreviews':
-                window.location.href = '<?= ROOT ?>/customer/reviews';
+                window.location.href = '<?= ROOT ?>/profile/reviews';
                 break;
             case 'toreturns':
-                window.location.href = '<?= ROOT ?>/customer/returns';
+                window.location.href = '<?= ROOT ?>/profile/returns';
                 break;
             default:
                 break;

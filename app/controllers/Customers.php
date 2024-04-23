@@ -20,7 +20,7 @@ class Customer extends Controller
 
 			$data = $customer;
 			// show($data);
-			$this->view('customer/manage-account', $data);
+			$this->view('customers/manage-account', $data);
 		}
     }
 
@@ -40,7 +40,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			$this->view('customer/profile', $data);
+			$this->view('customers/profile', $data);
 		}
     }
 
@@ -62,7 +62,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			$this->view('customer/edit-profile', $data);
+			$this->view('customers/edit-profile', $data);
 		}
     }
 
@@ -90,7 +90,7 @@ class Customer extends Controller
 		if (!$customerModel->validate($postData)) {
 			// Validation failed, redirect back to the edit profile page with errors
 			message('Validation failed. Please check your inputs.');
-			redirect('customer/editProfile/' . $id);
+			redirect('customers/editProfile/' . $id);
 		}
 
 
@@ -126,11 +126,11 @@ class Customer extends Controller
 
 		if ($success) {
 			message('Profile updated successfully');
-			redirect('customer/profile/' . $id);
+			redirect('customers/profile/' . $id);
 		} 
 		else {
 			message('Failed to update profile. Please try again.');
-			redirect('customer/editProfile/' . $id);
+			redirect('customers/editProfile/' . $id);
 		}
 	}
 
@@ -174,7 +174,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			$this->view('customer/change-password', $data);
+			$this->view('customers/change-password', $data);
 		}
     }
 
@@ -196,7 +196,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			$this->view('customer/addressbook', $data);
+			$this->view('customers/addressbook', $data);
 		}
 	}
 
@@ -218,7 +218,7 @@ class Customer extends Controller
 			$customer = json_decode($response, true);
 
 			$data = $customer;
-			$this->view('customer/edit-addressbook', $data);
+			$this->view('customers/edit-addressbook', $data);
 		}
 	}
 
@@ -242,7 +242,7 @@ class Customer extends Controller
 	// 		$customer = json_decode($response, true);
 
 	// 		$data = $customer;
-	// 		$this->view('customer/add-address', $data);
+	// 		$this->view('customers/add-address', $data);
 	// 	}
 
 	// 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -344,17 +344,17 @@ class Customer extends Controller
 
 			if ($customerSuccess && $addressSuccess) {
 				message('Customer address updated successfully');
-				redirect('customer/address/' . $customerId);
+				redirect('customers/address/' . $customerId);
 			} else {
 				message('Failed to update customer address. Please try again.');
-				redirect('customer/addressbook/' . $customerId);
+				redirect('customers/addressbook/' . $customerId);
 			}
 
 		// Pass customer data to the view
 		// $data['customer'] = $customer;
 		// $data['title'] = "edit-address";
 
-		// $this->view('customer/edit-address', $data);
+		// $this->view('customers/edit-address', $data);
 	}
 
 	public function orders($order_id = '')
@@ -391,7 +391,7 @@ class Customer extends Controller
 			// $data = $customer;
 			$data = array_merge($data, $customer ?? []);
         	$data['orders'] = $orders;
-			$this->view('customer/orders', $data);
+			$this->view('customers/orders', $data);
 		}
 		else{
 				$order_details = $this->getOrderDetails($order_id);
@@ -406,7 +406,7 @@ class Customer extends Controller
 				$data['order_items'] = $order_items;
 				$data['total_subtotal'] = $totalSubtotal;
 				// show($totalSubtotal);
-				$this->view('customer/orders-manage', $data);
+				$this->view('customers/orders-manage', $data);
 		}
 	}
 

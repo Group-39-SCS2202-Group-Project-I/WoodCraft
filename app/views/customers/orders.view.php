@@ -66,9 +66,9 @@
         }
     </style>
 
-    <?php $this->view('customer/acc-header', $data) ?>
+    <?php $this->view('customers/acc-header', $data) ?>
     <br><br>
-    <?php $this->view('customer/acc-sidebar', $data) ?>
+    <?php $this->view('customers/acc-sidebar', $data) ?>
         
         <div class="main-container"> 
 
@@ -99,7 +99,7 @@
                                             <p>order  <strong style="color: blue;"><?= $orderDetailsId ?></strong></p>
                                             <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
                                         </div>
-                                        <a href="<?= ROOT ?>/customer/orders/<?= $orderDetailsId ?>">Manage</a>
+                                        <a href="<?= ROOT ?>/orders/<?= $orderDetailsId ?>">View</a>
                                     </div>
                                     <?php foreach ($orderItems as $orderItem) : ?>
                                         <div class="order-details">

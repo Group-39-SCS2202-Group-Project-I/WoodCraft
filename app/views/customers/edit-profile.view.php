@@ -1,6 +1,6 @@
-        <?php $this->view('customer/acc-header', $data) ?>
+        <?php $this->view('customers/acc-header', $data) ?>
         <br><br>
-        <?php $this->view('customer/acc-sidebar', $data) ?> 
+        <?php $this->view('customers/acc-sidebar', $data) ?> 
 
         <div class="main-container">
 
@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/customer/updateProfile/<?= Auth::getCustomerID()?>">
+                <form method="post" action="<?= ROOT ?>/profile/updateProfile/<?= Auth::getCustomerID()?>">
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
@@ -100,8 +100,8 @@
 
                     <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <!-- <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button></a> -->
-                    <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <!-- <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button></a> -->
+                    <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>

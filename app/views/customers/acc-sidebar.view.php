@@ -16,24 +16,24 @@
             </div>
 
             <ul class="sidebar-list">
-                <li class="sidebar-list-item nav-btn main-title  <?= isCurrentPage('index') ? 'selected' : '' ?>" id="manage-nav">
-                    <a href="<?=ROOT?>/customer/index/<?= Auth::getCustomerId()?>"><span style="margin-left: 5px;">Manage My Account</span></a>
+                <li class="sidebar-list-item nav-btn main-title  <?= isCurrentPage('') ? 'selected' : '' ?>" id="manage-nav">
+                    <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">Manage My Account</span></a>
 
-                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('profile') || isCurrentPage('edit') || isCurrentPage('changepassword') ? 'selected' : '' ?>" id="profile-nav">
-                            <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">My Profile</span></a>
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('myProfile') || isCurrentPage('edit') || isCurrentPage('changepassword') ? 'selected' : '' ?>" id="profile-nav">
+                            <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">My Profile</span></a>
                         </li>
                         <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('addressbook') || isCurrentPage('address') || isCurrentPage('addaddress') ? 'selected' : '' ?>" id="address-nav">
-                            <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Address Book</span></a>
+                            <a href="<?=ROOT?>/profile/addressbook/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Address Book</span></a>
                         </li>
                 </li>
                 <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') || isCurrentPage('manageOrder') ? 'selected' : '' ?>" id="orders-nav">
-                    <a href="<?=ROOT?>/customer/orders"><span style="margin-left: 5px;">My Orders</span></a>
+                    <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
 
                         <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('retailOrders') ? 'selected' : '' ?>" id="retail-nav">
-                            <a href="<?=ROOT?>/customer/retailOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Retail Orders</span></a>
+                            <a href="<?=ROOT?>/orders/retailOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Retail Orders</span></a>
                         </li>
                         <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                            <a href="<?=ROOT?>/customer/bulkOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Bulk Orders</span></a>
+                            <a href="<?=ROOT?>/orders/bulkOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Bulk Orders</span></a>
                         </li>
                 </li>
            

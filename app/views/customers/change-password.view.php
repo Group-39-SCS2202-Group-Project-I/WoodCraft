@@ -1,6 +1,6 @@
-        <?php $this->view('customer/acc-header', $data) ?>
+        <?php $this->view('customers/acc-header', $data) ?>
         <br><br>  
-        <?php $this->view('customer/acc-sidebar', $data) ?> 
+        <?php $this->view('customers/acc-sidebar', $data) ?> 
 
         <div class="main-container"> 
 
@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-change-password">
-                <form method="post" action="<?= ROOT ?>/customer/changepassword/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/profile/myPhangepassword/<?= Auth::getCustomerId()?>">
                     <div class="field-change-password">
                         <label class="label-with-eye" for="current-password">
                             Current Password
@@ -52,7 +52,7 @@
                     </div>
         
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/customer/profile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>

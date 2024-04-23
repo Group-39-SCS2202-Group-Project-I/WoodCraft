@@ -17,9 +17,9 @@
         }
     </style>
 
-    <?php $this->view('customer/acc-header', $data) ?>
+    <?php $this->view('customers/acc-header', $data) ?>
     <br><br>
-    <?php $this->view('customer/acc-sidebar', $data) ?>
+    <?php $this->view('customers/acc-sidebar', $data) ?>
         
         <div class="main-container"> 
 
@@ -59,8 +59,8 @@
                                     <td><?= $order['quantity'] ?></td>
                                     <td><?= $order['status'] ?></td>
                                     <td><?= $order['created_at'] ?></td>
-                                    <!-- <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>">Manage</a></td> -->
-                                    <td><a href="<?= ROOT ?>/customer/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a></td>
+                                    <!-- <td><a href="<?= ROOT ?>/orders/manageOrder/<?= Auth::getCustomerId()?>">Manage</a></td> -->
+                                    <td><a href="<?= ROOT ?>/customers/manageOrder/<?= Auth::getCustomerId()?>&order_details_id=<?= $order['order_details_id'] ?>">Manage</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

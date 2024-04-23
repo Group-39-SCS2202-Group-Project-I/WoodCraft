@@ -1,6 +1,6 @@
-<?php $this->view('customer/acc-header', $data) ?>
+<?php $this->view('customers/acc-header', $data) ?>
 <br><br>
-<?php $this->view('customer/acc-sidebar', $data) ?>
+<?php $this->view('customers/acc-sidebar', $data) ?>
 
 <div class="main-container"> 
 

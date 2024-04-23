@@ -1,6 +1,6 @@
-        <?php $this->view('customer/acc-header', $data) ?>
+        <?php $this->view('customers/acc-header', $data) ?>
         <br><br>
-        <?php $this->view('customer/acc-sidebar', $data) ?> 
+        <?php $this->view('customers/acc-sidebar', $data) ?> 
 
         <div class="main-container"> 
 
@@ -38,8 +38,8 @@
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
-                        <a href="<?=ROOT?>/customer/editProfile/<?= Auth::getCustomerId()?>" class="edit-profile">EDIT PROFILE</a>
-                        <a href="<?=ROOT?>/customer/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
+                        <a href="<?=ROOT?>/profile/editProfile" class="edit-profile">EDIT PROFILE</a>
+                        <!-- <a href="<?=ROOT?>/profile/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a> -->
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                         <div class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?></div>
 
                         <div class="buttons-profile">
-                            <a href="<?=ROOT?>/customer/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
+                            <a href="<?=ROOT?>/profile/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
                         </div>
                     </div>
             </div>

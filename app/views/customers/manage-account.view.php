@@ -1,7 +1,7 @@
         
-        <?php $this->view('customer/acc-header', $data) ?>
+        <?php $this->view('customers/acc-header', $data) ?>
         <br><br>
-        <?php $this->view('customer/acc-sidebar', $data) ?>
+        <?php $this->view('customers/acc-sidebar', $data) ?>
         
         <div class="main-container">
 
@@ -15,7 +15,7 @@
                     <div class="profile">
                         <div class="content-title">
                             <h3>Personal Profile  <span class="highlight">|</span></h3>
-                            <h3><a href="<?=ROOT?>/customer/editProfile/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <h3><a href="<?=ROOT?>/profile/editProfile/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">
@@ -37,7 +37,7 @@
                     <div class="address">
                         <div class="content-title">
                             <h3>Address Book  <span class="highlight">|</span></h3>
-                            <h3><a href="<?=ROOT?>/customer/editAddress/<?= Auth::getCustomerId()?>">EDIT</a></h3>
+                            <h3><a href="<?=ROOT?>/profile/editAddress/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>
@@ -60,7 +60,7 @@
                                     DEFAULT BILLING ADDRESS
                                 </div>
                                 <p>Add New Address<span class="highlight">|</span>
-                                <a href="<?=ROOT?>/customer/addaddress/<?= Auth::getCustomerId()?>">ADD</a></p>
+                                <a href="<?=ROOT?>/profile/addaddress/<?= Auth::getCustomerId()?>">ADD</a></p>
                             <?php endif; ?>
                         </div>
 
@@ -100,28 +100,28 @@
             // Handle different menu items based on their IDs
             switch (id) {
                 case 'tomanage-acc':
-                    window.location.href = '<?= ROOT ?>/customer/index';
+                    window.location.href = '<?= ROOT ?>/profile';
                     break;
                 case 'toprofile':
-                    window.location.href = '<?= ROOT ?>/customer/myProfile';
+                    window.location.href = '<?= ROOT ?>/profile/myProfile';
                     break;
                 case 'toaddress-book':
-                    window.location.href = '<?= ROOT ?>/customer/addressbook';
+                    window.location.href = '<?= ROOT ?>/profile/addressbook';
                     break;
                 case 'toorders':
-                    window.location.href = '<?= ROOT ?>/customer/orders';
+                    window.location.href = '<?= ROOT ?>/orders';
                     break;
                 case 'toreturns':
-                    window.location.href = '<?= ROOT ?>/customer/returns';
+                    window.location.href = '<?= ROOT ?>/profile/returns';
                     break;
                 case 'tocancellations':
-                    window.location.href = '<?= ROOT ?>/customer/cancellations';
+                    window.location.href = '<?= ROOT ?>/profile/cancellations';
                     break;
                 case 'toreviews':
-                    window.location.href = '<?= ROOT ?>/customer/reviews';
+                    window.location.href = '<?= ROOT ?>/profile/reviews';
                     break;
                 case 'towishlist':
-                    window.location.href = '<?= ROOT ?>/customer/wishlist';
+                    window.location.href = '<?= ROOT ?>/profile/wishlist';
                     break;
                 case 'tohome':
                     window.location.href = '<?= ROOT ?>';
