@@ -4,7 +4,7 @@
         
         <div class="main-container"> 
 
-        <?php show($data); ?>
+        <!-- <?php show($data); ?> -->
 
         <!-- edit addressbook -->
         <div class="container">
@@ -13,7 +13,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post">
+                <form method="post" action="<?= ROOT ?>/customer/updateAddress/<?= Auth::getCustomerID() ?>">  
                     <div class="field-edit-profile">
                         <label for="first-name">First Name</label>
                         <div class="input-wrapper">
@@ -45,16 +45,31 @@
                     <div class="field-edit-profile">
                         <label for="city">City</label>
                         <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Choose your city">
+                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Enter your city">
                         </div>
                     </div>
 
                     <div class="field-edit-profile">
-                        <label for="address">Address</label>
+                        <label for="address">Zip Code</label>
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_1', $data['address_line_1'])?> <?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="House no. / building / street / area">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('zip_code', $data['zip_code'])?>" placeholder="Enter zipcode">
                         </div>
                     </div>
+
+                    <div class="field-edit-profile">
+                        <label for="address">Address Line 1</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_1', $data['address_line_1'])?>" placeholder="House no. / building / street / area">
+                        </div>
+                    </div>
+
+                    <div class="field-edit-profile">
+                        <label for="address">Address Line 2</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="address" name="address" value="<?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="street / area">
+                        </div>
+                    </div>
+
         
                     <!-- <div class="field-edit-profile">
                         <label for="landmark">Landmark (optional)</label>
@@ -63,23 +78,9 @@
                         </div>
                     </div> -->
         
-                    <button type="button" class="save-changes-edit-profile" onclick="goToMyProfile()">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/customer/manage-account"><button type="button" class="cancel-edit-profile" onclick="goToMyProfile()">CANCEL</button></a>
+                    <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
+                    <a href="<?=ROOT?>/customer/addressbook/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
-            </div>
-        </div>
-
-        <!-- Popup for newsletter subscription -->
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <span class="close" onclick="closePopup()">&times;</span>
-                <h3>Newsletter subscription</h3>
-                <p>I have read and understood <a href="##.html">Privacy Policy</a></p>
-
-                <div class="buttons-popup">
-                    <button class="cancel" onclick="closePopup()">Cancel</button>
-                    <button class="subscribe" onclick="subscribe()">Subscribe</button>
-                </div>
             </div>
         </div>
     </main>

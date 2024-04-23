@@ -13,33 +13,54 @@
             <div class="content-profile">
                 <div class="profile-info">
                     <span class="info-label">Full Name</span>
-                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Email</span>
-                    <span class="info-value"><?= esc($data['email']) ?></span>
+                    <span class="info-value"><?= $data['email'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Mobile</span>
-                    <span class="info-value"><?= esc($data['telephone']) ?></span>
+                    <span class="info-value"><?= $data['telephone'] ?></span>
                 </div>
-                <!-- <div class="profile-info">
+                <div class="profile-info">
                     <span class="info-label">Birthday</span>
-                    <span class="info-value"><?= esc($data['birthday']) ?></span>
-                </div> -->
-                <!-- <div class="profile-info">
+                    <?php if (!empty($data['birth_day'])) : ?>
+                        <span class="info-value"><?= $data['birth_day'] ?> - <?= $data['birth_month'] ?> - <?= $data['birth_year'] ?></span>
+                    <?php endif; ?>
+                </div>
+                <div class="profile-info">
                     <span class="info-label">Gender</span>
-                    <span class="info-value"><?= esc($data['gender']) ?></span>
-                </div> -->
+                    <span class="info-value"><?= $data['gender'] ?></span>
+                </div>
 
                 <div class="bottom-profile">
                     <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
 
                     <div class="buttons-profile">
-                        <a href="<?=ROOT?>/customer/editProfile" class="edit-profile">EDIT PROFILE</a>
-                        <a href="<?=ROOT?>/customer/changePW" class="change-password">CHANGE PASSWORD</a>
+                        <a href="<?=ROOT?>/customer/editProfile/<?= Auth::getCustomerId()?>" class="edit-profile">EDIT PROFILE</a>
+                        <a href="<?=ROOT?>/customer/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- address -->
+        <div class="container">
+            <div class="title">
+                <h3>My Address</h3>
+            </div>
+
+            <div class="content-addressbook">
+                    <div class="address-info">
+                        <div class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></div>
+                        <div class="info-value"><?= $data['telephone'] ?></div>
+                        <div class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?></div>
+
+                        <div class="buttons-profile">
+                            <a href="<?=ROOT?>/customer/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
+                        </div>
+                    </div>
             </div>
         </div>
         

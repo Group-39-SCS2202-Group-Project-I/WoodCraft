@@ -173,9 +173,10 @@ class Auth
         $customer = $db->query($query);
 
         $first_name = $customer[0]->first_name;
-        $last_name = $customer[0]->last_name;
+        // $last_name = $customer[0]->last_name;
 
-        return $first_name . " " . $last_name;
+        // return $first_name . " " . $last_name;
+        return $first_name;
         // return $customer[0];
     }
 

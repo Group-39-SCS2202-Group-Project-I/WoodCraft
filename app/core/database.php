@@ -117,7 +117,98 @@ class Database
 		$con = $this->connect();
 		return $con->lastInsertId();
 	}
-	
 
-	
+	// .....
+
+	private function update($table, $data, $where)
+    {
+        if (empty($data) || empty($where)) {
+            return false;
+        }
+
+        $setValues = [];
+        $updateData = [];
+
+        foreach ($data as $key => $value) {
+            $setValues[] = "$key = :$key";
+            $updateData[":$key"] = sanitize($value); // Use sanitize function for each value
+        }
+
+        $setClause = implode(', ', $setValues);
+
+        $query = "UPDATE $table SET $setClause WHERE $where";
+
+        return $this->query($query, $updateData);
+    }
+
+    public function updateCustomerProfile($id, $data)
+    {
+        return $this->update('customer', $data, 'customer_id = :id', [':id' => $id]);
+    }
+
+	// private function multiUpdate($tables, $data, $where)
+	// {
+	// 	if (empty($data) || empty($where) || empty($tables) || !is_array($tables)) {
+	// 		return false;
+	// 	}
+
+	// 	$setValues = [];
+	// 	$updateData = [];
+
+	// 	foreach ($data as $key => $value) {
+	// 		$setValues[] = "$key = :$key";
+	// 		$updateData[":$key"] = sanitize($value); // Use sanitize function for each value
+	// 	}
+
+	// 	$setClause = implode(', ', $setValues);
+
+	// 	$queries = [];
+	// 	foreach ($tables as $table) {
+	// 		$queries[] = "UPDATE $table SET $setClause WHERE $where";
+	// 	}
+
+	// 	// Perform the database update using a transaction
+	// 	$con = $this->connect();
+	// 	$con->beginTransaction();
+
+	// 	try {
+	// 		foreach ($queries as $query) {
+	// 			$stm = $con->prepare($query);
+	// 			$stm->execute($updateData);
+	// 		}
+
+	// 		$con->commit();
+	// 		return true;
+	// 	} catch (PDOException $e) {
+	// 		$con->rollBack();
+	// 		die("Multi-table update failed: " . $e->getMessage());
+	// 	}
+	// }
+
+	// public function updateCustomerAddress($id, $data)
+    // {
+	// 	 // Assuming 'customer' and 'address' are the table names
+	// 	 $tables = ['customer', 'address'];
+
+	// 	 // Add the customer ID to the data array
+	// 	 $data['id'] = $id;
+	 
+	// 	 // Perform the multi-table database update
+	// 	 $db = new Database;
+    //     return $this->multiUpdate('customer', $data, 'customer_id = :id', [':id' => $id]);
+    // }
+
+	public function updateaddress($table, $data, $where, $params = [])
+    {
+        $setClause = '';
+        foreach ($data as $key => $value) {
+            $setClause .= "`$key` = :$key, ";
+        }
+        $setClause = rtrim($setClause, ', ');
+
+        $query = "UPDATE $table SET $setClause WHERE $where";
+
+        return $this->query($query, array_merge($data, $params));
+    }
+
 }
