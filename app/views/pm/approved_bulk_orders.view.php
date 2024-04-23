@@ -3,7 +3,7 @@
 $url = ROOT . "/fetch/pxn_bulk_orders";
 $response = file_get_contents($url);
 $pxn_blks = json_decode($response, true);
-// show($pxn_blks);
+show($pxn_blks);
 ?>
 
 <div class="table-section">
@@ -47,16 +47,27 @@ $pxn_blks = json_decode($response, true);
                     <td>
                         <?php
                         if ($pxn_blk['missing_materials_count'] == 0) {
-                            echo "<a href='" . ROOT . "/pm/add_production' class='table-section__button'>Start Production</a>";
-                        }
-                        else
-                        {
-                            echo "<a href='" . ROOT . "/pm/add_production' class='table-section__button table-section__button-del'>Missing Materials</a>";
+                            echo "<a  class='table-section__button' onclick='navfunc(\"{$pxn_blk['bulk_req']['product_id']}\",\"{$pxn_blk['bulk_req']['quantity']}\")'>Start Production</a>";
+                        } else {
+                            echo "<a  class='table-section__button table-section__button-del'>Missing Materials</a>";
                         }
                         ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
 
+        </tbody>
+    </table>
+</div>
 
-            <?php include "inc/footer.view.php"; ?>
+<script>
+    navfunc = (product_id,qty) => {
+        sessionStorage.setItem('product_id',product_id );
+        sessionStorage.setItem('quantity',qty );
+        let nav = document.getElementById('add_prod-nav');
+        nav.click();
+    }
+</script>
+
+
+<?php include "inc/footer.view.php"; ?>
