@@ -16,7 +16,22 @@ class Review extends Controller
 		$data['title'] = "reviews";
 
 		$products = $customerModel->getProducts($user_id, $customer_id);
-		$data['products'] = $products;
+		
+		$toReviewProducts = [];
+        $reviewedProducts = [];
+
+        foreach ($products as $product) {
+            if ($product['review_id'] === null) {
+                // Product has not been reviewed yet
+                $toReviewProducts[] = $product;
+            } else {
+                // Product has been reviewed
+                $reviewedProducts[] = $product;
+            }
+        }
+
+        $data['toReviewProducts'] = $toReviewProducts;
+        $data['reviewedProducts'] = $reviewedProducts;
 
 		$this->view('customers/reviews', $data);
 	}
