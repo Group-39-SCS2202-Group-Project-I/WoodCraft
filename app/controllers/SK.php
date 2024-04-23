@@ -116,15 +116,14 @@ class SK extends Controller
 
         if (!Auth::is_sk()) {
             $this->view('404');
-        }
-        else {
+        } else {
             $data['title'] = "Finished Productions";
 
             $this->view('sk/finished_productions', $data);
         }
     }
 
-    public function orders($x='')
+    public function orders($x = '')
     {
 
         if (!Auth::logged_in()) {
@@ -134,32 +133,25 @@ class SK extends Controller
 
         if (!Auth::is_sk()) {
             $this->view('404');
-        }
-        else {
+        } else {
             $data['title'] = "Orders";
 
-            if($x == 'completed')
-            {
-                $db = new Database();   
-                $cro = "SELECT * FROM order_details WHERE  status = 'completed'";
-                $retail_orders = $db->query($cro);
-
-                $cbo = "SELECT * FROM bulk_order_details WHERE  status = 'completed'";
-                $bulk_orders = $db->query($cbo);
-
+            if ($x == 'completed') {
+                
+                $url = ROOT . "/fetch/completed_retail_orders";
+                $retail_orders = json_decode(file_get_contents($url));
+                $url = ROOT . "/fetch/completed_bulk_orders";
+                $bulk_orders = json_decode(file_get_contents($url));
 
                 $data['retail_orders'] = $retail_orders;
                 $data['bulk_orders'] = $bulk_orders;
                 $this->view('sk/completed_orders', $data);
-            }
-            else if($x == 'bulk')
-            {
+            } else if ($x == 'bulk') {
                 $db = new Database();
                 $bulk_orders = "SELECT * FROM bulk_order_details WHERE  status = 'processing' OR status = 'pending' OR status = 'ready to pick up' OR status = 'delivering'";
                 $bulks = $db->query($bulk_orders);
 
-                foreach($bulks as $bulk)
-                {
+                foreach ($bulks as $bulk) {
                     $user_id = $bulk->user_id;
                     $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
                     $x = $db->query($customer_name)[0];
@@ -192,19 +184,14 @@ class SK extends Controller
                 // filter type=pickup and type=delivery from $bulks
                 $pickups = [];
                 $deliveries = [];
-                foreach($bulks as $bulk)
-                {
-                    if($bulk->type == 'pickup')
-                    {
+                foreach ($bulks as $bulk) {
+                    if ($bulk->type == 'pickup') {
                         array_push($pickups, $bulk);
-                    }
-                    else
-                    {
+                    } else {
                         array_push($deliveries, $bulk);
                     }
                 }
-                foreach($deliveries as $d)
-                {
+                foreach ($deliveries as $d) {
                     $address = "SELECT * FROM address WHERE address_id = $d->delivery_address_id";
                     $x = $db->query($address)[0];
                     // $x = (array) $x;
@@ -213,31 +200,27 @@ class SK extends Controller
 
                 $data['pickups'] = $pickups;
                 $data['deliveries'] = $deliveries;
-                
+
                 $data['pickup_count'] = count($pickups);
                 $data['delivery_count'] = count($deliveries);
 
                 $this->view('sk/bulk_orders', $data);
-            }
-            else
-            {
+            } else {
                 $db = new Database();
                 $pickup_orders = "SELECT * FROM order_details WHERE type = 'pickup' AND (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering')";
                 $delivery_orders = "SELECT * FROM order_details WHERE  (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering') AND type = 'delivery'";
 
                 $pickups = $db->query($pickup_orders);
 
-                foreach($pickups as $pickup)
-                {
+                foreach ($pickups as $pickup) {
                     $user_id = $pickup->user_id;
                     $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
                     $x = $db->query($customer_name)[0];
                     $pickup->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
-                   
+
                     $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $pickup->order_details_id";
                     $x = $db->query($items);
-                    foreach($x as $item)
-                    {
+                    foreach ($x as $item) {
                         $product = "SELECT * FROM product WHERE product_id = $item->product_id";
                         $y = $db->query($product)[0];
                         $item->product_name = $y->name;
@@ -258,8 +241,7 @@ class SK extends Controller
 
 
                 $deliveries = $db->query($delivery_orders);
-                foreach($deliveries as $delivery)
-                {
+                foreach ($deliveries as $delivery) {
                     $user_id = $delivery->user_id;
                     $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
                     $x = $db->query($customer_name)[0];
@@ -271,8 +253,7 @@ class SK extends Controller
 
                     $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $delivery->order_details_id";
                     $y = $db->query($items);
-                    foreach($y as $item)
-                    {
+                    foreach ($y as $item) {
                         $product = "SELECT * FROM product WHERE product_id = $item->product_id";
                         $z = $db->query($product)[0];
                         $item->product_name = $z->name;
@@ -284,7 +265,6 @@ class SK extends Controller
                         $item->category_name = $p->category_name;
                     }
                     $delivery->items = $y;
-
                 }
                 $data['delivery_orders'] = $deliveries;
                 $data['delivery_count'] = count($deliveries);
@@ -292,8 +272,6 @@ class SK extends Controller
 
                 $this->view('sk/orders', $data);
             }
-
-            
         }
     }
 
@@ -306,8 +284,7 @@ class SK extends Controller
 
         if (!Auth::is_sk()) {
             $this->view('404');
-        }
-        else {
+        } else {
             $data['title'] = "Supplier";
 
             $this->view('sk/suppliers', $data);
@@ -319,7 +296,7 @@ class SK extends Controller
         show($_POST);
         $db = new Database();
         $status = $_POST['status'];
-        
+
         $q = "UPDATE order_details SET status = '$status' WHERE order_details_id = $order_details_id";
         $db->query($q);
         message('Order status updated successfully');
@@ -332,22 +309,20 @@ class SK extends Controller
         $db = new Database();
         $status = $_POST['status'];
 
-        if($status == 'processing')
-        {
+        if ($status == 'processing') {
             $quntity_required = $_POST['quantity_required'];
             $product_inventory_id = $_POST['product_inventory_id'];
             $q = "UPDATE product_inventory SET quantity = quantity - $quntity_required WHERE product_inventory_id = $product_inventory_id";
             $db->query($q);
         }
-        
+
         $q = "UPDATE bulk_order_details SET status = '$status' WHERE bulk_order_details_id = $bulk_order_details_id";
         $db->query($q);
         message('Order status updated successfully');
-        if($_POST['status']=='processing')
-        {
-           message('Product allocated  and order status updated successfully');
+        if ($_POST['status'] == 'processing') {
+            message('Product allocated  and order status updated successfully');
         }
-        
+
         redirect('sk/orders/bulk');
     }
 }

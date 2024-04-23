@@ -1099,8 +1099,8 @@ class Fetch extends Controller
             $user_id = $newBulkRequest->user_id;
             $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
             $newBulkRequests[$key]->customer_id = $customer[0]->customer_id;
-            
-            
+
+
 
 
             $piid = $product[0]->product_inventory_id;
@@ -1130,7 +1130,7 @@ class Fetch extends Controller
             $customer = $db->query("SELECT * FROM customer WHERE user_id = $user_id");
             $bulkReq[$key]->customer_id = $customer[0]->customer_id;
 
-           
+
 
             // $piid = $product[0]->product_inventory_id;
 
@@ -1173,5 +1173,74 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($bulkReq[0]);
+    }
+
+    public function completed_retail_orders()
+    {
+        $db = new Database();
+        $cro = "SELECT * FROM order_details WHERE  status = 'completed'";
+        $retail_orders = $db->query($cro);
+
+        foreach ($retail_orders as $retail) {
+            $user_id = $retail->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $retail->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $retail->order_details_id";
+            $y = $db->query($items);
+            foreach ($y as $item) {
+                $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                $z = $db->query($product)[0];
+                $item->product_name = $z->name;
+                $item->price = $z->price;
+
+                $product_category_id = $z->product_category_id;
+                $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                $p = $db->query($category_name)[0];
+                $item->category_name = $p->category_name;
+            }
+            $retail->items = $y;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($retail_orders);
+    }
+
+    public function completed_bulk_orders()
+    {
+        $db = new Database();
+        $cbo = "SELECT * FROM bulk_order_details WHERE  status = 'completed'";
+        $bulk_orders = $db->query($cbo);
+
+        foreach ($bulk_orders as $bulk) {
+            $user_id = $bulk->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $bulk->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $bulk->bulk_req_id";
+            $x = $db->query($bulk_req)[0];
+            $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_name)[0];
+            $x->product_name = $y->name;
+
+            $product_inventory_id = "SELECT product_inventory_id FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_inventory_id)[0];
+            $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
+            $z = $db->query($quantity_available)[0];
+            $x->quantity_available = $z->quantity;
+            $x->product_inventory_id = $y->product_inventory_id;
+
+            $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
+            $z = $db->query($product_category_id)[0];
+            $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $z->product_category_id";
+            $a = $db->query($category_name)[0];
+            $x->category_name = $a->category_name;
+            $bulk->bulk_req = $x;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($bulk_orders);
     }
 }
