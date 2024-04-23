@@ -9,6 +9,7 @@ class Orders extends Controller{
 		}
 
 		$user_id = Auth::getID();
+		
 		$orderModel = new Customer();
     	$orders = $orderModel->getOrders($user_id);
 

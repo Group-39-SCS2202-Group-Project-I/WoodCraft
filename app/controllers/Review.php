@@ -9,16 +9,15 @@ class Review extends Controller
 			redirect('login');
 		}
 
-		$id = Auth::getCustomerID();
+		$user_id = Auth::getId();
+		$customer_id = Auth::getCustomerID();
+		
+		$customerModel = new Customer();
 		$data['title'] = "reviews";
 
-		if($id != ''){
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
+		$products = $customerModel->getProducts($user_id, $customer_id);
+		$data['products'] = $products;
 
-			$data = $customer;
-			$this->view('customers/reviews', $data);
-		}
-    }
+		$this->view('customers/reviews', $data);
+	}
 }

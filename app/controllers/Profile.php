@@ -255,16 +255,18 @@ class Profile extends Controller
 		];
 
 		$updatedAddressData = [
-			'city' => $_POST['city'],
-			'zip_code' => $_POST['zip_code'],
 			'address_line_1' => $_POST['address_line_1'],
 			'address_line_2' => $_POST['address_line_2'],
+			'city' => $_POST['city'],
+			'zip_code' => $_POST['zip_code'],
 		];
 
 		if (!$customerModel->validate($updatedCustomerData)) {
-			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs.');
-			redirect('profile/editAddress');
+			if (!$addressModel->validate($updatedAddressData)){
+				// Validation failed, redirect back to the edit profile page with errors
+				message('Validation failed. Please check your inputs.');
+				redirect('profile/editAddress');
+			}
 		}
 		else{
 			// Perform the database update

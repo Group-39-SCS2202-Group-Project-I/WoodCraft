@@ -255,4 +255,28 @@ class Customer extends Model
 
 		return $result;
 	}
+
+    // Review Controller
+
+    public function getProducts($user_id, $customer_id){
+        $query = "SELECT od.user_id, od.created_at,
+                        oi.product_id,
+                        p.name AS product_name,
+                        pi.image_url AS product_image,
+                        pr.review_id, pr.review, pr.rating
+                FROM order_details od
+                LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
+                LEFT JOIN product p ON oi.product_id = p.product_id
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                LEFT JOIN product_review pr ON p.product_id = pr.product_id AND pr.customer_id = :customer_id
+                WHERE od.user_id = :user_id
+                GROUP BY p.product_id
+                ORDER BY od.created_at DESC";
+    
+        $params = array(':user_id' => $user_id, ':customer_id' => $customer_id);
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+    
+        return $result;
+    }
 }
