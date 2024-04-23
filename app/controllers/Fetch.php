@@ -1413,4 +1413,20 @@ class Fetch extends Controller
         echo json_encode($arr2);
 
     }
+
+    public function ongoing_pxns()
+    {
+        $db = new Database();
+        $pxns = $db->query("SELECT * FROM production WHERE status = 'processing'");
+
+        foreach($pxns as $pxn)
+        {
+            $product_id = $pxn->product_id;
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $pxn->product_name = $product[0]->name;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($pxns);
+    }
 }
