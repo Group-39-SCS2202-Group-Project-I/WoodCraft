@@ -21,7 +21,7 @@ class Payments extends Controller
         // $this->view('cart/pay', $data);
     }
 
-    public function pay()
+    public function pay($type)
     {
         $data['errors'] = [];
 
@@ -32,6 +32,22 @@ class Payments extends Controller
         $query = "SELECT * FROM cart_products WHERE Customer_id = :customer_id AND selected = 1";
         $checkout_data['checkout_products'] = $db->query($query, [':customer_id' => $customerId]);
         show($checkout_data);
+
+        $cartModel = new CartDetails();
+        $cartProducts = new CartProduct();
+
+        $data['cart'] = $cartModel->getCartByCustomerId($customerId)[0];
+
+        $orderDetails = new OrderDetails();
+        //////////////////
+
+        $orderDetails->createOrder($data['cart']);
+
+        ////////////////
+
+        $order = $orderDetails->getOrderByUserId($customerId);
+        $order_details_id = $order[0]->order_details_id;
+
 
         $products = [];
 
@@ -48,9 +64,6 @@ class Payments extends Controller
             if ($quantity < 1) {
                 $error[$product_id]['msg'] = "out of stock";
 
-                $cartModel = new CartDetails();
-                $cartProducts = new CartProduct();
-
                 $cartProducts->updateQuantity($customerId, $product_id, 0);
 
                 $cartProducts->updateSelectedStatus($customerId, $product_id, 0);
@@ -66,9 +79,6 @@ class Payments extends Controller
             } elseif ($checkout_product->quantity > $quantity) {
                 $error[$product_id]['msg'] = "exceeds stock";
                 $error[$product_id]['available_quantity'] = $quantity;
-
-                $cartModel = new CartDetails();
-                $cartProducts = new CartProduct();
 
                 $cartProducts->updateQuantity($customerId, $product_id, $quantity);
 

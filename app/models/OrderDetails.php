@@ -11,7 +11,6 @@ class OrderDetails extends Model
         "total",
         "type",
         "status",
-        "payment_id",
     ];
 
     public function validate($data)
@@ -62,33 +61,42 @@ class OrderDetails extends Model
         return $this->select($this->table, 'order_details_id = :order_details_id', [':order_details_id' => $orderDetailsId]);
     }
 
-    public function getByUserId($userId)
+    public function getOrderByUserId($userId)
     {
         return $this->select($this->table, 'user_id = :user_id', [':user_id' => $userId]);
     }
 
-    public function addOrderDetails($data)
+    public function createOrder($userId, $type)
     {
-        $query = "INSERT INTO $this->table (order_details_id, user_id, delivery_cost, total, type, status, payment_id) 
-                  VALUES (:order_details_id, :user_id, :delivery_cost, :total, :type, :status, :payment_id)";
-        return $this->query($query, $data);
+        $params = [
+            'user_id' => $userId,
+            'delivery_cost' => 0,
+            'total' => 0,
+            'type' => $type,
+            'status' => 'pending',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $query = "INSERT INTO $this->table (user_id, delivery_cost, total, type, status, created_at, updated_at) VALUES (:user_id, :delivery_cost, :total, :type, :status, :created_at, :updated_at)";
+        $this->query($query, $params);
     }
 
-    // public function updateOrderDetails($orderDetailsId, $data)
-    // {
-    //     $setValues = [];
-    //     foreach ($data as $key => $value) {
-    //         if (in_array($key, $this->allowedColumns)) {
-    //             $setValues[] = "$key = :$key";
-    //         }
-    //     }
-    //     $setValuesStr = implode(", ", $setValues);
+    public function updateOrderDetails($orderDetailsId, $data)
+    {
+        $setValues = [];
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->allowedColumns)) {
+                $setValues[] = "$key = :$key";
+            }
+        }
+        $setValuesStr = implode(", ", $setValues);
 
-    //     $query = "UPDATE $this->table SET $setValuesStr WHERE order_details_id = :order_details_id";
-    //     $data['order_details_id'] = $orderDetailsId;
+        $query = "UPDATE $this->table SET $setValuesStr WHERE order_details_id = :order_details_id";
+        $data['order_details_id'] = $orderDetailsId;
 
-    //     return $this->query($query, $data);
-    // }
+        return $this->query($query, $data);
+    }
 
     public function updateOrderStatus($orderDetailsId, $status)
     {
