@@ -2,15 +2,10 @@
         <?php $this->view('customer/acc-header', $data) ?>
         <br><br>
         <?php $this->view('customer/acc-sidebar', $data) ?>
-
-        <!-- <?= show($data)?> -->
         
         <div class="main-container">
-        <!-- <?= show($data) ?> -->
 
-        
-
-        <!-- manage my account -->
+            <!-- manage my account -->
             <div class="container">
                 <div class="title">
                     <h2>Manage My Account</h2>
@@ -19,17 +14,17 @@
                 <div class="content">
                     <div class="profile">
                         <div class="content-title">
-                            <h3>Personal Profile  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/edit/<?= Auth::getCustomerID();?>">EDIT</a></h3>
+                            <h3>Personal Profile  <span class="highlight">|</span></h3>
+                            <h3><a href="<?=ROOT?>/customer/editProfile/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
 
                         <div class="profile-content">
                             <?php if (isset($data) && $data): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                                 </div>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['email']) ?></span>
+                                    <span class="info-value"><?= $data['email'] ?></span>
                                 </div>
                             <?php else: ?>
                                 <p>User data not available</p>
@@ -41,21 +36,21 @@
                     
                     <div class="address">
                         <div class="content-title">
-                            <h3>Address Book  <span class="highlight">|</span>
-                            <a href="<?=ROOT?>/customer/editAddressbook">EDIT</a></h3>
+                            <h3>Address Book  <span class="highlight">|</span></h3>
+                            <h3><a href="<?=ROOT?>/customer/editAddress/<?= Auth::getCustomerId()?>">EDIT</a></h3>
                         </div>
                         <div class="address-content">
                             <?php if (isset($data) && $data && isset($data)): ?>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['first_name']) ?> <?= esc($data['last_name']) ?></span>
+                                    <span class="info-value"><?= $data['first_name'] ?> <?= $data['last_name'] ?></span>
                                 </div>
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['telephone']) ?></span>
+                                    <span class="info-value"><?= $data['telephone'] ?></span>
                                 </div>
 
                                 <!-- Display address information -->
                                 <div class="profile-info">
-                                    <span class="info-value"><?= esc($data['address_line_1']) ?> <?= esc($data['address_line_2']) ?>.</span>
+                                    <span class="info-value"><?= $data['address_line_1'] ?> <?= $data['address_line_2'] ?>.</span>
                                 </div>
                             <?php else: ?>
                                 <div class="shipping">
@@ -64,6 +59,8 @@
                                 <div class="billing">
                                     DEFAULT BILLING ADDRESS
                                 </div>
+                                <p>Add New Address<span class="highlight">|</span>
+                                <a href="<?=ROOT?>/customer/addaddress/<?= Auth::getCustomerId()?>">ADD</a></p>
                             <?php endif; ?>
                         </div>
 
@@ -84,6 +81,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </main>
 
         <script src="<?php echo ROOT; ?>/assets/js/manage-account.js"></script>

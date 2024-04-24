@@ -17,6 +17,8 @@ class Auth
 	{
 		if(!empty($_SESSION['USER_DATA'])){
 			unset($_SESSION['USER_DATA']);
+            unset($_SESSION['cart']);
+            unset($_SESSION['cart_products']);
 
 			//session_unset();
 			//session_regenerate_id();
@@ -173,9 +175,10 @@ class Auth
         $customer = $db->query($query);
 
         $first_name = $customer[0]->first_name;
-        $last_name = $customer[0]->last_name;
+        // $last_name = $customer[0]->last_name;
 
-        return $first_name . " " . $last_name;
+        // return $first_name . " " . $last_name;
+        return $first_name;
         // return $customer[0];
     }
 

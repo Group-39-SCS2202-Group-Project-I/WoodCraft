@@ -7,25 +7,46 @@
         document.getElementById('popup').style.display = 'none';
     }
 
-    // generate options for months, days, and years
-    const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+    //profile - birthday & gender fields
+    // Define months, days, and years arrays
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = Array.from({ length: 31 }, (_, i) => i + 1); // Generate an array from 1 to 31
+    var years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i); // Generate an array of the last 100 years
 
-    function generateOptions(selectElement, options) {
-        options.forEach((option, index) => {
-            const optionElement = document.createElement("option");
-            optionElement.value = index + 1;
-            optionElement.text = option;
-            selectElement.add(optionElement);
+    // Function to generate select options
+    function generateOptions(array, selectedValue) {
+        var options = "";
+        array.forEach(function(value) {
+            var selected = (selectedValue == value) ? "selected" : "";
+            options += "<option value='" + value + "' " + selected + ">" + value + "</option>";
         });
+        return options;
     }
 
-    generateOptions(document.getElementById("birth-month"), monthNames);
-    generateOptions(document.getElementById("birth-day"), Array.from({ length: 31 }, (_, i) => i + 1));
-    generateOptions(document.getElementById("birth-year"), Array.from({ length: 125 }, (_, i) => 2024 - i));
+    // Populate the select fields
+    document.addEventListener("DOMContentLoaded", function() {
+        var monthSelect = document.getElementById("birth-month");
+        var daySelect = document.getElementById("birth-day");
+        var yearSelect = document.getElementById("birth-year");
 
+        var birthMonth = JSON.parse(document.currentScript.dataset.birthMonth);
+        var birthDay = parseInt(document.currentScript.dataset.birthDay);
+        var birthYear = parseInt(document.currentScript.dataset.birthYear);
+
+        // Populate month select
+        monthSelect.innerHTML = "<option disabled selected>Month</option>" + generateOptions(months, birthMonth);
+        
+        // Populate day select
+        daySelect.innerHTML = "<option disabled selected>Day</option>" + generateOptions(days, birthDay);
+        
+        // Populate year select
+        yearSelect.innerHTML = "<option disabled selected>Year</option>" + generateOptions(years, birthYear);
+    });
+
+    
+
+
+    
     // navigate to my profile page
     // function goToMyProfile() {
     //     window.location.href = 'profile.html';

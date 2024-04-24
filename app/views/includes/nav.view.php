@@ -130,7 +130,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
                 window.location.href = '<?= ROOT ?>/cart';
                 break;
             case 'tomanage-acc':
-                window.location.href = '<?= ROOT ?>/customer/<?= (Auth::logged_in() == 1)? Auth::getCustomerID()  : 0 ?>';
+                window.location.href = '<?= ROOT ?>/customer/<?= (Auth::logged_in() == 1)? (Auth::getCustomerID())  : 0 ?>';
                 break;
             case 'toregister':
                 window.location.href = '<?= ROOT ?>/signup';

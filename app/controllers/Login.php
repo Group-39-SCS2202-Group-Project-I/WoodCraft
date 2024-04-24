@@ -54,6 +54,14 @@ class Login extends Controller
 					} elseif (Auth::is_pm()) {
 						redirect("pm");
 					} else {
+						$cartModel = new CartDetails();
+                        $cartProducts = new CartProduct();
+
+						$customer_id = Auth::getCustomerID();
+                        $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customer_id);
+
+                        $cart = $cartModel->getCartByCustomerId($customer_id);
+                        $_SESSION['cart'] = $cart[0];
 						redirect("home");
 					}
 				} else {
