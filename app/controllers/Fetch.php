@@ -1304,9 +1304,7 @@ class Fetch extends Controller
         if ($id == '') {
             header("Content-Type: application/json");
             echo json_encode($bulk_orders);
-        }
-        else
-        {
+        } else {
             // get $b , $b->bulk_order_details_id = $id
             $b = array_filter($bulk_orders, function ($bulk_order) use ($id) {
                 return $bulk_order->bulk_order_details_id == $id;
@@ -1320,7 +1318,7 @@ class Fetch extends Controller
 
     public function pxn_missing($id)
     {
-        $url = ROOT.'/fetch/pxn_bulk_orders/'.$id;
+        $url = ROOT . '/fetch/pxn_bulk_orders/' . $id;
         $data = json_decode(file_get_contents($url), true);
         $missing_materials = $data['missing_materials'];
 
@@ -1337,8 +1335,7 @@ class Fetch extends Controller
 
         $arr = [];
 
-        foreach($bulk_req_ids as $blk)
-        {
+        foreach ($bulk_req_ids as $blk) {
             $bulk_req = $db->query("SELECT product_id,quantity FROM bulk_order_req WHERE bulk_req_id = $blk");
             $quantity = $bulk_req[0]->quantity;
             $product_id = $bulk_req[0]->product_id;
@@ -1346,12 +1343,9 @@ class Fetch extends Controller
             $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
             $product_name = $product[0]->name;
 
-            if(array_key_exists($product_name,$arr))
-            {
+            if (array_key_exists($product_name, $arr)) {
                 $arr[$product_name] += $quantity;
-            }
-            else
-            {
+            } else {
                 $arr[$product_name] = $quantity;
             }
         }
@@ -1378,24 +1372,19 @@ class Fetch extends Controller
 
         $arr = [];
 
-        foreach($order_ids as $order)
-        {
+        foreach ($order_ids as $order) {
             $order_items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order");
 
-            foreach($order_items as $item)
-            {
+            foreach ($order_items as $item) {
                 $quantity = $item->quantity;
                 $product_id = $item->product_id;
 
                 $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
                 $product_name = $product[0]->name;
 
-                if(array_key_exists($product_name,$arr))
-                {
+                if (array_key_exists($product_name, $arr)) {
                     $arr[$product_name] += $quantity;
-                }
-                else
-                {
+                } else {
                     $arr[$product_name] = $quantity;
                 }
             }
@@ -1411,6 +1400,202 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($arr2);
-
     }
+
+    public function ongoing_pxns()
+    {
+        $db = new Database();
+        $pxns = $db->query("SELECT * FROM production WHERE status = 'processing'");
+
+        foreach ($pxns as $pxn) {
+            $product_id = $pxn->product_id;
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $pxn->product_name = $product[0]->name;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($pxns);
+    }
+
+    public function retail_orders()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM order_details");
+
+        foreach ($orders as $order) {
+            $user_id = $order->user_id;
+            $customer = $db->query("SELECT customer_id,first_name,last_name FROM customer WHERE user_id = $user_id");
+            $order->customer_name = ucfirst($customer[0]->first_name) . " " . ucfirst($customer[0]->last_name);
+            $order->customer_id = $customer[0]->customer_id;
+
+            $items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order->order_details_id");
+
+            foreach ($items as $item) {
+                $product_id = $item->product_id;
+                $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+                $item->product_name = $product[0]->name;
+
+                $product_category_id = $db->query("SELECT product_category_id FROM product WHERE product_id = $product_id")[0]->product_category_id;
+                $category_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id")[0]->category_name;
+                $item->category_name = $category_name;
+            }
+
+            $order->items = $items;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($orders);
+    }
+
+
+    public function bulk_orders()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM bulk_order_details");
+
+        foreach ($orders as $order) {
+            $user_id = $order->user_id;
+            $customer = $db->query("SELECT customer_id,first_name,last_name FROM customer WHERE user_id = $user_id");
+            $order->customer_name = ucfirst($customer[0]->first_name) . " " . ucfirst($customer[0]->last_name);
+            $order->customer_id = $customer[0]->customer_id;
+
+            $bulk_req = $db->query("SELECT * FROM bulk_order_req WHERE bulk_req_id = $order->bulk_req_id");
+            $product_id = $bulk_req[0]->product_id;
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $order->product_name = $product[0]->name;
+
+            $product_category_id = $db->query("SELECT product_category_id FROM product WHERE product_id = $product_id")[0]->product_category_id;
+            $category_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id")[0]->category_name;
+            $order->category_name = $category_name;
+
+            $order->bulk_req = $bulk_req[0];
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($orders);
+    }
+
+    public function gm_dash_chart()
+    {
+        $db = new Database();
+        
+        $dates = $db->query("SELECT DATE(created_at) as date, COUNT(*) as count FROM order_details GROUP BY DATE(created_at)");
+        $dates = array_map(function ($date) {
+            $date->date = date('d-m-Y', strtotime($date->date));
+            return $date;
+        }, $dates);
+
+        $dates = array_combine(array_column($dates, 'date'), array_column($dates, 'count'));
+
+        
+
+        
+        // $arr = [];
+        // for ($i = $min_date; $i <= $max_date; $i = date('d-m-Y', strtotime($i . ' +1 day'))) {
+        //     if (array_key_exists($i, $dates)) {
+        //         $arr[$i] = $dates[$i];
+        //     } else {
+        //         $arr[$i] = 0;
+        //     }
+        // }
+
+        // $days = array_keys($arr);
+        // $counts = array_values($arr);
+
+        // $arr2 = [
+        //     'days' => $days,
+        //     'counts' => $counts
+        // ];
+
+        $bulk_days = $db->query("SELECT DATE(created_at) as date, COUNT(*) as count FROM bulk_order_details GROUP BY DATE(created_at)");
+        $bulk_days = array_map(function ($date) {
+            $date->date = date('d-m-Y', strtotime($date->date));
+            return $date;
+        }, $bulk_days);
+
+        $bulk_days = array_combine(array_column($bulk_days, 'date'), array_column($bulk_days, 'count'));
+
+        // combine dates and bulk_days arrays to get all dates 
+        $all_dates = array_merge(array_keys($dates), array_keys($bulk_days));
+        $all_dates = array_unique($all_dates);
+        $min_date = min($all_dates);
+
+        $max_date = date('Y-m-d');
+
+        $bulk_min_date = $min_date;
+        $bulk_max_date = $max_date;
+
+        
+        $arr = [];
+        for ($i = date('Y-m-d', strtotime($min_date)); $i <= date('Y-m-d', strtotime($max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
+            $formattedDate = date('d-m-Y', strtotime($i));
+            if (array_key_exists($formattedDate, $dates)) {
+                $arr[$formattedDate] = $dates[$formattedDate];
+            } else {
+                $arr[$formattedDate] = 0;
+            }
+        }
+        
+        $bulk_arr = [];
+        for ($i = date('Y-m-d', strtotime($bulk_min_date)); $i <= date('Y-m-d', strtotime($bulk_max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
+            $formattedDate = date('d-m-Y', strtotime($i));
+            if (array_key_exists($formattedDate, $bulk_days)) {
+                $bulk_arr[$formattedDate] = $bulk_days[$formattedDate];
+            } else {
+                $bulk_arr[$formattedDate] = 0;
+            }
+        }
+
+        $days = array_keys($arr);
+        $counts = array_values($arr);
+
+        $bulk_days = array_keys($bulk_arr);
+        $bulk_counts = array_values($bulk_arr);
+
+        $arr2 = [
+            'days' => $days,
+            'counts' => $counts,
+            'bulk_days' => $bulk_days,
+            'bulk_counts' => $bulk_counts
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+    }
+
+    public function no_of_curr_month()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM order_details WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status != 'cancelled'");
+
+        $count = 0;
+        $bulk_count = 0;
+        $production_count = 0;
+        
+        if ($orders) {
+            $count = count($orders);
+        }
+
+        $bulk_orders = $db->query("SELECT * FROM bulk_order_details WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status != 'cancelled'");
+        
+        if ($bulk_orders) {
+            $bulk_count = count($bulk_orders);
+        }
+
+        $production = $db->query("SELECT * FROM production WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
+        
+        if ($production) {
+            $production_count = count($production);
+        }
+
+        $arr = [
+            'retail_orders' => $count,
+            'bulk_orders' => $bulk_count,
+            'production' => $production_count
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr);
+    }
+    
 }

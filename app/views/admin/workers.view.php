@@ -81,6 +81,12 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     let date_added = item.created_at;
                                     let date_updated = item.updated_at;
 
+                                    if (availability == 'Unavailable') {
+                                        availability = `<a class="  table-section__button-unavailable">${availability}</a?`
+                                    } else {
+                                        availability = `<a class=" table-section__button-available">${availability}</a?`
+                                    }
+
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
