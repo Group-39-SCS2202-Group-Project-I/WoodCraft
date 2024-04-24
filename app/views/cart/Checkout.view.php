@@ -16,7 +16,7 @@
             flex-direction: column;
             align-items: center;
             border-radius: 0.5rem;
-            width: 70%;
+            width: 50%;
             margin: auto;
             padding-left: 10px;
             /* Add padding to the left side */
@@ -44,6 +44,8 @@
             width: 100%;
             display: flex;
             align-items: flex-start;
+            margin-left: 5%;
+            margin-right: 10%;
             /* Align items at the top */
         }
 
@@ -56,7 +58,9 @@
             margin-left: 10px;
             /* Add small left padding */
             padding-right: 10px;
-            /* Add padding to the left side */
+            /* Add padding to the l
+            eft side */
+            margin-right: 5%;
         }
 
         /* Updated CSS for modern toggle */
@@ -362,7 +366,7 @@
                     $total = $cart[0]->total;
                     $delivery = $cart[0]->delivery_cost;
 
-                    show($_SESSION);
+                    // show($_SESSION);
 
                     $checkoutProducts = $data['checkout_products'];
                     // show($checkoutProducts);

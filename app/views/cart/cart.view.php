@@ -26,19 +26,19 @@
       $delivery = 15;
 
       // $cartModel = new CartDetails();
-
+      
       //               // Check if cart record already exists for the customer
       //               $existingCart = $cartModel->getCartByCustomerId(Auth::getCustomerID());
       //               show($existingCart);
       //               show($existingCart[0]->cart_id);
-
+      
       //               $tot = $cartModel->updateCartTotals($existingCart[0]->customer_id);
       //               show($tot);
-
+      
 
       $cart = $data['cart'];
       // show($cart);
-
+      
       $subtotal = $cart[0]->sub_total;
       $discount = 0;
       $total = $cart[0]->total;
@@ -46,21 +46,21 @@
 
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
-
+      
       // show($_SESSION);
       // // show($data);
-
+      
       // if (isset($_SESSION['error'])) {
       //   $errors = $_SESSION['error'];
-
+      
       //   unset($_SESSION['error']);
       //   show($errors);
       // }
-
+      
       // $customer_id = $existingCart[0]->customer_id;
       // $product_id = $cartProducts[0]['product_id'];
       // // show($customer_id);
-
+      
       // $cartpmodel = new CartProduct();
       // $cartitem = $cartpmodel->getCartItem($customer_id, $product_id);
       // show($cartitem);
@@ -75,24 +75,26 @@
       <?php
       if (isset($cartProducts) && !empty($cartProducts)) {
         foreach ($cartProducts as $cartProduct) {
-        //show($cartProduct);
-      ?>
+          //show($cartProduct);
+          ?>
           <td>
             <div class="smallcart">
               <div class="product">
                 <div class="checkboxe">
-                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>" <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
+                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                    <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
 
 
                 </div>
                 <div class="imag-box">
-                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>" alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
+                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
+                    alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
                 </div>
                 <div class="details">
                   <div class="pdetails">
                     <div class="product-details">
-                      <p><?php echo  $cartProduct['name'] ?></p>
-                      <p class="unit-price"><?php echo  $cartProduct['price'] ?></p>
+                      <p><?php echo $cartProduct['name'] ?></p>
+                      <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
                     </div>
                   </div>
                 </div>
@@ -103,23 +105,34 @@
 
                   <div class="remove">
                     <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
-                      <i class="fas fa-trash"></i>
+                      <i><span class="material-symbols-outlined">
+                          delete
+                        </span></i>
                     </button>
-                  
+
                   </div>
 
 
 
                   <div class="quantity">
-                    <button type="button" class="decrease" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-minus"></i></button>
-                    <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>" value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
-                    <button type="button" class="increase" data-product-id="<?php echo $cartProduct['product_id']; ?>"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="decrease"
+                      data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                          class="material-symbols-outlined">
+                          remove
+                        </span></i></button>
+                    <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                      value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                    <button type="button" class="increase"
+                      data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                          class="material-symbols-outlined">
+                          add
+                        </span></i></button>
                   </div>
                 </div>
               </div>
             </div>
           </td>
-      <?php
+          <?php
 
           // if ($cartProduct->selected === 'true') {
           //   // Only consider selected items for calculation
@@ -138,7 +151,13 @@
       <div class="top">
         <h2>Order Summary</h2>
       </div>
-     git
+      <div class="detail">
+        <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
+        <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
+        <h2 id="delivery">Delivery<span>$<?php echo number_format($delivery, 2); ?></span></h2>
+        <hr>
+        <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
+      </div>
       <!-- <div class="promo">
         <div class="promocode">
           <input class="promocode" type="text" placeholder="Add the promocode " id="promoCode" />
@@ -171,7 +190,7 @@
       console.log("Customer ID not found in session");
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       console.log("DOM Loaded");
 
       const decreaseButtons = document.querySelectorAll(".decrease");
@@ -217,8 +236,8 @@
       // }
 
       // Attach event listeners
-      decreaseButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
+      decreaseButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
           console.log("Decrease Button Clicked");
           const input = button.nextElementSibling;
           const currentValue = parseInt(input.value, 10);
@@ -232,8 +251,8 @@
         });
       });
 
-      increaseButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
+      increaseButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
           const input = button.previousElementSibling;
           const currentValue = parseInt(input.value, 10);
           const productId = button.dataset.productId;
@@ -244,8 +263,8 @@
         });
       });
 
-      quantityInputs.forEach(function(input) {
-        input.addEventListener("input", function() {
+      quantityInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
           const productId = input.dataset.productId;
           // updateTotal();
           updateCart(customer_id, productId, input.value); // Update cart with new quantity
@@ -253,15 +272,15 @@
         });
       });
 
-      selectCheckboxes.forEach(function(checkbox) {
+      selectCheckboxes.forEach(function (checkbox) {
         checkbox.addEventListener("change", updateSelectedItems); // Update total whenever a checkbox is checked or unchecked
       });
 
       console.log("Remove buttons:", removeButton.length);
 
       // Function to handle the click event of the "Remove" button
-      removeButton.forEach(function(button) {
-        button.addEventListener('click', function(event) {
+      removeButton.forEach(function (button) {
+        button.addEventListener('click', function (event) {
           const productId = button.dataset.productId; // Get the product ID from the button's data attribute
           console.log(productId);
           removeFromCart(customer_id, productId); // Call the removeFromCart function
@@ -282,7 +301,7 @@
             action: 'update'
           }, // Include the updated quantity and action
           method: "POST",
-        }).done(function(response) {
+        }).done(function (response) {
           console.log(response);
           $('#loader').hide();
           $('.alert').show();
@@ -292,16 +311,16 @@
       }
 
       function removeFromCart(customer_id, productId) {
-    const ROOT = "http://localhost/wcf/";
-    $.ajax({
-        url: ROOT + 'Cart/edit',
-        data: {
+        const ROOT = "http://localhost/wcf/";
+        $.ajax({
+          url: ROOT + 'Cart/edit',
+          data: {
             customer_id: customer_id,
             product_id: productId,
             action: 'remove'
           }, // Data to be sent in the AJAX request
           method: "POST", // Method of the AJAX request
-        }).done(function(response) {
+        }).done(function (response) {
           // Handle the response here (if needed)
           console.log(response);
           $('#loader').hide();
@@ -310,7 +329,7 @@
         });
       }
     });
-    
+
     // Function to handle the "Check Out" button click event
     // Function to handle the "Check Out" button click event
     // Function to handle checkbox change event
@@ -333,21 +352,21 @@
           selected: selected,
           action: 'updateSelectedItems'
         }, // Include the action parameter
-        success: function(response) {
+        success: function (response) {
           console.log(response); // Log the response for debugging
           $('#loader').hide();
           $('.alert').show();
           $('#result').html(response);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(error); // Log any errors for debugging
         }
       });
     }
 
     // Add event listeners to checkboxes
-    document.querySelectorAll('.select-checkbox').forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
+    document.querySelectorAll('.select-checkbox').forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
         handleCheckboxChange(checkbox); // Call the function to handle checkbox change
       });
     });

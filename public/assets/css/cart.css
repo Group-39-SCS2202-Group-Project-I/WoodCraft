@@ -23,7 +23,7 @@
 
 .cart {
   width: 55%;
-  border: 1px solid #bdbdbd;
+  border: 1px solid #EEEEEE;
   border-radius: .5rem;
   display: flex;
   flex-direction: column;
@@ -113,7 +113,7 @@ hr {
 /* Summary styles */
 .summary {
   width: 35%;
-  border: 1px solid #bdbdbd;
+  border: 1px solid #EEEEEE;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: .5rem;

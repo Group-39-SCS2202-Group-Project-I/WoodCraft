@@ -177,7 +177,7 @@ class Checkout extends Controller
             $products[] = $mapped_product;
         }
         $data['checkout_products'] = $products;
-        show($data);
+        // show($data);
         return $data;
     }
 
