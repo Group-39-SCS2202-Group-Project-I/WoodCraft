@@ -52,8 +52,8 @@
 
                     <div class="buttons-profile">
                         <a href="<?=ROOT?>/profile/editProfile" class="edit-profile">EDIT PROFILE</a>
-                        <a href="<?=ROOT?>/profile/editAddress/<?= Auth::getCustomerId()?>">EDIT ADDRESS</a>
-                        <a href="<?=ROOT?>/profile/changepassword/<?= Auth::getCustomerId()?>" class="change-password">CHANGE PASSWORD</a>
+                        <a href="<?=ROOT?>/profile/editAddress">EDIT ADDRESS</a>
+                        <a href="<?=ROOT?>/profile/password" class="change-password">CHANGE PASSWORD</a>
                     </div>
                 </div>
             </div>

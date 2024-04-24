@@ -11,7 +11,7 @@
             </div>
 
             <div class="content-change-password">
-                <form method="post" action="<?= ROOT ?>/profile/myPhangepassword/<?= Auth::getCustomerId()?>">
+                <form method="post" action="<?= ROOT ?>/profile/editPW">
                     <div class="field-change-password">
                         <label class="label-with-eye" for="current-password">
                             Current Password
@@ -52,7 +52,7 @@
                     </div>
         
                     <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    <a href="<?=ROOT?>/profile/myProfile"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                 </form>
             </div>
         </div>

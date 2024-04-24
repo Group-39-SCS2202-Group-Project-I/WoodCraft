@@ -30,21 +30,20 @@
                 <div class="team-container">
 
                     <div class="team-member">
-                        <img src="<?php echo ROOT; ?>/assets/images/person.png" alt="Team Member 1">
-                        <h3>John Silva</h3>
-                        <!-- <h3>Production Manager</h3> -->
+                        <img src="<?php echo ROOT; ?>/assets/images/group-members/Ranahewa.jpg" alt="Team Member 1">
+                        <h3>Lasith Ranahewa</h3>
                     </div>
                     <div class="team-member">
-                        <img src="<?php echo ROOT; ?>/assets/images/person.png" alt="Team Member 2">
-                        <h3>Moris Perera</h3>
+                        <img src="<?php echo ROOT; ?>/assets/images/group-members/Premaratne.jpg" alt="Team Member 2">
+                        <h3>Sasanka Premaratne</h3>
                     </div>
                     <div class="team-member">
-                        <img src="<?php echo ROOT; ?>/assets/images/person.png" alt="Team Member 3">
-                        <h3>Zara Fernando</h3>
+                        <img src="<?php echo ROOT; ?>/assets/images/group-members/Ganegoda.jpeg" alt="Team Member 3">
+                        <h3>Piumi Ganegoda</h3>
                     </div>
                     <div class="team-member">
-                        <img src="<?php echo ROOT; ?>/assets/images/person.png" alt="Team Member 4">
-                        <h3>Peter Kol</h3>
+                        <img src="<?php echo ROOT; ?>/assets/images/group-members/Anuththara.jpg" alt="Team Member 4">
+                        <h3>Isini Anuththara</h3>
                     </div>
                 </div>
             </div>

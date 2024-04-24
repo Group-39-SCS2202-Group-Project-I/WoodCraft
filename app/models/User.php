@@ -189,4 +189,27 @@ class User extends Model
 
 	// 	return false;
 	// }
+
+	// (A)
+	// Profile Controller
+
+	public function updatePW($userId, $newPassword)
+	{
+		// Update the password in the database
+		$db = new Database;
+		$query = "UPDATE user SET password = :password WHERE user_id = :user_id";
+		$params = [
+			'password' => $newPassword,
+			'user_id' => $userId
+		];
+		$result = $db->query($query, $params);
+	
+		// Check if the update was successful
+		if ($result) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }
