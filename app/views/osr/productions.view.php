@@ -34,7 +34,7 @@
             const response = await fetch('<?php echo ROOT ?>/fetch/ongoing_pxns');
             const data = await response.json();
 
-            console.log(data);
+            // console.log(data);
 
             let table = document.getElementById('productions-table');
 

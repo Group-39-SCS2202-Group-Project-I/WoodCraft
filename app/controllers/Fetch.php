@@ -1429,4 +1429,36 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($pxns);
     }
+
+    public function retail_orders()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM order_details");
+
+        foreach($orders as $order)
+        {
+            $user_id = $order->user_id;
+            $customer = $db->query("SELECT customer_id,first_name,last_name FROM customer WHERE user_id = $user_id");
+            $order->customer_name = ucfirst($customer[0]->first_name) . " " . ucfirst($customer[0]->last_name);
+            $order->customer_id = $customer[0]->customer_id;
+
+            $items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order->order_details_id");
+
+            foreach($items as $item)
+            {
+                $product_id = $item->product_id;
+                $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+                $item->product_name = $product[0]->name;
+
+                $product_category_id = $db->query("SELECT product_category_id FROM product WHERE product_id = $product_id")[0]->product_category_id;
+                $category_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id")[0]->category_name;
+                $item->category_name = $category_name;
+            }
+
+            $order->items = $items;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($orders);
+    }
 }
