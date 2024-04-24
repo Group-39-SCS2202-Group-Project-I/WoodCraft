@@ -1,3 +1,75 @@
+        <style>
+            /* -- my profile -- */
+            .content-profile {
+                padding: 30px;
+                background-color: var(--bg2);
+                border-radius: 10px;
+            }
+
+            .content-profile a {
+                text-decoration: none;
+                color: var(--green2);
+                font-size: 12px;
+            }
+
+            .profile-info {
+                margin-bottom: 10px;
+            }
+
+            .info-value {
+                margin: 10px;
+                padding: 10px;
+                background-color: var(--white);
+                align-content: center;
+                width: 80%;
+                border-radius: 10px;
+            }
+
+            .info-label {
+                width: 10%;
+                border-radius: 10px;
+            }
+
+            .bottom-profile {
+                display: flex;
+                flex-direction: column;
+                align-items:flex-end; 
+            }
+
+            .buttons-profile {
+                text-align: center;
+                margin-top: 20px;
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+            }
+
+            .buttons-profile a {
+                display: block;
+                margin-bottom: 10px;
+                width: 250px;
+                font-size: 1em;
+
+                background-color: var(--coal_black);
+                color: var(--white);
+                border: none;
+                border-radius: 10px;
+                padding: 8px 12px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .buttons-profile a:hover {
+                background-color: var(--green1);
+            }
+
+            .profile-subscribe-link {
+                margin-top: 10px;
+                cursor: pointer;
+                width: 220px;
+            }
+        </style>
+        
         <?php $this->view('customers/acc-header', $data) ?>
         <br><br>
         <?php $this->view('customers/acc-sidebar', $data) ?> 
@@ -25,8 +97,7 @@
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Address</span>
-                    <span class="info-value"><?= $data['address_line_1'] ?></span>
-                    <span class="info-value"><?= $data['address_line_2'] ?></span>
+                    <span class="info-value"><?= $data['address_line_1'] ?>, <?= $data['address_line_2'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">City</span>
@@ -48,7 +119,9 @@
                 </div> -->
 
                 <div class="bottom-profile">
-                    <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
+                    <div class="profile-subscribe-link">
+                        <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
+                    </div>
 
                     <div class="buttons-profile">
                         <a href="<?=ROOT?>/profile/editProfile" class="edit-profile">EDIT PROFILE</a>

@@ -2,27 +2,27 @@
 
 class Profile extends Controller
 {
+    // public function index()
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login to view your account');
+	// 		redirect('login');
+	// 	}
+
+	// 	$id = Auth::getCustomerID();
+	// 	$data['title'] = "manage-account";
+
+	// 	if($id != ''){
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
+
+	// 		$data = $customer;
+	// 		$this->view('customers/manage-account', $data);
+	// 	}
+    // }
+
     public function index()
-	{
-		if (!Auth::logged_in()) {
-			message('Please login to view your account');
-			redirect('login');
-		}
-
-		$id = Auth::getCustomerID();
-		$data['title'] = "manage-account";
-
-		if($id != ''){
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
-
-			$data = $customer;
-			$this->view('customers/manage-account', $data);
-		}
-    }
-
-    public function myProfile()
     {
         if (!Auth::logged_in()) {
 			message('Please login to view your account');

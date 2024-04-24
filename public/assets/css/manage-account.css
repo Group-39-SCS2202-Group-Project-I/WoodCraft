@@ -75,11 +75,11 @@
     color: var(--green2);
 }
 
-.profile-info {
+/* .profile-info {
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-}
+} */
 
 .subscribe-link-manage-account {
     display: block;
@@ -105,7 +105,7 @@
 }
 
 /* -- my profile -- */
-.content-profile {
+/* .content-profile {
     padding: 20px;
     background-color: var(--bg2);
     display: grid;
@@ -158,7 +158,7 @@
     margin-top: 10px;
     color: var(--green2);
     cursor: pointer;
-}
+} */
 
 /* -- address book -- */
 .new-address {
@@ -307,7 +307,7 @@
 }
 
 /* -- edit profile -- */
-.content-edit-profile {
+/* .content-edit-profile {
     padding: 20px;
     background-color: var(--bg2);
     height: fit-content;
@@ -377,7 +377,7 @@ select {
 
 .save-changes-edit-profile:hover, .cancel-edit-profile:hover {
     background-color: var(--coal_black);
-}
+} */
 
 /* -- change password -- */
 .content-change-password {
