@@ -8,7 +8,6 @@
 
             .field-change-password {
                 margin-bottom: 10px;
-                /* display: flex; */
             }
 
             .info-label {
@@ -67,7 +66,6 @@
                 transition: background-color 0.3s;
                 width: 250px;
                 font-size: 1em;
-                /* margin: 10px; */
                 margin-bottom: 10px;
             }
 

@@ -1,56 +1,79 @@
 <style>
+        .content-order, .content-orders {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
+
         th, td {
             padding: 8px;
             text-align: left;
         }
-        th {
-            background-color: #f2f2f2;
-        }
+
         .order {
-            border: 1px solid #ddd;
-            margin: 20px;
-            padding: 10px;
+            border: 1px solid var(--bg2);
+            border-radius: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
             width: 100%;
             position: relative; 
+            background-color: var(--light);
+            transition: box-shadow 0.3s;
         }
+
+        .order:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
         .status {
-            background-color: #ddd;
+            background-color: var(--bg2);
             color: black;
             padding: 5px 10px;
             border-radius: 10px;
             font-size: 14px;
         }
+
         .order-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--bg2);
         }
+
+        .order-header a {
+            color: var(--green2);
+        }
+
         .order-info {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
+
         .order-info p {
             margin: 0;
         }
+
         .order-info small {
             font-size: 14px;
         }
+
         .order-details {
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .order-details p {
             margin: 0;
         }
+
         .product-details {
             width: 120px;
             display: flex;
@@ -59,6 +82,7 @@
             text-align: center;
             overflow: hidden;
         }
+
         .product-details img {
             width: 100%;
             height: auto;
@@ -96,7 +120,7 @@
                                 <div class="order">
                                     <div class="order-header">
                                         <div class="order-info">
-                                            <p>order  <strong style="color: blue;"><?= $orderDetailsId ?></strong></p>
+                                            <p>order  <strong style="color: var(--green2);"><?= $orderDetailsId ?></strong></p>
                                             <p><small>Placed on <?= $orderItems[0]['created_at'] ?></small></p>
                                         </div>
                                         <a href="<?= ROOT ?>/orders/<?= $orderDetailsId ?>">View</a>
