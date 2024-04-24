@@ -36,20 +36,6 @@
                 box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
             }
 
-            select {
-                padding: 10px;
-                margin: 8px 0;
-                box-sizing: border-box;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            .form-control:focus {
-                border-color: #007bff;
-                outline: none;
-                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-            }
-
             .subscribe-link-edit-profile {
                 display: block;
                 margin-top: 20px;
@@ -58,10 +44,6 @@
                 font-size: 12px;
                 padding-top: 20px;
                 width: 220px;
-            }
-
-            .content-edit-profile a {
-                text-decoration: none;
             }
 
             .save-changes-edit-profile, .cancel-edit-profile {

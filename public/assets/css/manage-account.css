@@ -380,7 +380,7 @@ select {
 } */
 
 /* -- change password -- */
-.content-change-password {
+/* .content-change-password {
     padding: 20px;
     background-color: var(--bg2);
 }
@@ -406,7 +406,7 @@ select {
     margin-left: 5px;
     display: flex;
     align-items: center;
-}
+} */
 
 /* .form-control {
     width: 100%;
@@ -424,7 +424,7 @@ select {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 } */
 
-.eye-icon {
+/* .eye-icon {
     cursor: pointer;
 }
 
@@ -448,7 +448,7 @@ select {
 
 .save-changes-change-password:hover, .cancel-change-password:hover {
     background-color: var(--coal_black);
-}
+} */
 
 /* .error-message {
     color: red;
