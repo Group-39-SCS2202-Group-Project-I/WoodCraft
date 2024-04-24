@@ -1,3 +1,95 @@
+        <style>
+            /* -- edit address -- */
+            .content-edit-profile {
+                padding: 30px;
+                background-color: var(--bg2);
+                border-radius: 20px;
+            }
+
+            .field-edit-profile {
+                margin-bottom: 10px;
+                display: flex;
+            }
+
+            label {
+                font-weight: bold;
+                width: 15%;
+                padding: 10px;
+            }
+
+            .input-wrapper {
+                background-color: var(--white);
+                width: 80%;
+                border-radius: 10px;
+            }
+
+            .form-control {
+                border: 1px solid #ccc;
+                transition: border-color 0.3s ease;
+                border-radius: 10px;
+                padding: 10px;
+            }
+
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+            select {
+                padding: 10px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+            .subscribe-link-edit-profile {
+                display: block;
+                margin-top: 20px;
+                color: var(--green2);
+                cursor: pointer;
+                font-size: 12px;
+                padding-top: 20px;
+                width: 220px;
+            }
+
+            .content-edit-profile a {
+                text-decoration: none;
+            }
+
+            .save-changes-edit-profile, .cancel-edit-profile {
+                background-color: var(--coal_black);
+                color: var(--white);
+                border: none;
+                border-radius: 10px;
+                padding: 8px 12px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                width: 250px;
+                font-size: 1em;
+                /* margin: 10px; */
+                margin-bottom: 10px;
+            }
+
+            .save-changes-edit-profile:hover, .cancel-edit-profile:hover {
+                background-color: var(--green1);
+            }
+
+            .bottom-profile {
+                display: flex;
+                flex-direction: column;
+                align-items:flex-end; 
+                margin-top: 60px;
+            }
+        </style>
+
 <?php $this->view('customers/acc-header', $data) ?>
 <br><br>
 <?php $this->view('customers/acc-sidebar', $data) ?>
@@ -62,9 +154,11 @@
                             <input type="text" class="form-control" id="address_line_2" name="address_line_2" value="<?=get_value('address_line_2', $data['address_line_2'])?>" placeholder="street / area">
                         </div>
                     </div>
-        
-                    <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                    <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+
+                    <div class="bottom-profile">
+                        <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
+                        <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                    </div>
                 </form>
             </div>
         </div>
