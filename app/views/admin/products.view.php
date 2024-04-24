@@ -92,7 +92,14 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                         $x = 'No';
                     }
                     ?>
-                    <td><?php echo $x; ?></td>
+                    <td>
+                        <?php if ($item['listed'] == 1) : ?>
+                            <a class="  table-section__button-available">Yes</a>
+                        <?php else : ?>
+                            <a class="table-section__button-unavailable">No</a>
+                        <?php endif; ?>
+
+                    </td>
                     <td>
                         <!-- view -->
                         <?php
@@ -116,7 +123,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     function listfunc(id) {
         // post request to list product
         // alert(id);
-        let url = "<?php echo ROOT ?>/update/list_product/"+id;
+        let url = "<?php echo ROOT ?>/update/list_product/" + id;
         // alert(url);
 
         post = {
@@ -146,7 +153,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         // alert(id);
         // post request to unlist product
 
-        let url = "<?php echo ROOT ?>/update/unlist_product/"+id;
+        let url = "<?php echo ROOT ?>/update/unlist_product/" + id;
 
         post = {
             method: 'post',
@@ -170,7 +177,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                 // alert(err);
             })
 
-        
+
 
     }
 </script>

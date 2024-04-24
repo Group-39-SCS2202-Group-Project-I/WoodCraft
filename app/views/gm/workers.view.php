@@ -79,14 +79,12 @@ if ($availavle_supervisors) {
             'opsz' 24;
     }
 
-    .card-clicked
-    {
+    .card-clicked {
         background-color: var(--blk);
         color: var(--light);
     }
 
-    .card-clicked .card-title
-    {
+    .card-clicked .card-title {
         color: var(--light);
     }
 </style>
@@ -173,6 +171,12 @@ if ($availavle_supervisors) {
                                     let date_added = item.created_at;
                                     let date_updated = item.updated_at;
 
+                                    if (availability == 'Unavailable') {
+                                        availability = `<a class="  table-section__button-unavailable">${availability}</a>?`
+                                    } else {
+                                        availability = `<a class=" table-section__button-available">${availability}</a>`
+                                    }
+
                                     row.insertCell().innerHTML = worker_id;
                                     row.insertCell().innerHTML = name;
                                     row.insertCell().innerHTML = mobile_number;
@@ -239,8 +243,8 @@ if ($availavle_supervisors) {
             document.getElementById("sup-card").classList.add("card-clicked");
         }
 
-        
-        
+
+
     }
 </script>
 

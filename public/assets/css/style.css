@@ -629,6 +629,31 @@ h6 {
     background-color: var(--pending);
 }
 
+.table-section__button-available {
+    background-color: #AAD9BB;
+    margin-left: 10px;
+    color: var(--blk);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease-in-out;
+    padding: 5px 10px;
+    border-radius: 5px;
+    /* background-color: var(--light); */
+}
+
+.table-section__button-unavailable {
+    background-color: #ffd6c9;
+    margin-left: 10px;
+    color: var(--blk);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease-in-out;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    /* background-color: var(--light); */
+}
+
 .table-section__button-processing:hover {
     background-color: var(--processing);
     color: var(--blk);
