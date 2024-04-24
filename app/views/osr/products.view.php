@@ -50,13 +50,19 @@
                         ?></td>
                     <td><?php echo $product['price'] ?></td>
                     <?php
-                    if ($item['listed'] == 1) {
+                    if ($product['listed'] == 1) {
                         $x = 'Yes';
                     } else {
                         $x = 'No';
                     }
                     ?>
-                    <td><?php echo $x; ?></td>
+                    <td>
+                        <?php if ($product['listed'] == 1) : ?>
+                            <a class="  table-section__button-available">Yes</a>
+                        <?php else : ?>
+                            <a class="table-section__button-unavailable">No</a>
+                        <?php endif; ?>
+                    </td>
                     <td><?php echo $product['bulkmin'] ?></td>
                     <!-- <td>
                         <a href="<?php echo ROOT ?>/admin/products/update/<?= $product['product_id'] ?>" class="table-section__link">Update</a>
