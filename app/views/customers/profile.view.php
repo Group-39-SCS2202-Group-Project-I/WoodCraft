@@ -3,7 +3,7 @@
             .content-profile {
                 padding: 30px;
                 background-color: var(--bg2);
-                border-radius: 10px;
+                border-radius: 20px;
             }
 
             .content-profile a {
@@ -27,7 +27,6 @@
 
             .info-label {
                 width: 10%;
-                border-radius: 10px;
             }
 
             .bottom-profile {
