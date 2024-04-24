@@ -72,7 +72,7 @@ class Cart extends Controller
         // Now $cart_products contains an array of cart products with associated details
         $data['cart_products'] = $products;
 
-
+          
 
          show($data);
         $this->view('cart/cart', $data);

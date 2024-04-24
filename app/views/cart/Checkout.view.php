@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-       /* Your CSS styles go here */
-       .containercheckout {
+        /* Your CSS styles go here */
+        .containercheckout {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -268,6 +268,7 @@
 
 
 <body>
+    <?php show(	$_SESSION['USER_DATA'] );?>
     <?php $this->view('includes/header', $data) ?>
     <header>
         <?php $this->view('includes/nav', $data) ?>
@@ -279,61 +280,64 @@
             <div class="containercheckout">
                 <div class="changeaddress" onclick="toggleAddressForm()">
                     <h2><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
-                    <p><?php echo $customerAddress->address_line_1; ?></p>
-                    <p><?php echo $customerAddress->address_line_2; ?></p>
-                    <p><?php echo $customerAddress->city; ?></p>
-                    <p><?php echo $customerAddress->province; ?></p>
-                    <p><?php echo $customerAddress->zip_code; ?></p>
+                    <p><?php echo $data['customerAddress']->address_line_1; ?></p>
+                    <p><?php echo $data['customerAddress']->address_line_2; ?></p>
+                    <p><?php echo $data['customerAddress']->city; ?></p>
+                    <p><?php echo $data['customerAddress']->province; ?></p>
+                    <p><?php echo $data['customerAddress']->zip_code; ?></p>
+
                     <!-- <?php show($data['customerAddress']); ?> -->
                 </div>
                 <!-- Modal for Change Address Form -->
-                
+
                 <div class="change-address-form">
                     <h2><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
                     <form action="#" method="post" class="address-form" onsubmit="saveAddress(); return false;">
-                    <?php if (!empty($errors['address_line_1'])) : ?>
-    <p class="validate-mzg "><?= $errors['address_line_1'] ?></p>
-<?php endif; ?>
-<input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1" placeholder="Address Line 1">
+                        <?php if (!empty($errors['address_line_1'])): ?>
+                            <p class="validate-mzg "><?= $errors['address_line_1'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1"
+                            placeholder="Address Line 1">
 
-<?php if (!empty($errors['address_line_2'])) : ?>
-    <p class="validate-mzg "><?= $errors['address_line_2'] ?></p>
-<?php endif; ?>
-<input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2" placeholder="Address Line 2">
+                        <?php if (!empty($errors['address_line_2'])): ?>
+                            <p class="validate-mzg "><?= $errors['address_line_2'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2"
+                            placeholder="Address Line 2">
 
-<?php if (!empty($errors['city'])) : ?>
-    <p class="validate-mzg "><?= $errors['city'] ?></p>
-<?php endif; ?>
-<input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
+                        <?php if (!empty($errors['city'])): ?>
+                            <p class="validate-mzg "><?= $errors['city'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
 
-<?php if (!empty($errors['province'])) : ?>
-    <p class="validate-mzg "><?= $errors['province'] ?></p>
-<?php endif; ?>
-<select name="province" id="province">
-    <!-- <option value="" style="color:#757575;">Province</option> -->
-    <option value="Western" selected>Western Province</option>
-    <option value="Central">Central Province</option>
-    <option value="Eastern">Eastern Province</option>
-    <option value="North Central">North Central Province</option>
-    <option value="Northern">Northern Province</option>
-    <option value="North Western">North Western Province</option>
-    <option value="Sabaragamuwa">Sabaragamuwa Province</option>
-    <option value="Southern">Southern Province</option>
-    <option value="Uva">Uva Province</option>
-</select>
+                        <?php if (!empty($errors['province'])): ?>
+                            <p class="validate-mzg "><?= $errors['province'] ?></p>
+                        <?php endif; ?>
+                        <select name="province" id="province">
+                            <!-- <option value="" style="color:#757575;">Province</option> -->
+                            <option value="Western" selected>Western Province</option>
+                            <option value="Central">Central Province</option>
+                            <option value="Eastern">Eastern Province</option>
+                            <option value="North Central">North Central Province</option>
+                            <option value="Northern">Northern Province</option>
+                            <option value="North Western">North Western Province</option>
+                            <option value="Sabaragamuwa">Sabaragamuwa Province</option>
+                            <option value="Southern">Southern Province</option>
+                            <option value="Uva">Uva Province</option>
+                        </select>
 
-<?php if (!empty($errors['zip_code'])) : ?>
-    <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
-<?php endif; ?>
-<input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
+                        <?php if (!empty($errors['zip_code'])): ?>
+                            <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
 
-                                <p>Your existing default address setting will be replaced if you make some changes here.</p>
-                                <div class="form-buttons">
-                                <button type="submit">Save Address</button>
+                        <p>Your existing default address setting will be replaced if you make some changes here.</p>
+                        <div class="form-buttons">
+                            <button type="submit">Save Address</button>
                             <button type="button" onclick="cancelAddressForm()">Cancel</button>
                         </div>
                     </form>
-                       
+
                 </div>
                 <!-- End of Modal -->
                 <div class="cart">
@@ -347,7 +351,7 @@
 
                     $cart = $data['cart'];
                     // show($cart);
-
+                    
                     $subtotal = $cart[0]->sub_total;
                     $discount = 0;
                     $total = $cart[0]->total;
@@ -357,31 +361,32 @@
 
                     $checkoutProducts = $data['checkout_products'];
                     // show($checkoutProducts);
-
+                    
                     if (isset($checkoutProducts) && !empty($checkoutProducts)) {
                         foreach ($checkoutProducts as $checkoutProduct) {
-                    ?>
+                            ?>
                             <div class="smallcart">
                                 <div class="product">
                                     <div class="imag-box">
-                                        <img class="img" src="<?php echo ROOT . '/' . $checkoutProduct['image_url'] ?>" width="80vw" height="80vw" alt="<?php echo $checkoutProduct['name']; ?>">
+                                        <img class="img" src="<?php echo ROOT . '/' . $checkoutProduct['image_url'] ?>"
+                                            width="80vw" height="80vw" alt="<?php echo $checkoutProduct['name']; ?>">
                                     </div>
                                     <div class="details">
                                         <div class="pdetails">
                                             <div class="product-details">
-                                                <p><?php echo  $checkoutProduct['name'] ?></p>
-                                                <p class="unit-price"><?php echo  $checkoutProduct['price'] ?></p>
+                                                <p><?php echo $checkoutProduct['name'] ?></p>
+                                                <p class="unit-price"><?php echo $checkoutProduct['price'] ?></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="Qdetails">
                                         <div class="quantity">
-                                            <p><?php echo  $checkoutProduct['quantity'] ?></p>
+                                            <p><?php echo $checkoutProduct['quantity'] ?></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                    <?php
+                            <?php
                             // $subtotal += $checkoutProduct->price; // Accumulate subtotal
                         }
                         // $discount = 0.2 * $subtotal; // 20% discount
@@ -424,31 +429,123 @@
     <?php $this->view('includes/footer', $data) ?>
 
     <script>
-       function toggleAddressForm() {
-            var form = document.querySelector('.change-address-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-        function cancelAddressForm() {
+        // Check if Pickup option is selected
+// Function to log the selected option
+// Function to toggle address form and change color based on delivery option
+// function handleDeliveryOption() {
+//     var isPickupSelected = document.getElementById('pickup').checked;
+//     var changeAddressSection = document.querySelector('.changeaddress');
+    
+//     if (isPickupSelected) {
+//         // Disable address form
+//         var addressForm = document.querySelector('.change-address-form');
+//         addressForm.style.display = 'none';
+        
+//         // Change color of "Change Address" section
+//         changeAddressSection.style.backgroundColor = 'green';
+//     } else {
+//         // Enable address form
+//         var addressForm = document.querySelector('.change-address-form');
+//         addressForm.style.display = 'block';
+        
+//         // Change color of "Change Address" section back to default
+//         changeAddressSection.style.backgroundColor = '';
+//     }
+// }
+
+// // Attach event listeners to the radio buttons
+// document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+// document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+// // Initially handle the selected option
+// handleDeliveryOption();
+
+//         function toggleAddressForm() {
+//             var form = document.querySelector('.change-address-form');
+//             form.style.display = form.style.display === 'none' ? 'block' : 'none';
+//         }
+//         function cancelAddressForm() {
+//             var form = document.querySelector('.change-address-form');
+//             form.style.display = 'none';
+//         }
+//         function saveAddress() {
+//             var formData = new FormData(document.querySelector('.address-form'));
+//             // Send the form data to the saveAddress method in the Checkout controller
+//             var xhr = new XMLHttpRequest();
+//             xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
+//             xhr.onload = function () {
+//                 if (xhr.status === 200) {
+//                     // Handle success response, if needed
+//                     console.log(xhr.responseText);
+//                 } else {
+//                     // Handle error response, if needed
+//                     console.error('Error:', xhr.statusText);
+//                 }
+//             };
+//             xhr.send(formData);
+//             console.log("Form submitted!");
+//         }
+// Function to handle delivery option selection
+function handleDeliveryOption() {
+    var isPickupSelected = document.getElementById('pickup').checked;
+    var changeAddressSection = document.querySelector('.changeaddress');
+    var addressForm = document.querySelector('.change-address-form');
+
+    if (isPickupSelected) {
+        // If Pickup option is selected, hide the address form
+        addressForm.style.display = 'none';
+        // Change background color of "Change Your Address" section to green
+        changeAddressSection.style.backgroundColor = 'green';
+    } else {
+        // If Delivery option is selected, do nothing with the address form
+        // Change background color of "Change Your Address" section back to default
+        changeAddressSection.style.backgroundColor = '';
+    }
+}
+
+// Function to toggle the address form visibility when "Change Your Address" section is clicked
+function toggleAddressForm() {
+    var form = document.querySelector('.change-address-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+// Function to handle cancellation of address form
+function cancelAddressForm() {
     var form = document.querySelector('.change-address-form');
     form.style.display = 'none';
 }
+
+// Function to handle saving of address
+// Function to handle saving of address
+// Function to handle saving of address
 function saveAddress() {
-        var formData = new FormData(document.querySelector('.address-form'));
-        // Send the form data to the saveAddress method in the Checkout controller
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Handle success response, if needed
-                console.log(xhr.responseText);
-            } else {
-                // Handle error response, if needed
-                console.error('Error:', xhr.statusText);
-            }
-        };
-        xhr.send(formData);
-        console.log("Form submitted!");
-    }
+    var formData = new FormData(document.querySelector('.address-form'));
+    // Send the form data to the saveAddress method in the Checkout controller
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // Handle success response, if needed
+            console.log(xhr.responseText);
+            // Display an alert message
+            alert('Delivery address changed successfully!');
+            // Auto cancel the form after saving data
+            cancelAddressForm();
+        } else {
+            // Handle error response, if needed
+            console.error('Error:', xhr.statusText);
+        }
+    };
+    xhr.send(formData);
+    console.log("Form submitted!");
+}
+
+// Attach event listeners to the radio buttons for delivery options
+document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+// Initially handle the selected delivery option
+handleDeliveryOption();
 
     </script>
 

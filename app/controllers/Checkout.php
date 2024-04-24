@@ -72,7 +72,7 @@ class Checkout extends Controller {
 
     public function saveAddress() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // $customerId = Auth::getCustomerID();
+             $customerId = Auth::getCustomerID();
 
             // Check if the required POST fields exist before accessing them
             if (
@@ -97,9 +97,13 @@ class Checkout extends Controller {
                 // Call the saveAddress method from the Address class
               
                 if ($newlysavedaddress) {
-                    // Address saved successfully
-                    // You can redirect the user to the next step of the checkout process
-                    redirect('checkout/payment');
+                    $customerId = Auth::getCustomerID();
+                    $customerModel = new Customer();
+                    $customerAddress = $customerModel->getCustomerAddress($customerId);
+                    
+                    // Prepare data to be passed to the view
+                    $data['customerAddress'] = $customerAddress;
+                    //redirect('checkout/payment');
                 } else {
                     // Address could not be saved, handle the error
                     echo "Failed to save address. Please try again.";
