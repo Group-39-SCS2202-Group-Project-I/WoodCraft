@@ -417,7 +417,7 @@
                     <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
                 </div>
                 <div class="confirm-button">
-                    <button class="button">Confirm Order</button>
+                    <button class="button" onclick="paymentGateway()">Pay</button>
                 </div>
             </div>
         </div>
@@ -452,7 +452,11 @@
                 modal.style.display = 'none';
             }
         }
+
     </script>
+    <script src="<?php echo ROOT ?>/assets/js/payment.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    
 </body>
 
 </html>

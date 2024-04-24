@@ -1,4 +1,5 @@
 function paymentGateway() {
+    // console.log("in");
     event.preventDefault();
     var xhttp = new XMLHttpRequest();
 
@@ -7,6 +8,7 @@ function paymentGateway() {
             alert(xhttp.responseText);
 
             var res = xhttp.responseText;
+            console.log(res);
             var obj = JSON.parse(xhttp.responseText);
 
             var mail = obj["mail"];
@@ -73,6 +75,9 @@ function paymentGateway() {
         }
     }
 
-    xhttp.open("GET", "payhereProcess.php", true);
+    var url = 'http://localhost/wcf/app/core/paymentsHandler.php?action=pay';
+
+    // console.log("in");
+    xhttp.open("GET", './payhereProcess.php', true);
     xhttp.send();
 }

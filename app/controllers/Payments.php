@@ -5,15 +5,21 @@
  */
 class Payments extends Controller
 {
-    // public function index($id = '')
-    // {
-    //     $data['id'] = $id;
-    //     if ($id == '') {
-    //         $this->view('cart/pay', $data);
-    //     } else {
-    //         $this->view('payment', $data);
-    //     }
-    // }
+    public function index()
+    {
+        ?>
+        <script src="<?php echo ROOT ?>/app/core/payment.js"></script>
+        <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("payment.js loaded");
+                paymentGateway();
+            });
+        </script>
+        <?php
+        // $this->view('cart/pay', $data);
+    }
 
     public function pay()
     {
@@ -22,14 +28,11 @@ class Payments extends Controller
 
         $data['errors'] = [];
 
-        $db = new Database;
-
-        show('$checkout');
-        $checkout = new Checkout;
+        // $checkout = new Checkout;
         // show('$checkout');
         // show('$checkout'); 
         // $checkout->getCheckoutProducts();
-        // show($checkout);     
+        // show($checkout);
 
         // require 'classes/cart.class.php';
         // $objCart = new cart($conn);
@@ -43,34 +46,34 @@ class Payments extends Controller
         // $objTrans->setAmount(str_replace(',', '', $cartPrices['finalPrice']));
 
 
-        // $amount = $objTrans->getAmount();
-        // $merchant_id = MERCHANT_ID;
-        // $order_id = uniqid();
-        // $merchant_secret = MERCHANT_SECRET;
-        // $currency = "LKR";
+        $amount = '10000';
+        $merchant_id = MERCHANT_ID;
+        $order_id = uniqid();
+        $merchant_secret = MERCHANT_SECRET;
+        $currency = "LKR";
 
-        // $hash = strtoupper(
-        //     md5(
-        //         $merchant_id .
-        //             $order_id .
-        //             number_format($amount, 2, '.', '') .
-        //             $currency .
-        //             strtoupper(md5($merchant_secret))
-        //     )
-        // );
+        $hash = strtoupper(
+            md5(
+                $merchant_id .
+                    $order_id .
+                    number_format($amount, 2, '.', '') .
+                    $currency .
+                    strtoupper(md5($merchant_secret))
+            )
+        );
 
-        // $array = [];
+        $array = [];
 
-        // $array["amount"] = $amount;
-        // $array["merchant_id"] = $merchant_id;
-        // $array["order_id"] = $order_id;
-        // $array["merchant_secret"] = $merchant_secret;
-        // $array["currency"] = $currency;
-        // $array["hash"] = $hash;
+        $array["amount"] = $amount;
+        $array["merchant_id"] = $merchant_id;
+        $array["order_id"] = $order_id;
+        $array["merchant_secret"] = $merchant_secret;
+        $array["currency"] = $currency;
+        $array["hash"] = $hash;
 
-        // $jsonObj = json_encode($array);
+        $jsonObj = json_encode($array);
 
-        // echo $jsonObj;
+        echo $jsonObj;
     }
 
     // public function confirmPayment()

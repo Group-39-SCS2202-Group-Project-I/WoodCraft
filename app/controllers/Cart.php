@@ -186,6 +186,7 @@ class Cart extends Controller
     
                             if($quantityAddable < 1){
                                 $error['out of stock'] = "Product is out of stock";
+                                $error['id'] = $_POST['product_id'];
 
                                 $cartProducts->updateQuantity($customerId, $productId, 0);
     
@@ -201,6 +202,7 @@ class Cart extends Controller
   
                             } elseif($quantity > $quantityAddable){
                                 $error['exceeds available stock'] = "Quantity exceeds available stock";
+                                $error['id'] = $_POST['product_id'];
                                 $error['available_quantity'] = $quantityAddable;
 
                                 $cartProducts->updateQuantity($customerId, $productId, $quantityAddable);

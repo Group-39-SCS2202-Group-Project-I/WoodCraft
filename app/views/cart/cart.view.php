@@ -47,6 +47,9 @@
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
 
+      show($_SESSION);
+      // show($data);
+
       // $customer_id = $existingCart[0]->customer_id;
       // $product_id = $cartProducts[0]['product_id'];
       // // show($customer_id);
