@@ -120,7 +120,7 @@ class Cart extends Controller
                         $quantityAddable = $cartModel->getQuantitybyProductId($productId);
 
                         if($quantityAddable < 1){
-                            $error['out of stock'] = "Product is out of stock";
+                            $error[$productId]['msg'] = "out of stock";
 
                             $cartProducts->addItemToCart($cart_customer, $productId, 0);
 
@@ -135,7 +135,8 @@ class Cart extends Controller
                             $_SESSION['error'] = $error;
 
                         } elseif($quantity > $quantityAddable){
-                            $error['exceeds available stock'] = "Quantity exceeds available stock";
+                            $error[$productId]['msg'] = "exceeds stock";
+                            $error[$productId]['available_quantity'] = $quantity;
 
                             $cartProducts->addItemToCart($cart_customer, $productId, $quantityAddable);
 
@@ -185,8 +186,7 @@ class Cart extends Controller
                             $quantityAddable = $cartModel->getQuantitybyProductId($productId);
     
                             if($quantityAddable < 1){
-                                $error['out of stock'] = "Product is out of stock";
-                                $error['id'] = $_POST['product_id'];
+                                $error[$productId]['msg'] = "out of stock";
 
                                 $cartProducts->updateQuantity($customerId, $productId, 0);
     
@@ -201,9 +201,8 @@ class Cart extends Controller
                                 $_SESSION['error'] = $error;
   
                             } elseif($quantity > $quantityAddable){
-                                $error['exceeds available stock'] = "Quantity exceeds available stock";
-                                $error['id'] = $_POST['product_id'];
-                                $error['available_quantity'] = $quantityAddable;
+                                $error[$productId]['msg'] = "exceeds stock";
+                                $error[$productId]['available_quantity'] = $quantity;
 
                                 $cartProducts->updateQuantity($customerId, $productId, $quantityAddable);
     
