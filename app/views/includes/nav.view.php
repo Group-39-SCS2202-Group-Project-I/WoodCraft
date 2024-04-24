@@ -64,10 +64,10 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
         <li class="dropdown"><a href="#"><span>Hi! <?=Auth::getCustomerName()?></span></a>
             <ul class="dropdown-menu hidden">
                 <li><a id="tomanage-acc">My Account</a></li>
+                <li><a id="toprofile">My Profile</a></li>
                 <li><a id="toorders">My Orders</a></li>
-                <!-- <li><a id="towishlist">My Wishlist</a></li> -->
+                <li><a id="tobulk">My Bulk Orders</a></li>
                 <li><a id="toreviews">My Reviews</a></li>
-                <!-- <li><a id="toreturns">My Returns</a></li> -->
                 <hr>
                 <li id="tologout">
                     <button>Logout</button>
@@ -132,6 +132,9 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
             case 'tomanage-acc':
                 window.location.href = '<?= ROOT ?>/profile';
                 break;
+            case 'toprofile':
+                window.location.href = '<?= ROOT ?>/profile/myProfile';
+                break;
             case 'toregister':
                 window.location.href = '<?= ROOT ?>/signup';
                 break;
@@ -144,9 +147,9 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
             case 'toorders':
                 window.location.href = '<?= ROOT ?>/orders';
                 break;
-            // case 'towishlist':
-            //     window.location.href = '<?= ROOT ?>/profile/wishlist';
-            //     break;
+            case 'tobulk':
+                window.location.href = '<?= ROOT ?>/orders/bulkOrders';
+                break;
             case 'toreviews':
                 window.location.href = '<?= ROOT ?>/review';
                 break;
