@@ -13,6 +13,7 @@
     
     .tab-title.active {
         font-weight: bold;
+        color: var(--green2);
     }
 
     .content-review {
@@ -31,21 +32,26 @@
     .review-item {
         padding: 20px;
         border-radius: 10px;
-        background-color: yellowgreen;
-        margin-bottom: 20px;
+        background-color: var(--light);
+        margin-bottom: 30px;
+        transition: box-shadow 0.3s;
+    }
+
+    .review-item:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
     .to-review-item {
-        border: 1px solid #ccc;
+        border: 1px solid var(--bg2);
         border-radius: 10px;
-        padding: 10px;
+        padding: 20px;
         display: flex;
         align-items: center;
         margin-top: 10px;
     }
 
     .review-date small {
-        color: gray;
+        color: var(--bg1);
         font-size: 12px;
     }
 
@@ -64,7 +70,7 @@
         text-align: center;
         width: 100px;
         font-size: 1em;
-        background-color: var(--green1);
+        background-color: var(--coal_black);
         color: var(--white);
         border: none;
         border-radius: 10px;
@@ -74,7 +80,7 @@
     }
 
     .review-button:hover {
-        background-color: black;
+        background-color: var(--green1);
     }
 
      /* History Tab */
@@ -87,7 +93,7 @@
     }
 
     .review-date small {
-        color: gray;
+        color: var(--bg1);
         font-size: 12px;
     }
 
@@ -95,7 +101,12 @@
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
-        background-color: yellowgreen;
+        background-color: var(--light);
+        transition: box-shadow 0.3s;
+    }
+
+    .history-item:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
     .history-item img {
@@ -152,7 +163,7 @@
                                             <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
-                                            <button class="review-button" onclick="window.location.href = 'add-review.php';">Review</button>
+                                            <button class="review-button" onclick="window.location.href = 'add-review.php';">REVIEW</button>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -179,7 +190,7 @@
                                             <div class="rating">
                                                 Rating: <?= $product['rating']; ?><br>
                                                 <?= $product['review']; ?></div>
-                                            <button class="review-button" onclick="window.location.href = 'edit-review.php';">Edit</button>
+                                            <button class="review-button" onclick="window.location.href = 'edit-review.php';">EDIT</button>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
