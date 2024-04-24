@@ -1474,4 +1474,128 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($orders);
     }
+
+    public function gm_dash_chart()
+    {
+        $db = new Database();
+        
+        $dates = $db->query("SELECT DATE(created_at) as date, COUNT(*) as count FROM order_details GROUP BY DATE(created_at)");
+        $dates = array_map(function ($date) {
+            $date->date = date('d-m-Y', strtotime($date->date));
+            return $date;
+        }, $dates);
+
+        $dates = array_combine(array_column($dates, 'date'), array_column($dates, 'count'));
+
+        
+
+        
+        // $arr = [];
+        // for ($i = $min_date; $i <= $max_date; $i = date('d-m-Y', strtotime($i . ' +1 day'))) {
+        //     if (array_key_exists($i, $dates)) {
+        //         $arr[$i] = $dates[$i];
+        //     } else {
+        //         $arr[$i] = 0;
+        //     }
+        // }
+
+        // $days = array_keys($arr);
+        // $counts = array_values($arr);
+
+        // $arr2 = [
+        //     'days' => $days,
+        //     'counts' => $counts
+        // ];
+
+        $bulk_days = $db->query("SELECT DATE(created_at) as date, COUNT(*) as count FROM bulk_order_details GROUP BY DATE(created_at)");
+        $bulk_days = array_map(function ($date) {
+            $date->date = date('d-m-Y', strtotime($date->date));
+            return $date;
+        }, $bulk_days);
+
+        $bulk_days = array_combine(array_column($bulk_days, 'date'), array_column($bulk_days, 'count'));
+
+        // combine dates and bulk_days arrays to get all dates 
+        $all_dates = array_merge(array_keys($dates), array_keys($bulk_days));
+        $all_dates = array_unique($all_dates);
+        $min_date = min($all_dates);
+
+        $max_date = date('Y-m-d');
+
+        $bulk_min_date = $min_date;
+        $bulk_max_date = $max_date;
+
+        
+        $arr = [];
+        for ($i = date('Y-m-d', strtotime($min_date)); $i <= date('Y-m-d', strtotime($max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
+            $formattedDate = date('d-m-Y', strtotime($i));
+            if (array_key_exists($formattedDate, $dates)) {
+                $arr[$formattedDate] = $dates[$formattedDate];
+            } else {
+                $arr[$formattedDate] = 0;
+            }
+        }
+        
+        $bulk_arr = [];
+        for ($i = date('Y-m-d', strtotime($bulk_min_date)); $i <= date('Y-m-d', strtotime($bulk_max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
+            $formattedDate = date('d-m-Y', strtotime($i));
+            if (array_key_exists($formattedDate, $bulk_days)) {
+                $bulk_arr[$formattedDate] = $bulk_days[$formattedDate];
+            } else {
+                $bulk_arr[$formattedDate] = 0;
+            }
+        }
+
+        $days = array_keys($arr);
+        $counts = array_values($arr);
+
+        $bulk_days = array_keys($bulk_arr);
+        $bulk_counts = array_values($bulk_arr);
+
+        $arr2 = [
+            'days' => $days,
+            'counts' => $counts,
+            'bulk_days' => $bulk_days,
+            'bulk_counts' => $bulk_counts
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr2);
+    }
+
+    public function no_of_curr_month()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM order_details WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status != 'cancelled'");
+
+        $count = 0;
+        $bulk_count = 0;
+        $production_count = 0;
+        
+        if ($orders) {
+            $count = count($orders);
+        }
+
+        $bulk_orders = $db->query("SELECT * FROM bulk_order_details WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status != 'cancelled'");
+        
+        if ($bulk_orders) {
+            $bulk_count = count($bulk_orders);
+        }
+
+        $production = $db->query("SELECT * FROM production WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
+        
+        if ($production) {
+            $production_count = count($production);
+        }
+
+        $arr = [
+            'retail_orders' => $count,
+            'bulk_orders' => $bulk_count,
+            'production' => $production_count
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr);
+    }
+    
 }
