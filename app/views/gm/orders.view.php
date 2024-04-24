@@ -16,6 +16,23 @@
     <h2 class="table-section__title" style=" margin-bottom:0">Overview</h2>
 </div>
 
+<script>
+    if (sessionStorage.getItem('x')) {
+        if (sessionStorage.getItem('x') == 'retail') {
+            const btn = document.getElementById('pen-btn');
+            console.log(sessionStorage.getItem('x'));
+            sessionStorage.removeItem('x');
+            btn.click();
+        } else if (sessionStorage.getItem('x') == 'bulk') {
+            const btn = document.getElementById('pro-btn');
+            console.log(sessionStorage.getItem('x'));
+            sessionStorage.removeItem('x');
+            btn.click();
+            // 
+        }
+    }
+</script>
+
 <div class="dashboard2">
     <div class="charts-card">
         <!-- <p class="chart-title">Sales</p> -->
@@ -36,116 +53,119 @@
     fetch(url1)
         .then(response => response.json())
         .then(data => {
-                // console.log(data);
-                // chart.updateSeries(data);
-                product_names = data.product_names
-                quantities = data.quantities
+            // console.log(data);
+            // chart.updateSeries(data);
+            product_names = data.product_names
+            quantities = data.quantities
 
-                // console.log(product_names);
-                // console.log(quantities);
+            // console.log(product_names);
+            // console.log(quantities);
 
-                var options = {
-                    series: quantities,
-                    chart: {
-                        width: '100%',
-                        type: 'pie',
-                    },
-                    labels: product_names,
-                    theme: {
-                        monochrome: {
-                            enabled: true,
-                            color: '#212121',
-                            shadeTo: 'light',
-                            shadeIntensity: 0.65
-                        }
-                    },
-                    plotOptions: {
-                        pie: {
-                            dataLabels: {
-                                offset: -5
-                            }
-                        }
-                    },
-                    title: {
-                        text: "Retail Order Sales",
-                        style: {
-                            fontSize: '18px',
-                            fontFamily:'Montserrat,sans-serif',
-                            fontWeight:'600'
-
-                        }
-                        },
-                        dataLabels: {
-                            formatter(val, opts) {
-                                const name = opts.w.globals.labels[opts.seriesIndex]
-                                return [name, val.toFixed(1) + '%']
-                            }
-                        },
-                        legend: {
-                            show: false
-                        }
-                    };
-
-                    var chart = new ApexCharts(document.querySelector("#chart"), options);
-                    chart.render();
-                });
-
-
-            url2 = "<?= ROOT ?>/fetch/blk_chart"; product_names = []; quantities = []; fetch(url2)
-            .then(response => response.json())
-            .then(data => {
-                // console.log(data);
-                // chart2.updateSeries(data);
-                product_names = data.product_names
-                quantities = data.quantities
-
-                // console.log(product_names);
-                // console.log(quantities);
-
-                var options2 = {
-                    series: quantities,
-                    chart: {
-                        width: '100%',
-                        type: 'pie',
-                    },
-                    labels: product_names,
-                    theme: {
-                        monochrome: {
-                            enabled: true,
-                            color: '#212121',
-                            shadeTo: 'light',
-                            shadeIntensity: 0.65
-                        }
-                    },
-                    plotOptions: {
-                        pie: {
-                            dataLabels: {
-                                offset: -5
-                            }
-                        }
-                    },
-                    title: {
-                        text: "Bulk Order Sales",
-                        style: {
-                            fontSize: '18px',
-                            fontFamily:'Montserrat,sans-serif',
-                            fontWeight:'600'
-
-                        }
-                    },
-                    dataLabels: {
-                        formatter(val, opts) {
-                            const name = opts.w.globals.labels[opts.seriesIndex]
-                            return [name, val.toFixed(1) + '%']
-                        }
-                    },
-                    legend: {
-                        show: false
+            var options = {
+                series: quantities,
+                chart: {
+                    width: '100%',
+                    type: 'pie',
+                },
+                labels: product_names,
+                theme: {
+                    monochrome: {
+                        enabled: true,
+                        color: '#212121',
+                        shadeTo: 'light',
+                        shadeIntensity: 0.65
                     }
-                };
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            offset: -5
+                        }
+                    }
+                },
+                title: {
+                    text: "Retail Order Sales",
+                    style: {
+                        fontSize: '18px',
+                        fontFamily: 'Montserrat,sans-serif',
+                        fontWeight: '600'
 
-                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-                chart2.render();
-            });
+                    }
+                },
+                dataLabels: {
+                    formatter(val, opts) {
+                        const name = opts.w.globals.labels[opts.seriesIndex]
+                        return [name, val.toFixed(1) + '%']
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        });
+
+
+    url2 = "<?= ROOT ?>/fetch/blk_chart";
+    product_names = [];
+    quantities = [];
+    fetch(url2)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data);
+            // chart2.updateSeries(data);
+            product_names = data.product_names
+            quantities = data.quantities
+
+            // console.log(product_names);
+            // console.log(quantities);
+
+            var options2 = {
+                series: quantities,
+                chart: {
+                    width: '100%',
+                    type: 'pie',
+                },
+                labels: product_names,
+                theme: {
+                    monochrome: {
+                        enabled: true,
+                        color: '#212121',
+                        shadeTo: 'light',
+                        shadeIntensity: 0.65
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            offset: -5
+                        }
+                    }
+                },
+                title: {
+                    text: "Bulk Order Sales",
+                    style: {
+                        fontSize: '18px',
+                        fontFamily: 'Montserrat,sans-serif',
+                        fontWeight: '600'
+
+                    }
+                },
+                dataLabels: {
+                    formatter(val, opts) {
+                        const name = opts.w.globals.labels[opts.seriesIndex]
+                        return [name, val.toFixed(1) + '%']
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            };
+
+            var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+            chart2.render();
+        });
 </script>
 <?php include "inc/footer.view.php"; ?>

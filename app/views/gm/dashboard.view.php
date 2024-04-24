@@ -1,7 +1,7 @@
 <?php include "inc/header.view.php"; ?>
 
 <?php
-$url = ROOT . "/fetch/no_of_curr_month"; 
+$url = ROOT . "/fetch/no_of_curr_month";
 $response = file_get_contents($url);
 $data = json_decode($response, true);
 
@@ -33,32 +33,39 @@ $newblkCount = count($data2);
 </div>
 
 <div class="dashboard">
-    <a  style="text-decoration:none" onclick="navfunc('products-nav')">
+    <a style="text-decoration:none" onclick="navfunc('production-nav','')">
         <div class="card">
             <h3 class="card-title">No of Productions - <?php
                                                         echo date('F Y');
                                                         ?></h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-symbols-outlined card-icon">
+                event_seat
+            </span>
             <p class="card-text"><?= $pxn ?></p>
         </div>
     </a>
 
-    <a  style="text-decoration:none" onclick="navfunc('products-nav')">
+    <a style="text-decoration:none" onclick="navfunc('orders-nav','retail')">
         <div class="card">
             <h3 class="card-title">No of Retail Orders - <?php
                                                             echo date('F Y');
                                                             ?></h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-symbols-outlined card-icon">
+                box
+            </span>
             <p class="card-text"><?= $retail ?></p>
         </div>
     </a>
+    
 
-    <a  style="text-decoration:none" onclick="navfunc('products-nav')">
+    <a style="text-decoration:none" onclick="navfunc('orders-nav','bulk')">
         <div class="card">
             <h3 class="card-title">No of Bulk Orders - <?php
                                                         echo date('F Y');
                                                         ?></h3>
-            <span class="material-icons-outlined card-icon">chair</span>
+            <span class="material-symbols-outlined card-icon">
+                box_add
+            </span>
             <p class="card-text"><?= $bulk ?></p>
         </div>
     </a>
@@ -96,7 +103,7 @@ $newblkCount = count($data2);
                         <tr>
                             <td><?= sprintf("BRI-%03d", $req['bulk_req_id']) ?></td>
                             <td>
-                                <a href="<?= ROOT ?>/gm/bulk_order_requests/<?= $req['bulk_req_id'] ?>" class="table-section__button">Click</a>
+                                <a  class="table-section__button" onclick="navfunc2('bulk-nav','<?= ROOT ?>/gm/bulk_order_requests/<?= $req['bulk_req_id'] ?>')">Click</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -126,11 +133,17 @@ $newblkCount = count($data2);
             let last30Counts = counts.slice(-30);
             let last30BulkCounts = bulk_counts.slice(-30);
 
+            <?php if ($newblkCount > 0) : ?>
+                last30Days = days.slice(-10);
+                last30Counts = counts.slice(-10);
+                last30BulkCounts = bulk_counts.slice(-10);
+            <?php endif; ?>
+            
             days = last30Days;
             counts = last30Counts;
             bulk_counts = last30BulkCounts;
 
-            max = Math.max(...counts, ...bulk_counts)+2
+            max = Math.max(...counts, ...bulk_counts) + 2
 
             // console.log(days);
             // console.log(counts);
@@ -173,11 +186,11 @@ $newblkCount = count($data2);
                     text: 'Orders',
                     align: 'left',
                     style: {
-                            fontSize: '18px',
-                            fontFamily:'Montserrat,sans-serif',
-                            fontWeight:'600'
+                        fontSize: '18px',
+                        fontFamily: 'Montserrat,sans-serif',
+                        fontWeight: '600'
 
-                        }
+                    }
                 },
                 grid: {
                     borderColor: '#e7e7e7',
@@ -216,5 +229,23 @@ $newblkCount = count($data2);
 
 
         });
+</script>
+
+<script>
+    navfunc = (id , x) => {
+        if(x != ''){
+            x = sessionStorage.setItem('x',x);
+        }
+        let nav = document.getElementById(id);
+        nav.click();
+    }
+
+    navfunc2 = (id , x) => {
+        url = x;
+        let nav = document.getElementById(id);
+        nav.click();
+        // navigate x;
+        window.location.href = url;
+    }
 </script>
 <?php include "inc/footer.view.php"; ?>
