@@ -118,91 +118,107 @@ if ($availavle_supervisors) {
     <!-- Repeat for other cards -->
 </div>
 
+<style>
+    #scrollable_sec {
+        max-height: 85vh;
+        overflow-y: auto;
+        border-radius: 10px;
+    }
+
+    .table-section th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+</style>
+
 <div class="table-section">
     <div class="table-section__search">
         <input type="text" id="searchWorkers" placeholder="Search Workers..." class="table-section__search-input">
     </div>
 
 
-    <table class="table-section__table" id="workers_table">
-        <!-- worker_id	first_name	last_name	mobile_number	address_id	availability	created_at	updated_at	deleted_at	 -->
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">Worker ID</th>
-                <th onclick="sortTable(1)">Name</th>
-                <th onclick="sortTable(2)">Mobile Number</th>
-                <th onclick="sortTable(3)">Address</th>
-                <th onclick="sortTable(4)">Availability</th>
-                <th onclick="sortTable(5)">Role</th>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="workers_table">
+            <!-- worker_id	first_name	last_name	mobile_number	address_id	availability	created_at	updated_at	deleted_at	 -->
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Worker ID</th>
+                    <th onclick="sortTable(1)">Name</th>
+                    <th onclick="sortTable(2)">Mobile Number</th>
+                    <th onclick="sortTable(3)">Address</th>
+                    <th onclick="sortTable(4)">Availability</th>
+                    <th onclick="sortTable(5)">Role</th>
 
-                <!-- <th onclick="sortTable(6)">Date Added</th> -->
-                <!-- <th onclick="sortTable(7)">Date Updated</th> -->
+                    <!-- <th onclick="sortTable(6)">Date Added</th> -->
+                    <!-- <th onclick="sortTable(7)">Date Updated</th> -->
 
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/workers')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                let table = document.getElementById('workers_table');
-                                // Clear existing table rows
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-                                // Insert new rows with updated data
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let worker_id = "WRK-" + String(item.worker_id).padStart(3, '0');
-                                    let name = item.first_name + ' ' + item.last_name;
-                                    item.first_name = item.first_name.charAt(0).toUpperCase() + item.first_name.slice(1).toLowerCase();
-                                    item.last_name = item.last_name.charAt(0).toUpperCase() + item.last_name.slice(1).toLowerCase();
-                                    name = item.first_name + ' ' + item.last_name;
-                                    let mobile_number = item.mobile_number;
-                                    let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
-                                    let availability = item.availability;
-                                    let worker_role = item.worker_role;
-                                    worker_role = worker_role.charAt(0).toUpperCase() + worker_role.slice(1);
-                                    availability = availability.charAt(0).toUpperCase() + availability.slice(1);
-                                    let date_added = item.created_at;
-                                    let date_updated = item.updated_at;
-
-                                    if (availability == 'Unavailable') {
-                                        availability = `<a class="  table-section__button-unavailable">${availability}</a>?`
-                                    } else {
-                                        availability = `<a class=" table-section__button-available">${availability}</a>`
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/workers')
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    let table = document.getElementById('table-section__tbody');
+                                    // Clear existing table rows
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
                                     }
+                                    // Insert new rows with updated data
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let worker_id = "WRK-" + String(item.worker_id).padStart(3, '0');
+                                        let name = item.first_name + ' ' + item.last_name;
+                                        item.first_name = item.first_name.charAt(0).toUpperCase() + item.first_name.slice(1).toLowerCase();
+                                        item.last_name = item.last_name.charAt(0).toUpperCase() + item.last_name.slice(1).toLowerCase();
+                                        name = item.first_name + ' ' + item.last_name;
+                                        let mobile_number = item.mobile_number;
+                                        let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
+                                        let availability = item.availability;
+                                        let worker_role = item.worker_role;
+                                        worker_role = worker_role.charAt(0).toUpperCase() + worker_role.slice(1);
+                                        availability = availability.charAt(0).toUpperCase() + availability.slice(1);
+                                        let date_added = item.created_at;
+                                        let date_updated = item.updated_at;
 
-                                    row.insertCell().innerHTML = worker_id;
-                                    row.insertCell().innerHTML = name;
-                                    row.insertCell().innerHTML = mobile_number;
-                                    row.insertCell().innerHTML = `<p style="text-align: left;">${address}</p>`
-                                    row.insertCell().innerHTML = availability;
-                                    row.insertCell().innerHTML = worker_role;
-                                    // row.insertCell().innerHTML = date_added;
-                                    // row.insertCell().innerHTML = date_updated;
+                                        if (availability == 'Unavailable') {
+                                            availability = `<a class="  table-section__button-unavailable">${availability}</a>`
+                                        } else {
+                                            availability = `<a class=" table-section__button-available">${availability}</a>`
+                                        }
 
-                                    // row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.worker_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" href="<?= ROOT ?>/gm/workers/${item.worker_id}">View</a>`;
+                                        row.insertCell().innerHTML = worker_id;
+                                        row.insertCell().innerHTML = name;
+                                        row.insertCell().innerHTML = mobile_number;
+                                        row.insertCell().innerHTML = `<p style="text-align: left;">${address}</p>`
+                                        row.insertCell().innerHTML = availability;
+                                        row.insertCell().innerHTML = worker_role;
+                                        // row.insertCell().innerHTML = date_added;
+                                        // row.insertCell().innerHTML = date_updated;
 
-                                });
-                            })
-                            .catch(error => console.error(error));
-                    }
+                                        // row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.worker_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.worker_id})">Delete</a>`;
+                                        row.insertCell().innerHTML = `<a class="table-section__button" href="<?= ROOT ?>/gm/workers/${item.worker_id}">View</a>`;
 
-                    // Initial table update
-                    updateTable();
+                                    });
+                                })
+                                .catch(error => console.error(error));
+                        }
 
-                    // Schedule periodic table updates
-                    // setInterval(updateTable, 5000); // Update every 5 seconds
-                });
-            </script>
-        </tbody>
-    </table>
+                        // Initial table update
+                        updateTable();
+
+                        // Schedule periodic table updates
+                        // setInterval(updateTable, 5000); // Update every 5 seconds
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -250,6 +266,11 @@ if ($availavle_supervisors) {
 
 <script>
     document.getElementById('searchWorkers').addEventListener('keyup', function() {
+        document.getElementById("carp-card").classList.remove("card-clicked");
+        document.getElementById("pain-card").classList.remove("card-clicked");
+        document.getElementById("sup-card").classList.remove("card-clicked");
+
+
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById('searchWorkers');
         filter = input.value.toUpperCase();

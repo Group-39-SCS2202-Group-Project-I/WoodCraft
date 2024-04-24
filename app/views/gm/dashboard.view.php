@@ -205,7 +205,7 @@ $newblkCount = count($data2);
                 xaxis: {
                     categories: days,
                     title: {
-                        text: 'Days'
+                        // text: 'Days'
                     }
                 },
                 yaxis: {
