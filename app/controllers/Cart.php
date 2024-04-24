@@ -74,7 +74,7 @@ class Cart extends Controller
 
           
 
-         show($data);
+        //  show($data);
         $this->view('cart/cart', $data);
     }
 
