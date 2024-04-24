@@ -126,36 +126,37 @@
     <!-- orders -->
     <div class="container">
         <div class="title">
-            <h2>Order Details</h2>
+            <h2>Bulk Order Details</h2>
         </div>
 
         <div class="content-manage-orders">
             <?php foreach ($data['order_details'] as $details) : ?>
                 <div class="content-manage-order">
                     <div class="content-manage-order-left">
-                        <p>Order <?= $details['order_details_id']; ?></p>
+                        <p>Order <?= $details['bulk_order_details_id']; ?></p>
                         <p><small>Placed on <?= $details['created_at']; ?></small></p>
                     </div>
-                    <p>Total: Rs.<?= $details['total']; ?></p>
+                    <p>Total: Rs.<?= $details['total_cost']; ?></p>
                 </div>
 
                 <div class="content-manage-detail">
-                        <p><small>Updated on <?= $details['updated_at']; ?></small></p>
-                        <div class="content-manage-detail-mid">
-                            <p>Your package has been <?= $details['status']?>.</p>
-                            <p>Thank you for shopping with WOODCRAFT.</p>
-                        </div>
+                    <p><small>Updated on <?= $details['updated_at']; ?></small></p>
+                    <div class="content-manage-detail-mid">
+                        <p>Your package has been <?= $details['status']?>.</p>
+                        <p>Thank you for shopping with WOODCRAFT.</p>
+                    </div>
 
-                        <?php foreach ($data['order_items'] as $item) : ?>
-                            <div class="order-item">
-                                <div class="order-item-image">
-                                    <img src="<?= $item['product_image_url']; ?>" alt="Product Image" width="100" height="100">
-                                    <p><?= $item['product_name']; ?></p>
-                                </div>
-                                <p>Rs. <?= $item['price']; ?></p>
-                                <p>Qty: <?= $item['quantity']; ?></p>
+                    <?php foreach ($data['order_items'] as $item) : ?>
+                        <div class="order-item">
+                            <div class="order-item-image">
+                                <img src="<?= $item['image_url']; ?>" alt="Product Image" width="100" height="100">
+                                <p><?= $item['product_name']; ?></p>
                             </div>
-                        <?php endforeach; ?>
+                            <p>Rs. <?= $item['price']; ?></p>
+                            <p>Qty: <?= $item['quantity']; ?></p>
+                            <p>Subtotal: Rs. <?= $item['subtotal']; ?></p>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="content-manage-payment">
@@ -184,13 +185,14 @@
                                 <p>Total</p>
                             </div>
                             <div class="right-right">
-                                <p><large>Rs.<?= $details['total']; ?></large></p>
+                                <p><large>Rs.<?= $details['total_cost']; ?></large></p>
                             </div>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
+
     </div>
 </div>
 </main>
