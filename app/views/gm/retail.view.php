@@ -18,7 +18,7 @@
 
 
 <div class="table-section">
-    <h2 class="table-section__title">Ongoing Productions</h2>
+
 
     <div class="table-section__search">
         <input type="text" id="searchProductions" placeholder="Search Productions..." class="table-section__search-input">
@@ -64,7 +64,7 @@
                 let order_id = "ORD-" + String(item.order_details_id).padStart(3, '0');
                 let order_details = ''
                 for (let i = 0; i < item.items.length; i++) {
-                    order_details += item.items[i].product_name + " x" + item.items[i].quantity+'<br>';
+                    order_details += item.items[i].product_name + " x" + item.items[i].quantity + '<br>';
                 }
                 let total = item.total
                 let type = item.type;

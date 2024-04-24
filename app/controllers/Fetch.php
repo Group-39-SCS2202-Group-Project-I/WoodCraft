@@ -1304,9 +1304,7 @@ class Fetch extends Controller
         if ($id == '') {
             header("Content-Type: application/json");
             echo json_encode($bulk_orders);
-        }
-        else
-        {
+        } else {
             // get $b , $b->bulk_order_details_id = $id
             $b = array_filter($bulk_orders, function ($bulk_order) use ($id) {
                 return $bulk_order->bulk_order_details_id == $id;
@@ -1320,7 +1318,7 @@ class Fetch extends Controller
 
     public function pxn_missing($id)
     {
-        $url = ROOT.'/fetch/pxn_bulk_orders/'.$id;
+        $url = ROOT . '/fetch/pxn_bulk_orders/' . $id;
         $data = json_decode(file_get_contents($url), true);
         $missing_materials = $data['missing_materials'];
 
@@ -1337,8 +1335,7 @@ class Fetch extends Controller
 
         $arr = [];
 
-        foreach($bulk_req_ids as $blk)
-        {
+        foreach ($bulk_req_ids as $blk) {
             $bulk_req = $db->query("SELECT product_id,quantity FROM bulk_order_req WHERE bulk_req_id = $blk");
             $quantity = $bulk_req[0]->quantity;
             $product_id = $bulk_req[0]->product_id;
@@ -1346,12 +1343,9 @@ class Fetch extends Controller
             $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
             $product_name = $product[0]->name;
 
-            if(array_key_exists($product_name,$arr))
-            {
+            if (array_key_exists($product_name, $arr)) {
                 $arr[$product_name] += $quantity;
-            }
-            else
-            {
+            } else {
                 $arr[$product_name] = $quantity;
             }
         }
@@ -1378,24 +1372,19 @@ class Fetch extends Controller
 
         $arr = [];
 
-        foreach($order_ids as $order)
-        {
+        foreach ($order_ids as $order) {
             $order_items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order");
 
-            foreach($order_items as $item)
-            {
+            foreach ($order_items as $item) {
                 $quantity = $item->quantity;
                 $product_id = $item->product_id;
 
                 $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
                 $product_name = $product[0]->name;
 
-                if(array_key_exists($product_name,$arr))
-                {
+                if (array_key_exists($product_name, $arr)) {
                     $arr[$product_name] += $quantity;
-                }
-                else
-                {
+                } else {
                     $arr[$product_name] = $quantity;
                 }
             }
@@ -1411,7 +1400,6 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($arr2);
-
     }
 
     public function ongoing_pxns()
@@ -1419,8 +1407,7 @@ class Fetch extends Controller
         $db = new Database();
         $pxns = $db->query("SELECT * FROM production WHERE status = 'processing'");
 
-        foreach($pxns as $pxn)
-        {
+        foreach ($pxns as $pxn) {
             $product_id = $pxn->product_id;
             $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
             $pxn->product_name = $product[0]->name;
@@ -1435,8 +1422,7 @@ class Fetch extends Controller
         $db = new Database();
         $orders = $db->query("SELECT * FROM order_details");
 
-        foreach($orders as $order)
-        {
+        foreach ($orders as $order) {
             $user_id = $order->user_id;
             $customer = $db->query("SELECT customer_id,first_name,last_name FROM customer WHERE user_id = $user_id");
             $order->customer_name = ucfirst($customer[0]->first_name) . " " . ucfirst($customer[0]->last_name);
@@ -1444,8 +1430,7 @@ class Fetch extends Controller
 
             $items = $db->query("SELECT product_id,quantity FROM order_item WHERE order_details_id = $order->order_details_id");
 
-            foreach($items as $item)
-            {
+            foreach ($items as $item) {
                 $product_id = $item->product_id;
                 $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
                 $item->product_name = $product[0]->name;
@@ -1456,6 +1441,34 @@ class Fetch extends Controller
             }
 
             $order->items = $items;
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($orders);
+    }
+
+
+    public function bulk_orders()
+    {
+        $db = new Database();
+        $orders = $db->query("SELECT * FROM bulk_order_details");
+
+        foreach ($orders as $order) {
+            $user_id = $order->user_id;
+            $customer = $db->query("SELECT customer_id,first_name,last_name FROM customer WHERE user_id = $user_id");
+            $order->customer_name = ucfirst($customer[0]->first_name) . " " . ucfirst($customer[0]->last_name);
+            $order->customer_id = $customer[0]->customer_id;
+
+            $bulk_req = $db->query("SELECT * FROM bulk_order_req WHERE bulk_req_id = $order->bulk_req_id");
+            $product_id = $bulk_req[0]->product_id;
+            $product = $db->query("SELECT name FROM product WHERE product_id = $product_id");
+            $order->product_name = $product[0]->name;
+
+            $product_category_id = $db->query("SELECT product_category_id FROM product WHERE product_id = $product_id")[0]->product_category_id;
+            $category_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id")[0]->category_name;
+            $order->category_name = $category_name;
+
+            $order->bulk_req = $bulk_req[0];
         }
 
         header("Content-Type: application/json");
