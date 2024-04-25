@@ -43,7 +43,7 @@
 
 <div class="dashboard">
     <div id="retail-card">
-        <a href="" style="text-decoration:none;">
+        <a  style="text-decoration:none;">
             <div class="card">
                 <h3 class="card-title">Retail Orders</h3>
                 <span class="material-symbols-outlined card-icon">
@@ -54,7 +54,7 @@
         </a>
     </div>
     <div id="bulk-card">
-        <a href="" style="text-decoration:none">
+        <a  style="text-decoration:none">
             <div class="card" >
                 <h3 class="card-title">Bulk Orders</h3>
                 <span class="material-symbols-outlined card-icon">
@@ -99,11 +99,11 @@
                             bulkCount.textContent = data.bulk_count;
 
 
-                            if (data.retail_count == 0) {
+                            if (data.retail_count == 0 || data.retail_count == null) {
                                 retailCard.style.display = 'none';
                             }
 
-                            if (data.bulk_count == 0) {
+                            if (data.bulk_count == 0 || data.bulk_count == null) {
                                 bulkCard.style.display = 'none';
                             }
 

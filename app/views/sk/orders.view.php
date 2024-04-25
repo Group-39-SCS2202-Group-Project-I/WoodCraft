@@ -1,17 +1,5 @@
 <?php include "inc/header.view.php"; ?>
-<!-- <a href="<?= ROOT ?>/sk/orders/completed"> completed orders</a> -->
 
-<?php
-// show($data);
-$pickup_count = 0;
-$delivery_count = 0;
-if (isset($data['pickup_count'])) {
-    $pickup_count = $data['pickup_count'];
-}
-if (isset($data['delivery_count'])) {
-    $delivery_count = $data['delivery_count'];
-}
-?>
 
 <style>
     .top-btn-selected {
@@ -52,130 +40,173 @@ if (isset($data['delivery_count'])) {
 </div>
 
 <div class="dashboard">
-    <?php if (isset($data['pickup_orders'])) : ?>
-        <?php if ($pickup_count != 0) : ?>
-            <a href="" style="text-decoration:none;">
-                <div class="card" id="pickup-card">
-                    <h3 class="card-title">Pickup Orders</h3>
-                    <span class="material-symbols-outlined card-icon">
-                        box
-                    </span>
-                    <p class="card-text"><?= $data['pickup_count'] ?></p>
-                </div>
-            </a>
-        <?php endif; ?>
-    <?php endif; ?>
-    <?php if (isset($data['delivery_orders'])) : ?>
-        <?php if ($delivery_count != 0) : ?>
-            <a href="" style="text-decoration:none">
-                <div class="card" id="delivery_card">
-                    <h3 class="card-title">Delivery Orders</h3>
-                    <span class="material-symbols-outlined card-icon">
-                        local_shipping
-                    </span>
-                    <p class="card-text"><?= $data['delivery_count'] ?></p>
-                </div>
-            </a>
-        <?php endif; ?>
-    <?php endif; ?>
+
+
+    <a style="text-decoration:none;">
+        <div class="card" id="pickup-card">
+            <h3 class="card-title">Pickup Orders</h3>
+            <span class="material-symbols-outlined card-icon">
+                box
+            </span>
+            <p class="card-text"><?= $data['pickup_count'] ?></p>
+        </div>
+    </a>
+
+
+    <a style="text-decoration:none">
+        <div class="card" id="delivery_card">
+            <h3 class="card-title">Delivery Orders</h3>
+            <span class="material-symbols-outlined card-icon">
+                local_shipping
+            </span>
+            <p class="card-text"><?= $data['delivery_count'] ?></p>
+        </div>
+    </a>
+
 </div>
 
-<?php if (isset($data['pickup_orders']) && !empty($data['pickup_orders'])) : ?>
-    <?php if ($pickup_count != 0) : ?>
-        <div class="table-section" id="pickup-table">
-            <h2 class="table-section__title">Pickup Orders</h2>
+<div class="table-section">
+    <h2 class="table-section__title">Pickup Orders</h2>
 
-            <table class="table-section__table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Items</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-section__tbody">
-                    <?php foreach ($data['pickup_orders'] as $order) : ?>
-                        <tr>
-                            <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                            <td><?= $order->customer_name ?></td>
-                            <td>
-                                <?php
-                                // $order_items = json_decode($order->items);
-                                $order_items = $order->items;
-                                foreach ($order_items as $item) {
-                                    echo $item->product_name . " x " . $item->quantity . "<br>";
-                                }
-                                ?>
-                            </td>
-                            <td><?= $order->total ?></td>
-                            <td><?= $order->status ?></td>
-                            <td>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-            </table>
-        </div>
-    <?php endif; ?>
-<?php endif; ?>
+    <table class="table-section__table" id="pickup-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Order Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="table-section__tbody">
+
+    </table>
+</div>
 
 
-<?php if (isset($data['delivery_orders']) && !empty($data['delivery_orders'])) : ?>
-    <?php if ($delivery_count != 0) : ?>
-        <div class="table-section" id="pickup-table">
-            <h2 class="table-section__title">Delivery Orders</h2>
 
-            <table class="table-section__table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Items</th>
-                        <th>Total</th>
-                        <th>Delivery Address</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-section__tbody">
-                    <?php foreach ($data['delivery_orders'] as $order) : ?>
-                        <tr>
-                            <td><?= 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                            <td><?= $order->customer_name ?></td>
-                            <td>
-                                <?php
-                                // $order_items = json_decode($order->items);
-                                $order_items = $order->items;
-                                foreach ($order_items as $item) {
-                                    echo $item->product_name . " x " . $item->quantity . "<br>";
-                                }
-                                ?>
-                            </td>
-                            <td><?= $order->total ?></td>
-                            <td>
-                                <?php
-                                $address = $order->delivery_address;
-                                echo $address->address_line_1 . ",<br>" .
-                                    $address->address_line_2 . ",<br>" .
-                                    $address->city . ".<br>" .
-                                    $address->province . " Province<br>" .
-                                    $address->zip_code;
-                                ?>
-                            </td>
-                            <td><?= $order->status ?>
-                            </td>
-                            <td>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>')">Update</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-            </table>
-        </div>
-    <?php endif; ?>
-<?php endif; ?>
+
+<div class="table-section">
+    <h2 class="table-section__title">Delivery Orders</h2>
+
+    <table class="table-section__table" id="delivery-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Order Items</th>
+                <th>Total</th>
+                <th>Delivery Address</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="table-section__tbody">
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pickupTable = document.getElementById('pickup-table');
+        const deliveryTable = document.getElementById('delivery-table');
+
+        const url = '<?= ROOT ?>/fetch/retail_orders_sk';
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+                var pickup_count= 0;
+                var delivery_count= 0;
+
+                var deliveries = data.delivery_orders;
+                var pickups = data.pickup_orders;
+
+                if (pickups) {
+                    pickup_count = pickups.length;
+                    document.getElementById('pickup-card').querySelector('.card-text').textContent = pickup_count;
+                } else {
+                    document.getElementById('pickup-card').style.display = 'none';   
+                }
+
+                if (deliveries) {
+                    delivery_count = deliveries.length;
+                    document.getElementById('delivery_card').querySelector('.card-text').textContent = delivery_count;
+                } else {
+                    document.getElementById('delivery_card').style.display = 'none';   
+                }
+
+                while (pickupTable.rows.length > 1) {
+                    pickupTable.deleteRow(1);
+                }
+
+                while (deliveryTable.rows.length > 1) {
+                    deliveryTable.deleteRow(1);
+                }
+
+
+                pickups.forEach(item => {
+                    let row = pickupTable.insertRow();
+                    let order_id = "ORD-" + String(item.order_details_id).padStart(3, '0');
+                    let customer_name = item.customer_name;
+                    let items = item.items.map(item => item.product_name + ' x ' + item.quantity).join('<br>');
+                    let total = item.total;
+                    let status = item.status;
+
+                    row.insertCell().innerHTML = order_id;
+                    row.insertCell().innerHTML = customer_name;
+                    row.insertCell().innerHTML = items;
+                    row.insertCell().innerHTML = total;
+                    row.insertCell().innerHTML = status;
+
+                    let actionCell = row.insertCell();
+                    let actionBtn = document.createElement('a');
+                    actionBtn.textContent = 'Update Status';
+                    actionBtn.classList.add('table-section__button');
+                    actionBtn.onclick = function() {
+                        openPopup(item.order_details_id, item.status, 'pickup');
+                    }
+                    actionCell.appendChild(actionBtn);
+
+
+                });
+
+                console.log(deliveries);
+                deliveries.forEach(item => {
+                    let row = deliveryTable.insertRow();
+                    let order_id = "ORD-" + String(item.order_details_id).padStart(3, '0');
+                    let customer_name = item.customer_name;
+                    let items = item.items.map(item => item.product_name + ' x ' + item.quantity).join('<br>');
+                    let total = item.total;
+                    let delivery_address = item.delivery_address.address_line_1 + ',<br>' + item.delivery_address.address_line_2 + ',<br>' + item.delivery_address.city + ',<br>' + item.delivery_address.province + ',<br>' + item.delivery_address.zip_code;
+                    let status = item.status;
+
+                    row.insertCell().innerHTML = order_id;
+                    row.insertCell().innerHTML = customer_name;
+                    row.insertCell().innerHTML = items;
+                    row.insertCell().innerHTML = total;
+                    row.insertCell().innerHTML = delivery_address;
+                    row.insertCell().innerHTML = status;
+
+                    let actionCell = row.insertCell();
+                    let actionBtn = document.createElement('a');
+                    actionBtn.textContent = 'Update Status';
+                    actionBtn.classList.add('table-section__button');
+                    actionBtn.onclick = function() {
+                        openPopup(item.order_details_id, item.status, 'delivery');
+                    }
+                    actionCell.appendChild(actionBtn);
+                });
+
+                
+            });
+
+        // const pickupCard = document.getElementById('pickup-card');
+        // const deliveryCard = document.getElementById('delivery_card');
+
+    });
+</script>
+
 
 <div class="popup-form" id="update-popup">
     <div class="popup-form__content">
