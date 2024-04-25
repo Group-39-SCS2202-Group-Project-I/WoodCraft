@@ -151,7 +151,7 @@
                     let customer_name = item.customer_name;
                     let items = item.items.map(item => item.product_name + ' x ' + item.quantity).join('<br>');
                     let total = item.total;
-                    let status = item.status;
+                    let status = item.status.charAt(0).toUpperCase() + item.status.slice(1);
 
                     row.insertCell().innerHTML = order_id;
                     row.insertCell().innerHTML = customer_name;
@@ -179,7 +179,7 @@
                     let items = item.items.map(item => item.product_name + ' x ' + item.quantity).join('<br>');
                     let total = item.total;
                     let delivery_address = item.delivery_address.address_line_1 + ',<br>' + item.delivery_address.address_line_2 + ',<br>' + item.delivery_address.city + ',<br>' + item.delivery_address.province + ',<br>' + item.delivery_address.zip_code;
-                    let status = item.status;
+                    let status = item.status.charAt(0).toUpperCase() + item.status.slice(1);
 
                     row.insertCell().innerHTML = order_id;
                     row.insertCell().innerHTML = customer_name;
