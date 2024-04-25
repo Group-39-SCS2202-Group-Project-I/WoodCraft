@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-  <?php show($_SESSION);?>
+ 
     <style>
         /* Your CSS styles go here */
         .containercheckout {
@@ -48,9 +48,10 @@
             margin-right: 10%;
             /* Align items at the top */
         }
+ 
 
         .summary {
-            width: 30%;
+            width: 20%;
             border: 1px solid #EEEEEE;
             padding: 10px;
             margin-bottom: 20px;
@@ -463,6 +464,7 @@
 
     
     <script>
+        
     function handleDeliveryOption() {
         var isPickupSelected = document.getElementById('pickup').checked;
         var changeAddressSection = document.querySelector('.changeaddress');

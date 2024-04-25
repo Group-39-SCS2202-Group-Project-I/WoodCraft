@@ -112,7 +112,7 @@ hr {
 
 /* Summary styles */
 .summary {
-  width: 35%;
+  width: 20%;
   border: 1px solid #EEEEEE;
   padding: 10px;
   margin-bottom: 20px;
@@ -225,4 +225,13 @@ button:hover,
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.out-of-stock {
+  background-color:#EEEE; /* Set background color to gray for out of stock items */
+}
+
+.exceeds-stock {
+  /* Add your custom styles for items that exceed stock here */
+  background-color: #ffcccc; /* Set background color to light red for items that exceed stock */
 }

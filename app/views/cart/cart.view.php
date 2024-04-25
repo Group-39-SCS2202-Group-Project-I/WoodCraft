@@ -47,7 +47,7 @@
       $cartProducts = $data['cart_products'];
       // show($cartProducts);
       
-      show($_SESSION);
+      
       // // show($data);
       
       if (isset($_SESSION['error'])) {
@@ -71,82 +71,70 @@
       ?>
 
 
-
-      <?php
-      if (isset($cartProducts) && !empty($cartProducts)) {
-        foreach ($cartProducts as $cartProduct) {
-          //show($cartProduct);
-          ?>
-          <td>
+<?php
+if (isset($cartProducts) && !empty($cartProducts)) {
+    foreach ($cartProducts as $cartProduct) {
+        $outOfStockClass = isset($errors[$cartProduct['product_id']]) ? 'out-of-stock' : ''; // Check if product is out of stock
+        ?>
+        <td>
             <div class="smallcart">
-              <div class="product">
-                <div class="checkboxe">
-                  <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
-                    <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
-
-
-                </div>
-                <div class="imag-box">
-                  <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
-                    alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
-                </div>
-                <div class="details">
-                  <div class="pdetails">
-                    <div class="product-details">
-                      <p><?php echo $cartProduct['name'] ?></p>
-                      <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
+                <div class="product <?php echo $outOfStockClass; ?>"> <!-- Add the class here -->
+                    <div class="checkboxe">
+                        <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                            <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
                     </div>
-                  </div>
+                    <div class="imag-box">
+                        <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
+                            alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
+                    </div>
+                    <div class="details">
+                        <div class="pdetails">
+                            <div class="product-details">
+                                <p><?php echo $cartProduct['name'] ?></p>
+                                <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Qdetails">
+                        <div class="remove">
+                            <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
+                                <i><span class="material-symbols-outlined">
+                                    delete
+                                </span></i>
+                            </button>
+                        </div>
+                        <div class="quantity">
+                            <button type="button" class="decrease"
+                                data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                                    class="material-symbols-outlined">
+                                    remove
+                                </span></i></button>
+                            <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                                value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                            <button type="button" class="increase"
+                                data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                                    class="material-symbols-outlined">
+                                    add
+                                </span></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="Qdetails">
-
-
-
-
-                  <div class="remove">
-                    <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
-                      <i><span class="material-symbols-outlined">
-                          delete
-                        </span></i>
-                    </button>
-
-                  </div>
-
-
-
-                  <div class="quantity">
-                    <button type="button" class="decrease"
-                      data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
-                          class="material-symbols-outlined">
-                          remove
-                        </span></i></button>
-                    <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
-                      value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
-                    <button type="button" class="increase"
-                      data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
-                          class="material-symbols-outlined">
-                          add
-                        </span></i></button>
-                  </div>
-                </div>
-              </div>
             </div>
-          </td>
-          <?php
+        </td>
+        <?php
 
-          // if ($cartProduct->selected === 'true') {
-          //   // Only consider selected items for calculation
-          //   $subtotal += $cart['price']; // Accumulate subtotal
-          //   $selectedItemsCount++; // Increment the selected items counter
-          // }
-          // Accumulate subtotal
-        }
-      } else {
-        echo "<h5>Cart Is Empty</h5>";
-      }
-      ?>
+        // if ($cartProduct->selected === 'true') {
+        //   // Only consider selected items for calculation
+        //   $subtotal += $cart['price']; // Accumulate subtotal
+        //   $selectedItemsCount++; // Increment the selected items counter
+        // }
+        // Accumulate subtotal
+    }
+} else {
+    echo "<h5>Cart Is Empty</h5>";
+}
+?>
     </div>
-
     <div class="summary">
       <div class="top">
         <h2>Order Summary</h2>
