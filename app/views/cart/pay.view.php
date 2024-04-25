@@ -3,5 +3,4 @@
 <?php
 
 
-
 show($data);

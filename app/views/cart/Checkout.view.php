@@ -453,6 +453,7 @@
             }
         }
     </script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
     <script>
         function paymentGateway() {
             // console.log("in");
@@ -480,11 +481,11 @@
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
                                 console.log("Payment completed. OrderID:" + orderId);
                                 // Redirect to the invoice page
-                                window.location = "invoice.php";
+                                window.location = "<?php echo ROOT; ?>";
                             }
                         };
 
-                        paymentCompletedXhttp.open("GET", "paymentUpdate.php?orderId=" + orderId, true);
+                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/confirmPayment'; ?>", true);
                         paymentCompletedXhttp.send();
                     };
 
@@ -505,11 +506,11 @@
                     var payment = {
                         "sandbox": true,
                         "merchant_id": obj["merchant_id"], // Replace your Merchant ID
-                        "return_url": "http://localhost/cart-and-checkout-php-mysql/cart.php", // Important
-                        "cancel_url": "http://localhost/cart-and-checkout-php-mysql/checkout.php", // Important
-                        "notify_url": "http://localhost/cart-and-checkout-php-mysql/notify.php", // check this
+                        "return_url": "<?php echo ROOT . ''; ?>", // Important
+                        "cancel_url": "<?php echo ROOT . '/cart'; ?>", // Important
+                        "notify_url": "<?php echo ROOT . '/payments'; ?>", // check this
                         "order_id": obj["order_id"],
-                        "items": "Door bell wireles",
+                        "items": "mobile",
                         "amount": obj["amount"],
                         "currency": obj["currency"],
                         "hash": obj["hash"], // *Replace with generated hash retrieved from backend
@@ -536,7 +537,7 @@
             xhttp.send();
         }
     </script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
 
 </body>
 

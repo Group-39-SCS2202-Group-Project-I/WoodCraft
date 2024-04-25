@@ -8,8 +8,9 @@ class Payments extends Controller
     public function index()
     {
         $data['title'] = 'Payments';
-        $payment = $this->pay('delivery', 1);
-        // $this->view('cart/pay', $data);
+        // $payment = $this->pay('delivery', 1);
+        $payment = $this->onCompletePayment(235);
+        $this->view('cart/pay', $data);
     }
 
     public function pay($type, $address_id = NULL)
@@ -163,70 +164,53 @@ class Payments extends Controller
 
     }
 
-    public function confirmPayment()
+    
+    // Function for payment completion
+    public function onCompletePayment($orderId)
     {
+        // $orderId = $_POST['order_id'];
 
-    //     $data['errors'] = [];
+        $data['errors'] = [];
+        
+        $orderDetails = new OrderDetails();
+        $order = $orderDetails->getByOrderDetailsId($orderId);
+        $order = $order[0];
+        show($order);
 
-    //     $db = new Database;
+        $payment_data = [
+            'order_details_id' => $order->order_details_id,
+            'amount' => $order->total,
+            'provider' => 'visa',
+            'status' => 'success'
+        ];
+        
+        $payment = new Payment();
+        $payment->addPayment($payment_data);
 
-    //     if (isset($_GET['orderId'])) {
-    //         $orderId = $_GET['orderId'];
-        
-                
-    //         require 'classes/cart.class.php';
-    //         $objCart = new cart($conn);
-    //         $objCart->setCid($_SESSION['cid']);
-    //         $cartItems = $objCart->getAllCartItems();
-    //         $cartPrices = $objCart->calculatePrices($cartItems);
-        
-    //         require 'classes/transaction.class.php';
-    //         $objTrans = new transaction($conn);
-    //         $objTrans->setCid($_SESSION['cid']);
-    //         $objTrans->setQuantity($cartPrices['itemCount']);
-    //         $objTrans->setAmount( str_replace(',', '', $cartPrices['finalPrice']));
-    //         $objTrans->setOrderStatus(2);
-    //         $objTrans->setCreatedOn(date('Y-m-d H:i:s'));
-    //         $tId = $objTrans->saveTransaction();
-        
-        
-    //         if(!is_numeric($tId)){
-    //             echo "Something went wrong, Please try again.";
-    //         }
-        
-    //         require 'classes/workshopSeat.class.php';
-    //         $objWseat = new workshopSeat($conn);
-    //         foreach ($cartItems as $key => $cartItem) {
-    //             $objWseat->setTid($tId);
-    //             $objWseat->setWid($cartItem['pid']);
-    //             $objWseat->setQuantity($cartItem['quantity']);
-    //             $objWseat->setCreatedOn(date('Y-m-d H:i:s'));
-    //             $orderId = $objWseat->bookSeats();
-        
-    //             if(!is_numeric($orderId)) {
-    //                 echo "Something went wrong, Please try again.";
-        
-    //             }
-    //         }
-        
-    //         $objCart->removeAllItems();
-        
-    //         $_SESSION['tid'] = $tId;
-        
-    //         // Perform actions based on the completed payment
-    //         // For example, update the order status in the database, generate an invoice, etc.
-        
-    //         // Your PHP code for handling payment completion goes here
-        
-    //         // Respond with a success message (optional)
-    //         $logMessage = "Order ID: $orderId\n";
-    //         file_put_contents('order_log.log', $logMessage, FILE_APPEND | LOCK_EX);
-    //     } else {
-    //         // Respond with an error message if the order ID is not provided
-    //         echo "Error: OrderID not provided.";
-    //     }
+        $customerId = Auth::getCustomerID();
+        $cartProducts = new CartProduct();
+        $cartProducts->removeCartItems($customerId);
+        show('done');
+
+        $cartModel = new CartDetails();
+        $cartModel->updateCartTotals($customerId);
+
+
+        $userId = Auth::getUserId();
+        $order = $orderDetails->getOrderByUserId($userId);
+        $order_details_id = $order[0]->order_details_id;
+        $orderDetails->updateOrderStatus($order_details_id, 'processing');
+        show('done');
+
+        unset($_SESSION['cart']);
+        unset($_SESSION['cart_products']);
     }
 
+
+
+
+
+    // Function to verify checkout products
     public function verifyCheckoutProducts()
     {
         $customerId = Auth::getCustomerID();
@@ -311,43 +295,4 @@ class Payments extends Controller
         // show($data['products']);
     }
 
-    // Function to add selected items to the checkout table
-
-    //     public function addSelectedItems() {
-    //         if (isset($_POST['productId']) && isset($_POST['selected'])) {
-    //             $productId = $_POST['productId'];
-    //             $selected = $_POST['selected'];
-    //         show($_POST);
-    //             // Perform database operation to add selected item to the checkout table
-    //             $checkoutModel = new Cartcheckout();
-
-    //             if ($selected === 'true') {
-    //                 // Assuming you have a customer ID, you can retrieve it from session or any other method
-    //                 $customerId = 1; // Replace with actual customer ID retrieval logic
-
-    //                 // Insert the item into the checkout table
-
-    //                 $checkoutModel = new Cartcheckout();
-    //                     $data['customer_id'] = 1; // Assuming a static customer ID for demonstration
-    //                     $data['product_id'] = $productId;
-    //                     $data['quantity'] = 1;
-    //                     $data['created_at'] = date('Y-m-d H:i:s');
-    //                     $data['updated_at'] = date('Y-m-d H:i:s');
-
-    //                 $checkoutModel->insert($data);
-
-    //                 // Send a success response
-    //                 echo json_encode(['success' => true]);
-    //                 exit();
-    //             } else {
-    //                 // Handle the case if the item is deselected (optional)
-    //             }
-    //         }
-
-    //         // Send an error response if required data is not received
-    //         echo json_encode(['error' => 'Invalid request']);
-    //         exit();
-    //     }
-    //     // Your existing code to add selected items
-    // }
 }

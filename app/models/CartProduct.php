@@ -131,6 +131,13 @@ public function removeCartItem($customerId, $productId)
     $this->query($query, $params);
 }
 
+public function removeCartItems($customerId)
+{
+    $query = "DELETE FROM $this->table WHERE customer_id = :customer_id";
+    $params = ['customer_id' => $customerId];
+    $this->query($query, $params);
+}
+
 
 public function updateQuantity($customerId, $productId, $quantity)
 {
