@@ -265,12 +265,13 @@ if ($availavle_supervisors) {
 </script>
 
 <script>
-    document.getElementById('searchWorkers').addEventListener('keyup', function() {
+
+    document.getElementById('searchWorkers').addEventListener('click', function() {
         document.getElementById("carp-card").classList.remove("card-clicked");
         document.getElementById("pain-card").classList.remove("card-clicked");
         document.getElementById("sup-card").classList.remove("card-clicked");
-
-
+    });
+    document.getElementById('searchWorkers').addEventListener('keyup', function() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById('searchWorkers');
         filter = input.value.toUpperCase();

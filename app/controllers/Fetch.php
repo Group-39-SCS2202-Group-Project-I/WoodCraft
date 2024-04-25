@@ -520,6 +520,11 @@ class Fetch extends Controller
 
             $production_data = array_merge((array) $data['production'][0], (array) $data['product'][0]);
 
+            $product_category_id = $data['product'][0]->product_category_id;
+            $cat_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
+            $production_data['category_name'] = $cat_name[0]->category_name;
+
+
             header("Content-Type: application/json");
             echo json_encode($production_data);
         } else {
