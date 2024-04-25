@@ -16,10 +16,10 @@ class Customer extends Model
         "last_name",
         "email",
         "telephone",
-        "birth_day",
-        "birth_month",
-        "birth_year",
-        "gender",
+        // "birth_day",
+        // "birth_month",
+        // "birth_year",
+        // "gender",
     ];
 
 	public function validate($data)
@@ -88,7 +88,6 @@ class Customer extends Model
     //     return $result;
     // }
 
-    // ....
     // public function edit_validate($data)
     // {
     //     $this->errors = [];
@@ -149,5 +148,206 @@ class Customer extends Model
     return $customerAddress;
 }
 
-   
+    // (A)
+    // Profile Controller
+
+    public function updateCustomerProfile($id, $data)
+    {
+        $table = 'customer';
+
+        $setClause = '';
+        foreach ($data as $key => $value) {
+            $setClause .= "`$key` = :$key, ";
+        }
+        $setClause = rtrim($setClause, ', ');
+
+        // Construct the full SQL query
+        $query = "UPDATE $table SET $setClause WHERE `customer_id` = :id";
+
+        // Add the customer ID to the data array
+        $data['id'] = $id;
+
+        // Perform the database update
+        $db = new Database;
+        $db->query($query, $data);
+        return 1;
+    }
+
+    public function updateCustomerAddress($id, $data)
+	{
+		$table = 'address';
+
+		$setClause = '';
+		foreach ($data as $key => $value) {
+			$setClause .= "`$key` = :$key, ";
+		}
+		$setClause = rtrim($setClause, ', ');
+
+		// Construct the full SQL query
+		$query = "UPDATE $table SET $setClause WHERE `address_id` = :id";
+
+		// Add the customer ID to the data array
+		$data['id'] = $id;
+
+		// Perform the database update
+		$db = new Database;
+		$db->query($query, $data);
+        return 1;
+	}
+
+    // Orders Controller - retail orders
+
+    public function getOrders($user_id)
+	{
+		$query = "SELECT od.order_details_id, od.status, od.created_at, 
+						oi.quantity, 
+						p.name as product_name, 
+						pi.image_url as product_image_url
+				FROM order_details od
+				LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
+				LEFT JOIN product p ON oi.product_id = p.product_id
+				LEFT JOIN product_image pi ON p.product_id = pi.product_id
+				WHERE od.user_id = :user_id
+				GROUP BY od.order_details_id, p.product_id
+				ORDER BY od.created_at DESC";
+
+		$params = array(':user_id' => $user_id);
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+
+	public function getOrderDetails($order_id){
+		$query = "SELECT od.order_details_id, od.created_at, od.total, od.updated_at, od.status, od.delivery_cost,
+						a.address_line_1, a.address_line_2, a.city,
+						c.first_name, c.last_name, c.telephone
+					FROM order_details od
+					LEFT JOIN customer c ON od.user_id = c.user_id
+					LEFT JOIN address a ON c.address_id = a.address_id
+					WHERE od.order_details_id = :order_id
+					GROUP BY od.order_details_id";
+
+		$params = array(':order_id' => $order_id);
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+
+	public function getOrderItems($order_id){
+		$query = "SELECT oi.quantity, p.name AS product_name, p.price, 
+						pi.image_url as product_image_url 
+					FROM order_item oi
+					LEFT JOIN product p ON oi.product_id = p.product_id
+					LEFT JOIN product_image pi ON p.product_id = pi.product_id
+					WHERE oi.order_details_id = :order_id
+					GROUP BY p.product_id";
+
+		$params = array(':order_id' => $order_id);
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+		// Calculate subtotal for each order item
+		foreach ($result as &$item) {
+			$item['subtotal'] = $item['quantity'] * $item['price'];
+		}
+
+		return $result;
+	}
+
+    // Review Controller
+
+    public function getProducts($user_id, $customer_id){
+        $query = "SELECT od.user_id, od.created_at,
+                        oi.product_id,
+                        p.name AS product_name,
+                        pi.image_url AS product_image,
+                        pr.review_id, pr.review, pr.rating
+                FROM order_details od
+                LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
+                LEFT JOIN product p ON oi.product_id = p.product_id
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                LEFT JOIN product_review pr ON p.product_id = pr.product_id AND pr.customer_id = :customer_id
+                WHERE od.user_id = :user_id
+                GROUP BY p.product_id
+                ORDER BY od.created_at DESC";
+    
+        $params = array(':user_id' => $user_id, ':customer_id' => $customer_id);
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+    
+        return $result;
+    }
+
+    //Order Controller - bulk orders
+
+    public function getBulkOrders($user_id)
+    {
+        $query = "SELECT br.bulk_req_id, br.status AS request_status, br.quantity, br.created_at, br.updated_at,
+                        p.name AS product_name,
+                        pi.image_url AS product_image
+                FROM bulk_order_req br
+                LEFT JOIN product p ON br.product_id = p.product_id
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                -- WHERE br.user_id = :user_id AND br.status = 'accepted'
+                WHERE br.user_id = :user_id
+                GROUP BY p.product_id
+                ORDER BY br.created_at DESC";
+
+        $params = array(':user_id' => $user_id);
+        $db = new Database;
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+	public function getBulkOrderDetails($bulk_req_id)
+    {
+        $query = "SELECT bod.bulk_order_details_id, bod.created_at, bod.updated_at, bod.total_cost, bod.delivery_cost,
+                         bod.status, bod.type, bod.delivery_address_id,
+                         p.price,
+                         pi.image_url,
+                         IF(bod.delivery_address_id IS NOT NULL, a.address_line_1, NULL) AS address_line_1,
+                         IF(bod.delivery_address_id IS NOT NULL, a.address_line_2, NULL) AS address_line_2,
+                         IF(bod.delivery_address_id IS NOT NULL, a.city, NULL) AS city,
+                         c.first_name, c.last_name,
+                         br.quantity, 
+                         (br.quantity * p.price) AS subtotal
+                  FROM bulk_order_details bod
+                  LEFT JOIN bulk_order_req br ON bod.bulk_req_id = br.bulk_req_id
+                  LEFT JOIN product p ON br.product_id = p.product_id
+                  LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                  LEFT JOIN customer c ON br.user_id = c.user_id
+                  LEFT JOIN address a ON bod.delivery_address_id = a.address_id
+                  WHERE bod.bulk_req_id = :bulk_req_id AND br.status = 'accepted'";
+    
+        $params = array(':bulk_req_id' => $bulk_req_id);
+        $db = new Database;
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+    
+        return $result;
+    }
+    
+
+	public function getBulkOrderItems($order_id){
+		$query = "SELECT oi.quantity, p.name AS product_name, p.price, 
+						pi.image_url as product_image_url 
+					FROM order_item oi
+					LEFT JOIN product p ON oi.product_id = p.product_id
+					LEFT JOIN product_image pi ON p.product_id = pi.product_id
+					WHERE oi.order_details_id = :order_id
+					GROUP BY p.product_id";
+
+		$params = array(':order_id' => $order_id);
+		$db = new Database;
+		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+		// Calculate subtotal for each order item
+		foreach ($result as &$item) {
+			$item['subtotal'] = $item['quantity'] * $item['price'];
+		}
+
+		return $result;
+	}
 }

@@ -14,9 +14,9 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Trending item</p>
+              <p class="banner-subtitle">Home Harmony</p>
 
-              <h2 class="banner-title">Women's latest fashion sale</h2>
+              <h2 class="banner-title">Find Your Perfect Piece</h2>
 
               <p class="banner-text">
                 starting at &dollar; <b>20</b>.00
@@ -34,9 +34,9 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Trending accessories</p>
+              <p class="banner-subtitle">Modern Classics</p>
 
-              <h2 class="banner-title">Modern sunglasses</h2>
+              <h2 class="banner-title">Discover Woodcraft's Timeless Designs</h2>
 
               <p class="banner-text">
                 starting at &dollar; <b>15</b>.00
@@ -54,9 +54,9 @@
 
             <div class="banner-content">
 
-              <p class="banner-subtitle">Sale Offer</p>
+              <p class="banner-subtitle">Crafted Comfort</p>
 
-              <h2 class="banner-title">New fashion summer sale</h2>
+              <h2 class="banner-title">Explore Our Latest Collection</h2>
 
               <p class="banner-text">
                 starting at &dollar; <b>29</b>.99
