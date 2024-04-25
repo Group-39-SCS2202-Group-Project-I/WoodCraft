@@ -7,15 +7,16 @@
     <title>Checkout Page</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
     <style>
         /* Your CSS styles go here */
-
         .containercheckout {
             display: flex;
             flex-direction: column;
             align-items: center;
             border-radius: 0.5rem;
-            width: 70%;
+            width: 50%;
             margin: auto;
             padding-left: 10px;
             /* Add padding to the left side */
@@ -23,7 +24,7 @@
 
         .changeaddress {
             width: 100%;
-            border: 1px solid #ccc;
+            border: 1px solid #EEEEEE;
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
@@ -31,6 +32,8 @@
             /* Add small left padding */
             margin-right: 20px;
             /* Add small right padding */
+            cursor: pointer;
+            /* Add cursor pointer for clickability */
         }
 
         .contentcheckout {
@@ -41,54 +44,58 @@
             width: 100%;
             display: flex;
             align-items: flex-start;
+            margin-left: 3%;
+            margin-right: 10%;
             /* Align items at the top */
         }
 
+
         .summary {
-            width: 30%;
-            border: 1px solid #bdbdbd;
+            width: 20%;
+            border: 1px solid #EEEEEE;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
             margin-left: 10px;
             /* Add small left padding */
             padding-right: 10px;
-            /* Add padding to the left side */
+            /* Add padding to the l
+            eft side */
+            margin-right: 10%;
         }
 
-        /* Updated CSS for modern toggle */
         .delivery-option {
             display: flex;
+            /* Use flexbox to align items */
             align-items: center;
-            width: 200px;
-            /* Adjust width as needed */
-            height: 40px;
-            /* Adjust height as needed */
-            border-radius: 20px;
-            /* Make it round */
-            overflow: hidden;
-            background-color: #ccc;
-            /* Default background color */
+            /* Align items vertically */
+            margin-right: 10px;
         }
 
-        .delivery-option-input {
-            display: none;
-            /* Hide the radio buttons */
-        }
-
-        .delivery-option-label {
-            flex: 1;
-            text-align: center;
-            line-height: 40px;
-            /* Center vertically */
+        .delivery-option-label-custom {
             cursor: pointer;
-            transition: color 0.3s, background-color 0.3s;
+            display: inline-flex;
+            /* Use inline-flex for label */
+            align-items: center;
+            /* Align items vertically */
+            vertical-align: middle;
+            /* margin-right:px; */
         }
 
-        .delivery-option-input:checked+.delivery-option-label {
-            color: #fff;
+        .material-icons {
+            font-size: 18px;
+            /* Adjust icon size as needed */
+        }
+
+        .delivery-option-title {
+            margin-left: .4rem;
+            /* Add space between icon and title */
+        }
+
+        .delivery-option-input:checked+.delivery-option-label-custom {
+            /* color: #fff; */
             /* Change text color when selected */
-            background-color: #2196f3;
+            /* background-color: #2196f3; */
             /* Change background color when selected */
         }
 
@@ -103,14 +110,14 @@
             transition: transform 0.3s;
         }
 
-        .delivery-option-input:checked+.delivery-option-label:last-of-type~.toggle {
+        .delivery-option-input:checked+.delivery-option-label-custom:last-of-type~.toggle {
             transform: translateX(100%);
             /* Move toggle to the right for delivery */
         }
 
         .cart {
             width: 100%;
-            border: 1px solid #ccc;
+            border: 1px solid #EEEEEE;
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
@@ -133,6 +140,7 @@
         .detail h2 {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
             margin: 5px 0;
             font-size: 1vw;
@@ -141,20 +149,28 @@
         }
 
         .detail h2 span {
-            color: #333;
+            margin-left: 20px;
+            /* Add margin to create space between h2 and span */
+            display: flex;
+            align-items: center;
         }
 
-        .detail h2#discount span {
-            color: red;
+        .detail h2 span::before {
+            /* Add a vertical bar before the span */
+            margin-right: 10px;
+            /* Add margin to separate the vertical bar from text */
         }
 
-        .detail h2::after {
-            content: '';
-            flex-grow: 1;
-        }
-
-        .detail h2 span {
+        .detail h2 span::after {
             margin-left: 10px;
+            /* Add margin to separate the text from the currency symbol */
+        }
+
+        .detail h2#discount span::before,
+        .detail h2#delivery span::before,
+        .detail h2#total span::before {
+            content: "";
+            /* Remove the vertical bar for specific h2 elements */
         }
 
         .smallcart {
@@ -226,6 +242,9 @@
         /* CSS for form buttons */
         .form-buttons {
             margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
 
         .form-buttons button {
@@ -239,28 +258,42 @@
         }
 
         .form-buttons button[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #000;
             /* Green */
             color: white;
         }
 
         .form-buttons button[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: hsl(152, 51%, 52%);
         }
 
         .form-buttons button[type="button"] {
-            background-color: #f44336;
+            background-color: #000;
             /* Red */
             color: white;
         }
 
         .form-buttons button[type="button"]:hover {
-            background-color: #da190b;
+            background-color: hsl(152, 51%, 52%);
+        }
+
+        .change-address-form {
+            display: none;
+            width: 100%;
+            border: 1px solid #EEEEEE;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 0.5rem;
+            margin-left: 20px;
+            margin-right: 20px;
+            /* Hide the form initially */
         }
     </style>
 </head>
 
+
 <body>
+
     <?php $this->view('includes/header', $data) ?>
     <header>
         <?php $this->view('includes/nav', $data) ?>
@@ -270,76 +303,74 @@
     <div class="contentcheckout">
         <div class="cartitems">
             <div class="containercheckout">
-                <div class="changeaddress">
-                    <h2 onclick="openModal()"><i class="fa-regular fa-circle-plus"></i>Change Your Address</h2>
-                    <p><?php echo $customerAddress->address_line_1; ?></p>
-                    <p><?php echo $customerAddress->address_line_2; ?></p>
-                    <p><?php echo $customerAddress->city; ?></p>
-                    <p><?php echo $customerAddress->province; ?></p>
-                    <p><?php echo $customerAddress->zip_code; ?></p>
-                    <!-- <?php show($data['customerAddress']); ?> -->
+                <div class="changeaddress" onclick="toggleAddressForm()">
+                    <h2><i class="material-icons">add_circle_outline</i> Change Your Address</h2>
+                    <?php if (isset($_SESSION['newAddress'])) : ?>
+                        <p><?php echo $_SESSION['newAddress']['address_line_1']; ?></p>
+                        <p><?php echo $_SESSION['newAddress']['address_line_2']; ?></p>
+                        <p><?php echo $_SESSION['newAddress']['city']; ?></p>
+                        <p><?php echo $_SESSION['newAddress']['province']; ?></p>
+                        <p><?php echo $_SESSION['newAddress']['zip_code']; ?></p>
+                    <?php elseif (isset($data['customerAddress'])) : ?>
+                        <p><?php echo $data['customerAddress']->address_line_1; ?></p>
+                        <p><?php echo $data['customerAddress']->address_line_2 ?? ''; ?></p>
+                        <p><?php echo $data['customerAddress']->city; ?></p>
+                        <p><?php echo $data['customerAddress']->province; ?></p>
+                        <p><?php echo $data['customerAddress']->zip_code; ?></p>
+                    <?php endif; ?>
                 </div>
+
                 <!-- Modal for Change Address Form -->
-                <div id="changeAddressModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <!-- Change Address Form -->
-                        <div class="change-address-form">
-                            <h2>Change Address</h2>
-                            <form action="#" method="post" class="address-form">
-                                <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" required>
 
-                                <label for="mobileNumber">Mobile Number</label>
-                                <input type="text" id="mobileNumber" name="mobileNumber" required>
+                <div class="change-address-form">
+                    <h2> Change Your Address</h2>
 
-                                <label for="province">Province</label>
-                                <select id="province" name="province" required>
-                                    <option value="" disabled selected>Please choose your province</option>
-                                    <!-- Add options for provinces -->
-                                </select>
+                    <form action="#" method="post" class="address-form" onsubmit="saveAddress(); return false;">
+                        <?php if (!empty($errors['address_line_1'])) : ?>
+                            <p class="validate-mzg "><?= $errors['address_line_1'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('address_line_1') ?>" type="text" name="address_line_1" placeholder="Address Line 1">
 
-                                <label for="city">City</label>
-                                <select id="city" name="city" required>
-                                    <option value="" disabled selected>Please choose your city/municipality</option>
-                                    <!-- Add options for cities -->
-                                </select>
+                        <?php if (!empty($errors['address_line_2'])) : ?>
+                            <p class="validate-mzg "><?= $errors['address_line_2'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('address_line_2') ?>" type="text" name="address_line_2" placeholder="Address Line 2">
 
-                                <label for="area">Area</label>
-                                <select id="area" name="area" required>
-                                    <option value="" disabled selected>Please choose your area</option>
-                                    <!-- Add options for areas -->
-                                </select>
+                        <?php if (!empty($errors['city'])) : ?>
+                            <p class="validate-mzg "><?= $errors['city'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('city') ?>" type="text" name="city" placeholder="City">
 
-                                <label for="address">Address</label>
-                                <input type="text" id="address" name="address" required>
+                        <?php if (!empty($errors['province'])) : ?>
+                            <p class="validate-mzg "><?= $errors['province'] ?></p>
+                        <?php endif; ?>
+                        <select name="province" id="province">
+                            <!-- <option value="" style="color:#757575;">Province</option> -->
+                            <option value="Western" selected>Western Province</option>
+                            <option value="Central">Central Province</option>
+                            <option value="Eastern">Eastern Province</option>
+                            <option value="North Central">North Central Province</option>
+                            <option value="Northern">Northern Province</option>
+                            <option value="North Western">North Western Province</option>
+                            <option value="Sabaragamuwa">Sabaragamuwa Province</option>
+                            <option value="Southern">Southern Province</option>
+                            <option value="Uva">Uva Province</option>
+                        </select>
 
-                                <label for="landmark">Landmark (Optional)</label>
-                                <input type="text" id="landmark" name="landmark">
+                        <?php if (!empty($errors['zip_code'])) : ?>
+                            <p class="validate-mzg "><?= $errors['zip_code'] ?></p>
+                        <?php endif; ?>
+                        <input value="<?= set_value('zip_code') ?>" type="text" name="zip_code" placeholder="Zip Code">
 
-                                <label for="deliveryLabel">Select a label for effective delivery:</label>
-                                <select id="deliveryLabel" name="deliveryLabel">
-                                    <option value="home">Home</option>
-                                    <option value="office">Office</option>
-                                    <option value="default">Default Address</option>
-                                </select>
-
-                                <label for="defaultDelivery">Default delivery address</label>
-                                <input type="checkbox" id="defaultDelivery" name="defaultDelivery">
-
-                                <label for="defaultBilling">Default billing address</label>
-                                <input type="checkbox" id="defaultBilling" name="defaultBilling">
-
-                                <p>Your existing default address setting will be replaced if you make some changes here.</p>
-                                <div class="form-buttons">
-                                    <button type="submit">Save</button>
-                                    <button type="button" onclick="closeModal()">Cancel</button>
-                                </div>
-                            </form>
+                        <p>Your existing default address setting will be replaced if you make some changes here.</p>
+                        <div class="form-buttons">
+                            <button type="submit">Save Address</button>
+                            <button type="button" onclick="cancelAddressForm()">Cancel</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <!-- End of Modal -->
+
                 <div class="cart">
 
 
@@ -357,7 +388,7 @@
                     $total = $cart[0]->total;
                     $delivery = $cart[0]->delivery_cost;
 
-                    show($_SESSION);
+                    // show($_SESSION);
 
                     $checkoutProducts = $data['checkout_products'];
                     // show($checkoutProducts);
@@ -373,14 +404,14 @@
                                     <div class="details">
                                         <div class="pdetails">
                                             <div class="product-details">
-                                                <p><?php echo  $checkoutProduct['name'] ?></p>
-                                                <p class="unit-price"><?php echo  $checkoutProduct['price'] ?></p>
+                                                <p><?php echo $checkoutProduct['name'] ?></p>
+                                                <p class="unit-price"><?php echo $checkoutProduct['price'] ?></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="Qdetails">
                                         <div class="quantity">
-                                            <p><?php echo  $checkoutProduct['quantity'] ?></p>
+                                            <p><?php echo $checkoutProduct['quantity'] ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -402,12 +433,21 @@
                     <h2>Order Summary</h2>
                 </div>
                 <div class="detail">
+                    <!-- Google Material Symbols Outlined Font -->
                     <div class="delivery-option">
+                        <!-- Pickup Option -->
                         <input type="radio" id="pickup" name="delivery-option" class="delivery-option-input" checked>
-                        <label for="pickup" class="delivery-option-label">Pickup</label>
-                        <input type="radio" id="delivery" name="delivery-option" class="delivery-option-input">
-                        <label for="delivery" class="delivery-option-label">Delivery</label>
-                        <div class="toggle"></div>
+                        <label for="pickup" class="delivery-option-label-custom">
+                            <i class="material-icons">store</i>
+                        </label>
+                        <span class="delivery-option-title">PickUp</span>
+
+                        <!-- Delivery Option -->
+                        <input type="radio" id="delivery" name="delivery-option" class="delivery-option-input-custom">
+                        <label for="delivery" class="delivery-option-label-custom">
+                            <i class="material-icons">local_shipping</i>
+                        </label>
+                        <span class="delivery-option-title">Delivery</span>
                     </div>
 
                     <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
@@ -427,32 +467,75 @@
 
     <?php $this->view('includes/footer', $data) ?>
 
+
+
+
     <script>
-        function showChangeAddressForm() {
-            var form = document.getElementById('changeAddressForm');
-            form.style.display = 'block';
-        }
+        function handleDeliveryOption() {
+            var isPickupSelected = document.getElementById('pickup').checked;
+            var changeAddressSection = document.querySelector('.changeaddress');
+            var addressForm = document.querySelector('.change-address-form');
 
-        // Function to open the modal
-        function openModal() {
-            var modal = document.getElementById('changeAddressModal');
-            modal.style.display = 'block';
-        }
+            if (isPickupSelected) {
+                // If Pickup option is selected, hide the address form
+                addressForm.style.display = 'none';
 
-        // Function to close the modal
-        function closeModal() {
-            var modal = document.getElementById('changeAddressModal');
-            modal.style.display = 'none';
-        }
+                changeAddressSection.style.backgroundColor = '#EEEEEE';
 
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            var modal = document.getElementById('changeAddressModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+            } else {
+
+                changeAddressSection.style.backgroundColor = '';
             }
         }
+
+        // Function to toggle the address form visibility when "Change Your Address" section is clicked
+        function toggleAddressForm() {
+            var form = document.querySelector('.change-address-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Function to handle cancellation of address form
+        function cancelAddressForm() {
+            var form = document.querySelector('.change-address-form');
+            form.style.display = 'none';
+        }
+
+        // Function to handle saving of address
+        // Function to handle saving of address
+        function saveAddress() {
+            var formData = new FormData(document.querySelector('.address-form'));
+            // Send the form data to the saveAddress method in the Checkout controller
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response, if needed
+                    console.log(xhr.responseText);
+                    cancelAddressForm();
+                    alert('Delivery address changed successfully!');
+                    // Auto cancel the form after saving data
+                    // Call cancelAddressForm here to hide the form after saving
+                } else {
+                    // Handle error response, if needed
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(formData);
+            console.log("Form submitted!");
+        }
+
+
+        // Attach event listeners to the radio buttons for delivery options
+        // Attach event listeners to the radio buttons for delivery options
+        document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+        document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+        // Initially handle the selected delivery option
+        handleDeliveryOption();
+        // Initially handle the selected delivery option
     </script>
+
+
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
     <script>
         function paymentGateway() {
@@ -481,7 +564,7 @@
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
                                 console.log("Payment completed. OrderID:" + orderId);
                                 // Redirect to the invoice page
-                                window.location = "<?php echo ROOT.'cart/invoice.view.php'; ?>";
+                                window.location = "<?php echo ROOT . 'cart/invoice.view.php'; ?>";
                             }
                         };
 
@@ -535,6 +618,7 @@
             // console.log("in");
             xhttp.open("GET", '<?php echo ROOT . '/payments'; ?>', true);
             xhttp.send();
+
         }
     </script>
 

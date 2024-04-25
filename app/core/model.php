@@ -170,5 +170,6 @@ class Model extends Database
     //     $this->query($query, $data);
 
     // }
+	
 
 }

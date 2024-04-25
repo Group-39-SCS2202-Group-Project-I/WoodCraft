@@ -6,27 +6,20 @@ class Checkout extends Controller
     {
         $data['title'] = 'checkout';
 
-
         // Fetch cart items
         $db = new Database();
-
         $customerId = Auth::getCustomerID();
-
 
         // Fetch cart data
         $data['cart'] = $db->query("SELECT * FROM cart WHERE customer_id = $customerId");
 
         // Fetch cart products
-        $cart_data['cart_products'] = $db->query("SELECT * FROM cart_products WHERE customer_id = :customer_id", [':customer_id' => $customerId]);
-
-
-        // Initialize an empty array to hold the mapped products
+        $cart_products = $db->query("SELECT * FROM cart_products WHERE customer_id = :customer_id", [':customer_id' => $customerId]);
         $products = [];
 
         // Iterate over each cart product
-        foreach ($cart_data['cart_products'] as $cart_product) {
+        foreach ($cart_products as $cart_product) {
             $error = [];
-
             $product_id = $cart_product->product_id;
 
             if ($cart_product->selected == 1) {
@@ -109,12 +102,52 @@ class Checkout extends Controller
 
         // Fetch customer's address
         $customerModel = new Customer();
-        $customerAddress = $customerModel->getCustomerAddress($customerId); // Replace with your actual method
+        $customerAddress = $customerModel->getCustomerAddress($customerId);
         $data['customerAddress'] = $customerAddress;
-
 
         // Load the checkout view
         $this->view('cart/Checkout', $data);
     }
 
-}
+
+    public function saveAddress() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $customerId = Auth::getCustomerID();
+    
+            // Check if the required POST fields exist before accessing them
+            if (
+                isset($_POST['address_line_1']) &&
+                isset($_POST['city']) &&
+                isset($_POST['province']) &&
+                isset($_POST['zip_code'])
+            ) {
+                // Create an array with the allowed columns and their values for the new address
+                $addressData = [
+                    //'customer_id' => $customerId, // Associate the address with the customer
+                    'address_line_1' => $_POST['address_line_1'],
+                    'address_line_2' => $_POST['address_line_2'] ?? null,
+                    'city' => $_POST['city'],
+                    'province' => $_POST['province'],
+                    'zip_code' => $_POST['zip_code']
+                    // Add more fields as needed
+                ];
+    
+                // Create a new Address instance and save the new address in the Address table
+                $newAddress = new Address();
+                $newlySavedAddress = $newAddress->saveAddressD($addressData);
+    
+                // Store the new address data in the session
+                $_SESSION['newAddress'] = $addressData;
+    
+                // Unset the session data after setting it
+                unset($_SESSION['newAddress']);
+            } else {
+                // One or more required POST fields are missing
+                echo "Failed to save address. Required fields are missing.";
+            }
+        } else {
+            // Invalid request method
+            echo "Invalid request method.";
+        }
+    }
+}    
