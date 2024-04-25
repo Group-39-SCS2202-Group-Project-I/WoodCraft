@@ -70,6 +70,11 @@ class CartProduct extends Model
         return $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $customerId]);
     }
 
+    public function getSelectedItems($customerId)
+    {
+        return $this->select($this->table, 'customer_id = :customer_id AND selected = 1', [':customer_id' => $customerId]);
+    }
+
     public function getCartItem($customerId, $product_id)
     {
         

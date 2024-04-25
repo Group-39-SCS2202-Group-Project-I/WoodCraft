@@ -532,7 +532,7 @@
             }
 
             // console.log("in");
-            xhttp.open("GET", './payhereProcess.php', true);
+            xhttp.open("GET", '<?php echo ROOT . '/payments'; ?>', true);
             xhttp.send();
         }
     </script>

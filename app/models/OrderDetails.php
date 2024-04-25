@@ -11,6 +11,7 @@ class OrderDetails extends Model
         "total",
         "type",
         "status",
+        "address_id",
     ];
 
     public function validate($data)
@@ -66,19 +67,22 @@ class OrderDetails extends Model
         return $this->select($this->table, 'user_id = :user_id', [':user_id' => $userId]);
     }
 
-    public function createOrder($userId, $type)
+    public function createOrder($data)
     {
+        $userId = Auth::getUserId();
+
         $params = [
-            'user_id' => $userId,
-            'delivery_cost' => 0,
-            'total' => 0,
-            'type' => $type,
-            'status' => 'pending',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+            ':user_id' => $userId,
+            ':delivery_cost' => $data->delivery_cost,
+            ':total' => $data->total,
+            ':type' => $data->type,
+            ':status' => 'pending',
+            ':address_id' => $data->address_id,
+            ':created_at' => date('Y-m-d H:i:s'),
+            ':updated_at' => date('Y-m-d H:i:s')
         ];
 
-        $query = "INSERT INTO $this->table (user_id, delivery_cost, total, type, status, created_at, updated_at) VALUES (:user_id, :delivery_cost, :total, :type, :status, :created_at, :updated_at)";
+        $query = "INSERT INTO $this->table (user_id, delivery_cost, total, type, status, address_id, created_at, updated_at) VALUES (:user_id, :delivery_cost, :total, :type, :status, :address_id, :created_at, :updated_at)";
         $this->query($query, $params);
     }
 

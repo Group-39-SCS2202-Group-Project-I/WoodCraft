@@ -7,135 +7,165 @@ class Payments extends Controller
 {
     public function index()
     {
-        ?>
-        <script src="<?php echo ROOT ?>/app/core/payment.js"></script>
-        <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log("payment.js loaded");
-                paymentGateway();
-            });
-        </script>
-        <?php
+        $data['title'] = 'Payments';
+        $payment = $this->pay('delivery', 1);
         // $this->view('cart/pay', $data);
     }
 
-    public function pay($type)
+    public function pay($type, $address_id = NULL)
     {
         $data['errors'] = [];
 
         $customerId = Auth::getCustomerID();
 
-        $db = new Database();
-
-        $query = "SELECT * FROM cart_products WHERE Customer_id = :customer_id AND selected = 1";
-        $checkout_data['checkout_products'] = $db->query($query, [':customer_id' => $customerId]);
-        show($checkout_data);
-
-        $cartModel = new CartDetails();
         $cartProducts = new CartProduct();
+        $checkout_data['checkout_products'] = $cartProducts->getSelectedItems($customerId);
+        // show($checkout_data);
 
-        $data['cart'] = $cartModel->getCartByCustomerId($customerId)[0];
-
-        $orderDetails = new OrderDetails();
-        //////////////////
-
-        $orderDetails->createOrder($data['cart']);
-
-        ////////////////
-
-        $order = $orderDetails->getOrderByUserId($customerId);
-        $order_details_id = $order[0]->order_details_id;
-
-
-        $products = [];
-
-        foreach ($checkout_data['checkout_products'] as $checkout_product) {
-            $error = [];
-
-            $product_id = $checkout_product->product_id;
-            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
-            $product_inventory_id = $product[0]->product_inventory_id;
-            $quantity = $db->query("SELECT quantity FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
-            $quantity = $quantity[0]->quantity;
-            // show($quantity);
-
-            if ($quantity < 1) {
-                $error[$product_id]['msg'] = "out of stock";
-
-                $cartProducts->updateQuantity($customerId, $product_id, 0);
-
-                $cartProducts->updateSelectedStatus($customerId, $product_id, 0);
-
-                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
-
-                $cartModel->updateCartTotals($customerId);
-                $cart = $cartModel->getCartByCustomerId($customerId);
-                $_SESSION['cart'] = $cart[0];
-                $_SESSION['error'] = $error;
-
-                redirect('cart');
-            } elseif ($checkout_product->quantity > $quantity) {
-                $error[$product_id]['msg'] = "exceeds stock";
-                $error[$product_id]['available_quantity'] = $quantity;
-
-                $cartProducts->updateQuantity($customerId, $product_id, $quantity);
-
-                $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
-
-                $cartModel->updateCartTotals($customerId);
-                $cart = $cartModel->getCartByCustomerId($customerId);
-                $_SESSION['cart'] = $cart[0];
-                $_SESSION['error'] = $error;
-
-                redirect('cart');
-            } else {
-                $mapped_product = [
-                    'product_id' => $product[0]->product_id,
-                    'name' => $product[0]->name,
-                    'price' => $product[0]->price,
-                    'quantity' => $checkout_product->quantity,
-                ];
+        if(empty($checkout_data['checkout_products'])){
+            redirect('cart');
+        }else{
+            $cartModel = new CartDetails();
+    
+            $data['cart'] = $cartModel->getCartByCustomerId($customerId)[0];
+            $data['cart']->type= $type;
+            
+            if($type == 'delivery'){
+                $data['cart']->address_id = $address_id;
             }
-            $products[] = $mapped_product;
+            // show($data['cart']);
+            
+            $orderDetails = new OrderDetails();
+            $orderDetails->createOrder($data['cart']);
+    
+            $userId = Auth::getUserId();
+            $order = $orderDetails->getOrderByUserId($userId);
+            $order_details_id = $order[0]->order_details_id;
+            // show($order_details_id);
+    
+            $orderItem = new OrderItem();
+            $products = [];
+    
+            foreach ($checkout_data['checkout_products'] as $checkout_product) {
+                $error = [];
+    
+                $product_id = $checkout_product->product_id;
+
+                $productObj = new Product();
+                $product = $productObj->getProductById($product_id);
+                // show($product);
+                $product_inventory_id = $product[0]->product_inventory_id;
+
+                $product_inventory = new ProductInventory();
+                $quantity = $product_inventory->getQuantity($product_inventory_id);
+                $quantity = $quantity[0]->quantity;
+                // show($quantity);
+    
+    
+                if ($quantity < 1) {
+                    $error[$product_id]['msg'] = "out of stock";
+    
+                    $orderDetails->deleteOrderDetails($order_details_id);
+                    if(!empty($products)){
+                        $orderItem->deleteOrderItems($order_details_id);
+
+                        foreach($products as $order_product){
+                            $product_inventory->restockProductInventory($order_product);
+                        }
+                    }
+
+                    $cartProducts->updateQuantity($customerId, $product_id, 0);
+                    $cartProducts->updateSelectedStatus($customerId, $product_id, 0);
+    
+                    $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+    
+                    $cartModel->updateCartTotals($customerId);
+                    $cart = $cartModel->getCartByCustomerId($customerId);
+                    $_SESSION['cart'] = $cart[0];
+                    $_SESSION['error'] = $error;
+    
+                    redirect('cart');
+                    exit;
+                } elseif ($checkout_product->quantity > $quantity) {
+                    $error[$product_id]['msg'] = "exceeds stock";
+                    $error[$product_id]['available_quantity'] = $quantity;
+    
+                    $orderDetails->deleteOrderDetails($order_details_id);
+                    if(!empty($products)){
+                        $orderItem->deleteOrderItems($order_details_id);
+
+                        foreach($products as $order_product){
+                            $product_inventory->restockProductInventory($order_product);
+                        }
+                    }
+    
+                    $cartProducts->updateQuantity($customerId, $product_id, $quantity);
+    
+                    $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
+    
+                    $cartModel->updateCartTotals($customerId);
+                    $cart = $cartModel->getCartByCustomerId($customerId);
+                    $_SESSION['cart'] = $cart[0];
+                    $_SESSION['error'] = $error;
+    
+                    redirect('cart');
+                    exit;
+                } else {
+                    $mapped_product = [
+                        'order_details_id' => $order_details_id,
+                        'order_inventory_id' => $product_inventory_id,
+                        'product_id' => $product_id,
+                        'quantity' => $checkout_product->quantity,
+                    ];
+                    $orderItem->addOrderItem($mapped_product);
+                }
+                $products[] = $mapped_product;
+            }
+            $data['order_products'] = $products;
+            // show($data);
+
+            $product_inventory = new ProductInventory();
+            foreach($data['order_products'] as $order_product){
+                // show($order_product);
+                $product_inventory->destockProductInventory($order_product);
+            }
+
+
+            $amount = $order[0]->total;
+            $merchant_id = MERCHANT_ID;
+            $order_id = $order_details_id;
+            $merchant_secret = MERCHANT_SECRET;
+            $currency = "LKR";
+    
+            $hash = strtoupper(
+                md5(
+                    $merchant_id .
+                        $order_id .
+                        number_format($amount, 2, '.', '') .
+                        $currency .
+                        strtoupper(md5($merchant_secret))
+                )
+            );
+    
+            $array = [];
+    
+            $array["amount"] = $amount;
+            $array["merchant_id"] = $merchant_id;
+            $array["order_id"] = $order_id;
+            $array["merchant_secret"] = $merchant_secret;
+            $array["currency"] = $currency;
+            $array["hash"] = $hash;
+    
+            $jsonObj = json_encode($array);
+    
+            echo $jsonObj;
         }
-        $data['checkout_products'] = $products;
-        show($data);
 
-
-        $amount = '10000';
-        $merchant_id = MERCHANT_ID;
-        $order_id = uniqid();
-        $merchant_secret = MERCHANT_SECRET;
-        $currency = "LKR";
-
-        $hash = strtoupper(
-            md5(
-                $merchant_id .
-                    $order_id .
-                    number_format($amount, 2, '.', '') .
-                    $currency .
-                    strtoupper(md5($merchant_secret))
-            )
-        );
-
-        $array = [];
-
-        $array["amount"] = $amount;
-        $array["merchant_id"] = $merchant_id;
-        $array["order_id"] = $order_id;
-        $array["merchant_secret"] = $merchant_secret;
-        $array["currency"] = $currency;
-        $array["hash"] = $hash;
-
-        $jsonObj = json_encode($array);
-
-        echo $jsonObj;
     }
 
-    // public function confirmPayment()
-    // {
+    public function confirmPayment()
+    {
+
     //     $data['errors'] = [];
 
     //     $db = new Database;
@@ -195,7 +225,7 @@ class Payments extends Controller
     //         // Respond with an error message if the order ID is not provided
     //         echo "Error: OrderID not provided.";
     //     }
-    // }
+    }
 
     public function verifyCheckoutProducts()
     {
