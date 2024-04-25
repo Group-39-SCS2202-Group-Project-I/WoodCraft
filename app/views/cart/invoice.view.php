@@ -1,817 +1,456 @@
-<?php
-$production = $data['production'];
-$workers = $data['workers'];
-$materials = $data['materials'];
-$address = $data['delivery_info'];
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>)</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
 
-    <style>
-        *,
-        ::before,
-        ::after {
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <style>
+
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Box-sizing border-box for all elements */
+        *, *::before, *::after {
             box-sizing: border-box;
-            border-width: 0;
-            border-style: solid;
-            border-color: #e5e7eb;
         }
 
-        ::before,
-        ::after {
-            --tw-content: '';
-        }
-
-        html {
-            line-height: 1.5;
-            -webkit-text-size-adjust: 100%;
-            -moz-tab-size: 4;
-            tab-size: 4;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            font-feature-settings: normal;
-            font-variation-settings: normal;
-        }
-
+        /* Body styles */
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.5;
             margin: 0;
-            line-height: inherit;
+            padding: 20px;
         }
 
-        hr {
-            height: 0;
-            color: inherit;
-            border-top-width: 1px;
+        /* Container styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        abbr:where([title]) {
-            -webkit-text-decoration: underline dotted;
-            text-decoration: underline dotted;
+        /* Card styles */
+        .card {
+            background-color: #fff;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 0.25rem;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.125);
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-size: inherit;
-            font-weight: inherit;
+        .card-body {
+            padding: 1.25rem;
         }
 
-        a {
-            color: inherit;
-            text-decoration: inherit;
-        }
-
-        b,
-        strong {
-            font-weight: bolder;
-        }
-
-        code,
-        kbd,
-        samp,
-        pre {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 1em;
-        }
-
-        small {
-            font-size: 80%;
-        }
-
-        sub,
-        sup {
-            font-size: 75%;
-            line-height: 0;
-            position: relative;
-            vertical-align: baseline;
-        }
-
-        sub {
-            bottom: -0.25em;
-        }
-
-        sup {
-            top: -0.5em;
-        }
-
-        table {
-            text-indent: 0;
-            border-color: inherit;
-            border-collapse: collapse;
-        }
-
-        button,
-        input,
-        optgroup,
-        select,
-        textarea {
-            font-family: inherit;
-            font-feature-settings: inherit;
-            font-variation-settings: inherit;
-            font-size: 100%;
-            font-weight: inherit;
-            line-height: inherit;
-            color: inherit;
-            margin: 0;
-            padding: 0;
-        }
-
-        button,
-        select {
-            text-transform: none;
-        }
-
-        button,
-        [type='button'],
-        [type='reset'],
-        [type='submit'] {
-            appearance: button;
-            -webkit-appearance: button;
-            background-color: transparent;
-            background-image: none;
-        }
-
-        :-moz-focusring {
-            outline: auto;
-        }
-
-        :-moz-ui-invalid {
-            box-shadow: none;
-        }
-
-        progress {
-            vertical-align: baseline;
-        }
-
-        ::-webkit-inner-spin-button,
-        ::-webkit-outer-spin-button {
-            height: auto;
-        }
-
-        [type='search'] {
-            appearance: textfield;
-            -webkit-appearance: textfield;
-            outline-offset: -2px;
-        }
-
-        ::-webkit-search-decoration {
-            -webkit-appearance: none;
-        }
-
-        ::-webkit-file-upload-button {
-            -webkit-appearance: button;
-            font: inherit;
-        }
-
-        summary {
-            display: list-item;
-        }
-
-        blockquote,
-        dl,
-        dd,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        hr,
-        figure,
-        p,
-        pre {
-            margin: 0;
-        }
-
-        fieldset {
-            margin: 0;
-            padding: 0;
-        }
-
-        legend {
-            padding: 0;
-        }
-
-        ol,
-        ul,
-        menu {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        dialog {
-            padding: 0;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            opacity: 1;
-            color: #9ca3af;
-        }
-
-        button,
-        [role="button"] {
-            cursor: pointer;
-        }
-
-        :disabled {
-            cursor: default;
-        }
-
-        img,
-        svg,
-        video,
-        canvas,
-        audio,
-        iframe,
-        embed,
-        object {
-            display: block;
-        }
-
-        img,
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-
-        [hidden] {
-            display: none;
-        }
-
-        .fixed {
-            position: fixed;
-        }
-
-        .bottom-0 {
-            bottom: 0px;
-        }
-
-        .left-0 {
-            left: 0px;
-        }
-
-        .table {
-            display: table;
-        }
-
-        .h-12 {
-            height: 3rem;
-        }
-
-        .w-1\/2 {
-            width: 50%;
-        }
-
-        .w-full {
-            width: 100%;
-        }
-
-        .border-collapse {
-            border-collapse: collapse;
-        }
-
-        .border-spacing-0 {
-            --tw-border-spacing-x: 0px;
-            --tw-border-spacing-y: 0px;
-            border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
-        }
-
-        .whitespace-nowrap {
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
             white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            background-color: #007bff;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            color: #fff;
         }
 
-        .border-b {
-            border-bottom-width: 1px;
+        .btn-dark {
+            background-color: #343a40;
+            border-color: #343a40;
         }
 
-        .border-b-2 {
-            border-bottom-width: 2px;
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
         }
 
-        .border-r {
-            border-right-width: 1px;
+        /* Table styles */
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
         }
 
-        .border-main {
-            border-color: #6D9886;
-        }
-
-        .bg-main {
-            background-color: #6D9886;
-        }
-
-        .bg-slate-100 {
-            background-color: #f1f5f9;
-        }
-
-        .p-3 {
+        th, td {
             padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
         }
 
-        .px-14 {
-            padding-left: 3.5rem;
-            padding-right: 3.5rem;
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
         }
 
-        .px-2 {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
+        /* Badge styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
         }
 
-        .py-10 {
-            padding-top: 1rem;
-            padding-bottom: 2.5rem;
+        .bg-success {
+            background-color: #28a745;
         }
 
-        .py-3 {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-        }
-
-        .py-4 {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .py-6 {
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-        }
-
-        .pb-3 {
-            padding-bottom: 0.75rem;
-        }
-
-        .pl-2 {
-            padding-left: 0.5rem;
-        }
-
-        .pl-3 {
-            padding-left: 0.75rem;
-        }
-
-        .pl-4 {
-            padding-left: 1rem;
-        }
-
-        .pr-3 {
-            padding-right: 0.75rem;
-        }
-
-        .pr-4 {
-            padding-right: 1rem;
-        }
-
+        /* Utility classes */
         .text-center {
             text-align: center;
         }
 
-        .text-right {
-            text-align: right;
+        .text-end {
+            text-align: end;
         }
 
-        .align-top {
-            vertical-align: top;
+        .text-gray-light {
+            color: #6c757d;
         }
 
-        .text-sm {
-            font-size: 0.875rem;
-            line-height: 1.25rem;
+        .font-size-12 {
+            font-size: 12px;
         }
+        
+    #invoice{
+    padding: 30px;
+}
 
-        .text-xs {
-            font-size: 0.75rem;
-            line-height: 1rem;
-        }
+.invoice {
+    position: relative;
+    background-color: #FFF;
+    min-height: 680px;
+    padding: 15px
+}
 
-        .font-bold {
-            font-weight: 700;
-        }
+.invoice header {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #3989c6
+}
 
-        .italic {
-            font-style: italic;
-        }
+.invoice .company-details {
+    text-align: right
+}
 
-        .text-main {
-            color: #6D9886;
-        }
+.invoice .company-details .name {
+    margin-top: 0;
+    margin-bottom: 0
+}
 
-        .text-neutral-600 {
-            color: #525252;
-        }
+.invoice .contacts {
+    margin-bottom: 20px
+}
 
-        .text-neutral-700 {
-            color: #404040;
-        }
+.invoice .invoice-to {
+    text-align: left
+}
 
-        .text-slate-300 {
-            color: #cbd5e1;
-        }
+.invoice .invoice-to .to {
+    margin-top: 0;
+    margin-bottom: 0
+}
 
-        .text-slate-400 {
-            color: #94a3b8;
-        }
+.invoice .invoice-details {
+    text-align: right
+}
 
-        .text-white {
-            color: #fff;
-        }
+.invoice .invoice-details .status-badge{
+    color: white
+}
 
-        .sidebar-brand {
-            margin-top: 15px;
-            font-size: 26px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            /* justify-content: center; */
-            color: #6D9886;
-        }
+.invoice .invoice-details .invoice-id {
+    margin-top: 0;
+    color: #3989c6
+}
 
-        .cent {
-            font-size: 20px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
+.invoice main {
+    padding-bottom: 50px
+}
 
-        /* .sidebar-brand span {
-            color: #404040;
-        } */
+.invoice main .thanks {
+    margin-top: -100px;
+    font-size: 2em;
+    margin-bottom: 50px
+}
 
-        @page {
-            margin: 0;
-        }
+.invoice main .notices {
+    padding-left: 6px;
+    border-left: 6px solid #3989c6
+}
 
-        @media print {
-            body {
-                print-color-adjust: exact;
-                -webkit-print-color-adjust: exact;
-            }
-        }
+.invoice main .notices .notice {
+    font-size: 1.2em
+}
 
-        .print-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #212121;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            padding: 15px 22px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-        }
-    </style>
+.invoice table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px
+}
+
+.invoice table td,.invoice table th {
+    padding: 15px;
+    background: #eee;
+    border-bottom: 1px solid #fff
+}
+
+.invoice table th {
+    white-space: nowrap;
+    font-weight: 400;
+    font-size: 16px
+}
+
+.invoice table td h3 {
+    margin: 0;
+    font-weight: 400;
+    color: #3989c6;
+    font-size: 1.2em
+}
+
+.invoice table .qty,.invoice table .total,.invoice table .unit {
+    text-align: right;
+    font-size: 1.2em
+}
+
+.invoice table .no {
+    color: #fff;
+    font-size: 1.6em;
+    background: #3989c6
+}
+
+.invoice table .unit {
+    background: #ddd
+}
+
+.invoice table .total {
+    background: #3989c6;
+    color: #fff
+}
+
+.invoice table tbody tr:last-child td {
+    border: none
+}
+
+.invoice table tfoot td {
+    background: 0 0;
+    border-bottom: none;
+    white-space: nowrap;
+    text-align: right;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-top: 1px solid #aaa
+}
+
+.invoice table tfoot tr:first-child td {
+    border-top: none
+}
+
+.invoice table tfoot tr:last-child td {
+    color: #3989c6;
+    font-size: 1.4em;
+    border-top: 1px solid #3989c6
+}
+
+.invoice table tfoot tr td:first-child {
+    border: none
+}
+
+.invoice footer {
+    width: 100%;
+    text-align: center;
+    color: #777;
+    border-top: 1px solid #aaa;
+    padding: 8px 0
+}
+
+@media print {
+    .invoice {
+        font-size: 11px!important;
+        overflow: hidden!important
+    }
+
+    .invoice footer {
+        position: absolute;
+        bottom: 10px;
+        page-break-after: always
+    }
+
+    .invoice>div:last-child {
+        page-break-before: always
+    }
+}
+  </style>
 </head>
-
-
 <body>
-    <div>
-        <div class="py-4">
-            <div class="px-14 py-6">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-full align-top">
-                                <div class="sidebar-brand">
-                                    <span class="material-icons-outlined" style="font-size: 36px; padding-right:5px"> living </span> WoodCraft Furnitures
-                                </div>
-                            </td>
-
-                            <td class="align-top">
-                                <div class="text-sm">
-                                    <table class="border-collapse border-spacing-0">
-                                        <tbody>
-                                            <tr>
-                                                <td class="pr-4">
-                                                    <div>
-                                                        <p class="whitespace-nowrap text-slate-400 text-right">Production Report (<?= "PXN-" . str_pad($data['id'], 3, '0', STR_PAD_LEFT) ?>) </p>
-                                                        <!-- <p class="whitespace-nowrap font-bold text-main text-right">April 26, 2023</p> -->
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="bg-slate-100 px-14 py-6 text-sm">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-1/2 align-top">
-                                <div class="text-sm text-neutral-600">
-                                    <p class="font-bold">WoodCraft Furnitures</p>
-                                    <p><?= $address->address_line_1 . ','; ?></p>
-                                    <p><?= $address->address_line_2 . ','; ?></p>
-                                    <p><?= $address->city . '.'; ?></p>
-                                    <p><?= $address->province . ' Province'; ?></p>
-                                    <p><?= $address->zip_code; ?></p>
-                                </div>
-                            </td>
-                            <td class="w-1/2 align-top text-right">
-                                <div class="text-sm text-neutral-600">
-                                    <p class="font-bold">Production ID : <?= "PXN-" . str_pad($production->production_id, 3, '0', STR_PAD_LEFT) ?></p>
-                                    <p>Product ID : <?= "PRD-" . str_pad($production->product_id, 3, '0', STR_PAD_LEFT) ?></p>
-                                    <p>Product Name : <?= $production->name ?></p>
-                                    <p>Quantity : <?= $production->quantity ?></p>
-                                    <p>Status : <?= ucfirst($production->status) ?></p>
-                                    <p>Started : <?= $production->created_at ?></p>
-                                    <?php
-                                    if ($production->status == 'completed') {
-                                    ?>
-                                        <p>Completed : <?= $production->updated_at ?></p>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!--  -->
-            <div class="px-14 py-6">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-full align-top">
-                                <div class="sidebar-brand cent">
-                                    Materials
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
 
 
 
-            <div class="px-14 py-10 text-sm text-neutral-700">
-                <table class="w-full border-collapse border-spacing-0">
-                    <thead class="py-10">
-                        <tr>
-                            <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Material Name</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Stock ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Price Per Unit</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Quantity</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Total</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $i = 1;
-                        foreach ($materials as $material) : ?>
-                            <tr>
-                                <td class="border-b py-3 pl-3"><?= $i++ ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "MAT-" . str_pad($material['material_id'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['material_name'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "STK-" . str_pad($material['stock_no'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['price_per_unit'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['quantity'] ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= $material['cost'] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-
-
-
-
-                        <tr>
-                            <td colspan="7">
-                                <table class="w-full border-collapse border-spacing-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="w-full"></td>
-                                            <td>
-                                                <table class="w-full border-collapse border-spacing-0">
-                                                    <tbody>
-                                                        <!-- <tr>
-                                                            <td class="border-b p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">Net total:</div>
-                                                            </td>
-                                                            <td class="border-b p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main">$320.00</div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
-                                                            </td>
-                                                            <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main">$64.00</div>
-                                                            </td>
-                                                        </tr> -->
-                                                        <tr>
-                                                            <td class="bg-main p-3">
-                                                                <div class="whitespace-nowrap font-bold text-white">Total Material Cost :</div>
-                                                            </td>
-                                                            <td class="bg-main p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['total_cost'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <!--  -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- <div class="px-14 text-sm text-neutral-700">
-                <p class="text-main font-bold">PAYMENT DETAILS</p>
-                <p>Banks of Banks</p>
-                <p>Bank/Sort Code: 1234567</p>
-                <p>Account Number: 123456678</p>
-                <p>Payment Reference: BRA-00335</p>
-            </div> -->
-
-            <!--  -->
-            <div class="px-14 py-6">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-full align-top">
-                                <div class="sidebar-brand cent">
-                                    Workers
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-
-
-            <div class="px-14 py-10 text-sm text-neutral-700">
-                <table class="w-full border-collapse border-spacing-0">
-                    <thead class="py-10">
-                        <tr>
-                            <td class="border-b-2 border-main pb-3 pl-3 py-10 font-bold text-main">#</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker ID</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Worker Name</td>
-                            <td class="border-b-2 border-main pb-3 pl-2 py-10 text-center font-bold text-main">Role</td>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-
-                        $i = 1;
-
-
-                        foreach ($workers as $worker) : ?>
-                            <tr>
-                                <td class="border-b py-3 pl-3"><?= $i++ ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= "WRK-" . str_pad($worker['worker_id'], 3, '0', STR_PAD_LEFT) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['first_name']) . " " . ucfirst($worker['last_name']) ?></td>
-                                <td class="border-b py-3 pl-2 text-center"><?= ucfirst($worker['worker_role']) ?></td>
-                            </tr>
-                            </tr>
-
-                        <?php endforeach; ?>
-
-
-
-
-                        <!-- <tr>
-                            <td colspan="7">
-                                <table class="w-full border-collapse border-spacing-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="w-full"></td>
-                                            <td>
-                                                <table class="w-full border-collapse border-spacing-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="border-b p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Supervisors:</div>
-                                                            </td>
-                                                            <td class="border-b p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_sup'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Carpenters:</div>
-                                                            </td>
-                                                            <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_car'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="p-3">
-                                                                <div class="whitespace-nowrap text-slate-400">No of Painters:</div>
-                                                            </td>
-                                                            <td class="p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-main"><?= $data['no_paint'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="bg-main p-3">
-                                                                <div class="whitespace-nowrap font-bold text-white">No of Workers:</div>
-                                                            </td>
-                                                            <td class="bg-main p-3 text-right">
-                                                                <div class="whitespace-nowrap font-bold text-white"><?= $data['workers_count'] ?></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>  -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="bg-slate-100 px-14 py-6 text-sm">
-                <table class="w-full border-collapse border-spacing-0">
-                    <tbody>
-                        <tr>
-                            <td class="w-1/2 align-top">
-                                <div class="text-sm text-neutral-600">
-                                    <!-- <p class="font-bold">Supplier Company INC</p> -->
-                                    <p>No of Supervisors: <?= $data['no_sup'] ?></p>
-                                    <p>No of Carpenters: <?= $data['no_car'] ?></p>
-                                    <p>No of Painters: <?= $data['no_paint'] ?></p>
-                                    <p class="font-bold">Total Workers: <?= $data['workers_count'] ?></p>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <!--  -->
-
-            <!-- <div class="px-14 py-10 text-sm text-neutral-700">
-                <p class="text-main font-bold">Notes</p>
-                <p class="italic">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries
-                    for previewing layouts and visual mockups.</p>
-            </div> -->
-
-            <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
-                Woodcraft Furnitures
-                <span class="text-slate-300 px-2">|</span>
-                woodcraftfurnitureslk@gmail.com
-                <span class="text-slate-300 px-2">|</span>
-                +(94) 112435200
-            </footer>
+<div class="container" style="padding-top: 20px; padding-bottom: 100px;">
+    <div class="toolbar hidden-print">
+        <div class="card-body text-end">
+            <button type="button" class="btn btn-dark" id="printInvoice"><i class="fa fa-print"></i> Print</button>
+            <button type="button" class="btn btn-danger" id="exportPdf"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
         </div>
     </div>
+    <div class="card">
+        <div class="card-body">
+            <div id="invoice">
+                <div class="invoice overflow-auto">
+                    <!-- <h1 class="text-center">Invoice</h1> -->
+                    <div style="min-width: 600px">
+                        <header>
+                            <div class="row">
+                                <div class="col">
+                                    <a target="_blank" href="https://lobianijs.com">
+                                    <img id="logo" src="images/logo-udemy.png" data-holder-rendered="true" height="120" style="width: auto;" />
+                                    </a>
+                                </div>
+                                <div class="col company-details">
+                                    <h2 class="name">
+                                        <a target="_blank" href="https://GeniZap.com">
+                                        GeniZap
+                                        </a>
+                                    </h2>
+                                    <div>455 Foggy Heights, AZ 85004, US</div>
+                                    <div>(123) 456-789</div>
+                                    <div>GeniZap.services@gmail.com</div>
+                                </div>
+                            </div>
+                        </header>
+                        <main>
+                            <div class="row contacts">
+                                <div class="col invoice-to">
+                                    <div class="text-gray-light">INVOICE TO:</div>
+                                    <h2 class="to"><?= $transaction['name']; ?></h2>
+                                    <div class="address"><?= $transaction['address']; ?></div>
+                                    <div class="email"><a href="mailto:".<?= $transaction['email']; ?>><?= $transaction['email']; ?></a></div>
+                                </div>
+                                <div class="col invoice-details">
+                                    <h1 class="invoice-id">Invoice #DS0204 </h1>
+                                    <h4 class="status-badge"><span class="badge bg-success font-size-12 ms-2">Paid</span></h4>
+                                    <div class="date">Date of Invoice: <?= date('Y-m-d', strtotime($transaction['createdOn'])); ?></div>
+                                    <div class="date">Due Date: <?= date('Y-m-d', strtotime($transaction['createdOn'] . ' +1 month')); ?></div>
+                                </div>
+                            </div>
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="text-left">DESCRIPTION</th>
+                                        <th class="text-right">HOUR PRICE</th>
+                                        <th class="text-right">HOURS</th>
+                                        <th class="text-right">TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $subTotal   = 0;
+                                    $quantity   = 0;
+                                    $tax        = 10;
+                                      
+                                      foreach ($Wseats as $key => $Wseat) { 
+                                        $subTotal += $Wseat['price'];
+                                        $quantity += $Wseat['quantity'];
+                                        ?>
+                                        <tr>
+                                            <td class="no"><?= $key + 1; ?></td>
+                                            <td class="text-left">
+                                                <h3><?= $Wseat['title']; ?></h3>
+                                                <?= $Wseat['description']; ?>
+                                            </td>
+                                            <td class="unit">$<?= $Wseat['price']; ?></td>
+                                            <td class="qty"><?= $Wseat['quantity']; ?></td>
+                                            <td class="total">$<?= $Wseat['price'] * $Wseat['quantity']; ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">SUBTOTAL</td>
+                                        <td>$<?= number_format( $subTotal, 2 ); ?>.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">TAX (+$10)</td>
+                                        <td>$<?= number_format( $tax * $quantity, 2 ); ?>.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">GRAND TOTAL</td>
+                                        <td>$<?= number_format( $subTotal+($tax * $quantity), 2 ); ?>.00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="thanks">Thank you!</div>
+                            <div class="notices">
+                                <div>NOTICE:</div>
+                                <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                            </div>
+                        </main>
+                        <footer>
+                            Invoice was created on a computer and is valid without the signature and seal.
+                        </footer>
+                    </div>
+                    <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <button id="printButton" class="print-button">Print</button>
-</body>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <script>
-    document.getElementById('printButton').addEventListener('click', function() {
-        printBtn = document.getElementById('printButton');
-        printBtn.style.display = 'none';
-        window.print();
-        printBtn.style.display = 'block';
+    $(document).ready(function () {
+        $('#printInvoice').click(function () {
+            // Use html2canvas to capture the content of the container
+            html2canvas($('.invoice')[0], { scale: 2 }).then(function (canvas) {
+                var imgData = canvas.toDataURL('image/png');
+
+                // Initialize jsPDF
+                var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                
+                // Add the image to the PDF
+                pdf.addImage(imgData, 'PNG', 10, 20, 190, 200);
+                pdf.setFont('helvetica');
+                pdf.setFontSize(12);
+
+                // Save or open the PDF
+                pdf.save('invoice.pdf');
+            });
+        });
     });
 </script>
 
 
+
+</body>
 </html>
+
+
+

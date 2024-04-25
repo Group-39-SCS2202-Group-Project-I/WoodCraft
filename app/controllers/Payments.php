@@ -207,7 +207,15 @@ class Payments extends Controller
     }
 
 
+    //function for payment failure
+    public function onFaliurePayment()
+    {
+        $data['errors'] = [];
+        $data['errors']['payment'] = "Payment failed";
+        $this->view('cart/Checkout', $data);
 
+        //code the logic for payment failure
+    }
 
 
     // Function to verify checkout products
@@ -293,6 +301,26 @@ class Payments extends Controller
         // $data['products'] = $product_reviews;
 
         // show($data['products']);
+    }
+
+    public function invoice()
+    {
+        $userId = Auth::getUserId();
+        $orderDetails = new OrderDetails();
+        $order = $orderDetails->getOrderByUserId($userId);
+        $order = $order[0];
+        // show($order);
+
+        $orderId = $order->order_details_id;
+        $orderItems = new OrderItem();
+        $order_items = $orderItems->getByOrderDetailsId($orderId);
+        // show($order_items);
+
+        $data['order'] = $order;
+        $data['order_items'] = $order_items;
+        show($data);
+
+        $this->view('cart/invoice', $data);
     }
 
 }

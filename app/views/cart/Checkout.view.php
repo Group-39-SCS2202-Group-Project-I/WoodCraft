@@ -481,11 +481,11 @@
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
                                 console.log("Payment completed. OrderID:" + orderId);
                                 // Redirect to the invoice page
-                                window.location = "<?php echo ROOT; ?>";
+                                window.location = "<?php echo ROOT.'cart/invoice.view.php'; ?>";
                             }
                         };
 
-                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/confirmPayment'; ?>", true);
+                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompletePayment'; ?>", true);
                         paymentCompletedXhttp.send();
                     };
 
