@@ -205,7 +205,9 @@
                                 <?php endforeach; ?>
                             </div>
                         <?php else : ?>
-                            <p>No products to review.</p>
+                            <div class="no-detail">
+                                <p>No products to review.</p>
+                            </div>
                         <?php endif; ?>
                     </div>
 
@@ -232,7 +234,9 @@
                                 <?php endforeach; ?>
                             </div>
                         <?php else: ?>
-                            <p>No review history available.</p>
+                            <div class="no-detail">
+                                <p>No review history available.</p>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>

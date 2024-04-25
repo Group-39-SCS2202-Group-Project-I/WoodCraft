@@ -257,7 +257,9 @@
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
-            <p>No bulk order details found.</p>
+            <div class="no-detail">
+                <p>No bulk order details found.</p>
+            </div>
         <?php endif; ?>
         </div>
 

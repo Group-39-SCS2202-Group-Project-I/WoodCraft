@@ -86,6 +86,19 @@
     align-items: center;
 }
 
+.no-detail {
+    padding: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--green2);
+    background-color: var(--light);
+    text-align: center;
+    border-radius: 10px;
+    width: 60%;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
 .info-value {
     padding-bottom: 10px;
 }

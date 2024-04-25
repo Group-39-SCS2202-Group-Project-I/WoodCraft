@@ -172,7 +172,9 @@
                             </div>
                         <?php } ?>
                     <?php else : ?>
-                        <p>No orders found.</p>
+                        <div class="no-detail">
+                            <p>No bulk orders found.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
 
