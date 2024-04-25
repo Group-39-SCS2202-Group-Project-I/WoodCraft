@@ -1,40 +1,38 @@
     <div class="grid-container">
 
         <?php
-        // check if a page is the current page
-        function isCurrentPage($pageName) {
-            return strpos($_SERVER['REQUEST_URI'], $pageName) !== false;
-        }
+            // check if a page is the current page
+            function isCurrentPage($pageName) {
+                // Get the path part of the URL
+                $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+                // Check if the current path starts with the given page name
+                return strncmp($currentPath, $pageName, strlen($pageName)) === 0;
+            }            
         ?>
     
         <!-- Sidebar -->
         <aside id="sidebar">
-            <div class="sidebar-title">
-                <!-- <div class="sidebar-brand"><span class="material-icons-outlined" style="font-size: 36px; padding-right:5px">living </span> WoodCraft
-                </div> -->
-                <!-- <span class="material-icons-outlined" onclick="closeSidebar()">close</span> -->
-            </div>
-
             <ul class="sidebar-list">
-                <li class="sidebar-list-item nav-btn main-title  <?= isCurrentPage('') ? 'selected' : '' ?>" id="manage-nav">
-                    <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">Manage My Account</span></a>
-
-                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('myProfile') || isCurrentPage('edit') || isCurrentPage('changepassword') ? 'selected' : '' ?>" id="profile-nav">
-                            <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">My Profile</span></a>
-                        </li>
-                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('addressbook') || isCurrentPage('address') || isCurrentPage('addaddress') ? 'selected' : '' ?>" id="address-nav">
-                            <a href="<?=ROOT?>/profile/addressbook/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Address Book</span></a>
-                        </li>
+                <li class="sidebar-list-item nav-btn main-title  <?= isCurrentPage('profile') ? 'selected' : '' ?>" id="profile-nav">
+                    <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">My Profile</span></a>
                 </li>
-                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') || isCurrentPage('manageOrder') ? 'selected' : '' ?>" id="orders-nav">
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
+                            <a href="<?=ROOT?>/profile/editProfile">Edit Profile<span style="margin-left: 35px;"></span></a>
+                        </li>
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('editAddress') ? 'selected' : '' ?>" id="edita-nav">
+                            <a href="<?=ROOT?>/profile/editAddress">Edit Address<span style="margin-left: 35px;"></span></a>
+                        </li>
+                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('password') ? 'selected' : '' ?>" id="password-nav">
+                            <a href="<?=ROOT?>/profile/password">Change Password<span style="margin-left: 35px;"></span></a>
+                        </li>
+                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                     <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
-
-                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('retailOrders') ? 'selected' : '' ?>" id="retail-nav">
-                            <a href="<?=ROOT?>/orders/retailOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Retail Orders</span></a>
-                        </li>
-                        <li class="sidebar-list-item nav-btn sub-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                            <a href="<?=ROOT?>/orders/bulkOrders/<?= Auth::getCustomerId()?>"><span style="margin-left: 35px;">Bulk Orders</span></a>
-                        </li>
+                </li>
+                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                    <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                </li>
+                <li class="sidebar-list-item nav-btn main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
+                    <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
                 </li>
            
                 <!-- <li class="sidebar-list-item sidebar-logout" id="logoutBtn">
@@ -46,12 +44,13 @@
     <script>
         document.querySelector('.sidebar-list').addEventListener('click', (event) => {
             const clickedItem = event.target.closest('.nav-btn');
+            console.log(clickedItem); // Check if clickedItem is correctly identified
             if (clickedItem) {
                 // Remove 'selected' class from all items
                 document.querySelectorAll('.nav-btn').forEach(item => item.classList.remove('selected'));
                 // Add 'selected' class to the clicked item
                 clickedItem.classList.add('selected');
-
+                console.log(clickedItem.classList); // Check if 'selected' class is added
                 // Navigate to the corresponding page
                 const link = clickedItem.querySelector('a');
                 if (link) {

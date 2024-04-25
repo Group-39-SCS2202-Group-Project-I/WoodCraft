@@ -4,6 +4,8 @@
                 padding: 30px;
                 background-color: var(--bg2);
                 border-radius: 20px;
+                padding-top: 50px;
+                margin-left: 60px;
             }
 
             .field-edit-profile {
@@ -13,27 +15,27 @@
 
             label {
                 font-weight: bold;
-                width: 15%;
+                width: 20%;
                 padding: 10px;
             }
 
             .input-wrapper {
-                background-color: var(--white);
-                width: 80%;
+                /* background-color: var(--light); */
+                width: 70%;
                 border-radius: 10px;
             }
 
             .form-control {
-                border: 1px solid #ccc;
+                border: 1px solid var(--bg2);
                 transition: border-color 0.3s ease;
                 border-radius: 10px;
                 padding: 10px;
             }
 
             .form-control:focus {
-                border-color: #007bff;
+                border-color: var(--green2);
                 outline: none;
-                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                box-shadow: 0 0 5px var(--green2);
             }
 
             .subscribe-link-edit-profile {
@@ -73,12 +75,45 @@
         </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
-<br><br>
-<?php $this->view('customers/acc-sidebar', $data) ?>
         
         <div class="main-container"> 
 
-        <!-- <?php show($data); ?> -->
+        <!-- side bar -->
+        <?php
+            // Define the isCurrentPage function
+            function isCurrentPage($pageName) {
+                // Get the path part of the URL
+                $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+                // Check if the current path starts with the given page name
+                return strncmp($currentPath, $pageName, strlen($pageName)) === 0;
+            }
+            ?>
+            
+            <div class="side-bar-customer">
+                    <ul class="customer-sidebar-list">
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('profile') ? 'selected' : '' ?>" id="profile-nav">
+                            <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">My Profile</span></a>
+                        </li>
+                            <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
+                                <a href="<?=ROOT?>/profile/editProfile">Edit Profile<span style="margin-left: 35px;"></span></a>
+                            </li>
+                            <li class="customer-sidebar-list-item sub-title selected <?= isCurrentPage('editAddress') ? 'selected' : '' ?>" id="edita-nav">
+                                <a href="<?=ROOT?>/profile/editAddress">Edit Address<span style="margin-left: 35px;"></span></a>
+                            </li>
+                            <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('password') ? 'selected' : '' ?>" id="password-nav">
+                                <a href="<?=ROOT?>/profile/password">Change Password<span style="margin-left: 35px;"></span></a>
+                            </li>
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
+                            <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
+                        </li>
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                            <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                        </li>
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
+                            <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
+                        </li>
+                    </ul>
+            </div>
 
         <!-- edit addressbook -->
         <div class="container">

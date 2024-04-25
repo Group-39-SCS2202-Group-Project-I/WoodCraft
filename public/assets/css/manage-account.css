@@ -18,10 +18,61 @@
   font-family: "Poppins", sans-serif;
 }
 
+.main-container {
+    display: flex;
+}
+
+.side-bar-customer {
+    background-color: var(--light);
+    width: 250px;
+    border-radius: 10px;
+    /* height: 100%; */
+}
+
+.customer-sidebar-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.customer-sidebar-list-item {
+    padding: 15px 20px 15px 20px;
+    color: var(--blk);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.customer-sidebar-list-item>a {
+    text-decoration: none;
+    color: var(--blk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customer-sidebar-list-item:hover {
+    color: var(--light);
+    background-color: var(--green1);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.customer-sidebar-list-item:hover>a {
+    color: var(--light);
+}
+
+.customer-sidebar-list-item.selected {
+    color: var(--light);
+    background-color: var(--green1);
+    border-radius: 10px;
+}
+
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 80%;
+    margin: 0 50px;
     padding: 10px;
 }
 
