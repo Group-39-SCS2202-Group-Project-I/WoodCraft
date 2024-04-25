@@ -10,7 +10,7 @@ class Logout extends Controller
 	{
 
 		Auth::logout();
-
+	
 		redirect('login');
 	}
 	

@@ -223,8 +223,8 @@ class Checkout extends Controller
 
     public function saveAddress() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $customerId = Auth::getCustomerID();
-
+            $customerId = Auth::getCustomerID();
+    
             // Check if the required POST fields exist before accessing them
             if (
                 isset($_POST['address_line_1']) &&
@@ -232,9 +232,9 @@ class Checkout extends Controller
                 isset($_POST['province']) &&
                 isset($_POST['zip_code'])
             ) {
-                // Create an array with the allowed columns and their values
+                // Create an array with the allowed columns and their values for the new address
                 $addressData = [
-                    // 'customer_id' => $customerId,
+                    //'customer_id' => $customerId, // Associate the address with the customer
                     'address_line_1' => $_POST['address_line_1'],
                     'address_line_2' => $_POST['address_line_2'] ?? null,
                     'city' => $_POST['city'],
@@ -242,23 +242,16 @@ class Checkout extends Controller
                     'zip_code' => $_POST['zip_code']
                     // Add more fields as needed
                 ];
-                 show($addressData);
-                 $newaddress = new Address();
-                 $newlysavedaddress = $newaddress->saveAddressD($addressData);
-                // Call the saveAddress method from the Address class
-              
-                if ($newlysavedaddress) {
-                    $customerId = Auth::getCustomerID();
-                    $customerModel = new Customer();
-                    $customerAddress = $customerModel->getCustomerAddress($customerId);
-                    
-                    // Prepare data to be passed to the view
-                    $data['customerAddress'] = $customerAddress;
-                    //redirect('checkout/payment');
-                } else {
-                    // Address could not be saved, handle the error
-                    echo "Failed to save address. Please try again.";
-                }
+    
+                // Create a new Address instance and save the new address in the Address table
+                $newAddress = new Address();
+                $newlySavedAddress = $newAddress->saveAddressD($addressData);
+    
+                // Store the new address data in the session
+                $_SESSION['newAddress'] = $addressData;
+    
+                // Unset the session data after setting it
+                unset($_SESSION['newAddress']);
             } else {
                 // One or more required POST fields are missing
                 echo "Failed to save address. Required fields are missing.";
@@ -268,5 +261,4 @@ class Checkout extends Controller
             echo "Invalid request method.";
         }
     }
-
-}
+}    

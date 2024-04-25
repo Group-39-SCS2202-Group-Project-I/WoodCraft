@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-
+  <?php show($_SESSION);?>
     <style>
         /* Your CSS styles go here */
         .containercheckout {
@@ -24,7 +24,7 @@
 
         .changeaddress {
             width: 100%;
-            border: 1px solid #ccc;
+            border: 1px solid #EEEEEE;
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
@@ -44,14 +44,14 @@
             width: 100%;
             display: flex;
             align-items: flex-start;
-            margin-left: 5%;
+            margin-left: 3%;
             margin-right: 10%;
             /* Align items at the top */
         }
 
         .summary {
             width: 30%;
-            border: 1px solid #bdbdbd;
+            border: 1px solid #EEEEEE;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
@@ -60,55 +60,56 @@
             padding-right: 10px;
             /* Add padding to the l
             eft side */
-            margin-right: 5%;
+            margin-right: 10%;
         }
-
-        /* Updated CSS for modern toggle */
-       /* Styles for Delivery Options */
-.delivery-option {
-    display: inline-block;
+        .delivery-option {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically */
     margin-right: 10px;
 }
 
 .delivery-option-label-custom {
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex; /* Use inline-flex for label */
+    align-items: center; /* Align items vertically */
     vertical-align: middle;
-    margin-right: 5px;
+    /* margin-right:px; */
 }
 
-.material-icons, .fa {
+.material-icons {
     font-size: 18px; /* Adjust icon size as needed */
-    vertical-align: middle;
 }
 
+.delivery-option-title {
+    margin-left: .4rem; /* Add space between icon and title */
+}
 
-        .delivery-option-input:checked+.delivery-option-label {
-            color: #fff;
-            /* Change text color when selected */
-            background-color: #2196f3;
-            /* Change background color when selected */
-        }
+.delivery-option-input:checked + .delivery-option-label-custom {
+    /* color: #fff; */
+    /* Change text color when selected */
+    /* background-color: #2196f3; */
+    /* Change background color when selected */
+}
 
-        .toggle {
-            width: 50%;
-            /* Half of the container width */
-            height: 100%;
-            background-color: #fff;
-            /* Background color of the toggle */
-            border-radius: 20px;
-            /* Match container's border-radius */
-            transition: transform 0.3s;
-        }
+.toggle {
+    width: 50%;
+    /* Half of the container width */
+    height: 100%;
+    background-color: #fff;
+    /* Background color of the toggle */
+    border-radius: 20px;
+    /* Match container's border-radius */
+    transition: transform 0.3s;
+}
 
-        .delivery-option-input:checked+.delivery-option-label:last-of-type~.toggle {
-            transform: translateX(100%);
-            /* Move toggle to the right for delivery */
-        }
+.delivery-option-input:checked + .delivery-option-label-custom:last-of-type ~ .toggle {
+    transform: translateX(100%);
+    /* Move toggle to the right for delivery */
+}
 
         .cart {
             width: 100%;
-            border: 1px solid #ccc;
+            border: 1px solid #EEEEEE;
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
@@ -129,31 +130,36 @@
         }
 
         .detail h2 {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin: 5px 0;
-            font-size: 1vw;
-            color: #333;
-            font-weight: lighter;
-        }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 5px 0; 
+  font-size: 1vw;
+  color: #333;
+  font-weight: lighter;
+}
 
-        .detail h2 span {
-            color: #333;
-        }
+.detail h2 span {
+  margin-left: 20px; /* Add margin to create space between h2 and span */
+  display: flex;
+  align-items: center;
+}
 
-        .detail h2#discount span {
-            color: red;
-        }
+.detail h2 span::before {
+  /* Add a vertical bar before the span */
+  margin-right: 10px; /* Add margin to separate the vertical bar from text */
+}
 
-        .detail h2::after {
-            content: '';
-            flex-grow: 1;
-        }
+.detail h2 span::after {
+  margin-left: 10px; /* Add margin to separate the text from the currency symbol */
+}
 
-        .detail h2 span {
-            margin-left: 10px;
-        }
+.detail h2#discount span::before,
+.detail h2#delivery span::before,
+.detail h2#total span::before {
+  content: ""; /* Remove the vertical bar for specific h2 elements */
+}
 
         .smallcart {
             display: flex;
@@ -286,16 +292,23 @@
     <div class="contentcheckout">
         <div class="cartitems">
             <div class="containercheckout">
-                <div class="changeaddress" onclick="toggleAddressForm()">
-                <h2><i class="material-icons">add_circle_outline</i> Change Your Address</h2>
-                    <p><?php echo $data['customerAddress']->address_line_1; ?></p>
-                    <p><?php echo $data['customerAddress']->address_line_2; ?></p>
-                    <p><?php echo $data['customerAddress']->city; ?></p>
-                    <p><?php echo $data['customerAddress']->province; ?></p>
-                    <p><?php echo $data['customerAddress']->zip_code; ?></p>
+            <div class="changeaddress" onclick="toggleAddressForm()">
+    <h2><i class="material-icons">add_circle_outline</i> Change Your Address</h2>
+    <?php if (isset($_SESSION['newAddress'])): ?>
+        <p><?php echo $_SESSION['newAddress']['address_line_1']; ?></p>
+        <p><?php echo $_SESSION['newAddress']['address_line_2']; ?></p>
+        <p><?php echo $_SESSION['newAddress']['city']; ?></p>
+        <p><?php echo $_SESSION['newAddress']['province']; ?></p>
+        <p><?php echo $_SESSION['newAddress']['zip_code']; ?></p>
+    <?php elseif (isset($data['customerAddress'])): ?>
+        <p><?php echo $data['customerAddress']->address_line_1; ?></p>
+        <p><?php echo $data['customerAddress']->address_line_2 ?? ''; ?></p>
+        <p><?php echo $data['customerAddress']->city; ?></p>
+        <p><?php echo $data['customerAddress']->province; ?></p>
+        <p><?php echo $data['customerAddress']->zip_code; ?></p>
+    <?php endif; ?>
+</div>
 
-                    <!-- <?php show($data['customerAddress']); ?> -->
-                </div>
                 <!-- Modal for Change Address Form -->
 
                 <div class="change-address-form">
@@ -346,9 +359,9 @@
                             <button type="button" onclick="cancelAddressForm()">Cancel</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- End of Modal -->
+    
                 <div class="cart">
 
 
@@ -490,10 +503,10 @@ function saveAddress() {
         if (xhr.status === 200) {
             // Handle success response, if needed
             console.log(xhr.responseText);
-            // Display an alert message
+            cancelAddressForm();
             alert('Delivery address changed successfully!');
             // Auto cancel the form after saving data
-            cancelAddressForm(); // Call cancelAddressForm here to hide the form after saving
+             // Call cancelAddressForm here to hide the form after saving
         } else {
             // Handle error response, if needed
             console.error('Error:', xhr.statusText);
@@ -511,8 +524,6 @@ document.getElementById('delivery').addEventListener('change', handleDeliveryOpt
 
 // Initially handle the selected delivery option
 handleDeliveryOption();
-
-
     // Initially handle the selected delivery option
   
 </script>
@@ -599,6 +610,7 @@ handleDeliveryOption();
             // console.log("in");
             xhttp.open("GET", './payhereProcess.php', true);
             xhttp.send();
+            
         }
     </script>
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
