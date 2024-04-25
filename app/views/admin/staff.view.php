@@ -34,86 +34,88 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     </div>
 
 
-    <table class="table-section__table" id="staff_table">
-        <thead>
-            <tr>
-                <th>Staff ID</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Mobile Number</th>
-                <th>Address</th>
-                <!-- <th>Created At</th> -->
-                <!-- <th>Updated At</th> -->
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="staff_table">
+            <thead>
+                <tr>
+                    <th>Staff ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Mobile Number</th>
+                    <th>Address</th>
+                    <!-- <th>Created At</th> -->
+                    <!-- <th>Updated At</th> -->
 
-                <th>Actions</th>
-            </tr>
-        </thead>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/staff')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                let tableBody = document.getElementById('table-section__tbody');
-                                let table = document.getElementById('staff_table');
-                                // Clear existing table rows
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-                                // Insert new rows with updated data
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let staff_id = "STF-" + String(item.staff_id).padStart(3, '0');
-                                    item.first_name = item.first_name.charAt(0).toUpperCase() + item.first_name.slice(1);
-                                    item.last_name = item.last_name.charAt(0).toUpperCase() + item.last_name.slice(1);
-                                    let name = item.first_name + " " + item.last_name;
-                                    // switch (item.role) {
-                                    //     case 'osr':
-                                    //         item.role = 'Online Sales Representative';
-                                    //         break;
-                                    //     case 'gm':
-                                    //         item.role = 'General Manager';
-                                    //         break;
-                                    //     case 'pm':
-                                    //         item.role = 'Production Manager';
-                                    //         break;
-                                    //     case 'sk':
-                                    //         item.role = 'Stock Keeper';
-                                    //         break;
-                                    //     default:
-                                    //         item.role = 'Staff';
-                                    //         break;
-                                    // }
-                                    let role = item.role.toUpperCase();
-                                    let email = item.email;
-                                    let mobile_number = item.mobile_number;
-                                    let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> " + item.province + ' Province.<br>' + item.zip_code;
-                                    // let updated_at = item.updated_at;
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/staff')
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    let tableBody = document.getElementById('table-section__tbody');
+                                    let table = document.getElementById('staff_table');
+                                    // Clear existing table rows
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
+                                    }
+                                    // Insert new rows with updated data
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let staff_id = "STF-" + String(item.staff_id).padStart(3, '0');
+                                        item.first_name = item.first_name.charAt(0).toUpperCase() + item.first_name.slice(1);
+                                        item.last_name = item.last_name.charAt(0).toUpperCase() + item.last_name.slice(1);
+                                        let name = item.first_name + " " + item.last_name;
+                                        // switch (item.role) {
+                                        //     case 'osr':
+                                        //         item.role = 'Online Sales Representative';
+                                        //         break;
+                                        //     case 'gm':
+                                        //         item.role = 'General Manager';
+                                        //         break;
+                                        //     case 'pm':
+                                        //         item.role = 'Production Manager';
+                                        //         break;
+                                        //     case 'sk':
+                                        //         item.role = 'Stock Keeper';
+                                        //         break;
+                                        //     default:
+                                        //         item.role = 'Staff';
+                                        //         break;
+                                        // }
+                                        let role = item.role.toUpperCase();
+                                        let email = item.email;
+                                        let mobile_number = item.mobile_number;
+                                        let address = item.address_line_1 + ",<br> " + item.address_line_2 + ",<br> " + item.city + ".<br> " + item.province + ' Province.<br>' + item.zip_code;
+                                        // let updated_at = item.updated_at;
 
-                                    row.insertCell().innerHTML = staff_id;
-                                    row.insertCell().innerHTML = name;
-                                    row.insertCell().innerHTML = role;
-                                    row.insertCell().innerHTML = email;
-                                    row.insertCell().innerHTML = mobile_number;
-                                    row.insertCell().innerHTML = address;
-                                    // row.insertCell(6).innerHTML = created_at;
-                                    // row.insertCell().innerHTML = updated_at;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.staff_id})">Delete</a>`;
+                                        row.insertCell().innerHTML = staff_id;
+                                        row.insertCell().innerHTML = name;
+                                        row.insertCell().innerHTML = role;
+                                        row.insertCell().innerHTML = email;
+                                        row.insertCell().innerHTML = mobile_number;
+                                        row.insertCell().innerHTML = address;
+                                        // row.insertCell(6).innerHTML = created_at;
+                                        // row.insertCell().innerHTML = updated_at;
+                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.staff_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.staff_id})">Delete</a>`;
+                                    })
                                 })
-                            })
 
 
 
-                    }
-                    updateTable();
-                });
-            </script>
-        </tbody>
-    </table>
+                        }
+                        updateTable();
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="add-item-popup">
         <div class="popup-form__content">
