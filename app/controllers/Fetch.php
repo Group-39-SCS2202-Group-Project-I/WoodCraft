@@ -520,6 +520,11 @@ class Fetch extends Controller
 
             $production_data = array_merge((array) $data['production'][0], (array) $data['product'][0]);
 
+            $product_category_id = $data['product'][0]->product_category_id;
+            $cat_name = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
+            $production_data['category_name'] = $cat_name[0]->category_name;
+
+
             header("Content-Type: application/json");
             echo json_encode($production_data);
         } else {
@@ -1478,7 +1483,7 @@ class Fetch extends Controller
     public function gm_dash_chart()
     {
         $db = new Database();
-        
+
         $dates = $db->query("SELECT DATE(created_at) as date, COUNT(*) as count FROM order_details GROUP BY DATE(created_at)");
         $dates = array_map(function ($date) {
             $date->date = date('d-m-Y', strtotime($date->date));
@@ -1487,9 +1492,9 @@ class Fetch extends Controller
 
         $dates = array_combine(array_column($dates, 'date'), array_column($dates, 'count'));
 
-        
 
-        
+
+
         // $arr = [];
         // for ($i = $min_date; $i <= $max_date; $i = date('d-m-Y', strtotime($i . ' +1 day'))) {
         //     if (array_key_exists($i, $dates)) {
@@ -1525,7 +1530,7 @@ class Fetch extends Controller
         $bulk_min_date = $min_date;
         $bulk_max_date = $max_date;
 
-        
+
         $arr = [];
         for ($i = date('Y-m-d', strtotime($min_date)); $i <= date('Y-m-d', strtotime($max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
             $formattedDate = date('d-m-Y', strtotime($i));
@@ -1535,7 +1540,7 @@ class Fetch extends Controller
                 $arr[$formattedDate] = 0;
             }
         }
-        
+
         $bulk_arr = [];
         for ($i = date('Y-m-d', strtotime($bulk_min_date)); $i <= date('Y-m-d', strtotime($bulk_max_date)); $i = date('Y-m-d', strtotime($i . ' +1 day'))) {
             $formattedDate = date('d-m-Y', strtotime($i));
@@ -1571,19 +1576,19 @@ class Fetch extends Controller
         $count = 0;
         $bulk_count = 0;
         $production_count = 0;
-        
+
         if ($orders) {
             $count = count($orders);
         }
 
         $bulk_orders = $db->query("SELECT * FROM bulk_order_details WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status != 'cancelled'");
-        
+
         if ($bulk_orders) {
             $bulk_count = count($bulk_orders);
         }
 
         $production = $db->query("SELECT * FROM production WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
-        
+
         if ($production) {
             $production_count = count($production);
         }
@@ -1597,5 +1602,90 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($arr);
     }
-    
+
+    public function sk_dash()
+    {
+        $db = new Database();
+        $pending_pxn_count = $db->query("SELECT COUNT(*) as count FROM production WHERE status = 'pending'")[0]->count;
+        $data['material_req_count'] = $pending_pxn_count;
+
+        $new_finished_pxn_count = $db->query("SELECT COUNT(*) as count FROM finished_production WHERE added = 'NA'")[0]->count;
+        $data['new_finished_pxn_count'] = $new_finished_pxn_count;
+
+        $processing_orders_count = $db->query("SELECT COUNT(*) as count FROM order_details WHERE status = 'processing'")[0]->count;
+        $data['processing_orders_count'] = $processing_orders_count;
+
+        $processing_bulk_orders_count = $db->query("SELECT COUNT(*) as count FROM bulk_order_details WHERE status = 'processing' OR status = 'pending'")[0]->count;
+        $data['processing_bulk_orders_count'] = $processing_bulk_orders_count;
+
+
+
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
+
+    public function available_products_qtys()
+    {
+        $db = new Database();
+        $products = $db->query("SELECT * FROM product");
+
+        $arr = [];
+        $product_arr = [];
+        $qty_arr = [];
+        foreach ($products as $product) {
+            $product_inventory_id = $product->product_inventory_id;
+            $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0];
+            $product->quantity = $product_inventory->quantity;
+            $arr = [
+                'product_id' => $product->product_id,
+                'product_name' => $product->name,
+                'quantity' => $product->quantity
+            ];
+
+            if($product->quantity > 0){
+                // $arr[] = $product;
+                $product_arr[] = $product->name;
+                $qty_arr[] = $product->quantity;
+            }
+        }
+
+        $data = [
+            'product_names' => $product_arr,
+            'quantities' => $qty_arr
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
+
+    public function available_materials_qtys()
+    {
+        $db = new Database();
+        $materials = $db->query("SELECT * FROM material");
+
+        $arr = [];
+        $material_arr = [];
+        $qty_arr = [];
+        foreach ($materials as $material) {
+            $arr = [
+                'material_id' => $material->material_id,
+                'material_name' => $material->material_name,
+                'quantity' => $material->stock_available
+            ];
+
+            if($material->stock_available > 0){
+                // $arr[] = $product;
+                $material_arr[] = $material->material_name;
+                $qty_arr[] = $material->stock_available;
+            }
+        }
+
+        $data = [
+            'material_names' => $material_arr,
+            'quantities' => $qty_arr
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
 }
