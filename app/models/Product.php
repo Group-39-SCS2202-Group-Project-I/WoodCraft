@@ -64,5 +64,10 @@ class Product extends Model
 		return false;
         
     }
+
+    public function getProductById($productId)
+    {
+        return $this->select($this->table, 'product_id = :product_id', [':product_id' => $productId]);
+    }
     
 }

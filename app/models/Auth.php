@@ -17,6 +17,8 @@ class Auth
 	{
 		if(!empty($_SESSION['USER_DATA'])){
 			unset($_SESSION['USER_DATA']);
+            unset($_SESSION['cart']);
+            unset($_SESSION['cart_products']);
 
 			//session_unset();
 			//session_regenerate_id();
