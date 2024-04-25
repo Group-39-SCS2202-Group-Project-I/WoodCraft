@@ -292,6 +292,7 @@ class Customer extends Model
                 LEFT JOIN product_image pi ON p.product_id = pi.product_id
                 -- WHERE br.user_id = :user_id AND br.status = 'accepted'
                 WHERE br.user_id = :user_id
+                GROUP BY p.product_id
                 ORDER BY br.created_at DESC";
 
         $params = array(':user_id' => $user_id);

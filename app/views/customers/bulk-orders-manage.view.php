@@ -116,6 +116,22 @@
         color: var(--bg1);
     }
 
+    .right-lower h2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 5px 0; 
+        font-size: 1em;
+        font-weight: lighter;
+    }
+
+    .right-lower h2 span {
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+    }
+
     .bottom-page {
         display: flex;
         flex-direction: column;
@@ -187,10 +203,11 @@
 
         <div class="content-manage-orders">
             <div class="bottom-page">
-                <a href="<?=ROOT?>/orders" class="back-orders"><i class="material-icons">arrow_back</i></a>
+                <a href="<?=ROOT?>/orders/bulkOrders" class="back-orders"><i class="material-icons">arrow_back</i></a>
             </div>
 
-            <?php foreach ($data['order_details'] as $details) : ?>
+        <?php if (!empty($data['bulk_order_details'])) : ?>
+            <?php foreach ($data['bulk_order_details'] as $details) : ?>
                 <div class="content-manage-order">
                     <div class="content-manage-order-left">
                         <p>Order <?= $details['bulk_order_details_id']; ?></p>
@@ -231,29 +248,17 @@
                     <div class="content-manage-payment-right">
                         <h3>Total Summary</h3><br>
                         <div class="right-lower">
-                            <div class="right-left">
-                                <p>Subtotal</p>
-                                <p>Delivery Fee</p>
-                            </div>
-                            <div class="right-right">
-                                <p>Rs.<?= $data['total_subtotal']; ?></p>
-                                <p>Rs.<?= $details['delivery_cost']; ?></p>
-                            </div>
-                        </div>
-                        <div class="right-lower-lower">
-                            <div class="right-left">
-                                <p>Total</p>
-                            </div>
-                            <div class="right-right">
-                                <p><large>Rs.<?= $details['total_cost']; ?></large></p>
-                            </div>
+                            <h2 id="subtotal">Subtotal<span>Rs. <?= $data['total_subtotal']; ?></span></h2>
+                            <h2 id="delivery">Delivery<span>Rs. <?= $details['delivery_cost']; ?></span></h2>
+                            <hr>
+                            <h2 id="total">Total<large><span>Rs. <?= $details['total']; ?></span></large></h2>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-            <div class="bottom-page">
-                <a href="<?=ROOT?>/orders"><button type="button" class="back-orders">BACK</button></a>
-            </div>
+        <?php else : ?>
+            <p>No bulk order details found.</p>
+        <?php endif; ?>
         </div>
 
     </div>

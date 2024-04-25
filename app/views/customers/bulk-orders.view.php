@@ -150,24 +150,24 @@
                 </div>
                 
                 <div class="content-orders">
-                    <?php if (!empty($orders)) : ?>
-                        <?php foreach ($orders as $order) { ?>
+                    <?php if (!empty($bulk_orders)) : ?>
+                        <?php foreach ($bulk_orders as $bulk_order) { ?>
                             <div class="order">
                                 <div class="order-header">
                                     <div class="order-info">
-                                        <p>Order <strong style="color: blue;"><?= $order['bulk_req_id'] ?></strong></p>
-                                        <p><small>Placed on <?= $order['created_at'] ?></small></p>
+                                        <p>Order <strong style="color: blue;"><?= $bulk_order['bulk_req_id'] ?></strong></p>
+                                        <p><small>Placed on <?= $bulk_order['created_at'] ?></small></p>
                                     </div>
-                                    <a href="<?= ROOT ?>/orders/<?= $order['bulk_req_id'] ?>">View</a>
+                                    <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a>
                                 </div>
                                 <div class="order-details">
                                     <div class="product-details">
-                                        <img src="<?= $order['product_image'] ?>" alt="Product Image" width="100" height="100">
-                                        <p><?= $order['product_name'] ?></p>
+                                        <img src="<?= $bulk_order['product_image'] ?>" alt="Product Image" width="100" height="100">
+                                        <p><?= $bulk_order['product_name'] ?></p>
                                     </div>
-                                    <p>Qty: <?= $order['quantity'] ?></p>
-                                    <div class="status"><?= $order['request_status'] ?></div>
-                                    <p><small>Updated on <?= $order['updated_at'] ?></small></p>
+                                    <p>Qty: <?= $bulk_order['quantity'] ?></p>
+                                    <div class="status"><?= $bulk_order['request_status'] ?></div>
+                                    <p><small>Updated on <?= $bulk_order['updated_at'] ?></small></p>
                                 </div>
                             </div>
                         <?php } ?>
