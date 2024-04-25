@@ -88,22 +88,24 @@
 <div class="table-section">
     <h2 class="table-section__title">Pickup Orders</h2>
 
-    <table class="table-section__table" id="pickup-table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Details</th>
-                <th>Total Cost</th>
-                <th>Status</th>
-                <th>Target Date</th>
-                <!-- <th>Stock Availability</th> -->
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-        </tbody>
-    </table>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pickup-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Details</th>
+                    <th>Total Cost</th>
+                    <th>Status</th>
+                    <th>Target Date</th>
+                    <!-- <th>Stock Availability</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -111,23 +113,25 @@
 <div class="table-section">
     <h2 class="table-section__title">Delivery Orders</h2>
 
-    <table class="table-section__table" id="delivery-table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Details</th>
-                <th>Total Cost</th>
-                <th>Delivery Address</th>
-                <th>Status</th>
-                <th>Target Date</th>
-                <!-- <th>Stock Availability</th> -->
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-        </tbody>
-    </table>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="delivery-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Details</th>
+                    <th>Total Cost</th>
+                    <th>Delivery Address</th>
+                    <th>Status</th>
+                    <th>Target Date</th>
+                    <!-- <th>Stock Availability</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>

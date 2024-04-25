@@ -43,7 +43,7 @@
 
 <div class="dashboard">
     <div id="retail-card">
-        <a  style="text-decoration:none;">
+        <a style="text-decoration:none;">
             <div class="card">
                 <h3 class="card-title">Retail Orders</h3>
                 <span class="material-symbols-outlined card-icon">
@@ -54,8 +54,8 @@
         </a>
     </div>
     <div id="bulk-card">
-        <a  style="text-decoration:none">
-            <div class="card" >
+        <a style="text-decoration:none">
+            <div class="card">
                 <h3 class="card-title">Bulk Orders</h3>
                 <span class="material-symbols-outlined card-icon">
                     local_shipping
@@ -70,71 +70,73 @@
 <div class="table-section">
     <h2 class="table-section__title">Completed Orders</h2>
 
-    <table class="table-section__table" id="com-orders">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Type</th>
-                <th>Order Items</th>
-                <th>Order Completed</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const tbody = document.getElementById('table-section__tbody');
-                    const retailCard = document.getElementById('retail-card');
-                    const bulkCard = document.getElementById('bulk-card');
-                    const retailCount = document.getElementById('retail-count');
-                    const bulkCount = document.getElementById('bulk-count');
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="com-orders">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Type</th>
+                    <th>Order Items</th>
+                    <th>Order Completed</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const tbody = document.getElementById('table-section__tbody');
+                        const retailCard = document.getElementById('retail-card');
+                        const bulkCard = document.getElementById('bulk-card');
+                        const retailCount = document.getElementById('retail-count');
+                        const bulkCount = document.getElementById('bulk-count');
 
-                    const url = '<?= ROOT ?>/fetch/completed_retail_and_bulk_orders';
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
+                        const url = '<?= ROOT ?>/fetch/completed_retail_and_bulk_orders';
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
 
-                            retailCount.textContent = data.retail_count;
-                            bulkCount.textContent = data.bulk_count;
+                                retailCount.textContent = data.retail_count;
+                                bulkCount.textContent = data.bulk_count;
 
 
-                            if (data.retail_count == 0 || data.retail_count == null) {
-                                retailCard.style.display = 'none';
-                            }
-
-                            if (data.bulk_count == 0 || data.bulk_count == null) {
-                                bulkCard.style.display = 'none';
-                            }
-
-                            var orders = data.orders;
-                            let table = document.getElementById('com-orders');
-
-                            while (table.rows.length > 1) {
-                                table.deleteRow(1);
-                            }
-
-                            let items = ''
-                            orders.forEach(item => {
-                                let row = table.insertRow();
-                                if (item.type == 'Retail/Delivery' || item.type == 'Retail/Pickup') {
-                                    x = item.items;
-                                    items = x.map(item => item.product_name + ' x' + item.quantity).join(', ');
-                                } else if (item.type == 'Bulk/Delivery' || item.type == 'Bulk/Pickup') {
-                                    items = item.items.product_name + ' x' + item.items.quantity;
+                                if (data.retail_count == 0 || data.retail_count == null) {
+                                    retailCard.style.display = 'none';
                                 }
 
-                                row.insertCell().innerHTML = item.order_id;
-                                row.insertCell().innerHTML = item.customer_name;
-                                row.insertCell().innerHTML = item.type;
-                                row.insertCell().innerHTML = items;
-                                row.insertCell().innerHTML = item.updated_at;
+                                if (data.bulk_count == 0 || data.bulk_count == null) {
+                                    bulkCard.style.display = 'none';
+                                }
+
+                                var orders = data.orders;
+                                let table = document.getElementById('com-orders');
+
+                                while (table.rows.length > 1) {
+                                    table.deleteRow(1);
+                                }
+
+                                let items = ''
+                                orders.forEach(item => {
+                                    let row = table.insertRow();
+                                    if (item.type == 'Retail/Delivery' || item.type == 'Retail/Pickup') {
+                                        x = item.items;
+                                        items = x.map(item => item.product_name + ' x' + item.quantity).join(', ');
+                                    } else if (item.type == 'Bulk/Delivery' || item.type == 'Bulk/Pickup') {
+                                        items = item.items.product_name + ' x' + item.items.quantity;
+                                    }
+
+                                    row.insertCell().innerHTML = item.order_id;
+                                    row.insertCell().innerHTML = item.customer_name;
+                                    row.insertCell().innerHTML = item.type;
+                                    row.insertCell().innerHTML = items;
+                                    row.insertCell().innerHTML = item.updated_at;
+                                });
                             });
-                        });
-                });
-            </script>
-        </tbody>
-    </table>
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

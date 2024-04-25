@@ -316,130 +316,133 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
     }
 </script>
 
+
 <div class="table-section">
     <div class="table-section__search">
         <input type="text" id="searchPenProductions" placeholder="Search Productions..." class="table-section__search-input">
     </div>
 
-    <table class="table-section__table" id="pen-productions-table">
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pen-productions-table">
 
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <!-- <th>Created At</th> -->
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable(filter) {
-                        fetch('<?php echo ROOT ?>/fetch/production')
-                            .then(response => response.json())
-                            .then(data => {
-                                let table = document.getElementById('pen-productions-table');
+            <thead>
+                <tr>
+                    <th>Production ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <!-- <th>Created At</th> -->
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable(filter) {
+                            fetch('<?php echo ROOT ?>/fetch/production')
+                                .then(response => response.json())
+                                .then(data => {
+                                    let table = document.getElementById('pen-productions-table');
 
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
-                                    let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
-                                    let product_name = item.product_name;
-                                    let quantity = item.quantity;
-                                    let status = item.status;
-                                    status = status.charAt(0).toUpperCase() + status.slice(1);
-                                    let created_at = item.created_at;
-                                    let updated_at = item.updated_at;
-
-                                    if (filter === 'pending' && status !== 'Pending') {
-                                        return; // Skip this row if filter is 'pending' and status is not 'Pending'
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
                                     }
 
-                                    if (filter === 'processing' && status !== 'Processing') {
-                                        return; // Skip this row if filter is 'processing' and status is not 'Processing'
-                                    }
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
+                                        let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
+                                        let product_name = item.product_name;
+                                        let quantity = item.quantity;
+                                        let status = item.status;
+                                        status = status.charAt(0).toUpperCase() + status.slice(1);
+                                        let created_at = item.created_at;
+                                        let updated_at = item.updated_at;
 
-                                    if (filter === 'completed' && status !== 'Completed') {
-                                        return; // Skip this row if filter is 'completed' and status is not 'Completed'
-                                    }
+                                        if (filter === 'pending' && status !== 'Pending') {
+                                            return; // Skip this row if filter is 'pending' and status is not 'Pending'
+                                        }
 
-                                    row.insertCell().innerHTML = production_id;
-                                    row.insertCell().innerHTML = product_id;
-                                    row.insertCell().innerHTML = product_name;
-                                    row.insertCell().innerHTML = quantity;
+                                        if (filter === 'processing' && status !== 'Processing') {
+                                            return; // Skip this row if filter is 'processing' and status is not 'Processing'
+                                        }
 
-                                    if (status == 'Pending') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button pending table-section__button-pending">${status}</a>`;
-                                    } else if (status == 'Processing') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button processing table-section__button-processing">${status}</a>`;
-                                    } else if (status == 'Completed') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button completed table-section__button-completed">${status}</a>`;
-                                    }
+                                        if (filter === 'completed' && status !== 'Completed') {
+                                            return; // Skip this row if filter is 'completed' and status is not 'Completed'
+                                        }
 
-                                    row.insertCell().innerHTML = updated_at;
+                                        row.insertCell().innerHTML = production_id;
+                                        row.insertCell().innerHTML = product_id;
+                                        row.insertCell().innerHTML = product_name;
+                                        row.insertCell().innerHTML = quantity;
 
-                                    if (status == 'Processing') {
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/gm/productions/${item.production_id}" class="table-section__button">View</a>`;
-                                    } else {
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/gm/productions/${item.production_id}" class="table-section__button">View</a>`;
-                                    }
-                                });
-                            }).catch(error => console.error(error));
-                    }
+                                        if (status == 'Pending') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button pending table-section__button-pending">${status}</a>`;
+                                        } else if (status == 'Processing') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button processing table-section__button-processing">${status}</a>`;
+                                        } else if (status == 'Completed') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button completed table-section__button-completed">${status}</a>`;
+                                        }
 
-                    updateTable('all');
+                                        row.insertCell().innerHTML = updated_at;
 
-                    // Button click event handlers
-                    document.getElementById('pen-btn').addEventListener('click', function() {
-                        updateTable('pending');
+                                        if (status == 'Processing') {
+                                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/gm/productions/${item.production_id}" class="table-section__button">View</a>`;
+                                        } else {
+                                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/gm/productions/${item.production_id}" class="table-section__button">View</a>`;
+                                        }
+                                    });
+                                }).catch(error => console.error(error));
+                        }
 
-                        document.getElementById('pen-btn').classList.add('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
-
-                    });
-
-                    document.getElementById('pro-btn').addEventListener('click', function() {
-                        updateTable('processing');
-
-                        document.getElementById('pro-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
-                    });
-
-                    document.getElementById('com-btn').addEventListener('click', function() {
-                        updateTable('completed');
-
-                        document.getElementById('com-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
-                    });
-
-                    document.getElementById('all-btn').addEventListener('click', function() {
                         updateTable('all');
 
-                        document.getElementById('all-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
+                        // Button click event handlers
+                        document.getElementById('pen-btn').addEventListener('click', function() {
+                            updateTable('pending');
+
+                            document.getElementById('pen-btn').classList.add('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+
+                        });
+
+                        document.getElementById('pro-btn').addEventListener('click', function() {
+                            updateTable('processing');
+
+                            document.getElementById('pro-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+                        });
+
+                        document.getElementById('com-btn').addEventListener('click', function() {
+                            updateTable('completed');
+
+                            document.getElementById('com-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+                        });
+
+                        document.getElementById('all-btn').addEventListener('click', function() {
+                            updateTable('all');
+
+                            document.getElementById('all-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                        });
+
+
                     });
-
-
-                });
-            </script>
-        </tbody>
-    </table>
+                </script>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

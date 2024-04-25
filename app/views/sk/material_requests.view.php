@@ -122,70 +122,72 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <input type="text" id="searchPendingProductions" placeholder="Search Pending Productions..." class="table-section__search-input">
     </div>
 
-    <table class="table-section__table" id="pending-productions-table">
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Requested Materials</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pending-productions-table">
+            <thead>
+                <tr>
+                    <th>Production ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Requested Materials</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <tbody id="table-section__tbody">
-
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/production')
-                            .then(response => response.json())
-                            .then(data => {
-                                // console.log(data);
-                                let table = document.getElementById('pending-productions-table');
-
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
+            <tbody id="table-section__tbody">
 
 
-                                data.forEach(item => {
-                                    if (item.status == 'pending') {
-                                        let row = table.insertRow();
-                                        let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
-                                        let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
-                                        let product_name = item.product_name;
-                                        let quantity = item.quantity;
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/production')
+                                .then(response => response.json())
+                                .then(data => {
+                                    // console.log(data);
+                                    let table = document.getElementById('pending-productions-table');
 
-                                        let material_list = '';
-                                        let materials = <?php echo json_encode($pending_productions_materials) ?>;
-                                        materials.forEach(material => {
-                                            if (material.production_id == item.production_id) {
-                                                material.materials.forEach(mat => {
-                                                    material_list += `<li>${mat.material_name} - ${mat.quantity_needed*quantity}</li>`;
-                                                });
-                                            }
-                                        });
-
-                                        row.insertCell().innerHTML = production_id;
-                                        row.insertCell().innerHTML = product_id;
-                                        row.insertCell().innerHTML = product_name;
-                                        row.insertCell().innerHTML = quantity;
-                                        row.insertCell().innerHTML = material_list;
-                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.production_id})">Approve</a>`;
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
                                     }
+
+
+                                    data.forEach(item => {
+                                        if (item.status == 'pending') {
+                                            let row = table.insertRow();
+                                            let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
+                                            let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
+                                            let product_name = item.product_name;
+                                            let quantity = item.quantity;
+
+                                            let material_list = '';
+                                            let materials = <?php echo json_encode($pending_productions_materials) ?>;
+                                            materials.forEach(material => {
+                                                if (material.production_id == item.production_id) {
+                                                    material.materials.forEach(mat => {
+                                                        material_list += `<li>${mat.material_name} - ${mat.quantity_needed*quantity}</li>`;
+                                                    });
+                                                }
+                                            });
+
+                                            row.insertCell().innerHTML = production_id;
+                                            row.insertCell().innerHTML = product_id;
+                                            row.insertCell().innerHTML = product_name;
+                                            row.insertCell().innerHTML = quantity;
+                                            row.insertCell().innerHTML = material_list;
+                                            row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.production_id})">Approve</a>`;
+                                        }
+                                    });
                                 });
-                            });
-                    }
-                    updateTable();
+                        }
+                        updateTable();
 
-                });
-            </script>
+                    });
+                </script>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="approve-item-popup">
         <div class="popup-form__content">

@@ -60,159 +60,161 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         <a class="btn-section__add-link top-btn-completed" id="com-btn">Completed Productions</a>
     </div>
 
-    <table class="table-section__table" id="pen-productions-table">
-        <!-- [production_id] => 2
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pen-productions-table">
+            <!-- [production_id] => 2
             [product_id] => 7
             [quantity] => 1
             [status] => completed
             [created_at] => 2024-01-01 22:46:18
             [updated_at] => 2024-01-01 22:46:18
             [product_name] => Brooklyn Sofa -->
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <!-- <th>Created At</th> -->
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable(filter) {
-                        fetch('<?php echo ROOT ?>/fetch/production')
-                            .then(response => response.json())
-                            .then(data => {
-                                let table = document.getElementById('pen-productions-table');
+            <thead>
+                <tr>
+                    <th>Production ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <!-- <th>Created At</th> -->
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable(filter) {
+                            fetch('<?php echo ROOT ?>/fetch/production')
+                                .then(response => response.json())
+                                .then(data => {
+                                    let table = document.getElementById('pen-productions-table');
 
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
-                                    let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
-                                    let product_name = item.product_name;
-                                    let quantity = item.quantity;
-                                    let status = item.status;
-                                    status = status.charAt(0).toUpperCase() + status.slice(1);
-                                    let created_at = item.created_at;
-                                    let updated_at = item.updated_at;
-
-                                    if (filter === 'pending' && status !== 'Pending') {
-                                        return; // Skip this row if filter is 'pending' and status is not 'Pending'
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
                                     }
 
-                                    if (filter === 'processing' && status !== 'Processing') {
-                                        return; // Skip this row if filter is 'processing' and status is not 'Processing'
-                                    }
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
+                                        let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
+                                        let product_name = item.product_name;
+                                        let quantity = item.quantity;
+                                        let status = item.status;
+                                        status = status.charAt(0).toUpperCase() + status.slice(1);
+                                        let created_at = item.created_at;
+                                        let updated_at = item.updated_at;
 
-                                    if (filter === 'completed' && status !== 'Completed') {
-                                        return; // Skip this row if filter is 'completed' and status is not 'Completed'
-                                    }
+                                        if (filter === 'pending' && status !== 'Pending') {
+                                            return; // Skip this row if filter is 'pending' and status is not 'Pending'
+                                        }
 
-                                    row.insertCell().innerHTML = production_id;
-                                    row.insertCell().innerHTML = product_id;
-                                    row.insertCell().innerHTML = product_name;
-                                    row.insertCell().innerHTML = quantity;
+                                        if (filter === 'processing' && status !== 'Processing') {
+                                            return; // Skip this row if filter is 'processing' and status is not 'Processing'
+                                        }
 
-                                    if (status == 'Pending') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button pending table-section__button-pending">${status}</a>`;
-                                    } else if (status == 'Processing') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button processing table-section__button-processing">${status}</a>`;
-                                    } else if (status == 'Completed') {
-                                        row.insertCell().innerHTML = `<a class="table-section__button completed table-section__button-completed">${status}</a>`;
-                                    }
+                                        if (filter === 'completed' && status !== 'Completed') {
+                                            return; // Skip this row if filter is 'completed' and status is not 'Completed'
+                                        }
 
-                                    row.insertCell().innerHTML = updated_at;
+                                        row.insertCell().innerHTML = production_id;
+                                        row.insertCell().innerHTML = product_id;
+                                        row.insertCell().innerHTML = product_name;
+                                        row.insertCell().innerHTML = quantity;
 
-                                    if (status == 'Processing') {
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a> <a  onclick="openUpdatePopup(${item.production_id})" class="table-section__button">Complete</a>`;
-                                    } else {
-                                        row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a>`;
-                                    }
-                                });
-                            }).catch(error => console.error(error));
-                    }
+                                        if (status == 'Pending') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button pending table-section__button-pending">${status}</a>`;
+                                        } else if (status == 'Processing') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button processing table-section__button-processing">${status}</a>`;
+                                        } else if (status == 'Completed') {
+                                            row.insertCell().innerHTML = `<a class="table-section__button completed table-section__button-completed">${status}</a>`;
+                                        }
 
-                    updateTable('all');
+                                        row.insertCell().innerHTML = updated_at;
 
-                    if (sessionStorage.getItem('x')) {
-                        const penbtn = document.getElementById('pen-btn');
-                        const probtn = document.getElementById('pro-btn');
+                                        if (status == 'Processing') {
+                                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a> <a  onclick="openUpdatePopup(${item.production_id})" class="table-section__button">Complete</a>`;
+                                        } else {
+                                            row.insertCell().innerHTML = `<a href="<?php echo ROOT ?>/pm/production/${item.production_id}" class="table-section__button">View</a>`;
+                                        }
+                                    });
+                                }).catch(error => console.error(error));
+                        }
 
-                        let x = sessionStorage.getItem('x');
-                        sessionStorage.removeItem('x');
-                        if (x == 'pending') {
-                            console.log('pen clicked!')
+                        updateTable('all');
+
+                        if (sessionStorage.getItem('x')) {
+                            const penbtn = document.getElementById('pen-btn');
+                            const probtn = document.getElementById('pro-btn');
+
+                            let x = sessionStorage.getItem('x');
+                            sessionStorage.removeItem('x');
+                            if (x == 'pending') {
+                                console.log('pen clicked!')
+                                updateTable('pending');
+
+                                document.getElementById('pen-btn').classList.add('top-btn-selected');
+                                document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                                document.getElementById('com-btn').classList.remove('top-btn-selected');
+                                document.getElementById('all-btn').classList.remove('top-btn-selected');
+                            } else if (x == 'processing') {
+                                console.log('pro clicked!')
+                                updateTable('processing');
+
+                                document.getElementById('pro-btn').classList.add('top-btn-selected');
+                                document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                                document.getElementById('com-btn').classList.remove('top-btn-selected');
+                                document.getElementById('all-btn').classList.remove('top-btn-selected');
+
+                            }
+
+
+                        }
+
+                        // Button click event handlers
+                        document.getElementById('pen-btn').addEventListener('click', function() {
                             updateTable('pending');
 
                             document.getElementById('pen-btn').classList.add('top-btn-selected');
                             document.getElementById('pro-btn').classList.remove('top-btn-selected');
                             document.getElementById('com-btn').classList.remove('top-btn-selected');
                             document.getElementById('all-btn').classList.remove('top-btn-selected');
-                        } else if (x == 'processing') {
-                            console.log('pro clicked!')
+
+                        });
+
+                        document.getElementById('pro-btn').addEventListener('click', function() {
                             updateTable('processing');
 
                             document.getElementById('pro-btn').classList.add('top-btn-selected');
                             document.getElementById('pen-btn').classList.remove('top-btn-selected');
                             document.getElementById('com-btn').classList.remove('top-btn-selected');
                             document.getElementById('all-btn').classList.remove('top-btn-selected');
+                        });
 
-                        }
+                        document.getElementById('com-btn').addEventListener('click', function() {
+                            updateTable('completed');
 
+                            document.getElementById('com-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('all-btn').classList.remove('top-btn-selected');
+                        });
 
-                    }
+                        document.getElementById('all-btn').addEventListener('click', function() {
+                            updateTable('all');
 
-                    // Button click event handlers
-                    document.getElementById('pen-btn').addEventListener('click', function() {
-                        updateTable('pending');
+                            document.getElementById('all-btn').classList.add('top-btn-selected');
+                            document.getElementById('pen-btn').classList.remove('top-btn-selected');
+                            document.getElementById('pro-btn').classList.remove('top-btn-selected');
+                            document.getElementById('com-btn').classList.remove('top-btn-selected');
+                        });
 
-                        document.getElementById('pen-btn').classList.add('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
 
                     });
-
-                    document.getElementById('pro-btn').addEventListener('click', function() {
-                        updateTable('processing');
-
-                        document.getElementById('pro-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
-                    });
-
-                    document.getElementById('com-btn').addEventListener('click', function() {
-                        updateTable('completed');
-
-                        document.getElementById('com-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('all-btn').classList.remove('top-btn-selected');
-                    });
-
-                    document.getElementById('all-btn').addEventListener('click', function() {
-                        updateTable('all');
-
-                        document.getElementById('all-btn').classList.add('top-btn-selected');
-                        document.getElementById('pen-btn').classList.remove('top-btn-selected');
-                        document.getElementById('pro-btn').classList.remove('top-btn-selected');
-                        document.getElementById('com-btn').classList.remove('top-btn-selected');
-                    });
-
-
-                });
-            </script>
-        </tbody>
-    </table>
+                </script>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="complete-item-popup">
         <div class="popup-form__content">

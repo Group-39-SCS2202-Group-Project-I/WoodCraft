@@ -68,20 +68,22 @@
 <div class="table-section">
     <h2 class="table-section__title">Pickup Orders</h2>
 
-    <table class="table-section__table" id="pickup-table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Items</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pickup-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
 
-    </table>
+        </table>
+    </div>
 </div>
 
 
@@ -90,20 +92,22 @@
 <div class="table-section">
     <h2 class="table-section__title">Delivery Orders</h2>
 
-    <table class="table-section__table" id="delivery-table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Items</th>
-                <th>Total</th>
-                <th>Delivery Address</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-    </table>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="delivery-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Items</th>
+                    <th>Total</th>
+                    <th>Delivery Address</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+        </table>
+    </div>
 </div>
 
 <script>
@@ -116,8 +120,8 @@
             .then(response => response.json())
             .then(data => {
                 // console.log(data);
-                var pickup_count= 0;
-                var delivery_count= 0;
+                var pickup_count = 0;
+                var delivery_count = 0;
 
                 var deliveries = data.delivery_orders;
                 var pickups = data.pickup_orders;
@@ -126,14 +130,14 @@
                     pickup_count = pickups.length;
                     document.getElementById('pickup-card').querySelector('.card-text').textContent = pickup_count;
                 } else {
-                    document.getElementById('pickup-card').style.display = 'none';   
+                    document.getElementById('pickup-card').style.display = 'none';
                 }
 
                 if (deliveries) {
                     delivery_count = deliveries.length;
                     document.getElementById('delivery_card').querySelector('.card-text').textContent = delivery_count;
                 } else {
-                    document.getElementById('delivery_card').style.display = 'none';   
+                    document.getElementById('delivery_card').style.display = 'none';
                 }
 
                 while (pickupTable.rows.length > 1) {
@@ -198,7 +202,7 @@
                     actionCell.appendChild(actionBtn);
                 });
 
-                
+
             });
 
         // const pickupCard = document.getElementById('pickup-card');

@@ -22,6 +22,7 @@
         <input type="text" id="searchBulk" placeholder="Search Bulk Orders..." class="table-section__search-input">
     </div>
 
+    <div id="scrollable_sec">
     <table class="table-section__table" id="bulk-table">
         <thead>
             <tr>
@@ -37,6 +38,7 @@
 
         </tbody id="table-section__tbody">
     </table>
+    </div>
 </div>
 
 <script>
