@@ -227,9 +227,7 @@ button:hover,
   align-items: center;
 }
 
-.out-of-stock {
-  background-color:#EEEE; /* Set background color to gray for out of stock items */
-}
+
 
 .exceeds-stock {
   /* Add your custom styles for items that exceed stock here */

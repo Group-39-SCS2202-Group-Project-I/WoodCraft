@@ -68,72 +68,131 @@
       // $columns = ['*'];
       // $condition = ['product.product_id = cart_products.product_id'];
       // $cartItem = $cartProducts->join($tables, $columns, $condition,);
+      ?><?php
+      if (isset($cartProducts) && !empty($cartProducts)) {
+          foreach ($cartProducts as $cartProduct) {
+              $outOfStockClass = isset($errors[$cartProduct['product_id']]) ? 'out-of-stock' : ''; // Check if product is out of stock
+              $exceedStockClass = isset($errors[$cartProduct['product_id']]['msg']) && $errors[$cartProduct['product_id']]['msg'] == 'exceeds stock' ? 'exceed-stock' : ''; // Check if quantity exceeds available stock
+              $availableQuantity = isset($errors[$cartProduct['product_id']]['available_quantity']) ? $errors[$cartProduct['product_id']]['available_quantity'] : ''; // Get available quantity
+      
+              ?>
+              <td>
+                  <div class="smallcart">
+                      <div class="product <?php echo $outOfStockClass; ?>"> <!-- Add the class here -->
+                          <div class="checkboxe">
+                              <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                                  <?php echo ($cartProduct['selected'] == 1 && empty($outOfStockClass)) ? 'checked' : ''; ?>>
+                          </div>
+                          <div class="imag-box">
+                              <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
+                                  alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
+                          </div>
+                          <div class="details">
+                              <div class="pdetails">
+                                  <div class="product-details">
+                                      <p><?php echo $cartProduct['name'] ?></p>
+                                      <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="Qdetails">
+                              <div class="remove">
+                                  <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
+                                      <i><span class="material-symbols-outlined">
+                                          delete
+                                      </span></i>
+                                  </button>
+                              </div>
+                              <div class="quantity">
+                                  <button type="button" class="decrease"
+                                      data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                                          class="material-symbols-outlined">
+                                          remove
+                                      </span></i></button>
+                                  <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                                      value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                                  <button type="button" class="increase <?php echo $exceedStockClass; ?>"
+                                      data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                                      data-available-quantity="<?php echo $availableQuantity; ?>"><i><span
+                                          class="material-symbols-outlined">
+                                          add
+                                      </span></i></button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </td>
+              <?php
+          }
+      } else {
+          echo "<h5>Cart Is Empty</h5>";
+      }
       ?>
+      
+      <div id="message-container"></div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectCheckboxes = document.querySelectorAll(".select-checkbox");
 
-<?php
-if (isset($cartProducts) && !empty($cartProducts)) {
-    foreach ($cartProducts as $cartProduct) {
-        $outOfStockClass = isset($errors[$cartProduct['product_id']]) ? 'out-of-stock' : ''; // Check if product is out of stock
-        ?>
-        <td>
-            <div class="smallcart">
-                <div class="product <?php echo $outOfStockClass; ?>"> <!-- Add the class here -->
-                    <div class="checkboxe">
-                        <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
-                            <?php echo ($cartProduct['selected'] == 1) ? 'checked' : ''; ?>>
-                    </div>
-                    <div class="imag-box">
-                        <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
-                            alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
-                    </div>
-                    <div class="details">
-                        <div class="pdetails">
-                            <div class="product-details">
-                                <p><?php echo $cartProduct['name'] ?></p>
-                                <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Qdetails">
-                        <div class="remove">
-                            <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
-                                <i><span class="material-symbols-outlined">
-                                    delete
-                                </span></i>
-                            </button>
-                        </div>
-                        <div class="quantity">
-                            <button type="button" class="decrease"
-                                data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
-                                    class="material-symbols-outlined">
-                                    remove
-                                </span></i></button>
-                            <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
-                                value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
-                            <button type="button" class="increase"
-                                data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
-                                    class="material-symbols-outlined">
-                                    add
-                                </span></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </td>
-        <?php
+        selectCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                const productDiv = checkbox.closest('.product');
+                const isOutOfStock = productDiv.classList.contains('out-of-stock');
+                const increaseButton = productDiv.querySelector('.increase');
+                const decreaseButton = productDiv.querySelector('.decrease');
 
-        // if ($cartProduct->selected === 'true') {
-        //   // Only consider selected items for calculation
-        //   $subtotal += $cart['price']; // Accumulate subtotal
-        //   $selectedItemsCount++; // Increment the selected items counter
-        // }
-        // Accumulate subtotal
-    }
-} else {
-    echo "<h5>Cart Is Empty</h5>";
-}
-?>
+                if (isOutOfStock && checkbox.checked) {
+                    showMessage('This item is out of stock .', 'error');
+                    checkbox.checked = false;
+                }
+
+                if (isOutOfStock) {
+                    productDiv.style.backgroundColor = '#EEEE';
+                    increaseButton.disabled = true;
+                    decreaseButton.disabled = true;
+                } else {
+                    productDiv.style.backgroundColor = ''; // Reset to default
+                    increaseButton.disabled = false;
+                    decreaseButton.disabled = false;
+                }
+            });
+        });
+
+        const increaseButtons = document.querySelectorAll(".increase");
+
+        increaseButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const availableQuantity = parseInt(button.dataset.availableQuantity);
+                const input = button.previousElementSibling;
+                const currentValue = parseInt(input.value, 10);
+                const productId = button.dataset.productId;
+
+                if (availableQuantity !== '' && currentValue >= availableQuantity) {
+                    showMessage('The quantity exceeds the available stock.', 'error');
+                    input.value = availableQuantity; // Set input value to available quantity
+                    button.disabled = true; // Disable increase button
+                } else {
+                    input.value = currentValue + 1;
+                }
+            });
+        });
+
+        function showMessage(message, type) {
+            const messageContainer = document.getElementById('message-container');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', type);
+            messageElement.textContent = message;
+            messageContainer.appendChild(messageElement);
+
+            // Automatically remove message after 5 seconds
+            setTimeout(function () {
+                messageElement.remove();
+            }, 5000);
+        }
+    });
+</script>
+
     </div>
     <div class="summary">
       <div class="top">
