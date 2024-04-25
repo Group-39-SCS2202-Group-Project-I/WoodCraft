@@ -138,13 +138,13 @@ class SK extends Controller
 
             if ($x == 'completed') {
                 
-                $url = ROOT . "/fetch/completed_retail_orders";
-                $retail_orders = json_decode(file_get_contents($url));
-                $url = ROOT . "/fetch/completed_bulk_orders";
-                $bulk_orders = json_decode(file_get_contents($url));
+                // $url = ROOT . "/fetch/completed_retail_orders";
+                // $retail_orders = json_decode(file_get_contents($url));
+                // $url = ROOT . "/fetch/completed_bulk_orders";
+                // $bulk_orders = json_decode(file_get_contents($url));
 
-                $data['retail_orders'] = $retail_orders;
-                $data['bulk_orders'] = $bulk_orders;
+                // $data['retail_orders'] = $retail_orders;
+                // $data['bulk_orders'] = $bulk_orders;
                 $this->view('sk/completed_orders', $data);
             } else if ($x == 'bulk') {
                 $db = new Database();

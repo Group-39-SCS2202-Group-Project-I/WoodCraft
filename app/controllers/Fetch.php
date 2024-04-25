@@ -1642,7 +1642,7 @@ class Fetch extends Controller
                 'quantity' => $product->quantity
             ];
 
-            if($product->quantity > 0){
+            if ($product->quantity > 0) {
                 // $arr[] = $product;
                 $product_arr[] = $product->name;
                 $qty_arr[] = $product->quantity;
@@ -1673,7 +1673,7 @@ class Fetch extends Controller
                 'quantity' => $material->stock_available
             ];
 
-            if($material->stock_available > 0){
+            if ($material->stock_available > 0) {
                 // $arr[] = $product;
                 $material_arr[] = $material->material_name;
                 $qty_arr[] = $material->stock_available;
@@ -1687,5 +1687,78 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($data);
+    }
+
+    public function completed_retail_and_bulk_orders()
+    {
+        $url = ROOT . "/fetch/completed_retail_orders";
+        $retail_orders = json_decode(file_get_contents($url));
+        $url = ROOT . "/fetch/completed_bulk_orders";
+        $bulk_orders = json_decode(file_get_contents($url));
+
+        $retail_count = 0;
+        $bulk_count = 0;
+
+        if ($retail_orders) {
+            $retail_count = count($retail_orders);
+        }
+
+        if ($bulk_orders) {
+            $bulk_count = count($bulk_orders);
+        }
+
+        $data = [
+            'retail_orders' => $retail_orders,
+            'bulk_orders' => $bulk_orders,
+            'retail_count' => $retail_count,
+            'bulk_count' => $bulk_count
+        ];
+
+        $orders = [];
+        foreach ($retail_orders as $order) {
+            $x['order_id'] = 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT);
+            if ($order->type == 'delivery') {
+                $x['type'] = 'Retail/Delivery';
+            } else {
+                $x['type'] = 'Retail/Pickup';
+            }
+            $x['customer_name'] = $order->customer_name;
+            $x['items'] = $order->items;
+            $x['updated_at'] = $order->updated_at;
+
+            $orders[] = $x;
+        }
+        foreach ($bulk_orders as $order) {
+            $x['order_id'] = 'BOD-' . str_pad($order->bulk_order_details_id, 3, '0', STR_PAD_LEFT);
+            if ($order->type == 'delivery') {
+                $x['type'] = 'Bulk/Delivery';
+            } else {
+                $x['type'] = 'Bulk/Pickup';
+            }
+            // $x['total'] = $order->total;
+            $x['customer_name'] = $order->customer_name;
+
+            $x['items'] = [
+                'product_name' => $order->bulk_req->product_name,
+                'quantity' => $order->bulk_req->quantity
+            ];
+
+            $x['updated_at'] = $order->updated_at;
+
+            $orders[] = $x;
+        }
+
+        usort($orders, function ($a, $b) {
+            return $a['updated_at'] < $b['updated_at'];
+        });
+
+        $arr = [
+            'orders' => $orders,
+            'retail_count' => $retail_count,
+            'bulk_count' => $bulk_count
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr);
     }
 }

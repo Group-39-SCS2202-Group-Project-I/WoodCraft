@@ -1,23 +1,6 @@
 <?php include "inc/header.view.php"; ?>
 
-<?php
-// show($data);
 
-$retail_orders = $data['retail_orders'];
-$bulk_orders = $data['bulk_orders'];
-
-// show($retail_orders);
-// show($bulk_orders);
-
-$retail_count = 0;
-$bulk_count = 0;
-if (isset($retail_orders)) {
-    $retail_count = count($retail_orders);
-}
-if (isset($bulk_orders)) {
-    $bulk_count = count($bulk_orders);
-}
-?>
 
 <style>
     .top-btn-selected {
@@ -59,96 +42,106 @@ if (isset($bulk_orders)) {
 </style>
 
 <div class="dashboard">
-    <?php if ($retail_count != 0) : ?>
+    <div id="retail-card">
         <a href="" style="text-decoration:none;">
-            <div class="card" id="pickup-card">
+            <div class="card">
                 <h3 class="card-title">Retail Orders</h3>
                 <span class="material-symbols-outlined card-icon">
                     box
                 </span>
-                <p class="card-text"><?= $retail_count ?></p>
+                <p class="card-text" id="retail-count"></p>
             </div>
         </a>
-    <?php endif; ?>
-    <?php if ($bulk_count != 0) : ?>
+    </div>
+    <div id="bulk-card">
         <a href="" style="text-decoration:none">
-            <div class="card" id="delivery_card">
+            <div class="card" >
                 <h3 class="card-title">Bulk Orders</h3>
                 <span class="material-symbols-outlined card-icon">
                     local_shipping
                 </span>
-                <p class="card-text"><?= $bulk_count ?></p>
+                <p class="card-text" id="bulk-count"></p>
             </div>
         </a>
-    <?php endif; ?>
+    </div>
 </div>
 
-<div class="table-section" id="pickup-table">
-    <h2 class="table-section__title">Retail Orders</h2>
 
-    <table class="table-section__table">
+<div class="table-section">
+    <h2 class="table-section__title">Completed Orders</h2>
+
+    <table class="table-section__table" id="com-orders">
         <thead>
             <tr>
                 <th>Order ID</th>
                 <th>Customer Name</th>
-                <th>Order Items</th>
                 <th>Order Type</th>
-                <th>Total</th>
+                <th>Order Items</th>
                 <th>Order Completed</th>
             </tr>
         </thead>
+        <tbody id="table-section__tbody">
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const tbody = document.getElementById('table-section__tbody');
+                    const retailCard = document.getElementById('retail-card');
+                    const bulkCard = document.getElementById('bulk-card');
+                    const retailCount = document.getElementById('retail-count');
+                    const bulkCount = document.getElementById('bulk-count');
 
-        <tbody>
-            <?php foreach ($retail_orders as $order) : ?>
-                <tr>
-                    <td><?= $order->order_details_id ?></td>
-                    <td><?= $order->customer_name ?></td>
-                    <td><?php
-                        // $order_items = json_decode($order->items);
-                        $order_items = $order->items;
-                        foreach ($order_items as $item) {
-                            echo $item->product_name . " x " . $item->quantity . "<br>";
-                        }
-                        ?></td>
-                       <td><?= $order->type ?></td>
-                    <td><?= $order->total ?></td>
-                    <td><?= $order->updated_at ?></td>
-                </tr>
-            <?php endforeach; ?>
+                    const url = '<?= ROOT ?>/fetch/completed_retail_and_bulk_orders';
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                            retailCount.textContent = data.retail_count;
+                            bulkCount.textContent = data.bulk_count;
+
+
+                            if (data.retail_count == 0) {
+                                retailCard.style.display = 'none';
+                            }
+
+                            if (data.bulk_count == 0) {
+                                bulkCard.style.display = 'none';
+                            }
+
+                            var orders = data.orders;
+                            let table = document.getElementById('com-orders');
+
+                            while (table.rows.length > 1) {
+                                table.deleteRow(1);
+                            }
+
+                            let items = ''
+                            orders.forEach(item => {
+                                let row = table.insertRow();
+                                if (item.type == 'Retail/Delivery' || item.type == 'Retail/Pickup') {
+                                    x = item.items;
+                                    items = x.map(item => item.product_name + ' x' + item.quantity).join(', ');
+                                } else if (item.type == 'Bulk/Delivery' || item.type == 'Bulk/Pickup') {
+                                    items = item.items.product_name + ' x' + item.items.quantity;
+                                }
+
+                                row.insertCell().innerHTML = item.order_id;
+                                row.insertCell().innerHTML = item.customer_name;
+                                row.insertCell().innerHTML = item.type;
+                                row.insertCell().innerHTML = items;
+                                row.insertCell().innerHTML = item.updated_at;
+                            });
+                        });
+                });
+            </script>
         </tbody>
     </table>
 </div>
 
 
-<div class="table-section" id="pickup-table">
-    <h2 class="table-section__title">Bulk Orders</h2>
 
-    <table class="table-section__table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Order Items</th>
-                <th>Order Type</th>
-                <th>Total</th>
-                <th>Order Completed</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            <?php foreach ($bulk_orders as $order) : ?>
-                <tr>
-                    <td><?= $order->bulk_order_details_id ?></td>
-                    <td><?= $order->customer_name ?></td>
-                    <td> <?= $order->bulk_req->product_name .' x '.$order->bulk_req->quantity  ?> </td>
-                    <td><?= $order->type ?></td>
-                    <td><?= $order->total_cost ?></td>
-                    <td><?= $order->updated_at ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+
+
 
 
 <?php include "inc/footer.view.php"; ?>
