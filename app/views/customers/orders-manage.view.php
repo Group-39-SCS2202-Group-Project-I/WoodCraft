@@ -111,6 +111,27 @@
         display: flex;
         align-items: center;
     }
+
+    .bottom-page {
+        display: flex;
+        flex-direction: column;
+        align-items:flex-end; 
+    }
+
+    .back-orders {
+        background-color: var(--coal_black);
+        color: var(--white);
+        border: none;
+        border-radius: 20px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+    }
+
+    .back-orders:hover {
+        background-color: var(--green1);
+    }
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -133,7 +154,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('profile') ? 'selected' : '' ?>" id="profile-nav">
                             <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">My Profile</span></a>
                         </li>
-                            <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
+                            <!-- <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
                                 <a href="<?=ROOT?>/profile/editProfile">Edit Profile<span style="margin-left: 35px;"></span></a>
                             </li>
                             <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editAddress') ? 'selected' : '' ?>" id="edita-nav">
@@ -141,9 +162,9 @@
                             </li>
                             <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('password') ? 'selected' : '' ?>" id="password-nav">
                                 <a href="<?=ROOT?>/profile/password">Change Password<span style="margin-left: 35px;"></span></a>
-                            </li>
+                            </li> -->
                         <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
-                            <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
+                            <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
@@ -161,6 +182,13 @@
         </div>
 
         <div class="content-manage-orders">
+            <!-- <div class="bottom-page">
+                <a href="<?=ROOT?>/orders"><button type="button" class="back-orders">BACK</button></a>
+            </div> -->
+            <div class="bottom-page">
+                <a href="<?=ROOT?>/orders" class="back-orders"><i class="material-icons">arrow_back</i></a>
+            </div>
+
             <?php foreach ($data['order_details'] as $details) : ?>
                 <div class="content-manage-order">
                     <div class="content-manage-order-left">
@@ -209,6 +237,9 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+            <!-- <div class="bottom-page">
+                <a href="<?=ROOT?>/orders"><button type="button" class="back-orders">BACK</button></a>
+            </div> -->
         </div>
     </div>
 </div>

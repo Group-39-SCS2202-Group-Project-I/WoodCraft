@@ -102,7 +102,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('profile') ? 'selected' : '' ?>" id="profile-nav">
                             <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">My Profile</span></a>
                         </li>
-                            <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
+                            <!-- <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
                                 <a href="<?=ROOT?>/profile/editProfile">Edit Profile<span style="margin-left: 35px;"></span></a>
                             </li>
                             <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editAddress') ? 'selected' : '' ?>" id="edita-nav">
@@ -110,9 +110,9 @@
                             </li>
                             <li class="customer-sidebar-list-item sub-title selected <?= isCurrentPage('password') ? 'selected' : '' ?>" id="password-nav">
                                 <a href="<?=ROOT?>/profile/password">Change Password<span style="margin-left: 35px;"></span></a>
-                            </li>
+                            </li> -->
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
-                            <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
+                            <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>

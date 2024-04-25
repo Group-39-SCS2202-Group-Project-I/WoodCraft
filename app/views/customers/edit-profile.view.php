@@ -113,7 +113,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('profile') ? 'selected' : '' ?>" id="profile-nav">
                             <a href="<?=ROOT?>/profile"><span style="margin-left: 5px;">My Profile</span></a>
                         </li>
-                            <li class="customer-sidebar-list-item sub-title selected <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
+                            <!-- <li class="customer-sidebar-list-item sub-title selected <?= isCurrentPage('editProfile') ? 'selected' : '' ?>" id="editp-nav">
                                 <a href="<?=ROOT?>/profile/editProfile">Edit Profile<span style="margin-left: 35px;"></span></a>
                             </li>
                             <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('editAddress') ? 'selected' : '' ?>" id="edita-nav">
@@ -121,9 +121,9 @@
                             </li>
                             <li class="customer-sidebar-list-item sub-title <?= isCurrentPage('password') ? 'selected' : '' ?>" id="password-nav">
                                 <a href="<?=ROOT?>/profile/password">Change Password<span style="margin-left: 35px;"></span></a>
-                            </li>
+                            </li> -->
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
-                            <a href="<?=ROOT?>/orders/orders"><span style="margin-left: 5px;">My Orders</span></a>
+                            <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
@@ -224,7 +224,7 @@
                         <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
                         <div class="buttons-profile">
                             <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                            <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                            <a href="<?=ROOT?>/profile"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                         </div>
                     </div>
                 </form>
