@@ -131,6 +131,11 @@
     .rating {
         flex: 1;
     }
+
+    .star-icon {
+        color: gold;
+    }
+
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -199,7 +204,7 @@
                                             <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
-                                            <button class="review-button" onclick="window.location.href = 'add-review.php';">REVIEW</button>
+                                            <a href="<?=ROOT?>/product"><button type="button" class="review-button">REVIEW</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -212,6 +217,26 @@
                     </div>
 
                     <!-- History Tab -->
+                    <?php
+                    function displayStarIcons($number) {
+                        // Validate input
+                        if ($number < 0 || $number > 5) {
+                            echo "Rating should be between 0 and 5.";
+                            return;
+                        }
+
+                        // Display filled star icons
+                        for ($i = 0; $i < $number; $i++) {
+                            echo '<span class="material-icons star-icon">star</span>';
+                        }
+
+                        // Display not filled star icons
+                        for ($i = $number; $i < 5; $i++) {
+                            echo '<span class="material-icons star-icon">star_border</span>';
+                        }
+                    }
+                    ?>
+
                     <div id="history" class="content-review">
                         <?php if (!empty($reviewedProducts)): ?>
                             <div class="content-history">
@@ -225,10 +250,11 @@
                                             <p><?= $product['product_name']; ?></p>
                                         </div>
                                         <div class="history-to-review-item">
-                                            <div class="rating">
-                                                Rating: <?= $product['rating']; ?><br>
-                                                <?= $product['review']; ?></div>
-                                            <button class="review-button" onclick="window.location.href = 'edit-review.php';">EDIT</button>
+                                        <div class="rating">
+                                            <?php displayStarIcons($product['rating']); ?><br>
+                                            <?= $product['review']; ?>
+                                        </div>
+                                        <a href="<?=ROOT?>/product"><button type="button" class="review-button">EDIT</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
