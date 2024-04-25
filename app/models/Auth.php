@@ -196,16 +196,14 @@ class Auth
         return isset($_SESSION['USER_DATA']) ? $_SESSION['USER_DATA']->user_id : null;
     }
 
-    // Add more role checking functions if needed
 
-    // Other functions remain unchanged
-    //public static function getCustomerID()
-    //{
-    //   if (!empty($_SESSION['USER_DATA']) && $_SESSION['USER_DATA']->role === 'customer') {
-    //        return $_SESSION['USER_DATA']->customer_id;
-    //    }
-    //    return null;
-    //}
+    public static function getCustomerEmail()
+    {
+        if (Auth::is_customer()) {
+            return $_SESSION['USER_DATA']->email;
+        }
+        else return null;
+    }
 
 }
 ?>

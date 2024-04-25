@@ -1,3 +1,6 @@
 .DS_Store
+.app/.DS_Store
 public/assets/fontawesome-free-5.15.4-web
+./vscode
 app/core/credentials.php
+

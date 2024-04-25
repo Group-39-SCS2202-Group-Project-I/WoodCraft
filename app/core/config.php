@@ -4,7 +4,7 @@
 /****
 * app info
 */
-define('APP_NAME', 'WoodCraft');
+define('APP_NAME', 'WoodCraft Furnitures');
 define('APP_DESC', '');//
 
 /****
