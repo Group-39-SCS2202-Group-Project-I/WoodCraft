@@ -104,6 +104,7 @@ if (isset($data['delivery_count'])) {
                     <th>Total Cost</th>
                     <th>Status</th>
                     <th>Target Date</th>
+                    <!-- <th>Stock Availability</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -121,7 +122,19 @@ if (isset($data['delivery_count'])) {
                         <td><?= $order->status ?></td>
                         <td><?= $order->bulk_req->estimated_date ?></td>
                         <td>
-                            <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a>
+                            <?php if (($order->bulk_req->quantity <=  $order->bulk_req->quantity_available) & $order->status == 'pending') : ?>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Allocate Products</a>
+                            <?php else : ?>
+                                <a style="background-color: #ffd6c9;" class="table-section__button disable-row table-section__button-unavailable" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Products Unavailable</a>
+                            <?php endif; ?>
+
+                            <?php if ($order->status != 'pending') : ?>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Update</a>
+                            <?php endif; ?>
+
+
+
+                            <!-- <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a> -->
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -143,6 +156,7 @@ if (isset($data['delivery_count'])) {
                     <th>Delivery Address</th>
                     <th>Status</th>
                     <th>Target Date</th>
+                    <!-- <th>Stock Availability</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -169,9 +183,16 @@ if (isset($data['delivery_count'])) {
                         </td>
                         <td><?= $order->status ?></td>
                         <td><?= $order->bulk_req->estimated_date ?></td>
-
                         <td>
-                            <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a>
+                            <?php if (($order->bulk_req->quantity <=  $order->bulk_req->quantity_available) & $order->status == 'pending') : ?>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Allocate Products</a>
+                            <?php else : ?>
+                                <a style="background-color: #ffd6c9;" class="table-section__button disable-row table-section__button-unavailable" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Products Unavailable</a>
+                            <?php endif; ?>
+
+                            <?php if ($order->status != 'pending') : ?>
+                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Update</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
