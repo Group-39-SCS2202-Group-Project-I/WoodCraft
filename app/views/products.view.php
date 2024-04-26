@@ -68,7 +68,7 @@ if (Auth::logged_in()) {
     <input type="text" id="" placeholder="Search Products..." class="searchbar">
   </div>
 
-  <div class="dashboard">
+  <div class="dash4">
     <!-- <a style="text-decoration:none"> -->
     <!-- <div class="product_card">
         <div class="card_cont">
@@ -110,7 +110,7 @@ if (Auth::logged_in()) {
 
         var products = data.products;
         products = products.filter(product => product.listed == 1);
-        const dashboard = document.querySelector('.dashboard');
+        const dashboard = document.querySelector('.dash4');
 
         products.forEach(product => {
           const product_id = product.product_id;
@@ -318,7 +318,7 @@ if (Auth::logged_in()) {
       },
     });
   });
-</script>
+
 
 
 
