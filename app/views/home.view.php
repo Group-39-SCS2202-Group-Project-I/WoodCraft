@@ -88,7 +88,7 @@ if (Auth::logged_in()) {
 </script>
 
 <div class="products-section2">
-  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
+t commi  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
 
   <div class="dash4" >
     <script>
