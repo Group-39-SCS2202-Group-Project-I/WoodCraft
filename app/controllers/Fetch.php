@@ -1923,4 +1923,41 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($data);
     }
+
+    public function top_selling_products()
+    {
+        $db = new Database();
+        $product_id_n_count = $db->query("SELECT product_id,SUM(quantity) as count FROM order_item GROUP BY product_id ORDER BY count");
+        $product_ids = array_column($product_id_n_count, 'product_id');
+        $counts = array_column($product_id_n_count, 'count');
+
+      
+
+
+        $top_selling_products = [];
+        foreach ($product_ids as $key => $product_id) {
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id")[0];
+            $product->count = $counts[$key];
+            $top_selling_products[] = $product;
+
+            $product_inventory_id = $product->product_inventory_id;
+            $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0];
+            $product->quantity = $product_inventory->quantity;
+
+            $product->images = [];
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            foreach ($product_images as $image) {
+                $product->images[] = $image->image_url;
+            } 
+
+        }
+
+        // get top 12 products
+        $top_selling_products = array_slice($top_selling_products, -12);
+
+        header("Content-Type: application/json");
+        echo json_encode($top_selling_products);
+
+
+    }
 }

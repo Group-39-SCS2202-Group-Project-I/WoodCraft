@@ -582,3 +582,11 @@ img {
   text-align: center;
   margin-bottom: 1rem;
 }
+
+/* home */
+.products-section2
+{
+  padding-top: 3%;
+  padding-left: 50px;
+  padding-right: 50px;
+}
