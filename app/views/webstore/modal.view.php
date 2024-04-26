@@ -2,7 +2,7 @@
     - MODAL
   -->
 
-  <div class="modal" data-modal>
+  <!-- <div class="modal" data-modal>
 
     <div class="modal-close-overlay" data-modal-overlay></div>
 
@@ -14,9 +14,9 @@
 
       <div class="newsletter-img">
         <img src="<?php echo ROOT; ?>/assets/images2/newsletter.png" alt="subscribe newsletter" width="400" height="400">
-      </div>
+      </div> -->
 
-      <div class="newsletter">
+      <!-- <div class="newsletter">
 
         <form action="#">
 
@@ -28,11 +28,11 @@
               Subscribe the <b>Anon</b> to get latest products and discount update.
             </p>
 
-          </div>
+          </div> -->
 
-          <input type="email" name="email" class="email-field" placeholder="Email Address" required>
+          <!-- <input type="email" name="email" class="email-field" placeholder="Email Address" required>
 
-          <button type="submit" class="btn-newsletter">Subscribe</button>
+          <button type="submit" class="btn-newsletter">Subscribe</button> -->
 
         </form>
 

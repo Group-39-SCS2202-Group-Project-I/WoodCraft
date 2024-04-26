@@ -1,7 +1,7 @@
-<!--
+<!-- <!--
     - NOTIFICATION TOAST
   -->
-
+<!-- 
   <div class="notification-toast" data-toast>
 
     <button class="toast-close-btn" data-toast-close>
@@ -28,4 +28,4 @@
 
     </div>
 
-  </div>
+  </div> --> 

@@ -44,7 +44,7 @@ if (Auth::logged_in()) {
       </div>
 
     </div>
-    <!-- testimonals -->
+    <!-- testimonals
     <section>
       <div class="container2">
       
@@ -66,8 +66,8 @@ if (Auth::logged_in()) {
                  <button type="submit" class="btn">Buy Now!</button>
                 </div>
            </div>
-        
-         <section class="container3">
+         -->
+         <!-- <section class="container3">
          <div class="sub2">
                 <div class="testicontent">
                   <div class="slide">
@@ -88,7 +88,7 @@ if (Auth::logged_in()) {
           </div>
 
       </div>
-         </section>
+         </section> -->
          <style>
           .container2{
     margin: 3vw 0 ;
