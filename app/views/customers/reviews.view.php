@@ -35,7 +35,6 @@
         background-color: var(--light);
         margin-bottom: 30px;
         transition: box-shadow 0.3s;
-        margin-left: 60px;
     }
 
     .review-item:hover {
@@ -186,13 +185,13 @@
                 </div>
 
                 <div class="tab-header">
-                    <div class="tab-title index" data-tab="to-review" onclick="showTab('to-review')">To Review</div>
-                    <div class="tab-title" data-tab="history" onclick="showTab('history')">History</div>
+                    <div class="tab-title" data-tab="to-review" onclick="showTab('to-review')">To Review</div>
+                    <div class="tab-title index" data-tab="history" onclick="showTab('history')">History</div>
                 </div>
 
                 <div class="tab-content">
                     <!-- To Review Tab -->
-                    <div id="to-review" class="content-review active">
+                    <div id="to-review" class="content-review">
                         <?php if (!empty($toReviewProducts)) : ?>
                             <div class="content-to-review">
                                 <?php foreach ($toReviewProducts as $product) : ?>
@@ -204,7 +203,7 @@
                                             <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
-                                            <a href="<?=ROOT?>/product"><button type="button" class="review-button">REVIEW</button></a>
+                                            <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -237,7 +236,7 @@
                     }
                     ?>
 
-                    <div id="history" class="content-review">
+                    <div id="history" class="content-review active">
                         <?php if (!empty($reviewedProducts)): ?>
                             <div class="content-history">
                                 <?php foreach ($reviewedProducts as $product) : ?>
@@ -281,13 +280,13 @@
                 });
             });
 
-            const overviewTabTitle = document.querySelector('.tab-title[data-tab="to-review"]');
+            const overviewTabTitle = document.querySelector('.tab-title[data-tab="history"]');
             overviewTabTitle.classList.add('active');
 
             const saveChangesBtn = document.getElementById('saveChangesBtn');
             saveChangesBtn.addEventListener('click', function () {
 
-                showTab('to-review');
+                showTab('history');
             });
 
             function showTab(tabId) {
