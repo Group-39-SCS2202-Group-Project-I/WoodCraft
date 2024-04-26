@@ -1957,7 +1957,29 @@ class Fetch extends Controller
 
         header("Content-Type: application/json");
         echo json_encode($top_selling_products);
+    }
 
+    public function new_arrivals()
+    {
+        $db = new Database();
+        $products = $db->query("SELECT * FROM product ORDER BY created_at DESC LIMIT 12");
+
+        foreach ($products as $product) {
+            $product_id = $product->product_id;
+
+            $product_inventory_id = $product->product_inventory_id;
+            $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0];
+            $product->quantity = $product_inventory->quantity;
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            $product->images = [];
+            foreach ($product_images as $image) {
+                $product->images[] = $image->image_url;
+            }
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($products);
 
     }
+
 }
