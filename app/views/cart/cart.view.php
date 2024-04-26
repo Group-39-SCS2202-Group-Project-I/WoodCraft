@@ -353,6 +353,7 @@
           $('#loader').hide();
           $('.alert').show();
           $('#result').html(response);
+          window.location.reload();
           // You may need to parse the response JSON and update the table accordingly
         });
       }
@@ -373,6 +374,7 @@
           $('#loader').hide();
           $('.alert').show();
           $('#result').html(response);
+          window.location.reload();
         });
       }
     });
@@ -404,6 +406,7 @@
           $('#loader').hide();
           $('.alert').show();
           $('#result').html(response);
+          window.location.reload();
         },
         error: function (xhr, status, error) {
           console.error(error); // Log any errors for debugging

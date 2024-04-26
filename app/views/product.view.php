@@ -32,7 +32,7 @@ foreach ($cart_products as $cart_product) {
 
 // show($images);
 // show($product_inventory);
-// show($data);
+show($data);
 // show($product_ratings);
 // unset($_SESSION['cart']);
 // unset($_SESSION['cart_products']);
@@ -261,6 +261,41 @@ if (Auth::logged_in()) {
         </div>
     </div>
 
+    <script>
+        console.log(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>);
+        function addToCart(productId, customerId) {
+            var quantity = document.getElementById('quantityInput').value;
+            $('#loader').show();
+
+            var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
+            $.ajax({
+                url: ROOT + 'cart/edit',
+                data: {
+                    customer_id: customerId,
+                    product_id: productId,
+                    quantity: quantity,
+                    action: 'add'
+                },
+                method: "POST",
+            }).done(function(response) {
+                $('#loader').hide();
+                $('.alert').show();
+                $('#result').html(response);
+                window.location.reload();
+            });
+            // var data = JSON.parse(response);
+            // 		$('#loader').hide();
+            // 		$('.alert').show();
+            // 		if(data.status == 0) {
+            // 			$('.alert').addClass('alert-danger');
+            // 			$('#result').html(data.msg);
+            // 		} else {
+            // 			$('.alert').addClass('alert-success');
+            // 			$('#result').html(data.msg);
+
+        }
+    </script>
+
     <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
 
     <script>
@@ -297,7 +332,7 @@ if (Auth::logged_in()) {
             '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
             '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
             '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
-            'average': <?php echo $product_ratings['avg_rating']; ?> // Average rating value
+            'average': <?php echo $product_ratings['avg_rating'] ?? 0;; ?> // Average rating value
         };
 
         // Function to update the review analyzer section
@@ -330,40 +365,6 @@ if (Auth::logged_in()) {
         document.addEventListener('DOMContentLoaded', function() {
             updateReviewAnalyzer();
         });
-    </script>
-
-    <script>
-        
-        function addToCart(productId, customerId) {
-            var quantity = document.getElementById('quantityInput').value;
-            $('#loader').show();
-
-            var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-            $.ajax({
-                url: ROOT + 'cart/edit',
-                data: {
-                    customer_id: customerId,
-                    product_id: productId,
-                    quantity: quantity,
-                    action: 'add'
-                },
-                method: "POST",
-            }).done(function(response) {
-                $('#loader').hide();
-                $('.alert').show();
-                $('#result').html(response);
-            });
-            // var data = JSON.parse(response);
-            // 		$('#loader').hide();
-            // 		$('.alert').show();
-            // 		if(data.status == 0) {
-            // 			$('.alert').addClass('alert-danger');
-            // 			$('#result').html(data.msg);
-            // 		} else {
-            // 			$('.alert').addClass('alert-success');
-            // 			$('#result').html(data.msg);
-
-        }
     </script>
 
 

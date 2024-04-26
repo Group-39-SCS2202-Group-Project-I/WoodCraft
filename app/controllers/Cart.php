@@ -115,6 +115,18 @@ class Cart extends Controller
 
                     $validateItem = $cartProducts->validate($_POST);
 
+                    $current_cart_products = $cartProducts->getItemsByCustomerId($customerId);
+
+                    foreach($current_cart_products as $current_cart_product) {
+                        if($current_cart_product->product_id == $productId){
+                            $error[$productId]['msg'] = "product already in cart";
+    
+                            $_SESSION['errors'] = $error;
+                            redirect('cart');
+                            exit;
+                        }
+                    }
+
                     if ($validateItem) {
 
                         $quantityAddable = $cartModel->getQuantitybyProductId($productId);

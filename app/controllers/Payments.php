@@ -8,12 +8,12 @@ class Payments extends Controller
     public function index()
     {
         $data['title'] = 'Payments';
-        // $payment = $this->pay('delivery', 1);
-        $payment = $this->onCompletePayment(235);
-        $this->view('cart/pay', $data);
+        $payment = $this->pay('delivery', 41);
+        // $payment = $this->onCompletePayment(235);
+        // $this->view('cart/pay', $data);
     }
 
-    public function pay($type, $address_id = NULL)
+    public function pay($type, $address_id)
     {
         $data['errors'] = [];
 

@@ -45,13 +45,16 @@ class Payment extends Model
 
     public function addPayment($data)
     {
-        $query = "INSERT INTO payment (order_details_id, amount, provider, status) VALUES (:order_details_id, :amount, :provider, :status)";
+        $query = "INSERT INTO payment (order_details_id, amount, provider, status, created_at, updated_at) VALUES (:order_details_id, :amount, :provider, :status, :created_at, :updated_at)";
         $params = [
             ":order_details_id" => $data['order_details_id'],
             ":amount" => $data['amount'],
             ":provider" => $data['provider'],
-            ":status" => $data['status']
+            ":status" => $data['status'],
+            ':created_at' => date('Y-m-d H:i:s'),
+            ':updated_at' => date('Y-m-d H:i:s')
         ];
+        show($params);
         $this->query($query, $params);
     }
 

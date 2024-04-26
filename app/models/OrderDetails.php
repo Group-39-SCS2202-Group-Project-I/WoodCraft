@@ -11,7 +11,7 @@ class OrderDetails extends Model
         "total",
         "type",
         "status",
-        "address_id",
+        "delivery_address_id",
     ];
 
     public function validate($data)
@@ -77,12 +77,12 @@ class OrderDetails extends Model
             ':total' => $data->total,
             ':type' => $data->type,
             ':status' => 'pending',
-            ':address_id' => $data->address_id,
+            ':delivery_address_id' => $data->delivery_address_id,
             ':created_at' => date('Y-m-d H:i:s'),
             ':updated_at' => date('Y-m-d H:i:s')
         ];
 
-        $query = "INSERT INTO $this->table (user_id, delivery_cost, total, type, status, address_id, created_at, updated_at) VALUES (:user_id, :delivery_cost, :total, :type, :status, :address_id, :created_at, :updated_at)";
+        $query = "INSERT INTO $this->table (user_id, delivery_cost, total, type, status, delivery_address_id, created_at, updated_at) VALUES (:user_id, :delivery_cost, :total, :type, :status, :delivery_address_id, :created_at, :updated_at)";
         $this->query($query, $params);
     }
 

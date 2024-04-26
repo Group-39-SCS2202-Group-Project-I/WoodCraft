@@ -7,8 +7,7 @@ if (Auth::logged_in()) {
 }
 ?>
 <div class="overlay" data-overlay></div>
-<!-- <?php $this->view('webstore/modal', $data) ?> -->
-<!-- <?php $this->view('webstore/notification-toast', $data) ?> -->
+
 
 <!--
     - HEADER

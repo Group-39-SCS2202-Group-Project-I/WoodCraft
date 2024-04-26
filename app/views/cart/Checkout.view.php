@@ -551,8 +551,9 @@
                     console.log(res);
                     var obj = JSON.parse(xhttp.responseText);
 
-                    var mail = obj["mail"];
-                    var amount = obj["amount"];
+                    // console.log(obj);
+                    // var mail = obj["mail"];
+                    // var amount = obj["amount"];
 
 
                     // Payment completed. It can be a successful failure.
@@ -564,12 +565,13 @@
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
                                 console.log("Payment completed. OrderID:" + orderId);
                                 // Redirect to the invoice page
-                                window.location = "<?php echo ROOT . 'cart/invoice.view.php'; ?>";
+                                window.location = "<?php echo ROOT . '/cart/invoice.view.php'; ?>";
                             }
                         };
 
-                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompletePayment'; ?>", true);
+                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompletePayment/'; ?>"+orderId, true);
                         paymentCompletedXhttp.send();
+                        
                     };
 
                     // Payment window closed
