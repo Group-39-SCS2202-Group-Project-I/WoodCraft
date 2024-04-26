@@ -58,14 +58,16 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                             fetch('<?php echo ROOT ?>/fetch/staff')
                                 .then(response => response.json())
                                 .then(data => {
-                                    console.log(data);
+                                    // console.log(data);
                                     let tableBody = document.getElementById('table-section__tbody');
                                     let table = document.getElementById('staff_table');
                                     // Clear existing table rows
                                     while (table.rows.length > 1) {
                                         table.deleteRow(1);
                                     }
-                                    // Insert new rows with updated data
+                                    
+                                    data.sort((a, b) => b.staff_id - a.staff_id);
+
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let staff_id = "STF-" + String(item.staff_id).padStart(3, '0');
@@ -111,6 +113,72 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
                         }
                         updateTable();
+                        
+                        document.getElementById('searchStaff').addEventListener('input', function() {
+                            let searchValue = this.value.toLowerCase();
+                            let rows = document.getElementById('staff_table').rows;
+                            for (let i = 1; i < rows.length; i++) {
+                                let name = rows[i].cells[1].innerText.toLowerCase();
+                                let id = rows[i].cells[0].innerText.toLowerCase();
+                                let role = rows[i].cells[2].innerText.toLowerCase();
+                                let email = rows[i].cells[3].innerText.toLowerCase();
+                                let mobile_number = rows[i].cells[4].innerText.toLowerCase();
+                                let address = rows[i].cells[5].innerText.toLowerCase();
+
+                                if (name.includes(searchValue) || id.includes(searchValue) || role.includes(searchValue) || email.includes(searchValue) || mobile_number.includes(searchValue) || address.includes(searchValue)) {
+                                    rows[i].style.display = '';
+                                } else {
+                                    rows[i].style.display = 'none';
+                                }
+                            }
+                        });
+
+                        let headers = document.querySelectorAll('th');
+
+                        headers.forEach(header => {
+                            header.addEventListener('click', function() {
+                                let table = document.getElementById('staff_table');
+                                let rows = table.rows;
+                                let headerIndex = this.cellIndex;
+                                let switching = true;
+                                let shouldSwitch = false;
+                                let dir = 'asc';
+                                let switchcount = 0;
+                                let x, y;
+                                let i;
+                                let currentRow, nextRow;
+
+                                while (switching) {
+                                    switching = false;
+                                    for (i = 1; i < (rows.length - 1); i++) {
+                                        shouldSwitch = false;
+                                        currentRow = rows[i].getElementsByTagName('td')[headerIndex];
+                                        nextRow = rows[i + 1].getElementsByTagName('td')[headerIndex];
+                                        if (dir === 'asc') {
+                                            if (currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase()) {
+                                                shouldSwitch = true;
+                                                break;
+                                            }
+                                        } else if (dir === 'desc') {
+                                            if (currentRow.innerHTML.toLowerCase() < nextRow.innerHTML.toLowerCase()) {
+                                                shouldSwitch = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (shouldSwitch) {
+                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                        switching = true;
+                                        switchcount++;
+                                    } else {
+                                        if (switchcount === 0 && dir === 'asc') {
+                                            dir = 'desc';
+                                            switching = true;
+                                        }
+                                    }
+                                }
+                            });
+                        });
                     });
                 </script>
             </tbody>

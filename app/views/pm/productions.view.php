@@ -105,6 +105,10 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                         let created_at = item.created_at;
                                         let updated_at = item.updated_at;
 
+                                        data.sort((a, b) => {
+                                            return new Date(b.updated_at) - new Date(a.updated_at);
+                                        });
+
                                         if (filter === 'pending' && status !== 'Pending') {
                                             return; // Skip this row if filter is 'pending' and status is not 'Pending'
                                         }
@@ -208,6 +212,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                             document.getElementById('pro-btn').classList.remove('top-btn-selected');
                             document.getElementById('com-btn').classList.remove('top-btn-selected');
                         });
+
+                
 
 
                     });

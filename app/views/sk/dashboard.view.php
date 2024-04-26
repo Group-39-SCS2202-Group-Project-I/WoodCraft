@@ -52,7 +52,7 @@ $data = json_decode($response, true);
 
     <a href="<?= ROOT . '/sk/orders' ?>" style="text-decoration:none" onclick="navfunc('orders-nav')">
         <div class="card">
-            <h3 class="card-title">New Retail_Orders</h3>
+            <h3 class="card-title">New Retail Orders</h3>
             <span class="material-symbols-outlined card-icon">
                 box
             </span>

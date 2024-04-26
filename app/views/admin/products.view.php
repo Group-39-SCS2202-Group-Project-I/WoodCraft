@@ -63,8 +63,9 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
                 $products = $data['products'];
                 // show($products);
-
-
+                usort($products, function ($a, $b) {
+                    return $b['product_id'] <=> $a['product_id'];
+                });
 
                 foreach ($products as $item) :
                 ?>
@@ -121,6 +122,47 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
 
 <script>
+    document.getElementById('searchProducts').addEventListener('input', function() {
+        let searchValue = this.value.toLowerCase();
+        let rows = document.getElementById('products_table').rows;
+        for (let i = 1; i < rows.length; i++) {
+            let name = rows[i].cells[1].innerText.toLowerCase();
+            let id = rows[i].cells[0].innerText.toLowerCase();
+            let category = rows[i].cells[2].innerText.toLowerCase();
+            let listed = rows[i].cells[6].innerText.toLowerCase();
+
+            if (name.includes(searchValue) || id.includes(searchValue) || category.includes(searchValue) || listed.includes(searchValue)) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    });
+
+
+    let ths = document.querySelectorAll('th');
+    ths.forEach(th => {
+        th.addEventListener('click', function() {
+            let table = document.getElementById('products_table');
+            let tbody = table.querySelector('tbody');
+            let rows = Array.from(tbody.querySelectorAll('tr'));
+
+            let index = Array.from(this.parentNode.children).indexOf(this);
+
+            let order = this.dataset.order = -(this.dataset.order || -1);
+
+            rows.sort((a, b) => {
+                a = a.children[index].textContent;
+                b = b.children[index].textContent;
+                return a.localeCompare(b, undefined, {
+                    numeric: true
+                }) * order;
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        });
+    });
+
     function listfunc(id) {
         // post request to list product
         // alert(id);

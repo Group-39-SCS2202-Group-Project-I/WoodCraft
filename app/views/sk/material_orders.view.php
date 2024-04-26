@@ -48,6 +48,10 @@
                                         table.deleteRow(1);
                                     }
 
+                                    data.sort((a, b) => {
+                                        return b.material_order_id - a.material_order_id;
+                                    });
+
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let material_order_id = "MTO-" + String(item.material_order_id).padStart(3, '0');
@@ -68,24 +72,27 @@
 
                         updateTable();
 
-                        let searchMatOrd = document.getElementById('searchMatOrd');
-                        searchMatOrd.addEventListener('keyup', function() {
-                            let input = searchMatOrd.value.toUpperCase();
-                            let table = document.getElementById('mat-ord-table');
-                            let tr = table.getElementsByTagName('tr');
-
-                            for (var i = 0; i < tr.length; i++) {
-                                let td = tr[i].getElementsByTagName('td')[0];
+                        const searchMatOrd = document.getElementById('searchMatOrd');
+                        searchMatOrd.addEventListener('input', function() {
+                            let filter, table, tr, td, i, txtValue;
+                            filter = searchMatOrd.value.toUpperCase();
+                            table = document.getElementById('mat-ord-table');
+                            tr = table.getElementsByTagName('tr');
+                            for (i = 0; i < tr.length; i++) {
+                                td = tr[i].getElementsByTagName('td')[2];
                                 if (td) {
-                                    let txtValue = td.textContent || td.innerHTML;
-                                    if (txtValue.toUpperCase().indexOf(input) > -1) {
-                                        tr[i].style.display = "";
+                                    txtValue = td.textContent || td.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = '';
                                     } else {
-                                        tr[i].style.display = "none";
+                                        tr[i].style.display = 'none';
                                     }
                                 }
                             }
                         });
+
+                       
+
                     });
                 </script>
             </tbody>

@@ -4,6 +4,10 @@ $url = ROOT . "/fetch/pxn_bulk_orders";
 $response = file_get_contents($url);
 $pxn_blks = json_decode($response, true);
 // show($pxn_blks);
+
+usort($pxn_blks, function ($a, $b) {
+    return $a['bulk_req']['estimated_date'] <=> $b['bulk_req']['estimated_date'];
+});
 ?>
 
 <div class="table-section">

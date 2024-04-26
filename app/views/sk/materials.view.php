@@ -129,6 +129,10 @@
                                     while (table.rows.length > 1) {
                                         table.deleteRow(1);
                                     }
+                                    
+                                    data.sort((a, b) => {
+                                        return new Date(b.updated_at) - new Date(a.updated_at);
+                                    });
 
                                     data.forEach(item => {
                                         let row = table.insertRow();
@@ -150,6 +154,25 @@
                         }
 
                         updateTable();
+
+                        const searchMaterials = document.getElementById('searchMaterials');
+                        searchMaterials.addEventListener('input', function() {
+                            let filter, table, tr, td, i, txtValue;
+                            filter = searchMaterials.value.toUpperCase();
+                            table = document.getElementById('materials-table');
+                            tr = table.getElementsByTagName('tr');
+                            for (i = 0; i < tr.length; i++) {
+                                td = tr[i].getElementsByTagName('td')[1];
+                                if (td) {
+                                    txtValue = td.textContent || td.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = '';
+                                    } else {
+                                        tr[i].style.display = 'none';
+                                    }
+                                }
+                            }
+                        });
 
 
                     });
