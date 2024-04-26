@@ -28,7 +28,7 @@
         font-weight: bold;
     }
 
-    .rating-star {
+    /* .rating-star {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -40,21 +40,21 @@
 
     .rating label {
         cursor: pointer;
-    }
+    } */
 
-    .rating label::before {
+    /* .rating label::before {
         content: "☆";
         font-size: 24px;
-        color: #999; /* Unselected star color */
+        color: #999;
     }
 
     .rating input[type="radio"]:checked + label::before {
-        color: gold; /* Selected star color */
+        color: gold;
     }
 
     .update p {
         color: green;
-    }
+    } */
 
     .written-review label {
         font-weight: bold;
@@ -66,7 +66,7 @@
         padding: 10px;
         margin-top: 20px;
         font-size: 14px;
-        width: 80%;
+        width: 90%;
     }
 
     .written-review textarea:hover {
@@ -74,7 +74,7 @@
     }
 
     .review-buttons {
-        text-align: center; /* Center the button */
+        text-align: center;
     }
 
     .review-buttons button {
@@ -92,6 +92,36 @@
         background-color: var(--green1);
     }
 
+    .written-review span {
+        padding: 10px 0px 0px 85%;
+        font-size: 12px;
+        color: var(--bg1);
+    }
+
+    .rating {
+        margin-bottom: 20px;
+    }
+
+    .rating-label {
+        font-weight: bold;
+    }
+
+    .stars {
+        margin: 20px 0px 10px 0px;
+        text-align: center;
+    }
+
+    .star {
+        cursor: pointer;
+        color: gold;
+        font-size: 25px;
+    }
+
+    .tag {
+        display: none;
+        font-size: 14px;
+        margin-left: 47%;
+    }
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -144,30 +174,89 @@
                     </div>
 
                     <div class="rating">
-                        <div class="rating-star">
-                            <label for="rating">Select Product Rating</label><br>
-                                <input type="radio" id="rating1" name="rating" value="1">
-                                <label for="rating1">1 - Terrible</label><br>
-                                <input type="radio" id="rating2" name="rating" value="2">
-                                <label for="rating2">2 - Poor</label><br>
-                                <input type="radio" id="rating3" name="rating" value="3">
-                                <label for="rating3">3 - Fair</label><br>
-                                <input type="radio" id="rating4" name="rating" value="4">
-                                <label for="rating4">4 - Good</label><br>
-                                <input type="radio" id="rating5" name="rating" value="5">
-                                <label for="rating5">5 - Excellent</label>
-                        </div>
-
-                            <div class="update">
-                                <p>Thank you for rating!</p>
+                        <div class="rating-label">Select Product Rating</div>
+                        <form id="ratingForm" action="your_form_action.php" method="post">
+                            <div class="stars" data-rating="0">
+                                <span class="material-icons star" data-value="1">star_border</span>
+                                <span class="material-icons star" data-value="2">star_border</span>
+                                <span class="material-icons star" data-value="3">star_border</span>
+                                <span class="material-icons star" data-value="4">star_border</span>
+                                <span class="material-icons star" data-value="5">star_border</span>
                             </div>
+                            <input type="hidden" name="rating" id="ratingInput" value="0">
+                        </form>
+                        <div id="tagContainer">
+                            <span id="tag1" class="tag">Terrible</span>
+                            <span id="tag2" class="tag">Poor</span>
+                            <span id="tag3" class="tag">Fair</span>
+                            <span id="tag4" class="tag">Good</span>
+                            <span id="tag5" class="tag">Excellent</span>
+                        </div>
                     </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const stars = document.querySelectorAll('.star');
+                            const ratingInput = document.getElementById('ratingInput');
+                            const tagContainer = document.getElementById('tagContainer');
+
+                            stars.forEach(star => {
+                                star.addEventListener('click', function() {
+                                    const value = parseInt(this.getAttribute('data-value'));
+                                    ratingInput.value = value;
+                                    updateStars(value);
+                                    displayTag(value);
+                                    document.getElementById('ratingForm').submit();
+                                });
+                            });
+
+                            function updateStars(value) {
+                                stars.forEach(star => {
+                                    const starValue = parseInt(star.getAttribute('data-value'));
+                                    if (starValue <= value) {
+                                        star.textContent = 'star';
+                                        star.classList.add('filled');
+                                    } else {
+                                        star.textContent = 'star_border';
+                                        star.classList.remove('filled');
+                                    }
+                                });
+                            }
+
+                            function displayTag(value) {
+                                const tags = document.querySelectorAll('.tag');
+                                tags.forEach(tag => {
+                                    const tagValue = parseInt(tag.id.replace('tag', ''));
+                                    if (tagValue === value) {
+                                        tag.style.display = 'inline-block';
+                                    } else {
+                                        tag.style.display = 'none';
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+
 
                     <div class="written-review">
                         <label for="review">Add Written Review</label><br>
-                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth it's price?"></textarea><br>
+                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth it's price?" oninput="updateLetterCount()"></textarea>
                         <span id="letter-count">0/500</span>
                     </div>
+
+                    <script>
+                        function updateLetterCount() {
+                            // Get the textarea value
+                            var text = document.getElementById('review').value;
+                            
+                            // Get the length of the text
+                            var letterCount = text.length;
+
+                            // Update the letter count span
+                            var letterCountSpan = document.getElementById('letter-count');
+                            letterCountSpan.textContent = letterCount + '/500';
+                        }
+                    </script>
 
                     <div class="review-buttons">
                         <button type="submit">Submit Review</button>

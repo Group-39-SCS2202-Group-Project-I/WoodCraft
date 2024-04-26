@@ -84,8 +84,7 @@ class Orders extends Controller{
 					$bulk_order_details = $orderModel->getBulkOrderDetails($bulk_req_id);
 
 					$data['bulk_order_details'] = $bulk_order_details;
-					show($bulk_order_details);
-
+					
 					$this->view('customers/bulk-orders-manage', $data);
 			}
 	}
