@@ -19,6 +19,7 @@
   --secondary: #D9CAB3;
   --blk: #212121;
   --light: #F6F6F6;
+  --webback : #ebf1f1;
 
   --danger: #DD4A48;
   --dangerlight: #F2B6A0;
@@ -44,7 +45,7 @@
     --normal-font-size: 1rem;
   }
 
-  
+
 }
 
 /*=============== BASE ===============*/

@@ -37,20 +37,13 @@ if (Auth::logged_in()) {
             const sidebarItems = document.querySelectorAll('.sidebar__item');
             // remove styles from all sidebar items
             sidebarItems.forEach(item => {
-              item.style.backgroundColor = 'white';
+              item.style.backgroundColor = ' #ebf1f1';
               item.style.color = 'black';
             });
             // add styles to clicked sidebar item
             li.style.backgroundColor = 'black';
             li.style.color = 'white';
-
-
-
           });
-
-
-
-
 
 
           // hidden input to store category id
@@ -70,6 +63,7 @@ if (Auth::logged_in()) {
 </script>
 
 <div class="products-section">
+<h1><?php show(getCurrentURI());?></h1>
   <h2 class="page-title">Products</h2>
   <div class="cont2">
     <input type="text" id="" placeholder="Search Products..." class="searchbar">
@@ -105,29 +99,6 @@ if (Auth::logged_in()) {
     <!-- </a> -->
   </div>
 </div>
-<script>
-  const swiper = new Swiper('.swiper', {
-    // Optional parameters
-    direction: 'horizontal',
-    loop: true,
-
-    // If we need pagination
-    pagination: {
-      el: '.swiper-pagination',
-    },
-
-    // Navigation arrows
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-
-    // And if we need scrollbar
-    // scrollbar: {
-    //     el: '.swiper-scrollbar',
-    // },
-  });
-</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -155,8 +126,8 @@ if (Auth::logged_in()) {
           const cardCont = document.createElement('div');
           cardCont.classList.add('card_cont');
 
-          const swiper = document.createElement('div');
-          swiper.classList.add('swiper');
+          const swiper2 = document.createElement('div');
+          swiper2.classList.add('swiper');
 
           const swiperWrapper = document.createElement('div');
           swiperWrapper.classList.add('swiper-wrapper');
@@ -176,12 +147,29 @@ if (Auth::logged_in()) {
           const swiperPagination = document.createElement('div');
           swiperPagination.classList.add('swiper-pagination');
 
-          swiper.appendChild(swiperWrapper);
-          swiper.appendChild(swiperPagination);
+          swiper2.appendChild(swiperWrapper);
+          swiper2.appendChild(swiperPagination);
 
           const cardName = document.createElement('p');
           cardName.classList.add('card_name');
           cardName.textContent = product_name;
+
+          const productQty = document.createElement('p');
+          productQty.classList.add('product_qty');
+
+          if(product.quantity == null){
+            product.quantity = 0;
+          }
+          if(product.quantity < 3){
+            productQty.style.color = 'red';
+          }
+          else{
+            productQty.style.color = 'green';
+          }
+          const QtyText = product.quantity == 0 ? 'Out of Stock' : product.quantity + ' in stock';
+
+
+          productQty.textContent = QtyText;
 
           const hiddenProductId = document.createElement('p');
           hiddenProductId.classList.add('hiddenProductId');
@@ -191,7 +179,7 @@ if (Auth::logged_in()) {
 
           const cardPrice = document.createElement('h4');
           cardPrice.classList.add('card_price');
-          cardPrice.textContent = product_price;
+          cardPrice.textContent =  product_price + ' Rs';
 
           const categoryID = document.createElement('p');
           categoryID.classList.add('category_id');
@@ -199,9 +187,10 @@ if (Auth::logged_in()) {
           categoryID.style.display = 'none';
 
 
-          cardCont.appendChild(swiper);
+          cardCont.appendChild(swiper2);
           cardCont.appendChild(cardName);
           cardCont.appendChild(cardPrice);
+          cardCont.appendChild(productQty);
 
           cardCont.appendChild(categoryID);
 
@@ -221,9 +210,28 @@ if (Auth::logged_in()) {
           atag.appendChild(productCard);
           dashboard.appendChild(atag);
 
+
+
+
+
         });
       });
   });
+
+
+
+
+  // document.addEventListener('click', function(e) {
+  //   if (!e.target.closest('.sidebar') && !e.target.closest('.sidebar-toggle')) {
+  //     const sidebar = document.querySelector('.sidebar');
+
+  //     const sidebarItems = document.querySelectorAll('.sidebar__item');
+  //     sidebarItems.forEach(item => {
+  //       item.style.backgroundColor = '#ebf1f1';
+  //       item.style.color = 'black';
+  //     });
+  //   }
+  // });
 
 
   const searchbar = document.querySelector('.searchbar');
@@ -234,9 +242,9 @@ if (Auth::logged_in()) {
     // remove styles from sidebar items
     const sidebarItems = document.querySelectorAll('.sidebar__item');
     sidebarItems.forEach(item => {
-      item.style.backgroundColor = 'white';
+      item.style.backgroundColor = '#ebf1f1'
       item.style.color = 'black';
-    });
+    })
 
 
     productCards.forEach(card => {
@@ -291,6 +299,29 @@ if (Auth::logged_in()) {
   window.addEventListener('resize', handleResize);
   window.addEventListener('load', handleResize);
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const swiper = new Swiper('.swiper', {
+      // Optional parameters
+      direction: 'horizontal',
+      loop: true,
+
+      // If we need pagination
+      pagination: {
+        el: '.swiper-pagination',
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  });
+</script>
+
+
 
 
 <?php $this->view('includes/footer2', $data) ?>

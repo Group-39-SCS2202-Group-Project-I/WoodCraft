@@ -1,5 +1,3 @@
-<?php
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +27,7 @@
         <nav class="nav container">
 
             <div class="navl-cont">
-                <a href="<?=ROOT?>" class="nav__logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="nav__logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
+                <a href="<?= ROOT ?>" class="nav__logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="nav__logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
             </div>
 
 
@@ -38,7 +36,7 @@
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item">
-                        <a href="<?=ROOT?>"class="nav__link active-link">
+                        <a href="<?= ROOT ?>" class="nav__link active-link homelink">
                             <span class="material-symbols-outlined nav__icon">
                                 home
                             </span>
@@ -47,7 +45,7 @@
                     </li>
 
                     <li class="nav__item">
-                        <a href="<?=ROOT?>/products"class="nav__link">
+                        <a href="<?= ROOT ?>/products" class="nav__link">
                             <span class="material-symbols-outlined nav__icon">
                                 chair
                             </span>
@@ -58,7 +56,7 @@
 
 
                     <li class="nav__item">
-                        <a href="<?=ROOT?>/orders" class="nav__link">
+                        <a href="<?= ROOT ?>/orders" class="nav__link">
                             <span class="material-symbols-outlined nav__icon">
                                 package
                             </span>
@@ -70,7 +68,7 @@
 
                     <?php if (Auth::logged_in()) : ?>
                         <li class="nav__item">
-                            <a href="<?=ROOT?>/profile" class="nav__link">
+                            <a href="<?= ROOT ?>/profile" class="nav__link">
                                 <span class="material-symbols-outlined nav__icon">
                                     account_circle
                                 </span>
@@ -81,7 +79,7 @@
 
                     <?php if (!Auth::logged_in()) : ?>
                         <li class="nav__item">
-                            <a href="<?=ROOT?>/login" class="nav__link">
+                            <a href="<?= ROOT ?>/login" class="nav__link">
                                 <span class="material-symbols-outlined nav__icon">
                                     login
                                 </span>
@@ -93,7 +91,7 @@
 
                     <?php if (!Auth::logged_in()) : ?>
                         <li class="nav__item">
-                            <a href="<?=ROOT?>/signup" class="nav__link">
+                            <a href="<?= ROOT ?>/signup" class="nav__link">
                                 <span class="material-symbols-outlined nav__icon">
                                     person_add
                                 </span>
@@ -105,7 +103,7 @@
                     <?php if (Auth::logged_in()) : ?>
 
                         <li class="nav__item">
-                            <a href="<?=ROOT?>/logout" class="nav__link">
+                            <a href="<?= ROOT ?>/logout" class="nav__link">
                                 <span class="material-symbols-outlined nav__icon">
                                     logout
                                 </span>
@@ -140,4 +138,29 @@
 
             window.addEventListener('load', toggleNavIcons);
             window.addEventListener('resize', toggleNavIcons);
+        </script>
+
+
+        <script>
+            const navLinks = document.querySelectorAll('.nav__link');
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+            });
+            
+            const currentPath = window.location.pathname;
+            let activeLink;
+
+            if (currentPath.startsWith('/wcf/products')) {
+                activeLink = document.querySelector('.nav__link[href*="products"]');
+            } else if (currentPath.startsWith('/wcf/orders')) {
+                activeLink = document.querySelector('.nav__link[href*="orders"]');
+            } else if (currentPath.startsWith('/wcf/profile')) {
+                activeLink = document.querySelector('.nav__link[href*="profile"]');
+            } else {
+                activeLink = document.getElementsByClassName('homelink')[0];
+            }
+
+            if (activeLink) {
+                activeLink.classList.add('active-link');
+            }
         </script>
