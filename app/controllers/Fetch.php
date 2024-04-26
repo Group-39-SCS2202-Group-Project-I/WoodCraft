@@ -268,6 +268,20 @@ class Fetch extends Controller
             $db = new Database();
             $data['products'] = $db->query("SELECT * FROM product");
 
+            $product_ids = array_column($data['products'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id IN ($product_ids)");
+
+            $data['products'] = array_map(function ($product) use ($product_images) {
+                $product->images = [];
+                foreach ($product_images as $product_image) {
+                    if ($product->product_id == $product_image->product_id) {
+                        $product->images[] = $product_image;
+                    }
+                }
+                return $product;
+            }, $data['products']);
+
             $product_category_ids = array_column($data['products'], 'product_category_id');
             $product_category_ids = implode(',', $product_category_ids);
             $data['product_categories'] = $db->query("SELECT * FROM product_category WHERE product_category_id IN ($product_category_ids)");
@@ -370,6 +384,8 @@ class Fetch extends Controller
 
 
             // show($data['products']);
+
+
 
             header("Content-Type: application/json");
             echo json_encode($data);
