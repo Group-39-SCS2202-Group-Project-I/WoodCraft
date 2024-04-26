@@ -52,16 +52,23 @@ class OrderItem extends Model
 
     public function addOrderItem($data)
     {
-        $query = "INSERT INTO $this->table (order_details_id, product_id, quantity) 
-                  VALUES (:order_details_id, :product_id, :quantity)";
-        return $this->query($query, $data);
+        $params = [
+            ':order_details_id' => $data['order_details_id'],
+            ':product_id' => $data['product_id'],
+            ':quantity' => $data['quantity'],
+            ':created_at' => date('Y-m-d H:i:s'),
+            ':updated_at' => date('Y-m-d H:i:s')
+        ];
+        $query = "INSERT INTO $this->table (order_details_id, product_id, quantity, created_at, updated_at) 
+                  VALUES (:order_details_id, :product_id, :quantity, :created_at, :updated_at)";
+        return $this->query($query, $params);
     }
 
     public function updateOrderItemQuantity($orderDetailsId, $productId, $quantity)
     {
         $query = "UPDATE $this->table SET quantity = :quantity 
                   WHERE order_details_id = :order_details_id AND product_id = :product_id";
-        return $this->query($query, [':quantity' => $quantity, ':order_details_id' => $orderDetailsId, ':product_id' => $productId]);
+        return $this->query($query, [':quantity' => $quantity, ':order_details_id' => $orderDetailsId, ':product_id' => $productId, ':updated_at' => date('Y-m-d H:i:s')]);
     }
 
     public function deleteOrderItem($orderDetailsId, $productId)
@@ -69,5 +76,12 @@ class OrderItem extends Model
         $query = "DELETE FROM $this->table 
                   WHERE order_details_id = :order_details_id AND product_id = :product_id";
         return $this->query($query, [':order_details_id' => $orderDetailsId, ':product_id' => $productId]);
+    }
+
+    public function deleteOrderItems($orderDetailsId)
+    {
+        $query = "DELETE FROM $this->table 
+                  WHERE order_details_id = :order_details_id";
+        return $this->query($query, [':order_details_id' => $orderDetailsId]);
     }
 }
