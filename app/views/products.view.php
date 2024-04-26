@@ -31,6 +31,13 @@ if (Auth::logged_in()) {
           const li = document.createElement('li');
           li.classList.add('sidebar__item');
           li.textContent = category.category_name;
+
+          // hidden input to store category id
+          const hiddenCategoryId = document.createElement('input');
+          hiddenCategoryId.type = 'hidden';
+          hiddenCategoryId.classList.add('hiddenCategoryId');
+          hiddenCategoryId.value = category.product_category_id;
+
           // li.addEventListener('click', () => {
           //     category_id.textContent = category.id;
           //     fetchProducts();
@@ -108,7 +115,10 @@ if (Auth::logged_in()) {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+
+
         var products = data.products;
+        products = products.filter(product => product.listed == 1);
         const dashboard = document.querySelector('.dashboard');
 
         products.forEach(product => {
@@ -156,6 +166,10 @@ if (Auth::logged_in()) {
           hiddenProductId.type = 'hidden';
           hiddenProductId.textContent = product_id;
 
+          const hiddenCategoryId = document.createElement('p');
+          hiddenCategoryId.type = 'hidden';
+          hiddenCategoryId.textContent = product_category_id;
+
           const cardPrice = document.createElement('h4');
           cardPrice.classList.add('card_price');
           cardPrice.textContent = product_price;
@@ -183,11 +197,30 @@ if (Auth::logged_in()) {
         });
       });
   });
+
+
+  const searchbar = document.querySelector('.searchbar');
+  searchbar.addEventListener('keyup', function() {
+    const search = searchbar.value.toLowerCase();
+    const productCards = document.querySelectorAll('.product_card');
+
+    productCards.forEach(card => {
+      const name = card.querySelector('.card_name').textContent.toLowerCase();
+      if (name.includes(search)) {
+        // card.style.display = 'block';
+        x = card.parentElement;
+        x.style.display = 'block';
+      } else {
+        // card.style.display = 'none';
+        x = card.parentElement;
+        x.style.display = 'none';
+      }
+    });
+  });
+
+
+
 </script>
-
-
-
-
 
 
 <?php $this->view('includes/footer2', $data) ?>

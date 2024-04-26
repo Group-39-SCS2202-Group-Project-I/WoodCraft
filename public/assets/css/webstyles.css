@@ -347,10 +347,11 @@ img {
 }
 
 .sidebar__item {
-  background-color: var(--light);
+  background-color: #ebf1f1;
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
+  cursor: pointer;
 
   /* border-bottom: 1px solid #ccc; */
 }
@@ -358,6 +359,11 @@ img {
 .sidebar__item:hover {
   background-color: var(--blk);
   color: #fff;
+}
+
+.sidebar__item_selected {
+    background-color: var(--blk);
+    color: #fff;
 }
 
 .side_title {
