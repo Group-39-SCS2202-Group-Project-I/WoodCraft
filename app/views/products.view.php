@@ -63,7 +63,6 @@ if (Auth::logged_in()) {
 </script>
 
 <div class="products-section">
-<h1><?php show(getCurrentURI());?></h1>
   <h2 class="page-title">Products</h2>
   <div class="cont2">
     <input type="text" id="" placeholder="Search Products..." class="searchbar">
