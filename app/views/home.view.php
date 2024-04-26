@@ -7,11 +7,11 @@ if (Auth::logged_in()) {
 ?>
 
 <style>
-  .swiper {
-    /* margin: 100px auto; */
-    /* width: 320px;
-    height: 240px; */
-  }
+  /* .swiper {
+    margin: 100px auto;
+    width: 320px;
+    height: 240px; 
+  } */
 
   .swiper-slide {
     display: flex;
@@ -88,7 +88,7 @@ if (Auth::logged_in()) {
 </script>
 
 <div class="products-section2">
-  <h2 class="page-title" style="width: 100%; background-color:var(--primary) ; border-radius:10px">Top Selling Furnitures</h2>
+  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
 
   <div class="dash4" >
     <script>
@@ -207,7 +207,7 @@ if (Auth::logged_in()) {
 </div>
 
 <div class="products-section2" >
-  <h2 class="page-title" style="width: 100%; background-color:var(--primary) ; border-radius:10px">New Arrivals</h2>
+  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px;">New Arrivals</h2>
 
   <div class="dash4" id="new_arrivals">
     <script>
