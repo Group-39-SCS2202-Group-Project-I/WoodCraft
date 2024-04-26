@@ -32,6 +32,27 @@ if (Auth::logged_in()) {
           li.classList.add('sidebar__item');
           li.textContent = category.category_name;
 
+          li.addEventListener('click', () => {
+            filter_by_cat_id(category.product_category_id);
+            const sidebarItems = document.querySelectorAll('.sidebar__item');
+            // remove styles from all sidebar items
+            sidebarItems.forEach(item => {
+              item.style.backgroundColor = 'white';
+              item.style.color = 'black';
+            });
+            // add styles to clicked sidebar item
+            li.style.backgroundColor = 'black';
+            li.style.color = 'white';
+
+
+
+          });
+
+
+
+
+
+
           // hidden input to store category id
           const hiddenCategoryId = document.createElement('input');
           hiddenCategoryId.type = 'hidden';
@@ -163,20 +184,26 @@ if (Auth::logged_in()) {
           cardName.textContent = product_name;
 
           const hiddenProductId = document.createElement('p');
-          hiddenProductId.type = 'hidden';
+          hiddenProductId.classList.add('hiddenProductId');
+          hiddenProductId.style.display = 'none';
           hiddenProductId.textContent = product_id;
-
-          const hiddenCategoryId = document.createElement('p');
-          hiddenCategoryId.type = 'hidden';
-          hiddenCategoryId.textContent = product_category_id;
+          cardCont.appendChild(hiddenProductId);
 
           const cardPrice = document.createElement('h4');
           cardPrice.classList.add('card_price');
           cardPrice.textContent = product_price;
 
+          const categoryID = document.createElement('p');
+          categoryID.classList.add('category_id');
+          categoryID.textContent = product_category_id;
+          categoryID.style.display = 'none';
+
+
           cardCont.appendChild(swiper);
           cardCont.appendChild(cardName);
           cardCont.appendChild(cardPrice);
+
+          cardCont.appendChild(categoryID);
 
           productCard.appendChild(cardCont);
 
@@ -204,6 +231,14 @@ if (Auth::logged_in()) {
     const search = searchbar.value.toLowerCase();
     const productCards = document.querySelectorAll('.product_card');
 
+    // remove styles from sidebar items
+    const sidebarItems = document.querySelectorAll('.sidebar__item');
+    sidebarItems.forEach(item => {
+      item.style.backgroundColor = 'white';
+      item.style.color = 'black';
+    });
+    
+
     productCards.forEach(card => {
       const name = card.querySelector('.card_name').textContent.toLowerCase();
       if (name.includes(search)) {
@@ -216,10 +251,26 @@ if (Auth::logged_in()) {
         x.style.display = 'none';
       }
     });
+
+
   });
 
+  function filter_by_cat_id(cat_id) {
+    category_id = cat_id;
 
+    const productCards = document.querySelectorAll('.product_card');
+    productCards.forEach(card => {
+      const categoryID = card.querySelector('.category_id').textContent;
+      if (categoryID == category_id) {
+        x = card.parentElement;
+        x.style.display = 'block';
+      } else {
+        x = card.parentElement;
+        x.style.display = 'none';
+      }
+    });
 
+  }
 </script>
 
 
