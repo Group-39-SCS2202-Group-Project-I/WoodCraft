@@ -148,6 +148,9 @@
                     deliveryTable.deleteRow(1);
                 }
 
+                pickups.sort((a, b) => {
+                    return b.order_details_id - a.order_details_id;
+                });
 
                 pickups.forEach(item => {
                     let row = pickupTable.insertRow();
@@ -175,7 +178,9 @@
 
                 });
 
-                console.log(deliveries);
+                deliveries.sort((a, b) => {
+                    return b.order_details_id - a.order_details_id;
+                });
                 deliveries.forEach(item => {
                     let row = deliveryTable.insertRow();
                     let order_id = "ORD-" + String(item.order_details_id).padStart(3, '0');

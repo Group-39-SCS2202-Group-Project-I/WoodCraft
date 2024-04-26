@@ -51,6 +51,10 @@ deleted_at	 -->
                                     table.deleteRow(1);
                                 }
 
+                                products.sort((a, b) => {
+                                    return new Date(b.updated_at) - new Date(a.updated_at);
+                                });
+
                                 products.forEach(item => {
                                     let row = table.insertRow();
                                     let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
@@ -65,6 +69,25 @@ deleted_at	 -->
                             });
                     }
                     updateTable();
+
+                    const searchProducts = document.getElementById('searchProducts');
+                    searchProducts.addEventListener('keyup', function() {
+                        let filter, table, tr, td, i, txtValue;
+                        filter = searchProducts.value.toUpperCase();
+                        table = document.getElementById('products-table');
+                        tr = table.getElementsByTagName('tr');
+                        for (i = 0; i < tr.length; i++) {
+                            td = tr[i].getElementsByTagName('td')[1];
+                            if (td) {
+                                txtValue = td.textContent || td.innerText;
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = '';
+                                } else {
+                                    tr[i].style.display = 'none';
+                                }
+                            }
+                        }
+                    });
                 });
             </script>
         </tbody>

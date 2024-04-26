@@ -94,7 +94,7 @@
                         fetch(url)
                             .then(response => response.json())
                             .then(data => {
-                                console.log(data);
+                                // console.log(data);
 
                                 retailCount.textContent = data.retail_count;
                                 bulkCount.textContent = data.bulk_count;
@@ -115,6 +115,9 @@
                                     table.deleteRow(1);
                                 }
 
+                                orders.sort((a, b) => {
+                                    return new Date(b.updated_at) - new Date(a.updated_at);
+                                });
                                 let items = ''
                                 orders.forEach(item => {
                                     let row = table.insertRow();

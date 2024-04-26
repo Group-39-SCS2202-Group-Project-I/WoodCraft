@@ -36,7 +36,9 @@
                                     while (table.rows.length > 1) {
                                         table.deleteRow(1);
                                     }
-                                    // Insert new rows with updated data
+
+                                    data.sort((a, b) => b.customer_id - a.customer_id);
+
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let customer_id = "CUS-" + String(item.customer_id).padStart(3, '0');
@@ -78,6 +80,24 @@
                         // Schedule periodic table updates
                         // setInterval(updateTable, 5000); // Update every 5 seconds
                     });
+
+                    document.getElementById('searchWorkers').addEventListener('input', function() {
+                        let searchValue = this.value.toLowerCase();
+                        let rows = document.getElementById('customers_table').rows;
+                        for (let i = 1; i < rows.length; i++) {
+                            let name = rows[i].cells[1].innerText.toLowerCase();
+                            let id = rows[i].cells[0].innerText.toLowerCase();
+                            let email = rows[i].cells[2].innerText.toLowerCase();
+                            
+                            if (name.includes(searchValue) || id.includes(searchValue) || email.includes(searchValue)) {
+                                rows[i].style.display = '';
+                            } else {
+                                rows[i].style.display = 'none';
+                            }
+                        }
+                    });
+
+
                 </script>
             </tbody>
 

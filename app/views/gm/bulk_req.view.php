@@ -3,16 +3,26 @@
 $newBulkRequests = $data['new_bulk_requests'];
 $bulkRequests = $data['bulk_requests'];
 
+usort($newBulkRequests, function ($a, $b) {
+    return $b['bulk_req_id'] <=> $a['bulk_req_id'];
+});
+
+usort($bulkRequests, function ($a, $b) {
+    return $b['bulk_req_id'] <=> $a['bulk_req_id'];
+});
 // show($newBulkRequests);
 // show($bulkRequests);
 ?>
-<?php if (message()) : ?>
-    <div class="mzg-box">
-        <div class="messege"><?= message('', true) ?></div>
-    </div>
-<?php endif; ?>
+
+
+
 
 <div class="table-section">
+    <?php if (message()) : ?>
+        <div class="mzg-box">
+            <div class="messege"><?= message('', true) ?></div>
+        </div>
+    <?php endif; ?>
     <h2 class="table-section__title">New Bulk Requests</h2>
 
     <div id="scrollable_sec">
@@ -35,7 +45,7 @@ $bulkRequests = $data['bulk_requests'];
                         <td><?= 'CUS-' . str_pad($request['customer_id'], 3, '0', STR_PAD_LEFT) ?></td>
                         <td><?= $request['product_name'] ?></td>
                         <td><?= $request['category_name'] ?></td>
-                        <td><?= $request['status'] ?></td>
+                        <td><?= ucfirst($request['status']) ?></td>
                         <td>
                             <a class="table-section__button" href="<?= ROOT ?>/gm/bulk_order_requests/<?= $request['bulk_req_id'] ?>">Approve/Reject</a>
                         </td>
@@ -70,7 +80,7 @@ $bulkRequests = $data['bulk_requests'];
                         <td><?= 'CUS-' . str_pad($request['customer_id'], 3, '0', STR_PAD_LEFT) ?></td>
                         <td><?= $request['product_name'] ?></td>
                         <td><?= $request['category_name'] ?></td>
-                        <td><?= $request['status'] ?></td>
+                        <td><?= ucfirst($request['status']) ?></td>
                         <!-- <td>
                         <a href="<?= ROOT ?>/gm/bulk_order_requests/<?= $request['bulk_req_id'] ?>">View</a>
                     </td> -->

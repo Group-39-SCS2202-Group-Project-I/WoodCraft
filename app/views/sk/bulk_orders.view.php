@@ -158,6 +158,10 @@
                     deliveryTable.deleteRow(1);
                 }
 
+                pickups.sort((a, b) => {
+                    return new Date(b.bulk_req.created_at) - new Date(a.bulk_req.created_at);
+                });
+
                 pickups.forEach(item => {
                     let row = pickupTable.insertRow();
                     let order_id = "BOD-" + String(item.bulk_order_details_id).padStart(3, '0');
@@ -194,6 +198,10 @@
                         // row.classList.add('disable-row');
                         actionCell.appendChild(actionBtn);
                     }
+                });
+
+                deliveries.sort((a, b) => {
+                    return new Date(b.bulk_req.created_at) - new Date(a.bulk_req.created_at);
                 });
 
                 deliveries.forEach(item => {

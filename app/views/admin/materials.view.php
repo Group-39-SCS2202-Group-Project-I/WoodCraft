@@ -53,31 +53,83 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     console.log(data);
                                     let tableBody = document.getElementById('table-section__tbody');
                                     let table = document.getElementById('material_table');
-                                    // Clear existing table rows
-                                    while (table.rows.length > 1) {
-                                        table.deleteRow(1);
+                                    
+                                    while (tableBody.firstChild) {
+                                        tableBody.removeChild(tableBody.firstChild);
                                     }
-                                    // Insert new rows with updated data
+
+                                    data.sort((a, b) => {
+                                        return b.material_id - a.material_id;
+                                    });
+                                  
                                     data.forEach(item => {
-                                        let row = table.insertRow();
+                                        let row = document.createElement('tr');
                                         let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
 
-                                        row.insertCell().innerHTML = material_id;
-                                        row.insertCell().innerHTML = `<p">${item.material_name}</p>`
-                                        // row.insertCell().innerHTML = item.material_description;
-                                        row.insertCell().innerHTML = `<p">${item.material_description}</p>`
-                                        row.insertCell().innerHTML = item.stock_available;
-                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.material_id})">Delete</a>`;
+                                        let idCell = document.createElement('td');
+                                        idCell.textContent = material_id;
+                                        row.appendChild(idCell);
 
+                                        let nameCell = document.createElement('td');
+                                        nameCell.innerHTML = `<p>${item.material_name}</p>`;
+                                        row.appendChild(nameCell);
 
+                                        let descriptionCell = document.createElement('td');
+                                        descriptionCell.innerHTML = `<p>${item.material_description}</p>`;
+                                        row.appendChild(descriptionCell);
+
+                                        let stocksCell = document.createElement('td');
+                                        stocksCell.textContent = item.stock_available;
+                                        row.appendChild(stocksCell);
+
+                                        let actionsCell = document.createElement('td');
+                                        actionsCell.innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.material_id})">Delete</a>`;
+                                        row.appendChild(actionsCell);
+
+                                        tableBody.appendChild(row);
                                     });
-
-
                                 })
                                 .catch(error => console.log(error));
                         }
                         updateTable();
                         // setInterval(updateTable, 5000);
+                        
+                        document.getElementById('searchMaterials').addEventListener('input', function() {
+                            let searchValue = this.value.toLowerCase();
+                            let rows = document.querySelectorAll('#material_table tbody tr');
+                            rows.forEach(row => {
+                                let id = row.cells[0].textContent.toLowerCase();
+                                let name = row.cells[1].textContent.toLowerCase();
+                                if (id.includes(searchValue) || name.includes(searchValue)) {
+                                    row.style.display = '';
+                                } else {
+                                    row.style.display = 'none';
+                                }
+                            });
+                        });
+                    });
+
+                    let ths = document.querySelectorAll('th');
+                    ths.forEach(th => {
+                        th.addEventListener('click', function() {
+                            let table = document.getElementById('material_table');
+                            let tbody = table.querySelector('tbody');
+                            let rows = Array.from(tbody.querySelectorAll('tr'));
+
+                            let index = Array.from(this.parentNode.children).indexOf(this);
+
+                            let order = this.dataset.order = -(this.dataset.order || -1);
+
+                            rows.sort((a, b) => {
+                                a = a.children[index].textContent;
+                                b = b.children[index].textContent;
+                                return a.localeCompare(b, undefined, {
+                                    numeric: true
+                                }) * order;
+                            });
+
+                            rows.forEach(row => tbody.appendChild(row));
+                        });
                     });
                 </script>
             </tbody>

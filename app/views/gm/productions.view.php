@@ -350,6 +350,10 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
                                         table.deleteRow(1);
                                     }
 
+                                    data.sort((a, b) => {
+                                        return new Date(b.updated_at) - new Date(a.updated_at);
+                                    });
+
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
@@ -438,6 +442,27 @@ $oldestProductionDate = date_format($date, 'Y-m-d');
                         });
 
 
+                    });
+                </script>
+
+                <script>
+                    document.getElementById('searchPenProductions').addEventListener('input', function() {
+                        let searchValue = this.value.toLowerCase();
+                        let rows = document.getElementById('pen-productions-table').rows;
+                        for (let i = 1; i < rows.length; i++) {
+                            let production_id = rows[i].cells[0].innerText.toLowerCase();
+                            let product_id = rows[i].cells[1].innerText.toLowerCase();
+                            let product_name = rows[i].cells[2].innerText.toLowerCase();
+                            let quantity = rows[i].cells[3].innerText.toLowerCase();
+                            let status = rows[i].cells[4].innerText.toLowerCase();
+                            let updated_at = rows[i].cells[5].innerText.toLowerCase();
+
+                            if (production_id.includes(searchValue) || product_id.includes(searchValue) || product_name.includes(searchValue) || quantity.includes(searchValue) || status.includes(searchValue) || updated_at.includes(searchValue)) {
+                                rows[i].style.display = '';
+                            } else {
+                                rows[i].style.display = 'none';
+                            }
+                        }
                     });
                 </script>
             </tbody>

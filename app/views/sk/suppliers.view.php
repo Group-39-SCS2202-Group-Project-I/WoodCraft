@@ -61,7 +61,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                     while (table.rows.length > 1) {
                                         table.deleteRow(1);
                                     }
-                                    // Insert new rows with updated data
+                                    data.sort((a, b) => b.supplier_id - a.supplier_id);
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let supplier_id = "SUP-" + String(item.supplier_id).padStart(3, '0');
