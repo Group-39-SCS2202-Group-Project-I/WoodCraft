@@ -53,8 +53,8 @@
       if (isset($_SESSION['error'])) {
         $errors = $_SESSION['error'];
       
-       // unset($_SESSION['error']);
-        show($errors);
+       unset($_SESSION['error']);
+        // show($errors);
       }
       
       // $customer_id = $existingCart[0]->customer_id;

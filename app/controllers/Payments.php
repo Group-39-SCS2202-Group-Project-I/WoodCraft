@@ -40,7 +40,7 @@ class Payments extends Controller
             $orderDetails->createOrder($data['cart']);
     
             $userId = Auth::getUserId();
-            $order = $orderDetails->getOrderByUserId($userId);
+            $order = $orderDetails->getLastOrderByUserId($userId);
             $order_details_id = $order[0]->order_details_id;
             // show($order_details_id);
     
@@ -131,7 +131,6 @@ class Payments extends Controller
                 $product_inventory->destockProductInventory($order_product);
             }
 
-
             $amount = $order[0]->total;
             $merchant_id = MERCHANT_ID;
             $order_id = $order_details_id;
@@ -175,7 +174,7 @@ class Payments extends Controller
         $orderDetails = new OrderDetails();
         $order = $orderDetails->getByOrderDetailsId($orderId);
         $order = $order[0];
-        show($order);
+        // show($order);
 
         $payment_data = [
             'order_details_id' => $order->order_details_id,
@@ -190,7 +189,7 @@ class Payments extends Controller
         $customerId = Auth::getCustomerID();
         $cartProducts = new CartProduct();
         $cartProducts->removeCartItems($customerId);
-        show('done');
+        // show('done');
 
         $cartModel = new CartDetails();
         $cartModel->updateCartTotals($customerId);
@@ -200,7 +199,7 @@ class Payments extends Controller
         $order = $orderDetails->getOrderByUserId($userId);
         $order_details_id = $order[0]->order_details_id;
         $orderDetails->updateOrderStatus($order_details_id, 'processing');
-        show('done');
+        // show('done');
 
         unset($_SESSION['cart']);
         unset($_SESSION['cart_products']);
@@ -208,13 +207,40 @@ class Payments extends Controller
 
 
     //function for payment failure
-    public function onFaliurePayment()
+    public function onFaliurePayment($orderId)
     {
+        // $orderId = $_POST['order_id'];
+
         $data['errors'] = [];
         $data['errors']['payment'] = "Payment failed";
-        $this->view('cart/Checkout', $data);
 
-        //code the logic for payment failure
+        $orderItem = new OrderItem();
+
+        $orderItems = $orderItem->getByOrderDetailsId($orderId);
+        // show($orderItems);
+
+        foreach($orderItems as $order_item){
+            $product_id = $order_item->product_id;
+
+            $product = new Product();
+            $product_inventory_id = $product->getProductInventoryId($product_id);
+            $product_inventory_id = $product_inventory_id[0]->product_inventory_id;
+            // show($product_inventory_id);
+
+            $data['order_inventory_id'] = $product_inventory_id;
+            $data['quantity'] = $order_item->quantity;
+            // show($data);
+            
+            $product_inventory = new ProductInventory();
+            $product_inventory->restockProductInventory($data);
+        }
+
+        $orderItem->deleteOrderItems($orderId);
+        // show('done');
+
+        $orderDetails = new OrderDetails();
+        $orderDetails->deleteOrderDetails($orderId); 
+        // show('done');       
     }
 
 

@@ -69,5 +69,10 @@ class Product extends Model
     {
         return $this->select($this->table, 'product_id = :product_id', [':product_id' => $productId]);
     }
+
+    public function getProductInventoryId($productId)
+    {
+        return $this->select($this->table, 'product_id = :product_id', [':product_id' => $productId]);
+    }
     
 }

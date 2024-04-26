@@ -30,13 +30,19 @@ foreach ($cart_products as $cart_product) {
     }
 }
 
+if (!isset($_POST['errors'])) {
+    $errors = [];
+
+    unset($_SESSION['errors']);
+}
+
 // show($images);
 // show($product_inventory);
-show($data);
+// show($data);
 // show($product_ratings);
 // unset($_SESSION['cart']);
 // unset($_SESSION['cart_products']);
-show($_SESSION);
+// show($_SESSION);
 // show($productFound);
 
 ?>

@@ -375,6 +375,13 @@
 
 
                     <?php
+                    
+                    if (!isset($_POST['errors'])) {
+                        $errors = [];
+                    
+                        unset($_SESSION['errors']);
+                    }
+
                     $subtotal = 0;
                     $discount = 0;
                     $total = 0;
@@ -554,6 +561,8 @@
                     // console.log(obj);
                     // var mail = obj["mail"];
                     // var amount = obj["amount"];
+                    var order_id = obj["order_id"];
+                    console.log(order_id);
 
 
                     // Payment completed. It can be a successful failure.
@@ -565,7 +574,7 @@
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
                                 console.log("Payment completed. OrderID:" + orderId);
                                 // Redirect to the invoice page
-                                window.location = "<?php echo ROOT . '/cart/invoice.view.php'; ?>";
+                                window.location = "<?php echo ROOT . '/invoice'; ?>";
                             }
                         };
 
@@ -576,24 +585,46 @@
 
                     // Payment window closed
                     payhere.onDismissed = function onDismissed() {
-                        // Note: Prompt user to pay again or show an error page
-                        //add a payment unsuccessful popup and retry button
-                        console.log("Payment dismissed");
+                        
+                        var paymentDismissedXhttp = new XMLHttpRequest();
+
+                        paymentDismissedXhttp.onreadystatechange = function() {
+                            if (paymentDismissedXhttp.readyState == 4 && paymentDismissedXhttp.status == 200) {
+                                //console.log("Payment dismissed. OrderID:" + order_id);
+                                // Redirect to the cart page
+                                window.location = "<?php echo ROOT . '/cart'; ?>";
+                            }
+                        };
+
+                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>"+order_id, true);
+                        paymentDismissedXhttp.send();
                     };
 
                     // Error occurred
                     payhere.onError = function onError(error) {
-                        // Note: show an error page
-                        console.log("Error:" + error);
+                        
+                        var paymentErrorXhttp = new XMLHttpRequest();
+
+                        paymentErrorXhttp.onreadystatechange = function() {
+                            if (paymentErrorXhttp.readyState == 4 && paymentErrorXhttp.status == 200) {
+                                console.log("Payment error. OrderID:" + orderId);
+                                console.log("Error:" + error);
+                                // Redirect to the cart page
+                                window.location = "<?php echo ROOT . '/cart'; ?>";
+                            }
+                        };
+
+                        paymentErrorXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>"+order_id, true);
+                        paymentErrorXhttp.send();
                     };
 
                     // Put the payment variables here
                     var payment = {
                         "sandbox": true,
                         "merchant_id": obj["merchant_id"], // Replace your Merchant ID
-                        "return_url": "<?php echo ROOT . ''; ?>", // Important
-                        "cancel_url": "<?php echo ROOT . '/cart'; ?>", // Important
-                        "notify_url": "<?php echo ROOT . '/payments'; ?>", // check this
+                        "return_url": "<?php echo ROOT ; ?>", // Important
+                        "cancel_url": "<?php echo ROOT . '/checkout'; ?>", // Important
+                        "notify_url": "<?php echo ROOT . '/notify'; ?>", // check this
                         "order_id": obj["order_id"],
                         "items": "mobile",
                         "amount": obj["amount"],

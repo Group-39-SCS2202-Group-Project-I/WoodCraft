@@ -122,7 +122,7 @@ class Cart extends Controller
                             $error[$productId]['msg'] = "product already in cart";
     
                             $_SESSION['errors'] = $error;
-                            redirect('cart');
+                            // redirect('products/'.$productId);
                             exit;
                         }
                     }
