@@ -3,17 +3,7 @@
 <?php
 // show($data);
 ?>
-<?php
-// show($data);
-$pickup_count = 0;
-$delivery_count = 0;
-if (isset($data['pickup_count'])) {
-    $pickup_count = $data['pickup_count'];
-}
-if (isset($data['delivery_count'])) {
-    $delivery_count = $data['delivery_count'];
-}
-?>
+
 
 <style>
     .top-btn-selected {
@@ -66,8 +56,9 @@ if (isset($data['delivery_count'])) {
 </style>
 
 <div class="dashboard">
-    <?php if ($pickup_count != 0) : ?>
-        <a href="" style="text-decoration:none;">
+
+    <div id="pickup-card">
+        <a style="text-decoration:none;">
             <div class="card" id="pickup-card">
                 <h3 class="card-title">Pickup Orders</h3>
                 <span class="material-symbols-outlined card-icon">
@@ -76,10 +67,11 @@ if (isset($data['delivery_count'])) {
                 <p class="card-text"><?= $data['pickup_count'] ?></p>
             </div>
         </a>
-    <?php endif; ?>
+    </div>
 
-    <?php if ($delivery_count != 0) : ?>
-        <a href="" style="text-decoration:none">
+
+    <div id="delivery-card">
+        <a style="text-decoration:none">
             <div class="card" id="delivery_card">
                 <h3 class="card-title">Delivery Orders</h3>
                 <span class="material-symbols-outlined card-icon">
@@ -88,14 +80,16 @@ if (isset($data['delivery_count'])) {
                 <p class="card-text"><?= $data['delivery_count'] ?></p>
             </div>
         </a>
-    <?php endif; ?>
+    </div>
+
 </div>
 
-<?php if ($pickup_count != 0) : ?>
-    <div class="table-section" id="pickup-table">
-        <h2 class="table-section__title">Pickup Orders</h2>
 
-        <table class="table-section__table">
+<div class="table-section">
+    <h2 class="table-section__title">Pickup Orders</h2>
+
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="pickup-table">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -109,44 +103,18 @@ if (isset($data['delivery_count'])) {
                 </tr>
             </thead>
             <tbody id="table-section__tbody">
-                <?php foreach ($data['pickups'] as $order) : ?>
-                    <tr>
-                        <td><?= 'BOD-' . str_pad($order->bulk_order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $order->customer_name ?></td>
-                        <td>
-                            <?php
-                            echo $order->bulk_req->product_name . " x " . $order->bulk_req->quantity;
-                            ?>
-                        </td>
-                        <td><?= $order->total_cost ?></td>
-                        <td><?= $order->status ?></td>
-                        <td><?= $order->bulk_req->estimated_date ?></td>
-                        <td>
-                            <?php if (($order->bulk_req->quantity <=  $order->bulk_req->quantity_available) & $order->status == 'pending') : ?>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Allocate Products</a>
-                            <?php else : ?>
-                                <a style="background-color: #ffd6c9;" class="table-section__button disable-row table-section__button-unavailable" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Products Unavailable</a>
-                            <?php endif; ?>
-
-                            <?php if ($order->status != 'pending') : ?>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Update</a>
-                            <?php endif; ?>
-
-
-
-                            <!-- <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')"><?php echo ($order->status == 'pending') ? 'Allocate Products' : "Update"; ?></a></a> -->
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
-<?php endif; ?>
+</div>
 
-<?php if ($delivery_count != 0) : ?>
-    <div class="table-section" id="delivery-table">
-        <h2 class="table-section__title">Delivery Orders</h2>
 
-        <table class="table-section__table">
+
+<div class="table-section">
+    <h2 class="table-section__title">Delivery Orders</h2>
+
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="delivery-table">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -161,44 +129,134 @@ if (isset($data['delivery_count'])) {
                 </tr>
             </thead>
             <tbody id="table-section__tbody">
-                <?php foreach ($data['deliveries'] as $order) : ?>
-                    <tr>
-                        <td><?= 'BOD-' . str_pad($order->bulk_order_details_id, 3, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $order->customer_name ?></td>
-                        <td>
-                            <?php
-                            echo $order->bulk_req->product_name . " x " . $order->bulk_req->quantity;
-                            ?>
-                        </td>
-                        <td><?= $order->total_cost ?></td>
-                        <td>
-                            <?php
-                            $address = $order->delivery_address;
-                            echo $address->address_line_1 . ",<br>" .
-                                $address->address_line_2 . ",<br>" .
-                                $address->city . ".<br>" .
-                                $address->province . " Province<br>" .
-                                $address->zip_code;
-                            ?>
-                        </td>
-                        <td><?= $order->status ?></td>
-                        <td><?= $order->bulk_req->estimated_date ?></td>
-                        <td>
-                            <?php if (($order->bulk_req->quantity <=  $order->bulk_req->quantity_available) & $order->status == 'pending') : ?>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Allocate Products</a>
-                            <?php else : ?>
-                                <a style="background-color: #ffd6c9;" class="table-section__button disable-row table-section__button-unavailable" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Products Unavailable</a>
-                            <?php endif; ?>
-
-                            <?php if ($order->status != 'pending') : ?>
-                                <a class="table-section__button" onclick="openPopup('<?= $order->bulk_order_details_id ?>','<?= $order->status ?>','<?= $order->type ?>','<?= $order->bulk_req->product_name ?>','<?= $order->bulk_req->quantity ?>','<?= $order->bulk_req->product_inventory_id ?>')">Update</a>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
-<?php endif; ?>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pickupTable = document.getElementById('pickup-table');
+        const deliveryTable = document.getElementById('delivery-table');
+
+        fetch('<?= ROOT ?>/fetch/bulk_orders_sk')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                let pickupTable = document.getElementById('pickup-table');
+                let deliveryTable = document.getElementById('delivery-table');
+
+                var deliveries = data.deliveries;
+                var pickups = data.pickups;
+
+                while (pickupTable.rows.length > 1) {
+                    pickupTable.deleteRow(1);
+                }
+
+                while (deliveryTable.rows.length > 1) {
+                    deliveryTable.deleteRow(1);
+                }
+
+                pickups.forEach(item => {
+                    let row = pickupTable.insertRow();
+                    let order_id = "BOD-" + String(item.bulk_order_details_id).padStart(3, '0');
+                    let customer_name = item.customer_name;
+                    let order_details = item.bulk_req.product_name + ' x ' + item.bulk_req.quantity;
+                    let total_cost = item.total_cost;
+                    let status = item.status.charAt(0).toUpperCase() + item.status.slice(1);
+                    let target_date = item.bulk_req.estimated_date;
+                    let stock_availability = item.stock_availability;
+
+                    row.insertCell().innerHTML = order_id;
+                    row.insertCell().innerHTML = customer_name;
+                    row.insertCell().innerHTML = order_details;
+                    row.insertCell().innerHTML = total_cost;
+                    row.insertCell().innerHTML = status;
+                    row.insertCell().innerHTML = target_date;
+                    // row.insertCell().innerHTML = stock_availability;
+
+                    let actionCell = row.insertCell();
+
+                    if (item.bulk_req.quantity <= item.bulk_req.quantity_available) {
+                        let actionBtn = document.createElement('a');
+                        actionBtn.textContent = 'Update Status';
+                        actionBtn.classList.add('table-section__button');
+                        // actionBtn.classList.add('submit-btn');
+                        actionBtn.onclick = function() {
+                            openPopup(item.bulk_order_details_id, item.status, 'delivery', item.bulk_req.product_name, item.bulk_req.quantity, item.bulk_req.product_inventory_id);
+                        }
+                        actionCell.appendChild(actionBtn);
+                    } else {
+                        let actionBtn = document.createElement('a');
+                        actionBtn.textContent = 'Products Unavailable';
+                        actionBtn.classList.add('table-section__button-unavailable');
+                        // row.classList.add('disable-row');
+                        actionCell.appendChild(actionBtn);
+                    }
+                });
+
+                deliveries.forEach(item => {
+                    let row = deliveryTable.insertRow();
+                    let order_id = "ORD-" + String(item.bulk_order_details_id).padStart(3, '0');
+                    let customer_name = item.customer_name;
+                    let order_details = item.bulk_req.product_name + ' x ' + item.bulk_req.quantity;
+                    let total_cost = item.total_cost;
+                    let delivery_address = item.delivery_address.address_line_1 + ',<br> ' + item.delivery_address.address_line_2 + ',<br> ' + item.delivery_address.city + ', <br>' + item.delivery_address.zip_code;
+                    let status = item.status.charAt(0).toUpperCase() + item.status.slice(1);
+                    let target_date = item.bulk_req.estimated_date;
+                    let stock_availability = item.stock_availability;
+
+                    row.insertCell().innerHTML = order_id;
+                    row.insertCell().innerHTML = customer_name;
+                    row.insertCell().innerHTML = order_details;
+                    row.insertCell().innerHTML = total_cost;
+                    row.insertCell().innerHTML = delivery_address;
+                    row.insertCell().innerHTML = status;
+                    row.insertCell().innerHTML = target_date;
+                    // row.insertCell().innerHTML = stock_availability;
+
+                    let actionCell = row.insertCell();
+
+                    if (item.bulk_req.quantity <= item.bulk_req.quantity_available) {
+                        let actionBtn = document.createElement('a');
+                        actionBtn.textContent = 'Update Status';
+                        actionBtn.classList.add('table-section__button');
+                        // actionBtn.classList.add('submit-btn');
+                        actionBtn.onclick = function() {
+                            openPopup(item.bulk_order_details_id, item.status, 'delivery', item.bulk_req.product_name, item.bulk_req.quantity, item.bulk_req.product_inventory_id);
+                        }
+                        actionCell.appendChild(actionBtn);
+                    } else {
+                        let actionBtn = document.createElement('a');
+                        actionBtn.textContent = 'Products Unavailable';
+                        actionBtn.classList.add('table-section__button-unavailable');
+                        // row.classList.add('disable-row');
+                        actionCell.appendChild(actionBtn);
+                    }
+
+
+                });
+
+                var pickup_count = data.pickup_count;
+                var delivery_count = data.delivery_count;
+
+                if (pickup_count == 0 || pickup_count == null) {
+                    document.getElementById('pickup-card').style.display = 'none';
+
+                } else {
+                    document.getElementById('pickup-card').querySelector('.card-text').textContent = pickup_count;
+                }
+                if (delivery_count == 0 || delivery_count == null) {
+                    document.getElementById('delivery-card').style.display = 'none';
+                } else {
+                    document.getElementById('delivery_card').querySelector('.card-text').textContent = delivery_count;
+                }
+
+            });
+    });
+</script>
+
 
 <div class="popup-form" id="update-popup">
     <div class="popup-form__content">

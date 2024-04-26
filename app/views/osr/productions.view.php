@@ -6,20 +6,22 @@
         <input type="text" id="searchProductions" placeholder="Search Productions..." class="table-section__search-input">
     </div>
 
-    <table class="table-section__table" id="productions-table">
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Production Started</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="productions-table">
+            <thead>
+                <tr>
+                    <th>Production ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Production Started</th>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody id="table-section__tbody">
-    </table>
+            </tbody id="table-section__tbody">
+        </table>
+    </div>
 </div>
 
 <script>
@@ -27,7 +29,7 @@
     const productionsTable = document.getElementById('productions-table');
     const tbody = document.getElementById('table-section__tbody');
 
-    
+
 
     document.addEventListener('DOMContentLoaded', (event) => {
         const getProductions = async () => {
@@ -59,7 +61,6 @@
 
         getProductions();
     });
-
 </script>
 
 

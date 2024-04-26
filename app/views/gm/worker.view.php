@@ -213,7 +213,7 @@ $full_name = $first_name . " " . $last_name;
         <!-- <h1 class="product-container-title"></h1> -->
 
         <div class="product-review-item" style="margin-bottom:0;height: 100%;">
-            
+
 
             <div class="product-container-item">
                 <p class="pc-lable">Worker Role :&nbsp</p>
@@ -239,7 +239,7 @@ $full_name = $first_name . " " . $last_name;
     <!--  -->
 
     <div class="product-container">
-    <div class="product-review-item" style="margin-bottom:0;">
+        <div class="product-review-item" style="margin-bottom:0;">
             <div class="product-container-item">
                 <p class="pc-lable">Name :&nbsp</p>
                 <p><?php echo $full_name ?></p>
@@ -253,7 +253,7 @@ $full_name = $first_name . " " . $last_name;
                 <p><?php echo $address  ?></p>
             </div>
 
-    </div>
+        </div>
 
 
     </div>
@@ -265,34 +265,35 @@ $full_name = $first_name . " " . $last_name;
     <div class="product-container" style="padding: 10px 0">
         <h1 class="product-container-title">Productions</h1>
 
-        <table class="table-section__table tbl" id="staff_table">
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Started At</th>
-                
-                <!-- <th>Created At</th> -->
-                <!-- <th>Updated At</th> -->
+        <div id="scrollable_sec">
+            <table class="table-section__table tbl" id="staff_table">
+                <thead>
+                    <tr>
+                        <th>Production ID</th>
+                        <th>Started At</th>
 
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <?php foreach ($production_worker as $production) : ?>
-                <tr >
-                    <td><?= sprintf("PXR-%03d", $production['production_id']) ?></td>
-                    <td><?= date('Y-m-d', strtotime($production['created_at'])) ?></td>
-                    <!-- <td><?= date('Y-m-d', strtotime($production['created_at'])) ?></td> -->
-                    <!-- <td><?= date('Y-m-d', strtotime($production['updated_at'])) ?></td> -->
-                    <td>
-                        <a href="<?= ROOT ?>/gm/productions/<?= $production['production_id'] ?>" class="table-section__button tbl-btn">View</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+                        <!-- <th>Created At</th> -->
+                        <!-- <th>Updated At</th> -->
+
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-section__tbody">
+                    <?php foreach ($production_worker as $production) : ?>
+                        <tr>
+                            <td><?= sprintf("PXR-%03d", $production['production_id']) ?></td>
+                            <td><?= date('Y-m-d', strtotime($production['created_at'])) ?></td>
+                            <!-- <td><?= date('Y-m-d', strtotime($production['created_at'])) ?></td> -->
+                            <!-- <td><?= date('Y-m-d', strtotime($production['updated_at'])) ?></td> -->
+                            <td>
+                                <a href="<?= ROOT ?>/gm/productions/<?= $production['production_id'] ?>" class="table-section__button tbl-btn">View</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-    
-
 </div>
 
 

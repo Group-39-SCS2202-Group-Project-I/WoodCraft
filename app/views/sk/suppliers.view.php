@@ -34,66 +34,68 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     </div>
 
 
-    <table class="table-section__table" id="suppliers_table">
-    <!-- supplier_id	name	email	telephone	brn	address_id	created_at	updated_at -->
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">Supplier ID</th>
-                <th onclick="sortTable(1)">Name</th>
-                <th onclick="sortTable(2)">Email</th>
-                <th onclick="sortTable(3)">Telephone</th>
-                <th onclick="sortTable(4)">BRN</th>
-                <th onclick="sortTable(5)">Address</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/suppliers')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                let table = document.getElementById('suppliers_table');
-                                // Clear existing table rows
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-                                // Insert new rows with updated data
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let supplier_id = "SUP-" + String(item.supplier_id).padStart(3, '0');
-                                    let name = item.name;
-                                    let email = item.email;
-                                    let telephone = item.telephone;
-                                    let brn = item.brn;
-                                    let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
+    <div id="#scrollable_sec">
+        <table class="table-section__table" id="suppliers_table">
+            <!-- supplier_id	name	email	telephone	brn	address_id	created_at	updated_at -->
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Supplier ID</th>
+                    <th onclick="sortTable(1)">Name</th>
+                    <th onclick="sortTable(2)">Email</th>
+                    <th onclick="sortTable(3)">Telephone</th>
+                    <th onclick="sortTable(4)">BRN</th>
+                    <th onclick="sortTable(5)">Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/suppliers')
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    let table = document.getElementById('suppliers_table');
+                                    // Clear existing table rows
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
+                                    }
+                                    // Insert new rows with updated data
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let supplier_id = "SUP-" + String(item.supplier_id).padStart(3, '0');
+                                        let name = item.name;
+                                        let email = item.email;
+                                        let telephone = item.telephone;
+                                        let brn = item.brn;
+                                        let address = item.address_line_1 + ',<br>' + item.address_line_2 + ',<br>' + item.city + '.<br>' + item.zip_code;
 
-                                    row.insertCell().innerHTML = supplier_id;
-                                    row.insertCell().innerHTML = name;
-                                    row.insertCell().innerHTML = email;
-                                    row.insertCell().innerHTML = telephone;
-                                    row.insertCell().innerHTML = brn;
-                                    row.insertCell().innerHTML = address;
+                                        row.insertCell().innerHTML = supplier_id;
+                                        row.insertCell().innerHTML = name;
+                                        row.insertCell().innerHTML = email;
+                                        row.insertCell().innerHTML = telephone;
+                                        row.insertCell().innerHTML = brn;
+                                        row.insertCell().innerHTML = address;
 
 
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.supplier_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.supplier_id})">Delete</a>`;
+                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.supplier_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.supplier_id})">Delete</a>`;
 
-                                });
-                            })
-                            .catch(error => console.error(error));
-                    }
+                                    });
+                                })
+                                .catch(error => console.error(error));
+                        }
 
-                    // Initial table update
-                    updateTable();
+                        // Initial table update
+                        updateTable();
 
-                    // Schedule periodic table updates
-                    // setInterval(updateTable, 5000); // Update every 5 seconds
-                });
-            </script>
-        </tbody>
-    </table>
+                        // Schedule periodic table updates
+                        // setInterval(updateTable, 5000); // Update every 5 seconds
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="delete-item-popup">
         <div class="popup-form__content">
@@ -128,7 +130,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
             <form action="<?php echo ROOT ?>/add/supplier" method="POST" class="form">
                 <h2 class="popup-form-title">Add New Supplier</h2>
 
-               <!-- supplier_id	name	email	telephone	brn	address_id	created_at	updated_at -->
+                <!-- supplier_id	name	email	telephone	brn	address_id	created_at	updated_at -->
 
                 <?php if (!empty($errors['name'])) : ?>
                     <p class="validate-mzg"><?= $errors['name'] ?></p>
@@ -332,7 +334,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         function closePopup() {
             const popups = document.querySelectorAll('.popup-form');
             confirmText = document.querySelector('.confirmation-text');
-            
+
             popups.forEach(popup => {
                 popup.classList.remove('popup-form--open');
             });
@@ -346,7 +348,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 
             // Session storage
             sessionStorage.removeItem('worker_id');
-            
+
         }
     </script>
 

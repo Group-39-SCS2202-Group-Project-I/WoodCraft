@@ -106,3 +106,8 @@ function get_value($key, $default = ''){
 //     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
 // }
 
+function getCurrentURI()
+{
+	return $_SERVER['REQUEST_URI'];
+}
+
