@@ -3,7 +3,7 @@
 
 /*=============== VARIABLES CSS ===============*/
 :root {
-  --header-height: 3rem;
+  --header2-height: 3rem;
 
   /*========== Colors ==========*/
   --hue: 174;
@@ -43,6 +43,8 @@
     --h1-font-size: 2.25rem;
     --normal-font-size: 1rem;
   }
+
+  
 }
 
 /*=============== BASE ===============*/
@@ -57,7 +59,7 @@ html {
 }
 
 body {
-  margin: var(--header-height) 0 0 0;
+  margin: var(--header2-height) 0 0 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
@@ -101,7 +103,7 @@ img {
 }
 
 /*=============== HEADER ===============*/
-.header {
+.header2 {
   position: fixed;
   top: 0;
   left: 0;
@@ -113,7 +115,7 @@ img {
 
 /*=============== NAV ===============*/
 .nav {
-  height: var(--header-height);
+  height: var(--header2-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -196,8 +198,8 @@ img {
   border-radius: 50%;
 } */
 
-/* Change background header */
-.scroll-header {
+/* Change background header2 */
+.scroll-header2 {
   box-shadow: 0 1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
 }
 
@@ -241,7 +243,7 @@ img {
   }
 
   .nav {
-    height: calc(var(--header-height) + 1.5rem);
+    height: calc(var(--header2-height) + 1.5rem);
     /* 4.5rem */
   }
 

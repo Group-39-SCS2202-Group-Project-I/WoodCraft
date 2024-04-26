@@ -237,7 +237,7 @@ if (Auth::logged_in()) {
       item.style.backgroundColor = 'white';
       item.style.color = 'black';
     });
-    
+
 
     productCards.forEach(card => {
       const name = card.querySelector('.card_name').textContent.toLowerCase();
@@ -271,6 +271,25 @@ if (Auth::logged_in()) {
     });
 
   }
+</script>
+
+<script>
+  const sidebar = document.querySelector('.sidebar');
+  const productsSection = document.querySelector('.products-section');
+
+  function handleResize() {
+    if (window.innerWidth < 768) {
+      sidebar.style.display = 'none';
+      productsSection.style.paddingLeft = '50px';
+    } else {
+      sidebar.style.display = 'block';
+      productsSection.style.paddingLeft = '350px';
+    }
+  }
+  handleResize();
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('load', handleResize);
 </script>
 
 
