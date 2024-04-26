@@ -65,6 +65,17 @@
                         </a>
                     </li>
 
+                    <?php if (Auth::logged_in()) : ?>
+                        <li class="nav__item">
+                            <a href="<?= ROOT ?>/cart" class="nav__link">
+                                <span class="material-symbols-outlined nav__icon">
+                                    shopping_cart
+                                </span>
+                                <span class="nav__name">Cart</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
 
                     <?php if (Auth::logged_in()) : ?>
                         <li class="nav__item">
@@ -146,7 +157,7 @@
             navLinks.forEach(link => {
                 link.classList.remove('active-link');
             });
-            
+
             const currentPath = window.location.pathname;
             let activeLink;
 
@@ -156,6 +167,8 @@
                 activeLink = document.querySelector('.nav__link[href*="orders"]');
             } else if (currentPath.startsWith('/wcf/profile')) {
                 activeLink = document.querySelector('.nav__link[href*="profile"]');
+            } else if (currentPath.startsWith('/wcf/cart')) {
+                activeLink = document.querySelector('.nav__link[href*="cart"]');
             } else {
                 activeLink = document.getElementsByClassName('homelink')[0];
             }
