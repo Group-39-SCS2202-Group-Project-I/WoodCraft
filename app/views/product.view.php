@@ -1,25 +1,24 @@
 <style>
     .bulk-content {
-    margin: 20px 0px 20px 0px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
+        margin: 20px 0px 20px 0px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
 
-.bulk-description {
-    margin-bottom: 10px;
-    font-size: 16px;
-}
+    .bulk-description {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
 
-.bulk-description:first-child {
-    margin-top: 0;
-}
+    .bulk-description:first-child {
+        margin-top: 0;
+    }
 
-.bulk-description:last-child {
-    margin-bottom: 0;
-}
-
+    .bulk-description:last-child {
+        margin-bottom: 0;
+    }
 </style>
 
 
@@ -72,32 +71,23 @@ if (!isset($_POST['errors'])) {
 
 ?>
 
-<?php $this->view('includes/header', $data) ?>
+<?php $this->view('includes/nav2', $data) ?>
+<link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/product.css">
 <?php
 if (Auth::logged_in()) {
     $this->view('includes/chat', $data);
 }
 ?>
 
-<!--
-    - HEADER
-    -->
+<div style="margin-top: calc(var(--header2-height) + 2rem); overflow: auto;">
 
-<header>
-    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/product.css">
-    <?php $this->view('includes/nav', $data) ?>
-    <?php $this->view('webstore/header-section', $data) ?>
-</header>
-
-<body>
     <div class="product-page">
         <div class="breadcrumbs">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                    <li class="breadcrumb-item"><a href="#">Chairs</a></li>
-                    <li class="breadcrumb-item"><a href="#">Living Room Chairs</a></li>
+                    <li class="breadcrumb-item"><a href="<?=ROOT?>">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?=ROOT?>/Products">Products</a></li>
+                    <li class="breadcrumb-item"><a href="<?=ROOT?>/<?=$data['product_id']?>"><?=$data['name']?></a></li>
                 </ol>
             </nav>
         </div>
@@ -148,11 +138,11 @@ if (Auth::logged_in()) {
                             <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
                             <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
                             <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
-                            <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
+                            <?php if ($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
                                 <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
-                            <?php else :?>
+                            <?php else : ?>
                                 <button class="add-to-cart grayout">Add to Cart</button>
-                            <?php endif?>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
@@ -300,115 +290,117 @@ if (Auth::logged_in()) {
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        console.log(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>);
-        function addToCart(productId, customerId) {
-            var quantity = document.getElementById('quantityInput').value;
-            $('#loader').show();
+<script>
+    console.log(<?php echo $product_id; ?>, <?php echo Auth::getCustomerID(); ?>);
 
-            var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
-            $.ajax({
-                url: ROOT + 'cart/edit',
-                data: {
-                    customer_id: customerId,
-                    product_id: productId,
-                    quantity: quantity,
-                    action: 'add'
-                },
-                method: "POST",
-            }).done(function(response) {
-                $('#loader').hide();
-                $('.alert').show();
-                $('#result').html(response);
-                window.location.reload();
-            });
-            // var data = JSON.parse(response);
-            // 		$('#loader').hide();
-            // 		$('.alert').show();
-            // 		if(data.status == 0) {
-            // 			$('.alert').addClass('alert-danger');
-            // 			$('#result').html(data.msg);
-            // 		} else {
-            // 			$('.alert').addClass('alert-success');
-            // 			$('#result').html(data.msg);
+    function addToCart(productId, customerId) {
+        var quantity = document.getElementById('quantityInput').value;
+        $('#loader').show();
 
-        }
-    </script>
-
-    <script src="<?php echo ROOT ?>/assets/js/product.js"></script>
-
-    <script>
-        // Function to switch main product image and show border on selected image
-        function switchMainImage(imageElement) {
-            var mainImage = document.querySelector('.product-image img');
-
-            // Remove 'selected-image' class from all images in grid
-            var gridImages = document.querySelectorAll('.product-image-grid img');
-            gridImages.forEach(function(img) {
-                img.classList.remove('selected-image');
-            });
-
-            // Apply 'selected-image' class to the clicked image
-            imageElement.classList.add('selected-image');
-
-            // Update main product image with the clicked image
-            mainImage.src = imageElement.src;
-        }
-
-        // Add click event listeners to grid images
-        document.querySelectorAll('.product-image-grid img').forEach(function(img) {
-            img.addEventListener('click', function() {
-                switchMainImage(this);
-            });
+        var ROOT = "http://localhost/wcf/"; // Make sure ROOT includes the trailing slash
+        $.ajax({
+            url: ROOT + 'cart/edit',
+            data: {
+                customer_id: customerId,
+                product_id: productId,
+                quantity: quantity,
+                action: 'add'
+            },
+            method: "POST",
+        }).done(function(response) {
+            $('#loader').hide();
+            $('.alert').show();
+            $('#result').html(response);
+            window.location.reload();
         });
-    </script>
+        // var data = JSON.parse(response);
+        // 		$('#loader').hide();
+        // 		$('.alert').show();
+        // 		if(data.status == 0) {
+        // 			$('.alert').addClass('alert-danger');
+        // 			$('#result').html(data.msg);
+        // 		} else {
+        // 			$('.alert').addClass('alert-success');
+        // 			$('#result').html(data.msg);
 
-    <script>
-        // Sample ratings data (you can replace this with your actual data)
-        const ratings = {
-            '5': <?php echo $product_ratings['rating_5star'] ?? 0; ?>,
-            '4': <?php echo $product_ratings['rating_4star'] ?? 0; ?>,
-            '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
-            '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
-            '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
-            'average': <?php echo $product_ratings['avg_rating'] ?? 0;; ?> // Average rating value
-        };
+    }
+</script>
 
-        // Function to update the review analyzer section
-        function updateReviewAnalyzer() {
-            const totalReviews = Object.values(ratings).reduce((acc, val) => acc + val, 0);
+<script src="<?php echo ROOT ?>/assets/js/product.js"></script>
 
-            // Update star ratings bars
-            Object.keys(ratings).forEach(key => {
-                if (key !== 'average') {
-                    const percentage = (ratings[key] / totalReviews) * 100;
-                    const ratingBar = document.querySelector(`.bar-${key}`);
-                    ratingBar.style.width = `${percentage}%`;
-                    const remainingPercentage = 100 - percentage;
-                    const ratingBarRemaining = document.querySelector(`.bar-${key}-remaining`);
-                    ratingBarRemaining.style.width = `${remainingPercentage}%`;
+<script>
+    // Function to switch main product image and show border on selected image
+    function switchMainImage(imageElement) {
+        var mainImage = document.querySelector('.product-image img');
 
-                }
-            });
-
-            // Update average rating bar and display average value
-            const averagePercentage = (ratings.average / 5) * 100;
-            const averageBar = document.querySelector('.average-rating .average-value');
-            averageBar.style.width = `${averagePercentage}%`;
-
-            const averageValue = document.querySelector('.average-value');
-            averageValue.textContent = ratings.average.toFixed(1); // Display average rating with one decimal place
-        }
-
-        // Call the function to update the review analyzer on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateReviewAnalyzer();
+        // Remove 'selected-image' class from all images in grid
+        var gridImages = document.querySelectorAll('.product-image-grid img');
+        gridImages.forEach(function(img) {
+            img.classList.remove('selected-image');
         });
-    </script>
+
+        // Apply 'selected-image' class to the clicked image
+        imageElement.classList.add('selected-image');
+
+        // Update main product image with the clicked image
+        mainImage.src = imageElement.src;
+    }
+
+    // Add click event listeners to grid images
+    document.querySelectorAll('.product-image-grid img').forEach(function(img) {
+        img.addEventListener('click', function() {
+            switchMainImage(this);
+        });
+    });
+</script>
+
+<script>
+    // Sample ratings data (you can replace this with your actual data)
+    const ratings = {
+        '5': <?php echo $product_ratings['rating_5star'] ?? 0; ?>,
+        '4': <?php echo $product_ratings['rating_4star'] ?? 0; ?>,
+        '3': <?php echo $product_ratings['rating_3star'] ?? 0; ?>,
+        '2': <?php echo $product_ratings['rating_2star'] ?? 0; ?>,
+        '1': <?php echo $product_ratings['rating_1star'] ?? 0; ?>,
+        'average': <?php echo $product_ratings['avg_rating'] ?? 0;; ?> // Average rating value
+    };
+
+    // Function to update the review analyzer section
+    function updateReviewAnalyzer() {
+        const totalReviews = Object.values(ratings).reduce((acc, val) => acc + val, 0);
+
+        // Update star ratings bars
+        Object.keys(ratings).forEach(key => {
+            if (key !== 'average') {
+                const percentage = (ratings[key] / totalReviews) * 100;
+                const ratingBar = document.querySelector(`.bar-${key}`);
+                ratingBar.style.width = `${percentage}%`;
+                const remainingPercentage = 100 - percentage;
+                const ratingBarRemaining = document.querySelector(`.bar-${key}-remaining`);
+                ratingBarRemaining.style.width = `${remainingPercentage}%`;
+
+            }
+        });
+
+        // Update average rating bar and display average value
+        const averagePercentage = (ratings.average / 5) * 100;
+        const averageBar = document.querySelector('.average-rating .average-value');
+        averageBar.style.width = `${averagePercentage}%`;
+
+        const averageValue = document.querySelector('.average-value');
+        averageValue.textContent = ratings.average.toFixed(1); // Display average rating with one decimal place
+    }
+
+    // Call the function to update the review analyzer on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateReviewAnalyzer();
+    });
+</script>
 
 
 
 
-</body>
-<?php $this->view('includes/footer', $data) ?>
+
+<?php $this->view('includes/footer2', $data) ?>
