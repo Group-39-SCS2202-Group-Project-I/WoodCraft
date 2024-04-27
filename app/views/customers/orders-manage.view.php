@@ -34,7 +34,7 @@
     }
 
     .content-manage-detail-mid p {
-        font-size: 16px;
+        font-size: 13px;
         font-style: italic;
         color: var(--green2);
     }
@@ -115,15 +115,15 @@
     .bottom-page {
         display: flex;
         flex-direction: column;
-        align-items:flex-end; 
+        align-items:flex-start; 
+        margin-bottom: 10px;
     }
 
     .back-orders {
-        background-color: var(--coal_black);
-        color: var(--white);
+        background-color: var(--light);
         border: none;
         border-radius: 20px;
-        padding: 8px 12px;
+        padding: 4px;
         cursor: pointer;
         transition: background-color 0.3s;
         margin-top: 20px;
@@ -182,9 +182,6 @@
         </div>
 
         <div class="content-manage-orders">
-            <!-- <div class="bottom-page">
-                <a href="<?=ROOT?>/orders"><button type="button" class="back-orders">BACK</button></a>
-            </div> -->
             <div class="bottom-page">
                 <a href="<?=ROOT?>/orders" class="back-orders"><i class="material-icons">arrow_back</i></a>
             </div>
@@ -207,10 +204,10 @@
 
                         <?php foreach ($data['order_items'] as $item) : ?>
                             <div class="order-item">
-                                <div class="order-item-image">
+                                <!-- <div class="order-item-image"> -->
                                     <img src="<?= $item['product_image_url']; ?>" alt="Product Image" width="100" height="100">
                                     <p><?= $item['product_name']; ?></p>
-                                </div>
+                                <!-- </div> -->
                                 <p>Rs. <?= $item['price']; ?></p>
                                 <p>Qty: <?= $item['quantity']; ?></p>
                             </div>
@@ -244,6 +241,7 @@
     </div>
 </div>
 </main>
+
 
 </body>
 

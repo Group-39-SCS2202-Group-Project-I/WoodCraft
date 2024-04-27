@@ -280,6 +280,80 @@ class Customer extends Model
         return $result;
     }
 
+    public function addReview($product_id, $customer_id, $rating, $review){
+        $query = "INSERT INTO product_review (product_id, customer_id, rating, review, created_at, updated_at) 
+                  VALUES (:product_id, :customer_id, :rating, :review, NOW(), NOW())";
+        
+        $params = array(
+            ':product_id' => $product_id,
+            ':customer_id' => $customer_id,
+            ':rating' => $rating,
+            ':review' => $review
+        );
+    
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function getProductDetails($product_id){
+        $query = "SELECT p.product_id, p.name AS product_name,
+                         pi.image_url AS product_image
+                FROM product p
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                WHERE p.product_id = :product_id
+                GROUP BY p.product_id";
+        
+        $params = array(':product_id' => $product_id);
+    
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function getReviewDetails($review_id){
+        $query = "SELECT pr.review_id, pr.product_id, pr.rating, pr.review,
+                        p.name AS product_name,
+                        pi.image_url AS product_image
+                FROM product_review pr
+                LEFT JOIN product p ON pr.product_id = p.product_id
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                WHERE pr.review_id = :review_id
+                GROUP BY p.product_id";
+        
+        $params = array(':review_id' => $review_id);
+    
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function updateReview($id, $data)
+    {
+        $table = 'product_review';
+
+        $setClause = '';
+        foreach ($data as $key => $value) {
+            $setClause .= "`$key` = :$key, ";
+        }
+        $setClause = rtrim($setClause, ', ');
+
+        // Construct the full SQL query
+        $query = "UPDATE $table SET $setClause WHERE `review_id` = :id";
+
+        // Add the customer ID to the data array
+        $data['id'] = $id;
+
+        // Perform the database update
+        $db = new Database;
+        $db->query($query, $data);
+        return 1;
+    }
+    
+
     //Order Controller - bulk orders
 
     public function getBulkOrders($user_id)
@@ -320,7 +394,8 @@ class Customer extends Model
                   LEFT JOIN product_image pi ON p.product_id = pi.product_id
                   LEFT JOIN customer c ON br.user_id = c.user_id
                   LEFT JOIN address a ON bod.delivery_address_id = a.address_id
-                  WHERE bod.bulk_req_id = :bulk_req_id AND br.status = 'accepted'";
+                  WHERE bod.bulk_req_id = :bulk_req_id AND br.status = 'accepted'
+                  GROUP BY p.product_id";
     
         $params = array(':bulk_req_id' => $bulk_req_id);
         $db = new Database;
@@ -328,26 +403,4 @@ class Customer extends Model
     
         return $result;
     }
-    
-
-	public function getBulkOrderItems($order_id){
-		$query = "SELECT oi.quantity, p.name AS product_name, p.price, 
-						pi.image_url as product_image_url 
-					FROM order_item oi
-					LEFT JOIN product p ON oi.product_id = p.product_id
-					LEFT JOIN product_image pi ON p.product_id = pi.product_id
-					WHERE oi.order_details_id = :order_id
-					GROUP BY p.product_id";
-
-		$params = array(':order_id' => $order_id);
-		$db = new Database;
-		$result = $db->query($query, $params, PDO::FETCH_ASSOC);
-
-		// Calculate subtotal for each order item
-		foreach ($result as &$item) {
-			$item['subtotal'] = $item['quantity'] * $item['price'];
-		}
-
-		return $result;
-	}
 }

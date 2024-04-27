@@ -162,10 +162,10 @@
                                     </div>
                                     <?php foreach ($orderItems as $orderItem) : ?>
                                         <div class="order-details">
-                                            <div class="product-details">
+                                            <!-- <div class="product-details"> -->
                                                 <img src="<?= $orderItem['product_image_url'] ?>" alt="Product Image" width="100" height="100">
                                                 <p><?= $orderItem['product_name'] ?></p>
-                                            </div>
+                                            <!-- </div> -->
                                             <p>Qty: <?= $orderItem['quantity'] ?></p>
                                             <div class="status"><?= $orderItem['status'] ?></div>
                                             <p><small>Updated on  <?= $orderItem['created_at'] ?></small></p>

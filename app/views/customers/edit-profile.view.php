@@ -141,7 +141,7 @@
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/profile/updateProfile/<?= Auth::getCustomerID()?>">
+                <form method="post" action="<?= ROOT ?>/profile/updateProfile">
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
@@ -221,7 +221,7 @@
                     </div> -->
 
                     <div class="bottom-profile">
-                        <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a>
+                        <!-- <a href="#" class="subscribe-link-edit-profile" onclick="showPopup()">Subscribe to our Newsletter</a> -->
                         <div class="buttons-profile">
                             <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
                             <a href="<?=ROOT?>/profile"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
@@ -232,7 +232,7 @@
         </div>
 
         <!-- Popup for newsletter subscription -->
-        <div id="popup" class="popup">
+        <!-- <div id="popup" class="popup">
             <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
                 <h3>Newsletter subscription</h3>
@@ -243,7 +243,7 @@
                     <button class="subscribe" onclick="subscribe()">Subscribe</button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </main>
 
     <script src="manage-account.js"></script>
