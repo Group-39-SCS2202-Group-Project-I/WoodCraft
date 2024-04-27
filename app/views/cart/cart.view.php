@@ -95,14 +95,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="Qdetails">
-                              <div class="remove">
-                                  <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
-                                      <i><span class="material-symbols-outlined">
-                                          delete
-                                      </span></i>
-                                  </button>
-                              </div>
+                         
                               <div class="quantity">
                                   <button type="button" class="decrease"
                                       data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
@@ -118,7 +111,13 @@
                                           add
                                       </span></i></button>
                               </div>
-                          </div>
+                              <div class="remove">
+                                  <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
+                                      <i><span class="material-symbols-outlined">
+                                          delete
+                                      </span></i>
+                                  </button>
+                              </div>
                       </div>
                   </div>
               </td>

@@ -59,6 +59,10 @@
   justify-content: space-between;
 }
 
+.remove{
+  display: flex;
+  
+}
 .remove-button:hover {
   color: #2e8b57;
 }
