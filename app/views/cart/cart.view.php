@@ -90,8 +90,9 @@
                           <div class="details">
                               <div class="pdetails">
                                   <div class="product-details">
-                                      <p><?php echo $cartProduct['name'] ?></p>
-                                      <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
+                                      <p>Name:<?php echo $cartProduct['name'] ?></p>
+                                     <p>Category:<?php echo $cartProduct['category'] ?></p>
+                                      <p class="unit-price">Price:<?php echo $cartProduct['price'] ?></p>
                                   </div>
                               </div>
                           </div>
