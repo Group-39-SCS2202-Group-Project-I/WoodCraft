@@ -223,10 +223,10 @@ class Fetch extends Controller
 
             $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
 
-            // $url =  $url = ROOT . "/fetch/product_review/$id";
-            // $response = file_get_contents($url);
-            // $product_reviews = json_decode($response);
-            // $product_data['reviews'] = $product_reviews;
+            $url =  $url = ROOT . "/fetch/product_review/$id";
+            $response = file_get_contents($url);
+            $product_reviews = json_decode($response);
+            $product_data['reviews'] = $product_reviews;
 
 
 
