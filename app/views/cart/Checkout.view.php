@@ -471,69 +471,74 @@
 
 
     <script>
-        function handleDeliveryOption() {
-            var isPickupSelected = document.getElementById('pickup').checked;
-            var changeAddressSection = document.querySelector('.changeaddress');
-            var addressForm = document.querySelector('.change-address-form');
+    // Function to handle the delivery option selection
+    function handleDeliveryOption() {
+        // Get the status of the pickup option
+        var isPickupSelected = document.getElementById('pickup').checked;
 
-            if (isPickupSelected) {
-                // If Pickup option is selected, hide the address form
-                addressForm.style.display = 'none';
+        // Get the elements related to changing the address
+        var changeAddressSection = document.querySelector('.changeaddress');
+        var addressForm = document.querySelector('.change-address-form');
 
-                changeAddressSection.style.backgroundColor = '#EEEEEE';
-
-            } else {
-
-                changeAddressSection.style.backgroundColor = '';
-            }
+        // If pickup is selected, hide the address form and update the style
+        if (isPickupSelected) {
+            addressForm.style.display = 'none';
+            changeAddressSection.style.backgroundColor = '#EEEEEE';
+        } else {
+            // If delivery is selected, show the address form and update the style
+            addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+            changeAddressSection.style.backgroundColor = '';
         }
+    }
 
-        // Function to toggle the address form visibility when "Change Your Address" section is clicked
-        function toggleAddressForm() {
+    // Function to toggle the address form visibility
+    function toggleAddressForm() {
+        // Get the status of the pickup option
+        var isPickupSelected = document.getElementById('pickup').checked;
+
+        // If pickup is selected, do not show the address form
+        if (!isPickupSelected) {
             var form = document.querySelector('.change-address-form');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
+    }
 
-        // Function to handle cancellation of address form
-        function cancelAddressForm() {
-            var form = document.querySelector('.change-address-form');
-            form.style.display = 'none';
-        }
+    // Function to handle cancellation of the address form
+    function cancelAddressForm() {
+        var form = document.querySelector('.change-address-form');
+        form.style.display = 'none';
+    }
 
-        // Function to handle saving of address
-        // Function to handle saving of address
-        function saveAddress() {
-            var formData = new FormData(document.querySelector('.address-form'));
-            // Send the form data to the saveAddress method in the Checkout controller
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'checkout/saveAddress', true); // Adjust the URL as needed
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    // Handle success response, if needed
-                    console.log(xhr.responseText);
-                    cancelAddressForm();
-                    alert('Delivery address changed successfully!');
-                    // Auto cancel the form after saving data
-                    // Call cancelAddressForm here to hide the form after saving
-                } else {
-                    // Handle error response, if needed
-                    console.error('Error:', xhr.statusText);
-                }
-            };
-            xhr.send(formData);
-            console.log("Form submitted!");
-        }
+    // Function to handle saving of the address
+    function saveAddress() {
+        // Get the form data
+        var formData = new FormData(document.querySelector('.address-form'));
 
+        // Send the form data to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'checkout/saveAddress', true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Handle success response
+                console.log(xhr.responseText);
+                cancelAddressForm();
+                alert('Delivery address changed successfully!');
+            } else {
+                // Handle error response
+                console.error('Error:', xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+    }
 
-        // Attach event listeners to the radio buttons for delivery options
-        // Attach event listeners to the radio buttons for delivery options
-        document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
-        document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+    // Attach event listeners to the radio buttons for delivery options
+    document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+    document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
 
-        // Initially handle the selected delivery option
-        handleDeliveryOption();
-        // Initially handle the selected delivery option
-    </script>
+    // Initially handle the selected delivery option
+    handleDeliveryOption();
+</script>
+
 
 
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
