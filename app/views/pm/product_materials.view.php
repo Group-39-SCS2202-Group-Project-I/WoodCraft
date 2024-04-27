@@ -172,6 +172,7 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
         justify-content: space-between;
         align-items: center;
         padding: 10px;
+        margin: 1rem 0;
         margin-bottom: 0.5rem;
         background-color: var(--light);
         border-radius: 5px;
