@@ -28,6 +28,7 @@ if (isset($_SESSION['USER_DATA'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <title>WoodCraft Furniture - Stock Keeper</title>
+    <link rel="shortcut icon" href="<?php echo ROOT ?>/assets/logo/favicon.ico" type="image/x-icon">
 </head>
 
 <body>

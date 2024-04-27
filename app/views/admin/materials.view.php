@@ -31,57 +31,110 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
     <div class="table-section__search">
         <input type="text" id="searchMaterials" placeholder="Search Materials..." class="table-section__search-input">
     </div>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="material_table">
+            <thead>
+                <tr>
+                    <th>Material ID</th>
+                    <th>Material Name</th>
+                    <th>Material Description</th>
+                    <th>Stocks Available</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-    <table class="table-section__table" id="material_table">
-        <thead>
-            <tr>
-                <th>Material ID</th>
-                <th>Material Name</th>
-                <th>Material Description</th>
-                <th>Stocks Available</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/materials')
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    let tableBody = document.getElementById('table-section__tbody');
+                                    let table = document.getElementById('material_table');
+                                    
+                                    while (tableBody.firstChild) {
+                                        tableBody.removeChild(tableBody.firstChild);
+                                    }
 
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/materials')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                let tableBody = document.getElementById('table-section__tbody');
-                                let table = document.getElementById('material_table');
-                                // Clear existing table rows
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
+                                    data.sort((a, b) => {
+                                        return b.material_id - a.material_id;
+                                    });
+                                  
+                                    data.forEach(item => {
+                                        let row = document.createElement('tr');
+                                        let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
+
+                                        let idCell = document.createElement('td');
+                                        idCell.textContent = material_id;
+                                        row.appendChild(idCell);
+
+                                        let nameCell = document.createElement('td');
+                                        nameCell.innerHTML = `<p>${item.material_name}</p>`;
+                                        row.appendChild(nameCell);
+
+                                        let descriptionCell = document.createElement('td');
+                                        descriptionCell.innerHTML = `<p>${item.material_description}</p>`;
+                                        row.appendChild(descriptionCell);
+
+                                        let stocksCell = document.createElement('td');
+                                        stocksCell.textContent = item.stock_available;
+                                        row.appendChild(stocksCell);
+
+                                        let actionsCell = document.createElement('td');
+                                        actionsCell.innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.material_id})">Delete</a>`;
+                                        row.appendChild(actionsCell);
+
+                                        tableBody.appendChild(row);
+                                    });
+                                })
+                                .catch(error => console.log(error));
+                        }
+                        updateTable();
+                        // setInterval(updateTable, 5000);
+                        
+                        document.getElementById('searchMaterials').addEventListener('input', function() {
+                            let searchValue = this.value.toLowerCase();
+                            let rows = document.querySelectorAll('#material_table tbody tr');
+                            rows.forEach(row => {
+                                let id = row.cells[0].textContent.toLowerCase();
+                                let name = row.cells[1].textContent.toLowerCase();
+                                if (id.includes(searchValue) || name.includes(searchValue)) {
+                                    row.style.display = '';
+                                } else {
+                                    row.style.display = 'none';
                                 }
-                                // Insert new rows with updated data
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
+                            });
+                        });
+                    });
 
-                                    row.insertCell().innerHTML = material_id;
-                                    row.insertCell().innerHTML = `<p">${item.material_name}</p>`
-                                    // row.insertCell().innerHTML = item.material_description;
-                                    row.insertCell().innerHTML = `<p">${item.material_description}</p>`
-                                    row.insertCell().innerHTML = item.stock_available;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.material_id})">Delete</a>`;
+                    let ths = document.querySelectorAll('th');
+                    ths.forEach(th => {
+                        th.addEventListener('click', function() {
+                            let table = document.getElementById('material_table');
+                            let tbody = table.querySelector('tbody');
+                            let rows = Array.from(tbody.querySelectorAll('tr'));
 
+                            let index = Array.from(this.parentNode.children).indexOf(this);
 
-                                });
+                            let order = this.dataset.order = -(this.dataset.order || -1);
 
+                            rows.sort((a, b) => {
+                                a = a.children[index].textContent;
+                                b = b.children[index].textContent;
+                                return a.localeCompare(b, undefined, {
+                                    numeric: true
+                                }) * order;
+                            });
 
-                            })
-                            .catch(error => console.log(error));
-                    }
-                    updateTable();
-                    // setInterval(updateTable, 5000);
-                });
-            </script>
-        </tbody>
-    </table>
+                            rows.forEach(row => tbody.appendChild(row));
+                        });
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -148,19 +201,19 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 </div>
 
 <div class="popup-form" id="delete-item-popup">
-        <div class="popup-form__content">
-            <form action="" method="POST" class="form">
-                <!-- <h2 class="popup-form-title">Delete Item</h2> -->
-                <!-- <p>Are you sure you want to delete this item?</p> -->
-                <p class="confirmation-text">Are you sure you want to delete </p>
+    <div class="popup-form__content">
+        <form action="" method="POST" class="form">
+            <!-- <h2 class="popup-form-title">Delete Item</h2> -->
+            <!-- <p>Are you sure you want to delete this item?</p> -->
+            <p class="confirmation-text">Are you sure you want to delete </p>
 
-                <div class="form-group frm-btns">
-                    <button type="submit" class="form-btn submit-btn">Yes</button>
-                    <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
-                </div>
-            </form>
-        </div>
+            <div class="form-group frm-btns">
+                <button type="submit" class="form-btn submit-btn">Yes</button>
+                <button type="button" class="form-btn cancel-btn" onclick="closePopup()">No</button>
+            </div>
+        </form>
     </div>
+</div>
 
 <script>
     openDeletePopup = (id) => {

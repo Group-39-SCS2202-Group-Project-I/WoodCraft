@@ -1,5 +1,14 @@
 <!DOCTYPE html5>
 <html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <title>WoodCraft Furnitures</title>
+    <link rel="shortcut icon" href="<?php echo ROOT ?>/assets/logo/favicon.ico" type="image/x-icon">
+</head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -140,7 +149,7 @@
         text-align: center;
         margin-bottom: 30px;
         margin-top: 0%;
-        font-size: 2.5rem;
+        font-size: 1.5rem;
         color: #262626;
     }
 
@@ -299,6 +308,18 @@
             scroll-behavior: unset;
         }
     }
+
+    .navl-cont {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav__logo {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--first-color);
+    }
 </style>
 
 <head>
@@ -311,6 +332,9 @@
 <body>
     <div class="auth-page">
         <div class="auth-container">
+            <div class="navl-cont">
+                <a class="nav__logo material-icons-outlined" style="font-size: 60px; font-weight: 500; color: var(--primary);"> living </a> <a class="nav__logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
+            </div>
             <h2>Sign Up</h2>
             <form method="post" id="signupForm">
                 <div id="initialSection">
@@ -318,7 +342,7 @@
                     <?php if (!empty($errors['first_name'])) : ?>
                         <p class="validate-mzg "><?= $errors['first_name'] ?></p>
                     <?php endif; ?>
-                    <input value="<?= set_value('first_name') ?>" type="text" name="first_name" placeholder="First Name" > 
+                    <input value="<?= set_value('first_name') ?>" type="text" name="first_name" placeholder="First Name">
 
                     <?php if (!empty($errors['last_name'])) : ?>
                         <p class="validate-mzg "><?= $errors['last_name'] ?></p>
@@ -401,11 +425,11 @@
             </form>
         </div>
     </div>
-  
-        </div>
+
     </div>
-   
-        
+    </div>
+
+
     <script>
         const initialSection = document.getElementById("initialSection");
         const contactSection = document.getElementById("contactSection");

@@ -309,11 +309,12 @@ class Add extends Controller
 
             show($product);
 
-            $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id)", $product);
-
-            $product_id = $db->query("SELECT product_id FROM product WHERE product_id = (SELECT MAX(product_id) FROM product)")[0]->product_id;
+            $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id,bulkmin) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id,:bulkmin)", $product);
 
             show(3);
+            $product_id = $db->query("SELECT product_id FROM product WHERE product_id = (SELECT MAX(product_id) FROM product)")[0]->product_id;
+
+            show(4);
 
             show($product_id);
 

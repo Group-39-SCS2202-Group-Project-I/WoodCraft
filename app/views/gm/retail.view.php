@@ -21,7 +21,7 @@
 
 
     <div class="table-section__search">
-        <input type="text" id="searchProductions" placeholder="Search Productions..." class="table-section__search-input">
+        <input type="text" id="searchRetail" placeholder="Search Retail Orders..." class="table-section__search-input">
     </div>
 
     <table class="table-section__table" id="retail-table">
@@ -59,6 +59,10 @@
                 table.deleteRow(1);
             }
 
+            data.sort((a, b) => {
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
+
             data.forEach(item => {
                 let row = table.insertRow();
                 let order_id = "ORD-" + String(item.order_details_id).padStart(3, '0');
@@ -67,9 +71,11 @@
                     order_details += item.items[i].product_name + " x" + item.items[i].quantity + '<br>';
                 }
                 let total = item.total
-                let type = item.type;
-                let status = item.status;
+                let type = item.type.charAt(0).toUpperCase() + item.type.slice(1);
+                let status = item.status.charAt(0).toUpperCase() + item.status.slice(1);
                 let order_placed = item.created_at;
+
+                
                 row.innerHTML = `
                                 <td>${order_id}</td>
                                 <td>${order_details}</td>
@@ -82,6 +88,21 @@
         };
 
         getProductions();
+
+        searchProductions.addEventListener('input', function() {
+            let searchValue = this.value.toLowerCase();
+            let rows = productionsTable.rows;
+            for (let i = 1; i < rows.length; i++) {
+                let order_id = rows[i].cells[0].innerText.toLowerCase();
+                let order_details = rows[i].cells[1].innerText.toLowerCase();
+
+                if (order_id.includes(searchValue) || order_details.includes(searchValue)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
     });
 </script>
 <?php include "inc/footer.view.php"; ?>

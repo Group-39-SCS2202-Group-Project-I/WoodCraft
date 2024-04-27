@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoodCraft</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <title>WoodCraft Furnitures</title>
+    <link rel="shortcut icon" href="<?php echo ROOT ?>/assets/logo/favicon.ico" type="image/x-icon">
     <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 
@@ -148,7 +151,7 @@
         text-align: center;
         margin-bottom: 30px;
         margin-top: 0%;
-        font-size: 2.5rem;
+        font-size: 1.5rem;
         color: #262626;
     }
 
@@ -297,13 +300,26 @@
             scroll-behavior: unset;
         }
     }
+
+    .navl-cont {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav__logo {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--first-color);
+    }
+
 </style>
 
 <body>
     <div class="auth-page">
         <div class="auth-container">
 
-        <!-- <div class="mzg-box">
+            <!-- <div class="mzg-box">
                     <div class="messege">hello</div>
                 </div> -->
 
@@ -312,6 +328,12 @@
                     <div class="messege"><?= message('', true) ?></div>
                 </div>
             <?php endif; ?>
+
+            <div class="navl-cont">
+                <a class="nav__logo material-icons-outlined" style="font-size: 60px; font-weight: 500; color: var(--primary);"> living </a> <a class="nav__logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
+            </div>
+
+
             <h2>Sign In</h2>
 
             <form method="post" id="loginForm">

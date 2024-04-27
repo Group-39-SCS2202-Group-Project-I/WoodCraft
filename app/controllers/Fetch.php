@@ -223,10 +223,10 @@ class Fetch extends Controller
 
             $product_data = array_merge((array) $data['product'][0], (array) $data['product_category'][0], (array) $data['product_inventory'][0], (array) $data['product_measurement'][0]);
 
-            $url =  $url = ROOT . "/fetch/product_review/$id";
-            $response = file_get_contents($url);
-            $product_reviews = json_decode($response);
-            $product_data['reviews'] = $product_reviews;
+            // $url =  $url = ROOT . "/fetch/product_review/$id";
+            // $response = file_get_contents($url);
+            // $product_reviews = json_decode($response);
+            // $product_data['reviews'] = $product_reviews;
 
 
 
@@ -267,6 +267,20 @@ class Fetch extends Controller
         } else {
             $db = new Database();
             $data['products'] = $db->query("SELECT * FROM product");
+
+            $product_ids = array_column($data['products'], 'product_id');
+            $product_ids = implode(',', $product_ids);
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id IN ($product_ids)");
+
+            $data['products'] = array_map(function ($product) use ($product_images) {
+                $product->images = [];
+                foreach ($product_images as $product_image) {
+                    if ($product->product_id == $product_image->product_id) {
+                        $product->images[] = $product_image;
+                    }
+                }
+                return $product;
+            }, $data['products']);
 
             $product_category_ids = array_column($data['products'], 'product_category_id');
             $product_category_ids = implode(',', $product_category_ids);
@@ -310,66 +324,68 @@ class Fetch extends Controller
                 }
             }
 
-            //product reviews
-            $product_ids = array_column($data['products'], 'product_id');
-            $product_ids = implode(',', $product_ids);
-            $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id IN ($product_ids)");
+            // //product reviews
+            // $product_ids = array_column($data['products'], 'product_id');
+            // $product_ids = implode(',', $product_ids);
+            // $product_reviews = $db->query("SELECT * FROM product_review WHERE product_id IN ($product_ids)");
 
-            $data['products'] = array_map(function ($product) use ($product_reviews) {
-                $product->reviews = [];
-                foreach ($product_reviews as $product_review) {
-                    if ($product->product_id == $product_review->product_id) {
-                        $product->reviews[] = $product_review;
-                    }
-                }
-                return $product;
-            }, $data['products']);
-
-            // show($data['products']);
-
-            // get customer_id from product_reviews
-            $customer_ids = array_column($product_reviews, 'customer_id');
-            $customer_ids = implode(',', $customer_ids);
-
-
-
-            //map avarage rating of each product to its $data['products']
-            $data['products'] = array_map(function ($product) use ($product_reviews) {
-                $product->avarage_rating = 0;
-                if (count($product->reviews) > 0) {
-                    $product->avarage_rating = array_sum(array_column($product->reviews, 'rating')) / count($product->reviews);
-                }
-                return $product;
-            }, $data['products']);
-
-            // show($data['products']);
-
-            $data['products'] = array_map(function ($product) {
-                unset($product->reviews);
-                return $product;
-            }, $data['products']);
-
-            // show($data['products']);
-
-            // get customer_id from product_reviews
-            // $customer_ids = array_column($product_reviews, 'customer_id');
-            // $customer_ids = implode(',', $customer_ids);
-            // $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
-            // // add customer name to product_reviews
-            // foreach ($data['products'] as $key => $product) {
-            //     foreach ($product->reviews as $review_key => $product_review) {
-            //         foreach ($customers as $customer) {
-            //             if ($product_review->customer_id == $customer->customer_id) {
-            //                 $data['products'][$key]->reviews[$review_key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
-            //             }
+            // $data['products'] = array_map(function ($product) use ($product_reviews) {
+            //     $product->reviews = [];
+            //     foreach ($product_reviews as $product_review) {
+            //         if ($product->product_id == $product_review->product_id) {
+            //             $product->reviews[] = $product_review;
             //         }
             //     }
-            // }
+            //     return $product;
+            // }, $data['products']);
+
+            // // show($data['products']);
+
+            // // get customer_id from product_reviews
+            // $customer_ids = array_column($product_reviews, 'customer_id');
+            // $customer_ids = implode(',', $customer_ids);
+
+
+
+            // //map avarage rating of each product to its $data['products']
+            // $data['products'] = array_map(function ($product) use ($product_reviews) {
+            //     $product->avarage_rating = 0;
+            //     if (count($product->reviews) > 0) {
+            //         $product->avarage_rating = array_sum(array_column($product->reviews, 'rating')) / count($product->reviews);
+            //     }
+            //     return $product;
+            // }, $data['products']);
+
+            // // show($data['products']);
+
+            // $data['products'] = array_map(function ($product) {
+            //     unset($product->reviews);
+            //     return $product;
+            // }, $data['products']);
+
+            // // show($data['products']);
+
+            // // get customer_id from product_reviews
+            // // $customer_ids = array_column($product_reviews, 'customer_id');
+            // // $customer_ids = implode(',', $customer_ids);
+            // // $customers = $db->query("SELECT * FROM customer WHERE customer_id IN ($customer_ids)");
+            // // // add customer name to product_reviews
+            // // foreach ($data['products'] as $key => $product) {
+            // //     foreach ($product->reviews as $review_key => $product_review) {
+            // //         foreach ($customers as $customer) {
+            // //             if ($product_review->customer_id == $customer->customer_id) {
+            // //                 $data['products'][$key]->reviews[$review_key]->customer_name = $customer->first_name . ' ' . $customer->last_name;
+            // //             }
+            // //         }
+            // //     }
+            // // }
 
 
 
 
             // show($data['products']);
+
+
 
             header("Content-Type: application/json");
             echo json_encode($data);
@@ -1642,7 +1658,7 @@ class Fetch extends Controller
                 'quantity' => $product->quantity
             ];
 
-            if($product->quantity > 0){
+            if ($product->quantity > 0) {
                 // $arr[] = $product;
                 $product_arr[] = $product->name;
                 $qty_arr[] = $product->quantity;
@@ -1673,7 +1689,7 @@ class Fetch extends Controller
                 'quantity' => $material->stock_available
             ];
 
-            if($material->stock_available > 0){
+            if ($material->stock_available > 0) {
                 // $arr[] = $product;
                 $material_arr[] = $material->material_name;
                 $qty_arr[] = $material->stock_available;
@@ -1688,4 +1704,282 @@ class Fetch extends Controller
         header("Content-Type: application/json");
         echo json_encode($data);
     }
+
+    public function completed_retail_and_bulk_orders()
+    {
+        $url = ROOT . "/fetch/completed_retail_orders";
+        $retail_orders = json_decode(file_get_contents($url));
+        $url = ROOT . "/fetch/completed_bulk_orders";
+        $bulk_orders = json_decode(file_get_contents($url));
+
+        $retail_count = 0;
+        $bulk_count = 0;
+
+        if ($retail_orders) {
+            $retail_count = count($retail_orders);
+        }
+
+        if ($bulk_orders) {
+            $bulk_count = count($bulk_orders);
+        }
+
+        $data = [
+            'retail_orders' => $retail_orders,
+            'bulk_orders' => $bulk_orders,
+            'retail_count' => $retail_count,
+            'bulk_count' => $bulk_count
+        ];
+
+        $orders = [];
+        foreach ($retail_orders as $order) {
+            $x['order_id'] = 'ORD-' . str_pad($order->order_details_id, 3, '0', STR_PAD_LEFT);
+            if ($order->type == 'delivery') {
+                $x['type'] = 'Retail/Delivery';
+            } else {
+                $x['type'] = 'Retail/Pickup';
+            }
+            $x['customer_name'] = $order->customer_name;
+            $x['items'] = $order->items;
+            $x['updated_at'] = $order->updated_at;
+
+            $orders[] = $x;
+        }
+        foreach ($bulk_orders as $order) {
+            $x['order_id'] = 'BOD-' . str_pad($order->bulk_order_details_id, 3, '0', STR_PAD_LEFT);
+            if ($order->type == 'delivery') {
+                $x['type'] = 'Bulk/Delivery';
+            } else {
+                $x['type'] = 'Bulk/Pickup';
+            }
+            // $x['total'] = $order->total;
+            $x['customer_name'] = $order->customer_name;
+
+            $x['items'] = [
+                'product_name' => $order->bulk_req->product_name,
+                'quantity' => $order->bulk_req->quantity
+            ];
+
+            $x['updated_at'] = $order->updated_at;
+
+            $orders[] = $x;
+        }
+
+        usort($orders, function ($a, $b) {
+            return $a['updated_at'] < $b['updated_at'];
+        });
+
+        $arr = [
+            'orders' => $orders,
+            'retail_count' => $retail_count,
+            'bulk_count' => $bulk_count
+        ];
+
+        header("Content-Type: application/json");
+        echo json_encode($arr);
+    }
+
+    public function bulk_orders_sk()
+    {
+        $db = new Database();
+        $bulk_orders = "SELECT * FROM bulk_order_details WHERE  status = 'processing' OR status = 'pending' OR status = 'ready to pick up' OR status = 'delivering'";
+        $bulks = $db->query($bulk_orders);
+
+        foreach ($bulks as $bulk) {
+            $user_id = $bulk->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $bulk->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $bulk_req = "SELECT * FROM bulk_order_req WHERE bulk_req_id = $bulk->bulk_req_id";
+            $x = $db->query($bulk_req)[0];
+            $product_name = "SELECT name FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_name)[0];
+            $x->product_name = $y->name;
+
+            $product_inventory_id = "SELECT product_inventory_id FROM product WHERE product_id = $x->product_id";
+            $y = $db->query($product_inventory_id)[0];
+            $quantity_available = "SELECT quantity FROM product_inventory WHERE product_inventory_id = $y->product_inventory_id";
+            $z = $db->query($quantity_available)[0];
+            $x->quantity_available = $z->quantity;
+            $x->product_inventory_id = $y->product_inventory_id;
+
+            $product_category_id = "SELECT product_category_id FROM product WHERE product_id = $x->product_id";
+            $z = $db->query($product_category_id)[0];
+            $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $z->product_category_id";
+            $a = $db->query($category_name)[0];
+            $x->category_name = $a->category_name;
+
+
+
+            $bulk->bulk_req = $x;
+        }
+
+        // filter type=pickup and type=delivery from $bulks
+        $pickups = [];
+        $deliveries = [];
+        foreach ($bulks as $bulk) {
+            if ($bulk->type == 'pickup') {
+                array_push($pickups, $bulk);
+            } else {
+                array_push($deliveries, $bulk);
+            }
+        }
+        foreach ($deliveries as $d) {
+            $address = "SELECT * FROM address WHERE address_id = $d->delivery_address_id";
+            $x = $db->query($address)[0];
+            // $x = (array) $x;
+            $d->delivery_address = $x;
+        }
+
+        $data['pickups'] = $pickups;
+        $data['deliveries'] = $deliveries;
+
+        $data['pickup_count'] = count($pickups);
+        $data['delivery_count'] = count($deliveries);
+
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
+
+    public function retail_orders_sk()
+    {
+        $db = new Database();
+        $pickup_orders = "SELECT * FROM order_details WHERE type = 'pickup' AND (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering')";
+        $delivery_orders = "SELECT * FROM order_details WHERE  (status = 'processing' OR status = 'ready to pick up' OR status = 'delivering') AND type = 'delivery'";        
+
+        $pickups = $db->query($pickup_orders);
+
+        foreach ($pickups as $pickup) {
+            $user_id = $pickup->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $pickup->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+
+            $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $pickup->order_details_id";
+            $x = $db->query($items);
+            foreach ($x as $item) {
+                $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                $y = $db->query($product)[0];
+                $item->product_name = $y->name;
+                $item->price = $y->price;
+
+                $product_category_id = $y->product_category_id;
+                $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                $z = $db->query($category_name)[0];
+                $item->category_name = $z->category_name;
+            }
+            $pickup->items = $x;
+        }
+
+
+
+        $data['pickup_orders'] = $pickups;
+        // $data['pickup_count'] = count($pickups);
+
+
+        $deliveries = $db->query($delivery_orders);
+        foreach ($deliveries as $delivery) {
+            $user_id = $delivery->user_id;
+            $customer_name = "SELECT first_name,last_name FROM customer WHERE user_id = $user_id";
+            $x = $db->query($customer_name)[0];
+            $delivery->customer_name = ucfirst($x->first_name) . " " . ucfirst($x->last_name);
+            $address = "SELECT * FROM address WHERE address_id = $delivery->delivery_address_id";
+            $x = $db->query($address)[0];
+            // $x = (array) $x;
+            $delivery->delivery_address = $x;
+
+            $items = "SELECT product_id,quantity FROM order_item WHERE order_details_id = $delivery->order_details_id";
+            $y = $db->query($items);
+            foreach ($y as $item) {
+                $product = "SELECT * FROM product WHERE product_id = $item->product_id";
+                $z = $db->query($product)[0];
+                $item->product_name = $z->name;
+                $item->price = $z->price;
+
+                $product_category_id = $z->product_category_id;
+                $category_name = "SELECT category_name FROM product_category WHERE product_category_id = $product_category_id";
+                $p = $db->query($category_name)[0];
+                $item->category_name = $p->category_name;
+            }
+            $delivery->items = $y;
+        }
+        $data['delivery_orders'] = $deliveries;
+        // $data['delivery_count'] = count($deliveries);
+
+        $pickup_count = 0;
+        $delivery_count = 0;
+
+        if ($pickups) {
+            $pickup_count = count($pickups);
+        }
+
+        if ($deliveries) {
+            $delivery_count = count($deliveries);
+        }
+
+        $data['pickup_count'] = $pickup_count;
+        $data['delivery_count'] = $delivery_count;
+
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
+
+    public function top_selling_products()
+    {
+        $db = new Database();
+        $product_id_n_count = $db->query("SELECT product_id,SUM(quantity) as count FROM order_item GROUP BY product_id ORDER BY count");
+        $product_ids = array_column($product_id_n_count, 'product_id');
+        $counts = array_column($product_id_n_count, 'count');
+
+      
+
+
+        $top_selling_products = [];
+        foreach ($product_ids as $key => $product_id) {
+            $product = $db->query("SELECT * FROM product WHERE product_id = $product_id")[0];
+            $product->count = $counts[$key];
+            $top_selling_products[] = $product;
+
+            $product_inventory_id = $product->product_inventory_id;
+            $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0];
+            $product->quantity = $product_inventory->quantity;
+
+            $product->images = [];
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            foreach ($product_images as $image) {
+                $product->images[] = $image->image_url;
+            } 
+
+        }
+
+        // get top 12 products
+        $top_selling_products = array_slice($top_selling_products, -12);
+
+        header("Content-Type: application/json");
+        echo json_encode($top_selling_products);
+    }
+
+    public function new_arrivals()
+    {
+        $db = new Database();
+        $products = $db->query("SELECT * FROM product ORDER BY created_at DESC LIMIT 12");
+
+        foreach ($products as $product) {
+            $product_id = $product->product_id;
+
+            $product_inventory_id = $product->product_inventory_id;
+            $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id")[0];
+            $product->quantity = $product_inventory->quantity;
+            $product_images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+            $product->images = [];
+            foreach ($product_images as $image) {
+                $product->images[] = $image->image_url;
+            }
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode($products);
+
+    }
+
 }
