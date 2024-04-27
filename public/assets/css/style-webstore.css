@@ -2308,7 +2308,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
    * #BANNER 
    */
 
-  .banner { margin-top: 0; }
+  .banner { margin-top: 65px; }
 
   .slider-item { height: 380px; }
 

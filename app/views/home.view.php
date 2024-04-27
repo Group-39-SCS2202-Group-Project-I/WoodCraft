@@ -1,4 +1,5 @@
-<?php $this->view('includes/nav2', $data) ?>
+<?php $this->view('includes/header', $data) ?>
+
 
 <?php
 if (Auth::logged_in()) {
@@ -6,86 +7,18 @@ if (Auth::logged_in()) {
 }
 ?>
 
-<style>
-  /* .swiper {
-    margin: 100px auto;
-    width: 320px;
-    height: 240px; 
-  } */
-
-  .swiper-slide {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
-  }
-
-  .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .swi-cont {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-  }
-</style>
+<!--
+    - HEADER
+    -->
+<header>
+      <link rel="stylesheet" href="<?= ROOT ?>/assets/css/webstyles.css">
+</header>
 
 
+<?php $this->view('includes/nav2', $data) ?>
 
-<div>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
-        <div class="swi-cont">Hello</div>
-      </div>
-      <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 1">
-        <div class="swi-cont">Hello</div>
-      </div>
-      <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 1">
-        <div class="swi-cont">Hello</div>
-      </div>
-    </div>
-  </div>
-</div>
+<?php $this->view('webstore/banner', $data) ?>
 
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<!-- Initialize Swiper -->
-<script>
-  var swiper = new Swiper(".mySwiper", {
-    speed: 2000,
-    loop: true,
-    autoplay: {
-      delay: 10000,
-      disableOnInteraction: false,
-    },
-    grabCursor: true,
-    effect: "creative",
-    creativeEffect: {
-      prev: {
-        shadow: true,
-        translate: [0, 0, -400],
-      },
-      next: {
-        translate: ["100%", 0, 0],
-      },
-    },
-  });
-</script>
 
 <div class="products-section2">
 
