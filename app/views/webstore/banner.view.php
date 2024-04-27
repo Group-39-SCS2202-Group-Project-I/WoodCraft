@@ -18,11 +18,11 @@
 
               <h2 class="banner-title">Find Your Perfect Piece</h2>
 
-              <p class="banner-text">
+              <!-- <p class="banner-text">
                 starting at &dollar; <b>20</b>.00
-              </p>
+              </p> -->
 
-              <a href="#" class="banner-btn">Shop now</a>
+              <a href="<?= ROOT ?>" class="banner-btn">Shop now</a>
 
             </div>
 
@@ -38,11 +38,11 @@
 
               <h2 class="banner-title">Discover Woodcraft's Timeless Designs</h2>
 
-              <p class="banner-text">
+              <!-- <p class="banner-text">
                 starting at &dollar; <b>15</b>.00
-              </p>
+              </p> -->
 
-              <a href="#" class="banner-btn">Shop now</a>
+              <a href="<?= ROOT ?>" class="banner-btn">Shop now</a>
 
             </div>
 
@@ -58,11 +58,11 @@
 
               <h2 class="banner-title">Explore Our Latest Collection</h2>
 
-              <p class="banner-text">
+              <!-- <p class="banner-text">
                 starting at &dollar; <b>29</b>.99
-              </p>
+              </p> -->
 
-              <a href="#" class="banner-btn">Shop now</a>
+              <a href="<?= ROOT ?>" class="banner-btn">Shop now</a>
 
             </div>
 

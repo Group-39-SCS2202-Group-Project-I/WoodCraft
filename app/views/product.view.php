@@ -1,3 +1,28 @@
+<style>
+    .bulk-content {
+    margin: 20px 0px 20px 0px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.bulk-description {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.bulk-description:first-child {
+    margin-top: 0;
+}
+
+.bulk-description:last-child {
+    margin-bottom: 0;
+}
+
+</style>
+
+
 <?php
 
 $product_id = $data['id'];
@@ -95,25 +120,34 @@ if (Auth::logged_in()) {
                         <span class="sale-price">$260</span>
                         <span class="discount">-40% off</span>
                     </div>
-                    <p class="product-description"><?php echo $data['description'] ?></p>
+                    <p class="product-description"><?php echo $data['description'] ?></p><br>
+                    <p class="product-description">Looking to order in bulk? We've got you covered!</p>
+
                 </div>
                 <div class="product-info-selections">
-                    <div class="color-selector">
+                    <div class="bulk-content">
+                        <p class="bulk-description">Please note: The minimum bulk order quantity for a product is 10 units.</p>
+
+                        <?php $this->view('bulkprd', $data) ?>
+                    </div>
+                    <!-- <div class="color-selector">
                         <span class="label">Select Color:</span>
 
                         <button class="color-option" style="background-color: #f0e8d9"></button>
                         <button class="color-option" style="background-color: #d3c7b4"></button>
                         <button class="color-option" style="background-color: #a69c88"></button>
-                    </div>
-                    <div class="amount-selector">
-                        <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
-                        <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
-                        <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
-                        <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
-                        <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
-                        <?php else :?>
-                            <button class="add-to-cart grayout">Add to Cart</button>
-                        <?php endif?>
+                    </div> -->
+                    <div class="retail-content">
+                        <div class="amount-selector">
+                            <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
+                            <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
+                            <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
+                            <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
+                                <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
+                            <?php else :?>
+                                <button class="add-to-cart grayout">Add to Cart</button>
+                            <?php endif?>
+                        </div>
                     </div>
                 </div>
             </div>
