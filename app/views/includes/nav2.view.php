@@ -17,8 +17,9 @@
 
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/webstyles.css">
+    <link rel="shortcut icon" href="<?php echo ROOT ?>/assets/logo/favicon.ico" type="image/x-icon">
 
-    <title>WoodCraft</title>
+    <title>WoodCraft Furnitures</title>
 </head>
 
 <body>
