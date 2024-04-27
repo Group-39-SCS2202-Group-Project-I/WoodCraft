@@ -175,7 +175,7 @@
 
                     <div class="rating">
                         <div class="rating-label">Select Product Rating</div>
-                        <form id="ratingForm" action="your_form_action.php" method="post">
+                        <!-- <form id="ratingForm" action="<?=ROOT?>/review/addReview" method="post"> -->
                             <div class="stars" data-rating="0">
                                 <span class="material-icons star" data-value="1">star_border</span>
                                 <span class="material-icons star" data-value="2">star_border</span>
@@ -184,7 +184,7 @@
                                 <span class="material-icons star" data-value="5">star_border</span>
                             </div>
                             <input type="hidden" name="rating" id="ratingInput" value="0">
-                        </form>
+                        <!-- </form> -->
                         <div id="tagContainer">
                             <span id="tag1" class="tag">Terrible</span>
                             <span id="tag2" class="tag">Poor</span>
@@ -195,45 +195,45 @@
                     </div>
 
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const stars = document.querySelectorAll('.star');
-                            const ratingInput = document.getElementById('ratingInput');
-                            const tagContainer = document.getElementById('tagContainer');
+                       document.addEventListener('DOMContentLoaded', function() {
+                        const stars = document.querySelectorAll('.star');
+                        const ratingInput = document.getElementById('ratingInput');
+                        const tagContainer = document.getElementById('tagContainer');
 
-                            stars.forEach(star => {
-                                star.addEventListener('click', function() {
-                                    const value = parseInt(this.getAttribute('data-value'));
-                                    ratingInput.value = value;
-                                    updateStars(value);
-                                    displayTag(value);
-                                    document.getElementById('ratingForm').submit();
-                                });
+                        stars.forEach(star => {
+                            star.addEventListener('click', function() {
+                                const value = parseInt(this.getAttribute('data-value'));
+                                ratingInput.value = value;
+                                updateStars(value);
+                                displayTag(value);
+                                // Here you can perform any additional actions based on the selected rating
                             });
+                        });
 
-                            function updateStars(value) {
-                                stars.forEach(star => {
-                                    const starValue = parseInt(star.getAttribute('data-value'));
-                                    if (starValue <= value) {
-                                        star.textContent = 'star';
-                                        star.classList.add('filled');
-                                    } else {
-                                        star.textContent = 'star_border';
-                                        star.classList.remove('filled');
-                                    }
-                                });
-                            }
+                        function updateStars(value) {
+                            stars.forEach(star => {
+                                const starValue = parseInt(star.getAttribute('data-value'));
+                                if (starValue <= value) {
+                                    star.textContent = 'star';
+                                    star.classList.add('filled');
+                                } else {
+                                    star.textContent = 'star_border';
+                                    star.classList.remove('filled');
+                                }
+                            });
+                        }
 
-                            function displayTag(value) {
-                                const tags = document.querySelectorAll('.tag');
-                                tags.forEach(tag => {
-                                    const tagValue = parseInt(tag.id.replace('tag', ''));
-                                    if (tagValue === value) {
-                                        tag.style.display = 'inline-block';
-                                    } else {
-                                        tag.style.display = 'none';
-                                    }
-                                });
-                            }
+                        function displayTag(value) {
+                            const tags = document.querySelectorAll('.tag');
+                            tags.forEach(tag => {
+                                const tagValue = parseInt(tag.id.replace('tag', ''));
+                                if (tagValue === value) {
+                                    tag.style.display = 'inline-block';
+                                } else {
+                                    tag.style.display = 'none';
+                                }
+                            });
+                        }
                         });
                     </script>
 
