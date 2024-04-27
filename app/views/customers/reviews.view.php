@@ -203,7 +203,7 @@
                                             <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
-                                            <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
+                                            <a href="<?=ROOT?>/review/<?= $product['review_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -253,7 +253,7 @@
                                             <?php displayStarIcons($product['rating']); ?><br>
                                             <?= $product['review']; ?>
                                         </div>
-                                        <a href="<?=ROOT?>/product"><button type="button" class="review-button">EDIT</button></a>
+                                        <a href="<?=ROOT?>/review/<?= $product['review_id']; ?>"><button type="button" class="review-button">EDIT</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>

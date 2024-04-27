@@ -156,16 +156,16 @@
         </ul>
     </div>
 
-    <!-- Add Reviews -->
+    <!-- Edit Reviews -->
     <div class="container">
         <div class="title">
             <h2>My Reviews</h2>
         </div>
         
-        
         <div class="content-add-review">
-            <form action="<?=ROOT?>/review/addReview" method="post">
+            <form action="<?=ROOT?>/review/editReview" method="post">
                 <?php foreach ($product as $item) : ?>
+                    <input type="hidden" name="review_id" value="<?= $review_id ?>">
                     <input type="hidden" name="product_id" value="<?=$item['product_id'];?>">
 
                     <div class="review-product">
@@ -173,18 +173,17 @@
                         <p><?= $item['product_name']; ?></p>
                     </div>
 
+                    <!-- Populate the rating -->
                     <div class="rating">
                         <div class="rating-label">Select Product Rating</div>
-                        <!-- <form id="ratingForm" action="<?=ROOT?>/review/addReview" method="post"> -->
-                            <div class="stars" data-rating="0">
-                                <span class="material-icons star" data-value="1">star_border</span>
-                                <span class="material-icons star" data-value="2">star_border</span>
-                                <span class="material-icons star" data-value="3">star_border</span>
-                                <span class="material-icons star" data-value="4">star_border</span>
-                                <span class="material-icons star" data-value="5">star_border</span>
-                            </div>
-                            <input type="hidden" name="rating" id="ratingInput" value="0">
-                        <!-- </form> -->
+                        <div class="stars" data-rating="<?= get_value('rating', $item['rating']); ?>">
+                            <span class="material-icons star" data-value="1">star_border</span>
+                            <span class="material-icons star" data-value="2">star_border</span>
+                            <span class="material-icons star" data-value="3">star_border</span>
+                            <span class="material-icons star" data-value="4">star_border</span>
+                            <span class="material-icons star" data-value="5">star_border</span>
+                        </div>
+                        <input type="hidden" name="rating" id="ratingInput" value="<?= get_value('rating', $item['rating']); ?>">
                         <div id="tagContainer">
                             <span id="tag1" class="tag">Terrible</span>
                             <span id="tag2" class="tag">Poor</span>
@@ -237,9 +236,10 @@
                     </script>
 
 
+                    <!-- Populate the written review -->
                     <div class="written-review">
                         <label for="review">Add Written Review</label><br>
-                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth it's price?" oninput="updateLetterCount()"></textarea>
+                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth its price?"><?= get_value('review', $item['review']); ?></textarea>
                         <span id="letter-count">0/500</span>
                     </div>
 
@@ -258,11 +258,10 @@
                     </script>
 
                     <div class="review-buttons">
-                        <button type="submit">SUBMIT REVIEW</button>
+                        <button type="submit">UPDATE REVIEW</button>
                     </div>
                 <?php endforeach ; ?>
             </form>
-            
         </div>
     </div>
 </main>

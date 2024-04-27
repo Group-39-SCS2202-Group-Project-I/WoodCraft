@@ -311,6 +311,45 @@ class Customer extends Model
 
         return $result;
     }
+
+    public function getReviewDetails($review_id){
+        $query = "SELECT pr.review_id, pr.product_id, pr.rating, pr.review,
+                        p.name AS product_name,
+                        pi.image_url AS product_image
+                FROM product_review pr
+                LEFT JOIN product p ON pr.product_id = p.product_id
+                LEFT JOIN product_image pi ON p.product_id = pi.product_id
+                WHERE pr.review_id = :review_id";
+        
+        $params = array(':review_id' => $review_id);
+    
+        $db = new Database();
+        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function updateReview($id, $data)
+    {
+        $table = 'product_review';
+
+        $setClause = '';
+        foreach ($data as $key => $value) {
+            $setClause .= "`$key` = :$key, ";
+        }
+        $setClause = rtrim($setClause, ', ');
+
+        // Construct the full SQL query
+        $query = "UPDATE $table SET $setClause WHERE `review_id` = :id";
+
+        // Add the customer ID to the data array
+        $data['id'] = $id;
+
+        // Perform the database update
+        $db = new Database;
+        $db->query($query, $data);
+        return 1;
+    }
     
 
     //Order Controller - bulk orders
