@@ -34,7 +34,7 @@
     }
 
     .content-manage-detail-mid p {
-        font-size: 16px;
+        font-size: 13px;
         font-style: italic;
         color: var(--green2);
     }
@@ -116,6 +116,7 @@
         display: flex;
         flex-direction: column;
         align-items:flex-start; 
+        margin-bottom: 10px;
     }
 
     .back-orders {

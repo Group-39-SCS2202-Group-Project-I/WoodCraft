@@ -302,7 +302,8 @@ class Customer extends Model
                          pi.image_url AS product_image
                 FROM product p
                 LEFT JOIN product_image pi ON p.product_id = pi.product_id
-                WHERE p.product_id = :product_id";
+                WHERE p.product_id = :product_id
+                GROUP BY p.product_id";
         
         $params = array(':product_id' => $product_id);
     
@@ -319,7 +320,8 @@ class Customer extends Model
                 FROM product_review pr
                 LEFT JOIN product p ON pr.product_id = p.product_id
                 LEFT JOIN product_image pi ON p.product_id = pi.product_id
-                WHERE pr.review_id = :review_id";
+                WHERE pr.review_id = :review_id
+                GROUP BY p.product_id";
         
         $params = array(':review_id' => $review_id);
     

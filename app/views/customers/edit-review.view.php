@@ -122,6 +122,27 @@
         font-size: 14px;
         margin-left: 47%;
     }
+
+    .bottom-page {
+        display: flex;
+        flex-direction: column;
+        align-items:flex-start; 
+        margin-bottom: 10px;
+    }
+
+    .back-orders {
+        background-color: var(--light);
+        border: none;
+        border-radius: 20px;
+        padding: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+    }
+
+    .back-orders:hover {
+        background-color: var(--green1);
+    }
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -163,6 +184,9 @@
         </div>
         
         <div class="content-add-review">
+            <div class="bottom-page">
+                <a href="<?=ROOT?>/review" class="back-orders"><i class="material-icons">arrow_back</i></a>
+            </div>
             <form action="<?=ROOT?>/review/editReview" method="post">
                 <?php foreach ($product as $item) : ?>
                     <input type="hidden" name="review_id" value="<?= $review_id ?>">

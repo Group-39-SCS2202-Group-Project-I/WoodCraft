@@ -64,11 +64,11 @@
                 background-color: var(--green1);
             }
 
-            .profile-subscribe-link {
+            /* .profile-subscribe-link {
                 margin-top: 10px;
                 cursor: pointer;
                 width: 220px;
-            }
+            } */
         </style>
 
 
@@ -156,9 +156,9 @@
                 </div> -->
 
                 <div class="bottom-profile">
-                    <div class="profile-subscribe-link">
+                    <!-- <div class="profile-subscribe-link">
                         <a href="#" class="subscribe-link" onclick="showPopup()">Subscribe to our Newsletter</a>
-                    </div>
+                    </div> -->
 
                     <div class="buttons-profile">
                         <a href="<?=ROOT?>/profile/editProfile" class="edit-profile">EDIT PROFILE</a>
@@ -170,7 +170,7 @@
         </div>
         
         <!-- Popup for newsletter subscription -->
-        <div id="popup" class="popup">
+        <!-- <div id="popup" class="popup">
             <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
                 <h3>Newsletter subscription</h3>
@@ -181,7 +181,7 @@
                     <button class="subscribe" onclick="subscribe()">Subscribe</button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </main>
 
     <script src="<?php echo ROOT; ?>/assets/js/manage-account.js"></script>
