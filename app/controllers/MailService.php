@@ -42,7 +42,7 @@ class MailService
                             </tr>
                             <tr>
                                 <td style='padding: 20px; background-color: #F6F6F6;'>
-                                    <h3 style='color: #333;'>Dear Customer,</h3>
+                                    <h3 style='color: #666;'>Dear Customer,</h3>
                                     <p style='color: #666;'>".$message."</p>
                                     <p style='color: #666;'>Best Regards,<br>WoodCraft Furniture Company.</p>
                                 </td>
@@ -105,7 +105,7 @@ class MailService
                             </tr>
                             <tr>
                                 <td style='padding: 20px; background-color: #F6F6F6;'>
-                                    <h3 style='color: #333;'>Dear Customer,</h3>
+                                    <h3 style='color: #666;'>Dear Customer,</h3>
                                     <p style='color: #666;'>".$message."</p>
                                     <p style='color: #666;'>Best Regards,<br>WoodCraft Furniture Company.</p>
                                 </td>
