@@ -54,7 +54,7 @@
         $errors = $_SESSION['error'];
       
        // unset($_SESSION['error']);
-        show($errors);
+      //  show($errors);
       }
       
       // $customer_id = $existingCart[0]->customer_id;

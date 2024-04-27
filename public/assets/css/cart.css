@@ -23,8 +23,8 @@
 
 .cart {
   width: 55%;
-  border: 1px solid #EEEEEE;
-  border-radius: .5rem;
+  
+ 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,6 +36,11 @@
 .smallcart {
   display: flex;
   flex-direction: row;
+  border: 1px solid #EEEEEE;
+  border-radius: .5rem;
+  margin-bottom: 5%;
+  background-color: #EEEEEE;
+  padding-top: 5%;
 }
 
 .product {
