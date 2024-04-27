@@ -88,6 +88,24 @@
             height: auto;
             margin-bottom: 5px;
         }
+
+        .review-button {
+            cursor: pointer;
+            text-align: center;
+            width: 70px;
+            font-size: 14px;
+            background-color: var(--coal_black);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            padding: 8px 8px;
+            transition: background-color 0.3s;
+            margin-right: 25px;
+        }
+
+        .review-button:hover {
+            background-color: var(--green1);
+        }
     </style>
 
     <?php $this->view('customers/acc-header', $data) ?>
@@ -123,7 +141,7 @@
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                            <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                            <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                             <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -158,9 +176,8 @@
                                         <p>Order <strong style="color: blue;"><?= $bulk_order['bulk_req_id'] ?></strong></p>
                                         <p><small>Placed on <?= $bulk_order['created_at'] ?></small></p>
                                     </div>
-                                    <!-- <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a> -->
                                     <?php if ($bulk_order['request_status'] === 'accepted') : ?>
-                                        <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a>
+                                        <a href="<?= ROOT ?>/orders/bulk/<?= $bulk_order['bulk_req_id'] ?>">View</a>
                                     <?php endif; ?>
 
                                 </div>
@@ -171,7 +188,9 @@
                                     <!-- </div> -->
                                     <p>Qty: <?= $bulk_order['quantity'] ?></p>
                                     <div class="status"><?= $bulk_order['request_status'] ?></div>
-                                    <p><small>Updated on <?= $bulk_order['updated_at'] ?></small></p>
+                                    <?php if ($bulk_order['request_status'] === 'accepted') : ?>
+                                        <small><a href="<?= ROOT ?>/orders/bulk/<?= $bulk_order['bulk_req_id'] ?>"><button type="button" class="review-button">EXPLORE</button></a></small>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php } ?>

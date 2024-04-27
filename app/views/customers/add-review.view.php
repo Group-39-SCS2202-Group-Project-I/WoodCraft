@@ -169,7 +169,7 @@
                 <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
             </li>
             <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
             </li>
             <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                 <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -188,13 +188,13 @@
             <div class="bottom-page">
                 <a href="<?=ROOT?>/review" class="back-orders"><i class="material-icons">arrow_back</i></a>
             </div>
-            <form action="<?=ROOT?>/review/addReview" method="post">
-                <?php foreach ($product as $item) : ?>
-                    <input type="hidden" name="product_id" value="<?=$item['product_id'];?>">
+            <form action="<?=ROOT?>/review/add" method="post">
+                <?php foreach ($toReviewProducts as $product) : ?>
+                    <input type="hidden" name="product_id" value="<?=$product['product_id'];?>">
 
                     <div class="review-product">
-                        <img src="<?= $item['product_image']; ?>" alt="<?= $item['product_name']; ?>">
-                        <p><?= $item['product_name']; ?></p>
+                        <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
+                        <p><?= $product['product_name']; ?></p>
                     </div>
 
                     <div class="rating">

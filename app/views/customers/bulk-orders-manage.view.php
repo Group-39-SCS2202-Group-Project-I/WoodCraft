@@ -72,48 +72,22 @@
 
     .content-manage-payment-right {
         flex: 1;
-        background-color: whitesmoke;
-        padding: 10px;
+        background-color: var(--light);
+        padding: 20px;
+        border-radius: 10px;
     }
 
     .content-manage-payment-right large {
         font-size: 25px;
-    }
-
-    .right-lower {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    .right-lower::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        border-bottom: 1px solid black;
-    }
-
-    .right-lower-lower {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-    }
-
-    .right-left {
-        align-items: left;
-    }
-
-    .right-right {
-        align-items: right;
+        color: var(--green2);
+        font-weight: bold;
     }
 
     .content-manage-order-left p small,
     .content-manage-detail p small,
     .content-manage-order p:last-child {
         color: var(--bg1);
+        font-size: 12px;
     }
 
     .right-lower h2 {
@@ -185,8 +159,8 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
-                        <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                            <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                        <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
+                            <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                             <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -202,7 +176,7 @@
 
         <div class="content-manage-orders">
             <div class="bottom-page">
-                <a href="<?=ROOT?>/orders/bulkOrders" class="back-orders"><i class="material-icons">arrow_back</i></a>
+                <a href="<?=ROOT?>/orders/bulk" class="back-orders"><i class="material-icons">arrow_back</i></a>
             </div>
 
         <?php if (!empty($data['bulk_order_details'])) : ?>
@@ -222,18 +196,16 @@
                         <p>Thank you for shopping with WOODCRAFT.</p>
                     </div>
 
-                    <?php foreach ($data['order_items'] as $item) : ?>
                         <div class="order-item">
                             <!-- <div class="order-item-image"> -->
-                                <img src="<?= $item['image_url']; ?>" alt="Product Image" width="100" height="100">
-                                <p><?= $item['product_name']; ?></p>
+                                <img src="<?= $details['image_url']; ?>" alt="Product Image" width="100" height="100">
+                                <p><?= $details['product_name']; ?></p>
                             <!-- </div> -->
-                            <p>Rs. <?= $item['price']; ?></p>
-                            <p>Qty: <?= $item['quantity']; ?></p>
-                            <p>Subtotal: Rs. <?= $item['subtotal']; ?></p>
+                            <p>Rs. <?= $details['price']; ?></p>
+                            <p>Qty: <?= $details['quantity']; ?></p>
+                            <p>Subtotal: Rs. <?= $details['subtotal']; ?></p>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                 </div>
 
                 <div class="content-manage-payment">
                     <div class="content-manage-payment-left">
@@ -247,10 +219,10 @@
                     <div class="content-manage-payment-right">
                         <h3>Total Summary</h3><br>
                         <div class="right-lower">
-                            <h2 id="subtotal">Subtotal<span>Rs. <?= $data['total_subtotal']; ?></span></h2>
+                            <h2 id="subtotal">Subtotal<span>Rs. <?= $details['subtotal']; ?></span></h2>
                             <h2 id="delivery">Delivery<span>Rs. <?= $details['delivery_cost']; ?></span></h2>
                             <hr>
-                            <h2 id="total">Total<large><span>Rs. <?= $details['total']; ?></span></large></h2>
+                            <h2 id="total">Total<large><span>Rs. <?= $details['total_cost']; ?></span></large></h2>
                         </div>
                     </div>
                 </div>

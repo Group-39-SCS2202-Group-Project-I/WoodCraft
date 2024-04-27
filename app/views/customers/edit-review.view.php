@@ -169,7 +169,7 @@
                 <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
             </li>
             <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
             </li>
             <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                 <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -177,37 +177,37 @@
         </ul>
     </div>
 
-    <!-- Edit Reviews -->
-    <div class="container">
-        <div class="title">
-            <h2>My Reviews</h2>
-        </div>
+            <!-- Edit Reviews -->
+            <div class="container">
+                <div class="title">
+                    <h2>My Reviews</h2>
+                </div>
         
-        <div class="content-add-review">
-            <div class="bottom-page">
-                <a href="<?=ROOT?>/review" class="back-orders"><i class="material-icons">arrow_back</i></a>
-            </div>
-            <form action="<?=ROOT?>/review/editReview" method="post">
-                <?php foreach ($product as $item) : ?>
-                    <input type="hidden" name="review_id" value="<?= $review_id ?>">
-                    <input type="hidden" name="product_id" value="<?=$item['product_id'];?>">
+                <div class="content-add-review">
+                <div class="bottom-page">
+                    <a href="<?= ROOT ?>/review" class="back-orders"><i class="material-icons">arrow_back</i></a>
+                </div>
+                <form action="<?= ROOT ?>/review/edit" method="post">
+                    <!-- Display form for editing the specific product -->
+                    <input type="hidden" name="review_id" value="<?= $product['review_id']; ?>">
+                    <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
 
                     <div class="review-product">
-                        <img src="<?= $item['product_image']; ?>" alt="<?= $item['product_name']; ?>">
-                        <p><?= $item['product_name']; ?></p>
+                        <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
+                        <p><?= $product['product_name']; ?></p>
                     </div>
 
                     <!-- Populate the rating -->
                     <div class="rating">
                         <div class="rating-label">Select Product Rating</div>
-                        <div class="stars" data-rating="<?= get_value('rating', $item['rating']); ?>">
+                        <div class="stars" data-rating="<?= get_value('rating', $product['rating']); ?>">
                             <span class="material-icons star" data-value="1">star_border</span>
                             <span class="material-icons star" data-value="2">star_border</span>
                             <span class="material-icons star" data-value="3">star_border</span>
                             <span class="material-icons star" data-value="4">star_border</span>
                             <span class="material-icons star" data-value="5">star_border</span>
                         </div>
-                        <input type="hidden" name="rating" id="ratingInput" value="<?= get_value('rating', $item['rating']); ?>">
+                        <input type="hidden" name="rating" id="ratingInput" value="<?= get_value('rating', $product['rating']); ?>">
                         <div id="tagContainer">
                             <span id="tag1" class="tag">Terrible</span>
                             <span id="tag2" class="tag">Poor</span>
@@ -260,10 +260,10 @@
                     </script>
 
 
-                    <!-- Populate the written review -->
+                   <!-- Populate the written review -->
                     <div class="written-review">
                         <label for="review">Add Written Review</label><br>
-                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth its price?"><?= get_value('review', $item['review']); ?></textarea>
+                        <textarea name="review" id="review" rows="5" placeholder="How's the quality of the product? Is it worth its price?" oninput="updateLetterCount()"><?= get_value('review', $product['review']); ?></textarea>
                         <span id="letter-count">0/500</span>
                     </div>
 
@@ -279,12 +279,14 @@
                             var letterCountSpan = document.getElementById('letter-count');
                             letterCountSpan.textContent = letterCount + '/500';
                         }
+
+                        // Call updateLetterCount() initially to populate the initial letter count
+                        updateLetterCount();
                     </script>
 
                     <div class="review-buttons">
                         <button type="submit">UPDATE REVIEW</button>
                     </div>
-                <?php endforeach ; ?>
             </form>
         </div>
     </div>

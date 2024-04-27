@@ -53,7 +53,7 @@ class Orders extends Controller{
 		}
 	}
 
-	public function bulkOrders($bulk_req_id = '')
+	public function bulk($bulk_req_id = '')
 	{
 		if (!Auth::logged_in()) {
 			message('Please login!!');
@@ -82,8 +82,11 @@ class Orders extends Controller{
 			}
 			else{
 					$bulk_order_details = $orderModel->getBulkOrderDetails($bulk_req_id);
+					// show($bulk_order_details);
+					// show(5);
 
 					$data['bulk_order_details'] = $bulk_order_details;
+					// show($data);
 					
 					$this->view('customers/bulk-orders-manage', $data);
 			}
