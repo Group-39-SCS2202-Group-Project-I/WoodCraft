@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'MailService.php';
 class GM extends Controller
 {
 
@@ -299,11 +299,15 @@ class GM extends Controller
         {
             $message = "Your bulk order request has been accepted. The estimated delivery date is " . $_POST['estimated_date'] . ". The total cost is " . $_POST['total'];
             // email
+            MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Accepted', $message);
+           
         }
         else
         {
             $message = "Your bulk order request has been rejected";
             // email
+            MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Rejected', $message);
+            
         }
 
         message('Bulk Order Request updated successfully');
