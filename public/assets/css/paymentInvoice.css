@@ -1,3 +1,20 @@
+:root {
+
+    /**
+     * colors
+     */
+  
+     --white: #fff;
+     --red: #e40202;
+     --bg1: #9A9A9A;
+     --line: #bdbdbd;
+     --bg2: #F0EEED;
+     --green: #688272;
+     --coal_black: #262626;
+     --coal_black_light: #2f2f2f;
+     --coal_black_lighter: #3b3b3b;
+}
+
 body,
         h1,
         h2,
@@ -81,6 +98,18 @@ body,
             border-color: #dc3545;
         }
 
+        .row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+        }
+
         /* Table styles */
         table {
             width: 100%;
@@ -104,7 +133,7 @@ body,
         /* Badge styles */
         .badge {
             display: inline-block;
-            padding: 0.25em 0.4em;
+            padding: .625em 1em;
             font-size: 75%;
             font-weight: 700;
             line-height: 1;
@@ -112,6 +141,7 @@ body,
             white-space: nowrap;
             vertical-align: baseline;
             border-radius: 0.25rem;
+            margin-bottom: 10px;
         }
 
         .bg-success {
@@ -184,7 +214,7 @@ body,
 
         .invoice .invoice-details .invoice-id {
             margin-top: 0;
-            color: #3989c6
+            color: var(--green)
         }
 
         .invoice main {
@@ -199,7 +229,7 @@ body,
 
         .invoice main .notices {
             padding-left: 6px;
-            border-left: 6px solid #3989c6
+            border-left: 6px solid var(--green)
         }
 
         .invoice main .notices .notice {
@@ -229,7 +259,7 @@ body,
         .invoice table td h3 {
             margin: 0;
             font-weight: 400;
-            color: #3989c6;
+            color: var(--green);
             font-size: 1.2em
         }
 
@@ -243,7 +273,7 @@ body,
         .invoice table .no {
             color: #fff;
             font-size: 1.6em;
-            background: #3989c6
+            background: var(--green)
         }
 
         .invoice table .unit {
@@ -251,7 +281,7 @@ body,
         }
 
         .invoice table .total {
-            background: #3989c6;
+            background: var(--green);
             color: #fff
         }
 
@@ -274,9 +304,9 @@ body,
         }
 
         .invoice table tfoot tr:last-child td {
-            color: #3989c6;
+            color: var(--green);
             font-size: 1.4em;
-            border-top: 1px solid #3989c6
+            border-top: 1px solid var(--green)
         }
 
         .invoice table tfoot tr td:first-child {

@@ -48,7 +48,7 @@
             <div class="card-body">
                 <div id="invoice">
                     <div class="invoice overflow-auto">
-                        <!-- <h1 class="text-center">Invoice</h1> -->
+                        <h1 class="text-center text-gray-light">Invoice</h1>
                         <div style="min-width: 600px">
                             <header>
                                 <div class="row">
@@ -72,17 +72,16 @@
                                 <div class="row contacts">
                                     <div class="col invoice-to">
                                         <div class="text-gray-light">INVOICE TO:</div>
-                                        <h2 class="to"><?= $transaction['name']; ?></h2>
+                                        <h2 class="to"><?= $data['name']; ?></h2>
                                         <div class="address"><?= $data['address']->address_line_1; ?></div>
                                         <div class="address"><?= $data['address']->address_line_2; ?></div>
                                         <div class="address"><?= $data['address']->city; ?></div>
                                         <div class="email"><a href="mailto:" .<?= $_SESSION['USER_DATA']->email; ?>><?= $_SESSION['USER_DATA']->email; ?></a></div>
                                     </div>
                                     <div class="col invoice-details">
-                                        <h1 class="invoice-id">Invoice #DS0 </h1>
+                                        <h1 class="invoice-id">Invoice #DS<?= sprintf('%04d', $orderDetails->order_details_id); ?> </h1>
                                         <h4 class="status-badge"><span class="badge bg-success font-size-12 ms-2">Paid</span></h4>
-                                        <div class="date">Date of Invoice: <?= date('Y-m-d', strtotime($transaction['createdOn'])); ?></div>
-                                        <div class="date">Due Date: <?= date('Y-m-d', strtotime($transaction['createdOn'] . ' +1 month')); ?></div>
+                                        <div class="date">Date of Invoice: <?= date('Y-m-d', strtotime($orderDetails->updated_at)); ?></div>
                                     </div>
                                 </div>
                                 <table border="0" cellspacing="0" cellpadding="0">

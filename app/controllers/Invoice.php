@@ -13,7 +13,8 @@ class Invoice extends Controller
         $data['orderDetails'] = $data['orderDetails'][0];
         $orderId = $data['orderDetails']->order_details_id;
 
-        
+        $name = Auth::getCustomerName();
+        $data['name'] = $name;
         $orderItem = new OrderItem();
         $data['orderItems'] = $orderItem->getByOrderDetailsId($orderId);
 
