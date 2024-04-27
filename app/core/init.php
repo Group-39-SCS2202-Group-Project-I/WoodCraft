@@ -11,4 +11,4 @@ require "database.php";
 require "model.php";
 require "controller.php";
 require "app.php";
-require "credentials.php";
+//require "credentials.php";
