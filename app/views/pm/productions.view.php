@@ -94,6 +94,10 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
                                         table.deleteRow(1);
                                     }
 
+                                    data.sort((a, b) => {
+                                        return new Date(b.updated_at) - new Date(a.updated_at);
+                                    });
+
                                     data.forEach(item => {
                                         let row = table.insertRow();
                                         let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
