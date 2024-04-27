@@ -473,71 +473,85 @@
 
     <script>
     // Function to handle the delivery option selection
-    function handleDeliveryOption() {
-        // Get the status of the pickup option
-        var isPickupSelected = document.getElementById('pickup').checked;
+    // Function to toggle the address form visibility and change the background color when pickup is selected
+function toggleAddressForm() {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
 
-        // Get the elements related to changing the address
-        var changeAddressSection = document.querySelector('.changeaddress');
-        var addressForm = document.querySelector('.change-address-form');
+    // Get the elements related to changing the address
+    var changeAddressSection = document.querySelector('.changeaddress');
+    var addressForm = document.querySelector('.change-address-form');
 
-        // If pickup is selected, hide the address form and update the style
-        if (isPickupSelected) {
-            addressForm.style.display = 'none';
-            changeAddressSection.style.backgroundColor = '#EEEEEE';
-        } else {
-            // If delivery is selected, show the address form and update the style
-            addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
-            changeAddressSection.style.backgroundColor = '';
-        }
-    }
-
-    // Function to toggle the address form visibility
-    function toggleAddressForm() {
-        // Get the status of the pickup option
-        var isPickupSelected = document.getElementById('pickup').checked;
-
-        // If pickup is selected, do not show the address form
-        if (!isPickupSelected) {
-            var form = document.querySelector('.change-address-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-    }
-
-    // Function to handle cancellation of the address form
-    function cancelAddressForm() {
+    // If pickup is selected, do not show the address form and change background color
+    if (isPickupSelected) {
         var form = document.querySelector('.change-address-form');
         form.style.display = 'none';
+        changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
+    } else {
+        // If delivery is selected, show the address form and remove background color
+        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+        changeAddressSection.style.backgroundColor = ''; // Remove background color
     }
+}
 
-    // Function to handle saving of the address
-    function saveAddress() {
-        // Get the form data
-        var formData = new FormData(document.querySelector('.address-form'));
+// Function to handle cancellation of the address form
+function cancelAddressForm() {
+    var form = document.querySelector('.change-address-form');
+    form.style.display = 'none';
+}
 
-        // Send the form data to the server
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'checkout/saveAddress', true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // Handle success response
-                console.log(xhr.responseText);
-                cancelAddressForm();
-                alert('Delivery address changed successfully!');
-            } else {
-                // Handle error response
-                console.error('Error:', xhr.statusText);
-            }
-        };
-        xhr.send(formData);
+// Function to handle saving of the address
+function saveAddress() {
+    // Get the form data
+    var formData = new FormData(document.querySelector('.address-form'));
+
+    // Send the form data to the server
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'checkout/saveAddress', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle success response
+            console.log(xhr.responseText);
+            cancelAddressForm();
+            alert('Delivery address changed successfully!');
+        } else {
+            // Handle error response
+            console.error('Error:', xhr.statusText);
+        }
+    };
+    xhr.send(formData);
+}
+
+// Function to handle the delivery option selection
+function handleDeliveryOption() {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
+
+    // Get the elements related to changing the address
+    var changeAddressSection = document.querySelector('.changeaddress');
+    var addressForm = document.querySelector('.change-address-form');
+
+    // If pickup is selected, hide the address form and update the style
+    if (isPickupSelected) {
+        addressForm.style.display = 'none';
+        changeAddressSection.style.backgroundColor = '#EEEEEE';
+    } else {
+        // If delivery is selected, show the address form and update the style
+        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+        changeAddressSection.style.backgroundColor = '';
     }
+}
 
-    // Attach event listeners to the radio buttons for delivery options
-    document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
-    document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+// Attach event listener to the "Change Your Address" section
+document.querySelector('.changeaddress').addEventListener('click', toggleAddressForm);
 
-    // Initially handle the selected delivery option
-    handleDeliveryOption();
+// Attach event listeners to the radio buttons for delivery options
+document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+// Initially handle the selected delivery option
+handleDeliveryOption();
+
 </script>
 
 
