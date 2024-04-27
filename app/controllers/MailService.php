@@ -49,8 +49,7 @@ class MailService
                             </tr>
                             <tr>
                                 <td style='background-color: #212121; color: #6D9886; text-align: center; padding: 1px; padding-top: 5px; padding-bottom: 5px;'>
-                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-top:1rem;'><strong>WoodCraft Furniture Company</strong></p>
-                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-bottom :1rem;'>
+                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-bottom :1rem; padding-top :1rem;'>
                                         Email: <a href='mailto:woodcraftfurnitureslk@gmail.com'
                                             style='color: #6D9886;'>woodcraftfurnitureslk@gmail.com</a> |
                                         Tel: +(94)112435200
@@ -113,9 +112,9 @@ class MailService
                             </tr>
                             <tr>
                                 <td style='background-color: #212121; color: #6D9886; text-align: center; padding: 1px; padding-top: 5px; padding-bottom: 5px;'>
-                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-top:1rem;'><strong>WoodCraft Furniture Company</strong></p>
+
                                     
-                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-bottom :1rem;'>
+                                    <p style='font-size: 0.7em; margin: 0; padding: 0.2em; padding-bottom :1rem;  padding-top :1rem;'>
                                         Email: <a href='mailto:woodcraftfurnitureslk@gmail.com'
                                             style='color: #6D9886;'>woodcraftfurnitureslk@gmail.com</a> |
                                         Tel: +(94)112435200
