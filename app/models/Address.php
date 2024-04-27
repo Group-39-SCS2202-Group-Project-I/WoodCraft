@@ -59,6 +59,13 @@ class Address extends Model
 
 		return false;
 	}
+
+    public function getAddressByAddressId($addressId)
+    {
+        $address = $this->select($this->table, 'address_id = ?', [$addressId])[0] ?? null;
+        return $address;
+    }
+    
     public function getAddressByCustomerId($customerId)
     {
         $db = new Database();
