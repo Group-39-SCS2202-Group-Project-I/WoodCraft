@@ -57,40 +57,57 @@ $cartItem = $data['cart'];
         </div>
         
         <?php
-        // Check if the products data is set and not empty
-        if (isset($products) && !empty($products)) {
-            foreach ($products as $product) {
-        ?>
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail">
-                        <img src="<?php echo ROOT . 'assets/images/' . $product->image; ?>" alt="" style="width: 200px; height: 200px;">
-                        <div class="caption">
-                            <h3><?php echo $product->name; ?></h3>
-                            <p><?php echo substr($product->description, 0, 60) . '...'; ?></p>
-                            <p>
-                                <div class="row">
-                                    <div class="col-sm-6 col-md-6">
-                                        <strong><span style="font-size: 18px;">&#x20b9;</span><?php echo number_format($product->price, 2); ?></strong>
-                                    </div>
-                                    <?php 
-                                       $disButton = "";
-                                      if (is_array($cartItem) && in_array($product->id, array_column($cartItem, 'product_id'))!==false) {
-                                      $disButton = "disabled";
-                                     }
-                                    ?>
-
-                                    <button id="cartBtn_<?php echo $product->product_id; ?>" <?php echo $disButton; ?>class="btn btn-success" onclick="addToCart(<?php echo $product->product_id; ?>)" role="button">ADD TO CART</button>
-                                </div> 
-                            </p>
+if (isset($cartProducts) && !empty($cartProducts)) {
+    foreach ($cartProducts as $cartProduct) {
+        $outOfStockClass = isset($errors[$cartProduct['product_id']]) ? 'out-of-stock' : ''; // Check if product is out of stock
+        $exceedStockClass = isset($errors[$cartProduct['product_id']]['msg']) && $errors[$cartProduct['product_id']]['msg'] == 'exceeds stock' ? 'exceeds-stock' : ''; // Check if quantity exceeds available stock
+        $availableQuantity = isset($errors[$cartProduct['product_id']]['available_quantity']) ? $errors[$cartProduct['product_id']]['available_quantity'] : ''; // Get available quantity
+?>
+        <div class="smallcart"> <!-- Wrap each product in its own container -->
+            <div class="product <?php echo $outOfStockClass; ?> <?php echo $exceedStockClass; ?>"> <!-- Add the classes here -->
+                <div class="checkboxe">
+                    <input type="checkbox" class="select-checkbox" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                        <?php echo ($cartProduct['selected'] == 1 && empty($outOfStockClass)) ? 'checked' : ''; ?>>
+                </div>
+                <div class="imag-box">
+                    <img class="img" src="<?php echo ROOT . '/' . $cartProduct['image_url'] ?>"
+                        alt="<?php echo $cartProduct['name'] . '1'; ?>" width="80vw" height="80vw">
+                </div>
+                <div class="details">
+                    <div class="pdetails">
+                        <div class="product-details">
+                            <p><?php echo $cartProduct['name'] ?></p>
+                            <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
                         </div>
                     </div>
                 </div>
-        <?php
-            }
-        } else {
-            echo "No products found.";
-        }
-        ?>
+                <div class="Qdetails">
+                    <div class="remove">
+                        <button type="button" class="remove-button" data-product-id="<?php echo $cartProduct['product_id']; ?>">
+                            <i><span class="material-symbols-outlined">delete</span></i>
+                        </button>
+                    </div>
+                    <div class="quantity">
+                        <button type="button" class="decrease"
+                            data-product-id="<?php echo $cartProduct['product_id']; ?>"><i><span
+                                class="material-symbols-outlined">remove</span></i></button>
+                        <input type="text" data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                            value="<?php echo $cartProduct['quantity']; ?>" class="form-control">
+                        <button type="button" class="increase <?php echo $exceedStockClass; ?>"
+                            data-product-id="<?php echo $cartProduct['product_id']; ?>"
+                            data-available-quantity="<?php echo $availableQuantity; ?>"><i><span
+                                class="material-symbols-outlined">add</span></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php
+    }
+} else {
+    echo "<h5>Cart Is Empty</h5>";
+}
+?>
+
     </div>
 
     <div class="row">

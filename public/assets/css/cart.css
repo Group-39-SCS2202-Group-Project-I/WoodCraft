@@ -128,6 +128,7 @@ hr {
   padding: 10px;
   margin: 20px 0;
 }
+
 .detail h2 {
   display: flex;
   justify-content: space-between;
@@ -224,12 +225,4 @@ button:hover,
 .product-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-
-
-.exceeds-stock {
-  /* Add your custom styles for items that exceed stock here */
-  background-color: #ffcccc; /* Set background color to light red for items that exceed stock */
 }
