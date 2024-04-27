@@ -158,7 +158,11 @@
                                         <p>Order <strong style="color: blue;"><?= $bulk_order['bulk_req_id'] ?></strong></p>
                                         <p><small>Placed on <?= $bulk_order['created_at'] ?></small></p>
                                     </div>
-                                    <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a>
+                                    <!-- <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a> -->
+                                    <?php if ($bulk_order['request_status'] === 'accepted') : ?>
+                                        <a href="<?= ROOT ?>/orders/bulkOrders/<?= $bulk_order['bulk_req_id'] ?>">View</a>
+                                    <?php endif; ?>
+
                                 </div>
                                 <div class="order-details">
                                     <!-- <div class="product-details"> -->
