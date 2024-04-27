@@ -38,17 +38,17 @@
   flex-direction: row;
   border: 1px solid #EEEEEE;
   border-radius: .5rem;
-  margin-bottom: 5%;
+  margin-bottom: 4%;
   background-color: #EEEEEE;
   padding-top: 5%;
 }
 
 .product {
-  display: flex;
+  display: flex;         
   flex-direction: row;
   padding: 15px;
   width: 100%;
-  justify-content: space-around;
+  justify-content:space-evenly;
   margin-bottom: 5%;
 }
 
@@ -59,17 +59,15 @@
   justify-content: space-between;
 }
 
-.fa-trash {
-  color: red;
-}
-
-.fa-trash:hover {
+.remove-button:hover {
   color: #2e8b57;
 }
 
 .quantity {
   display: flex;
   align-items: center;
+  border-radius: 5%;
+  border-color: black;
 }
 
 .quantity input {
@@ -114,6 +112,9 @@ hr {
   margin: 5px 0;
   border: 1px solid #ddd;
 }
+.remove-button {
+  color: red; /* Change the color to red */
+}
 
 /* Summary styles */
 .summary {
@@ -125,6 +126,8 @@ hr {
   margin-left: 6%;
   margin-right: 4%;
   height: 50%;
+  margin-top: 6%;
+  background-color: #EEEEEE;
 }
 
 .top {
@@ -182,9 +185,7 @@ hr {
   margin-top: 2rem;
 }
 
-.remove {
-  border: none;
-}
+
 
 .checkout {
   width: 100%;
