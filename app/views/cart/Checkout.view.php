@@ -127,6 +127,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-content: center;
+            margin-top: 5%;
             /* Add small left padding */
         }
 
