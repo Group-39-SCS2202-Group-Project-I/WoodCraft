@@ -68,11 +68,11 @@ class OrderDetails extends Model
     }
 
     public function getLastOrderByUserId($userId)
-{
-    $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1";
-    $params = [':user_id' => $userId];
-    return $this->query($query, $params);
-}
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1";
+        $params = [':user_id' => $userId];
+        return $this->query($query, $params);
+    }
 
     public function createOrder($data)
     {
@@ -84,7 +84,7 @@ class OrderDetails extends Model
             ':total' => $data->total,
             ':type' => $data->type,
             ':status' => 'pending',
-            ':delivery_address_id' => $data->delivery_address_id,
+            ':delivery_address_id' => $data->address_id,
             ':created_at' => date('Y-m-d H:i:s'),
             ':updated_at' => date('Y-m-d H:i:s')
         ];
