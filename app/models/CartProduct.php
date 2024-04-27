@@ -24,13 +24,15 @@ class CartProduct extends Model
         } else if (!is_numeric($data['customer_id'])) {
             $this->errors['customer_id'] = "Customer ID must be a numeric value";
         }
+     
 
         if (empty($data['product_id'])) {
             $this->errors['product_id'] = "Product ID is required";
         } else if (!is_numeric($data['product_id'])) {
             $this->errors['product_id'] = "Product ID must be a numeric value";
         }
-
+           
+        
         if (empty($data['quantity'])) {
             $this->errors['quantity'] = "Quantity is required";
         } else if (!is_numeric($data['quantity']) || $data['quantity'] <= 0) {

@@ -36,7 +36,7 @@ foreach ($cart_products as $cart_product) {
 // show($product_ratings);
 // unset($_SESSION['cart']);
 // unset($_SESSION['cart_products']);
-show($_SESSION);
+//show($_SESSION);
 // show($productFound);
 
 ?>

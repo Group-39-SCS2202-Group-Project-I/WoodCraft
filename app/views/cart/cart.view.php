@@ -170,7 +170,7 @@
 
                 if (availableQuantity !== '' && currentValue >= availableQuantity) {
                     showMessage('The quantity exceeds the available stock.', 'error');
-                    input.value = availableQuantity; // Set input value to available quantity
+                    input.value = availableQuantity-1; // Set input value to available quantity
                     button.disabled = true; // Disable increase button
                 } else {
                     input.value = currentValue + 1;
@@ -219,7 +219,7 @@
   </div>
   <?php $this->view('includes/footer', $data) ?>
 
-  <script>
+  <!-- <script>
     function redirectToCheckout() {
 
       var checkoutURL = "<?php echo ROOT . '/checkout'; ?>";
@@ -417,7 +417,160 @@
         handleCheckboxChange(checkbox); // Call the function to handle checkbox change
       });
     });
-  </script>
+  </script> -->
+
+  <script>
+    function redirectToCheckout() {
+        var checkoutURL = "<?php echo ROOT . '/checkout'; ?>";
+        window.location.href = checkoutURL;
+    }
+
+    const customer_id = <?php echo isset($_SESSION['cart']->customer_id) ? $_SESSION['cart']->customer_id : 'null'; ?>;
+
+    // Check if customer_id is valid before using it
+    if (customer_id !== null) {
+        console.log("Customer ID:", customer_id);
+        // You can use customer_id in your JavaScript code here
+    } else {
+        console.log("Customer ID not found in session");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM Loaded");
+
+        const decreaseButtons = document.querySelectorAll(".decrease");
+        const increaseButtons = document.querySelectorAll(".increase");
+        const removeButton = document.querySelectorAll(".remove-button");
+        const quantityInputs = document.querySelectorAll(".quantity input");
+        const unitPrices = document.querySelectorAll(".unit-price");
+        const selectCheckboxes = document.querySelectorAll(".select-checkbox");
+        const subtotalElement = document.getElementById("subtotal");
+        const discountElement = document.getElementById("discount");
+        const deliveryElement = document.getElementById("delivery");
+        const totalElement = document.getElementById("total");
+        const delivery = <?php echo $delivery; ?>;
+
+        console.log("Customer ID:", customer_id);
+
+        decreaseButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                console.log("Decrease Button Clicked");
+                const input = button.nextElementSibling;
+                const currentValue = parseInt(input.value, 10);
+                const productId = button.dataset.productId;
+
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                    updateCart(customer_id, productId, input.value);
+                }
+            });
+        });
+
+        increaseButtons.forEach(function (button) {
+    button.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default button behavior
+
+        const input = button.previousElementSibling;
+        const currentValue = parseInt(input.value, 10);
+        const productId = button.dataset.productId;
+        
+        input.value = currentValue;
+        updateCart(customer_id, productId, input.value);
+    });
+});
+
+        quantityInputs.forEach(function (input) {
+            input.addEventListener("input", function () {
+                const productId = input.dataset.productId;
+                updateCart(customer_id, productId, input.value);
+            });
+        });
+
+        selectCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", updateSelectedItems);
+        });
+
+        removeButton.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                const productId = button.dataset.productId;
+                removeFromCart(customer_id, productId);
+            });
+        });
+
+        function updateCart(customer_id, productId, quantity) {
+            const ROOT = "http://localhost/wcf/";
+            $.ajax({
+                url: ROOT + 'Cart/edit',
+                data: {
+                    customer_id: customer_id,
+                    product_id: productId,
+                    quantity: quantity,
+                    action: 'update'
+                },
+                method: "POST",
+            }).done(function (response) {
+                console.log(response);
+                $('#loader').hide();
+                $('.alert').show();
+                $('#result').html(response);
+            });
+        }
+
+        function removeFromCart(customer_id, productId) {
+            const ROOT = "http://localhost/wcf/";
+            $.ajax({
+                url: ROOT + 'Cart/edit',
+                data: {
+                    customer_id: customer_id,
+                    product_id: productId,
+                    action: 'remove'
+                },
+                method: "POST",
+            }).done(function (response) {
+                console.log(response);
+                $('#loader').hide();
+                $('.alert').show();
+                $('#result').html(response);
+            });
+        }
+    });
+
+    function handleCheckboxChange(checkbox) {
+        const productId = checkbox.dataset.productId;
+        const selected = checkbox.checked ? 1 : 0;
+        updateSelectedItems(customer_id, productId, selected);
+    }
+
+    function updateSelectedItems(customer_id, productId, selected) {
+        const ROOT = "http://localhost/wcf/";
+        $.ajax({
+            url: ROOT + 'Cart/edit',
+            method: 'POST',
+            data: {
+                customer_id: customer_id,
+                product_id: productId,
+                selected: selected,
+                action: 'updateSelectedItems'
+            },
+            success: function (response) {
+                console.log(response);
+                $('#loader').hide();
+                $('.alert').show();
+                $('#result').html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    document.querySelectorAll('.select-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            handleCheckboxChange(checkbox);
+        });
+    });
+</script>
+
 
 
 </body>

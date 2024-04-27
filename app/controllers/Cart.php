@@ -7,7 +7,7 @@ class Cart extends Controller
     {
         // show(Auth::getCustomerID());
         $db = new Database();
-
+        
         $customer_id = Auth::getCustomerID();
 
 
@@ -18,7 +18,7 @@ class Cart extends Controller
         // Fetch cart products
         $cart_data['cart_products'] = $db->query("SELECT * FROM cart_products WHERE customer_id = :customer_id", [':customer_id' => $cart_owner]);
 
-
+               
         // Initialize an empty array to hold the mapped products
         $products = [];
 
