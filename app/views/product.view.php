@@ -99,6 +99,14 @@
                 justify-content: flex-end;
                 flex-direction: column;
             }
+
+            .filled-star {
+                color: gold;
+            }
+
+            .empty-star {
+                color: gold;
+            }
         </style>
 
 
@@ -191,8 +199,8 @@ if (Auth::logged_in()) {
                 <div class="product-info-basic">
                     <h2 class="product-name"><?php echo $data['name']; ?></h2>
                     <div class="star-rating">
-                        <?php echo createStarRating($product_ratings['avg_rating']); ?>
-                        <span class="rating-text">&nbsp;<?php echo $product_ratings['avg_rating']; ?>/5 (<?php echo $product_ratings['total_ratings'] ?> Reviews)</span>
+                        <?php echo createStarRating($product_review_count[0]['average_rating']); ?>
+                        <span class="rating-text">&nbsp;<?php echo $product_review_count[0]['average_rating']; ?>/5 (<?php echo $product_review_count[0]['review_count'] ?> Reviews)</span>
                     </div>
                     <div class="price-discount">
                         <span class="original-price"><?php echo $data['price'] ?></span>
@@ -200,7 +208,7 @@ if (Auth::logged_in()) {
                         <span class="discount">-40% off</span>
                     </div>
                     <p class="product-description"><?php echo $data['description'] ?></p>
-                    <p class="product-description">Looking to order in <strong style="color: #008000; font-size: 18px"> Bulk ?</strong> We've got you covered!</p>
+                    <p class="product-description">Looking to order in<strong style="color: #008000; font-size: 18px">&nbsp;&nbsp;Bulk&nbsp;?</strong> We've got you covered!</p>
 
                 </div>
                 
@@ -299,7 +307,7 @@ if (Auth::logged_in()) {
         <hr class="section-divider">
 
         <div class="rating-reviews">
-            <h3>Rating & Reviews</h3>
+            <h3>Rating & Reviews</h3><br>
 
             <div class="review-analyzer-container">
                 <div class="review-analyzer">
@@ -307,42 +315,37 @@ if (Auth::logged_in()) {
                         <h3>Average Rating</h3>
                         <div class="average-info">
                             <div class="average-rating">
-                                <span class="average-value"><?php echo $product_ratings['avg_rating']; ?></span>
+                                <span class="average-value"><?php echo $product_review_count[0]['average_rating']; ?></span>
                             </div>
                             <div class="average-star-rating">
-                                <?php echo createStarRating($product_ratings['avg_rating']); ?>
+                                <?php echo createStarRating($product_review_count[0]['average_rating']); ?>
                             </div>
-                            <div class="average-count">Based on <?php echo $product_ratings['total_ratings'] ?> reviews</div>
+                            <div class="average-count">Based on <?php echo $product_review_count[0]['review_count'] ?> reviews</div>
                         </div>
                     </div>
 
                     <div class="right-side">
                         <div class="star-ratings">
-                            <div class="rating">
-                                <span class="stars">5 Stars</span>
-                                <div class="rating-bar bar-5"></div>
-                                <div class="rating-bar-remaining bar-5-remaining"></div>
-                            </div>
-                            <div class="rating">
-                                <span class="stars">4 Stars</span>
-                                <div class="rating-bar bar-4"></div>
-                                <div class="rating-bar-remaining bar-4-remaining"></div>
-                            </div>
-                            <div class="rating">
-                                <span class="stars">3 Stars</span>
-                                <div class="rating-bar bar-3"></div>
-                                <div class="rating-bar-remaining bar-3-remaining"></div>
-                            </div>
-                            <div class="rating">
-                                <span class="stars">2 Stars</span>
-                                <div class="rating-bar bar-2"></div>
-                                <div class="rating-bar-remaining bar-2-remaining"></div>
-                            </div>
-                            <div class="rating">
-                                <span class="stars">1 Star</span>
-                                <div class="rating-bar bar-1"></div>
-                                <div class="rating-bar-remaining bar-1-remaining"></div>
-                            </div>
+                            <?php 
+                            // Iterate over ratings data
+                            for ($i = 5; $i >= 1; $i--) {
+                                $rating = $i;
+                                $ratingCount = $product_review_count[0]['rating_' . $i . '_count'];
+                                // Calculate the percentage of filled bars
+                                $filledPercentage = $ratingCount / $product_review_count[0]['rating_count'] * 100;
+                                // Generate filled stars HTML
+                                $filledStarsHTML = str_repeat('<span class="filled-star">&#9733;</span>', $rating);
+                                // Generate empty stars HTML
+                                $emptyStarsHTML = str_repeat('<span class="empty-star">&#9734;</span>', 5 - $rating);
+                                // Generate HTML for each rating
+                                ?>
+                                <div class="rating">
+                                    <?php echo $filledStarsHTML . $emptyStarsHTML; ?>&nbsp;&nbsp;&nbsp;
+                                    <div class="rating-bar bar-<?php echo $rating; ?>" style="width: <?php echo $filledPercentage; ?>%;"></div>
+                                    <div class="rating-bar-remaining bar-<?php echo $rating; ?>-remaining" style="width: <?php echo (100 - $filledPercentage); ?>%;"></div>&nbsp;&nbsp;
+                                    <span class="rating-count"><?php echo $ratingCount; ?></span>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

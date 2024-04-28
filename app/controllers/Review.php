@@ -31,7 +31,7 @@ class Review extends Controller
         else if(is_array($bulk_products)) {
             $products = $bulk_products;
         }
-        show($products);
+        // show($products);
     
         $toReviewProducts = [];
         $reviewedProducts = [];
