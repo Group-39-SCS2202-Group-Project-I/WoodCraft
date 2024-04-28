@@ -200,7 +200,7 @@ if (Auth::logged_in()) {
                     <h2 class="product-name"><?php echo $data['name']; ?></h2>
                     <div class="star-rating">
                         <?php echo createStarRating($product_review_count[0]['average_rating']); ?>
-                        <span class="rating-text">&nbsp;<?php echo $product_review_count[0]['average_rating']; ?>/5 (<?php echo $product_review_count[0]['review_count'] ?> Reviews)</span>
+                        <span class="rating-text">&nbsp;&nbsp;&nbsp;<?php echo $product_review_count[0]['average_rating']; ?>/5 &nbsp;&nbsp;(<?php echo $product_review_count[0]['review_count'] ?> Reviews)</span>
                     </div>
                     <div class="price-discount">
                         <span class="original-price"><?php echo $data['price'] ?></span>
@@ -358,7 +358,7 @@ if (Auth::logged_in()) {
                             <?php echo createStarRating($data['reviews'][sizeof($data['reviews']) - $i]['rating']); ?>
                         </div>
                         <p><?php echo $data['reviews'][sizeof($data['reviews']) - $i]['review']; ?></p>
-                        <p><?php echo $data['reviews'][sizeof($data['reviews']) - $i]['customer_name']; ?></p>
+                        <span><?php echo $data['reviews'][sizeof($data['reviews']) - $i]['customer_name']; ?></span><br>
                         <span>Posted on <?php echo $data['reviews'][sizeof($data['reviews']) - $i]['updated_at']; ?></span>
                     </div>
                 <?php endfor; ?>
