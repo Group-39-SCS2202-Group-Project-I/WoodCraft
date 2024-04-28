@@ -16,8 +16,9 @@
             flex-direction: column;
             align-items: center;
             border-radius: 0.5rem;
-            width: 50%;
-            margin: auto;
+            width: 60%;
+           margin-left: 10%;
+           margin-right: 5%;
             padding-left: 10px;
             /* Add padding to the left side */
         }
@@ -33,6 +34,7 @@
             margin-right: 20px;
             /* Add small right padding */
             cursor: pointer;
+            background-color: #F5F5F5;
             /* Add cursor pointer for clickability */
         }
 
@@ -46,22 +48,23 @@
             align-items: flex-start;
             margin-left: 3%;
             margin-right: 10%;
+
             /* Align items at the top */
         }
 
 
         .summary {
-            width: 20%;
-            border: 1px solid #EEEEEE;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 0.5rem;
-            margin-left: 10px;
-            /* Add small left padding */
-            padding-right: 10px;
-            /* Add padding to the l
-            eft side */
-            margin-right: 10%;
+            width: 25%;
+  border: 1px solid #EEEEEE;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: .5rem;
+  margin-left:3%;
+  margin-right: 15%;
+  height: 50%;
+  background-color: #F5F5F5;
+ 
+
         }
 
         .delivery-option {
@@ -121,12 +124,13 @@
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
-            margin-left: 20px;
-            margin-right: 20px;
+           
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-content: center;
+            margin-top: 5%;
+            background-color: #F5F5F5;
             /* Add small left padding */
         }
 
@@ -186,10 +190,21 @@
             justify-content: space-around;
             margin-bottom: 5%;
         }
-
-        .details {
+   .imag-box{
+    width:100px;
+    height:80px;
+   }
+        .detail {
+  flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+       .details{
+        display: flex;
             flex-direction: column;
-        }
+            width:150px;
+    height:80px;
+       } 
 
         .pdetails {
             flex-direction: row;
@@ -237,6 +252,8 @@
             cursor: pointer;
             margin-bottom: 15px;
             border-radius: 0.5rem;
+            margin-left: 35%;
+            margin-top: 5%;
         }
 
         /* CSS for form buttons */
@@ -286,6 +303,7 @@
             border-radius: 0.5rem;
             margin-left: 20px;
             margin-right: 20px;
+            background-color: #F5F5F5;
             /* Hide the form initially */
         }
     </style>
@@ -293,6 +311,7 @@
 
 
 <body>
+   
 
     <?php $this->view('includes/header', $data) ?>
     <header>
@@ -305,12 +324,12 @@
             <div class="containercheckout">
                 <div class="changeaddress" onclick="toggleAddressForm()">
                     <h2><i class="material-icons">add_circle_outline</i> Change Your Address</h2>
-                    <?php if (isset($_SESSION['newAddress'])) : ?>
-                        <p><?php echo $_SESSION['newAddress']['address_line_1']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['address_line_2']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['city']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['province']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['zip_code']; ?></p>
+                    <?php if (isset($_SESSION['NEWADDRESS'])) : ?>
+                        <p><?php echo $_SESSION['NEWADDRESS']['address_line_1']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['address_line_2']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['city']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['province']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['zip_code']; ?></p>
                     <?php elseif (isset($data['customerAddress'])) : ?>
                         <p><?php echo $data['customerAddress']->address_line_1; ?></p>
                         <p><?php echo $data['customerAddress']->address_line_2 ?? ''; ?></p>
@@ -412,7 +431,8 @@
                                         <div class="pdetails">
                                             <div class="product-details">
                                                 <p><?php echo $checkoutProduct['name'] ?></p>
-                                                <p class="unit-price"><?php echo $checkoutProduct['price'] ?></p>
+                                                <p><?php echo $checkoutProduct['category']?></p>
+                                                <p class="unit-price">RS.<?php echo $checkoutProduct['price'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -457,11 +477,11 @@
                         <span class="delivery-option-title">Delivery</span>
                     </div>
 
-                    <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
-                    <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
-                    <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
+                    <h2 id="subtotal">Subtotal<span>RS.<?php echo $subtotal ?></span></h2>
+                    <h2 id="discount">Discount(-20%)<span>-RS.<?php echo $discount ?></span></h2>
+                    <h2 id="delivery">Delivery<span>RS.<?php echo $delivery ?></span></h2>
                     <hr />
-                    <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
+                    <h2 id="total">Total<span>RS.<?php echo $total ?></span></h2>
                 </div>
                 <div class="confirm-button">
                     <button class="button" onclick="paymentGateway()">Pay</button>
@@ -478,72 +498,104 @@
 
 
     <script>
-    // Function to handle the delivery option selection
-    function handleDeliveryOption() {
-        // Get the status of the pickup option
-        var isPickupSelected = document.getElementById('pickup').checked;
+  // Function to handle the "Change Address" button click in pickup mode
+function changeAddressInPickupMode() {
+    // Display a message
+    alert("You can't change the address in pickup mode.");
+}
 
-        // Get the elements related to changing the address
-        var changeAddressSection = document.querySelector('.changeaddress');
-        var addressForm = document.querySelector('.change-address-form');
+// Function to toggle the address form visibility and change the background color when pickup is selected
+function toggleAddressForm() {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
+    var deliveryOption = document.getElementById('delivery');
 
-        // If pickup is selected, hide the address form and update the style
-        if (isPickupSelected) {
-            addressForm.style.display = 'none';
-            changeAddressSection.style.backgroundColor = '#EEEEEE';
-        } else {
-            // If delivery is selected, show the address form and update the style
-            addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
-            changeAddressSection.style.backgroundColor = '';
-        }
-    }
+    // Get the elements related to changing the address
+    var changeAddressSection = document.querySelector('.changeaddress');
+    var addressForm = document.querySelector('.change-address-form');
 
-    // Function to toggle the address form visibility
-    function toggleAddressForm() {
-        // Get the status of the pickup option
-        var isPickupSelected = document.getElementById('pickup').checked;
-
-        // If pickup is selected, do not show the address form
-        if (!isPickupSelected) {
-            var form = document.querySelector('.change-address-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-    }
-
-    // Function to handle cancellation of the address form
-    function cancelAddressForm() {
+    // If pickup is selected, do not show the address form and change background color
+    if (isPickupSelected) {
         var form = document.querySelector('.change-address-form');
         form.style.display = 'none';
+        changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
+    } else {
+        // If delivery is selected, show the address form and remove background color
+        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+        changeAddressSection.style.backgroundColor = ''; // Remove background color
     }
+}
 
-    // Function to handle saving of the address
-    function saveAddress() {
-        // Get the form data
-        var formData = new FormData(document.querySelector('.address-form'));
+// Attach event listener to the "Change Your Address" section
+document.querySelector('.changeaddress').addEventListener('click', function(event) {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
 
-        // Send the form data to the server
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'checkout/saveAddress', true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // Handle success response
-                console.log(xhr.responseText);
-                cancelAddressForm();
-                alert('Delivery address changed successfully!');
-            } else {
-                // Handle error response
-                console.error('Error:', xhr.statusText);
-            }
-        };
-        xhr.send(formData);
+    // If pickup mode is selected, show the message
+    if (isPickupSelected) {
+        changeAddressInPickupMode();
+    } else {
+        // If delivery mode is selected, toggle the address form
+        toggleAddressForm();
     }
+});
 
-    // Attach event listeners to the radio buttons for delivery options
-    document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
-    document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+// Function to handle cancellation of the address form
+function cancelAddressForm() {
+    var form = document.querySelector('.change-address-form');
+    form.style.display = 'none';
+}
 
-    // Initially handle the selected delivery option
-    handleDeliveryOption();
+// Function to handle saving of the address
+function saveAddress() {
+    // Get the form data
+    var formData = new FormData(document.querySelector('.address-form'));
+
+    // Send the form data to the server
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'checkout/saveAddress', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle success response
+            console.log(xhr.responseText);
+            cancelAddressForm();
+            alert('Delivery address changed successfully!');
+        } else {
+            // Handle error response
+            console.error('Error:', xhr.statusText);
+        }
+    };
+    xhr.send(formData);
+}
+
+// Function to handle the delivery option selection
+function handleDeliveryOption() {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
+
+    // Get the elements related to changing the address
+    var changeAddressSection = document.querySelector('.changeaddress');
+    var addressForm = document.querySelector('.change-address-form');
+
+    // If pickup is selected, hide the address form and update the style
+    if (isPickupSelected) {
+        addressForm.style.display = 'none';
+        changeAddressSection.style.backgroundColor = '#CCCCCC';
+    } else {
+        // If delivery is selected, show the address form and update the style
+        addressForm.style.display = 'none'; // Assuming address form should be visible for delivery
+        changeAddressSection.style.backgroundColor = '';
+    }
+}
+
+// Attach event listeners to the radio buttons for delivery options
+document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+// Initially handle the selected delivery option
+handleDeliveryOption();
+
+
 </script>
 
 

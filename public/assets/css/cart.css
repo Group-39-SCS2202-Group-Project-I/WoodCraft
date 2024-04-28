@@ -23,8 +23,6 @@
 
 .cart {
   width: 55%;
-  border: 1px solid #EEEEEE;
-  border-radius: .5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,15 +34,21 @@
 .smallcart {
   display: flex;
   flex-direction: row;
+  border: 1px solid #EEEEEE;
+  border-radius: .5rem;
+  margin-bottom: 4%;
+  background-color: #EEEEEE;
+  padding-top: 5%;
 }
 
 .product {
-  display: flex;
+  display: flex;         
   flex-direction: row;
-  padding: 15px;
   width: 100%;
-  justify-content: space-around;
+  justify-content:space-between;
   margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .Qdetails {
@@ -54,44 +58,78 @@
   justify-content: space-between;
 }
 
-.fa-trash {
-  color: red;
+.remove{
+  display: flex;
+  width: 100px; /* Set a fixed width */
+  height: 80px;
+  margin-left: 5%;
+  
 }
-
-.fa-trash:hover {
+.remove-button:hover {
   color: #2e8b57;
 }
 
 .quantity {
   display: flex;
   align-items: center;
+  /* Add border */
+  padding: 5px; 
+  width: 100px; /* Set a fixed width */
+  height: 80px;/* Optional: Add padding for better spacing */
 }
 
 .quantity input {
-  width: 30px;
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border:none;
+  background-color:white;
+  width: 40px;
+  font-weight: 800;
   text-align: center;
 }
+.decrease{
+  background-color: white;
+  outline: none;
+  border-radius: 18px 0 0 18px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+.increase{
+ background-color: white;
+  outline: none;
+  border-radius: 0 18px 18px 0;
+  padding: 8px 15px;
+  cursor: pointer;
+}
 
-.details {
+
+
+.imag-box {
+  width: 100px; /* Set a fixed width */
+  height: 80px; /* Set a fixed height */
+}
+
+
+.detail {
   flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%
 }
 
-.pdetails {
-  flex-direction: row;
+.details{
+  width: 180px; /* Set a fixed width */
+  height: 80px; 
 }
 
-.product-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: start;
-}
 
 .product-details p {
   line-height: 1.5;
   margin-bottom: 5px;
   display: block;
-  font-size: 1vw;
+  font-size: .9vw;
   font-weight: lighter;
   color: #333;
 }
@@ -109,6 +147,9 @@ hr {
   margin: 5px 0;
   border: 1px solid #ddd;
 }
+.remove-button {
+  color: red; /* Change the color to red */
+}
 
 /* Summary styles */
 .summary {
@@ -120,6 +161,10 @@ hr {
   margin-left: 6%;
   margin-right: 4%;
   height: 50%;
+  margin-top: 6%;
+  background-color:#EEEEEE;
+
+  
 }
 
 .top {
@@ -128,6 +173,7 @@ hr {
   padding: 10px;
   margin: 20px 0;
 }
+
 .detail h2 {
   display: flex;
   justify-content: space-between;
@@ -176,17 +222,16 @@ hr {
   margin-top: 2rem;
 }
 
-.remove {
-  border: none;
-}
+
 
 .checkout {
-  width: 100%;
+  width: 90%;
   background-color: #000;
   color: #fff;
   border-radius: .5rem;
   margin-top: 1rem;
   height: 2.5rem;
+  margin-left: 5%;
 }
 
 .promocode input[type="text"] {
@@ -216,7 +261,7 @@ hr {
   border-radius: .5rem;
 }
 
-button:hover,
+
 .checkout:hover {
   background-color: #2e8b57;
 }
@@ -224,12 +269,17 @@ button:hover,
 .product-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 
 
-.exceeds-stock {
-  /* Add your custom styles for items that exceed stock here */
-  background-color: #ffcccc; /* Set background color to light red for items that exceed stock */
+.checkboxe {
+  display: flex;
+  align-items: center;
+
+}
+
+.checkboxe input[type="checkbox"] {
+  width: 20px; /* Set the width */
+  height: 20px; /* Set the height */
 }
