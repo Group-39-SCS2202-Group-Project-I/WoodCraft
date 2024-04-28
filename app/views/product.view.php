@@ -93,7 +93,7 @@
             }
 
             .bulk-submit:hover {
-                background-color: var(--green1);
+                background-color: var(--bg1);
             }
 
             .buttons-profile {
@@ -205,7 +205,7 @@ if (Auth::logged_in()) {
                         <span class="discount">-40% off</span>
                     </div>
                     <p class="product-description"><?php echo $data['description'] ?></p>
-                    <p class="product-description">Looking to order in bulk? We've got you covered!</p>
+                    <p class="product-description">Looking to order in <strong style="color: #008000; font-size: 18px">Bulk ?</strong> We've got you covered!</p>
 
                 </div>
                 
