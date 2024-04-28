@@ -25,102 +25,102 @@
 <body>
     <!--=============== HEADER ===============-->
     <header2 class="header2" id="header2">
-        <nav class="nav container">
+        <nav class="navi container">
 
             <div class="navl-cont">
-                <a href="<?= ROOT ?>" class="nav__logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="nav__logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
+                <a href="<?= ROOT ?>" class="naiv_logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="navi_logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
             </div>
 
 
 
 
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li class="nav__item">
-                        <a href="<?= ROOT ?>" class="nav__link active-link homelink">
-                            <span class="material-symbols-outlined nav__icon">
+            <div class="navi__menu" id="navi-menu">
+                <ul class="navi__list">
+                    <li class="navi__item">
+                        <a href="<?= ROOT ?>" class="navi__link active-link homelink">
+                            <span class="material-symbols-outlined navi__icon">
                                 home
                             </span>
-                            <span class="nav__name">Home</span>
+                            <span class="navi__name">Home</span>
                         </a>
                     </li>
 
-                    <li class="nav__item">
-                        <a href="<?= ROOT ?>/products" class="nav__link">
-                            <span class="material-symbols-outlined nav__icon">
+                    <li class="navi__item">
+                        <a href="<?= ROOT ?>/products" class="navi__link">
+                            <span class="material-symbols-outlined navi__icon">
                                 chair
                             </span>
-                            <span class="nav__name">Products</span>
+                            <span class="navi__name">Products</span>
                         </a>
                     </li>
 
 
 
-                    <li class="nav__item">
-                        <a href="<?= ROOT ?>/orders" class="nav__link">
-                            <span class="material-symbols-outlined nav__icon">
+                    <li class="navi__item">
+                        <a href="<?= ROOT ?>/orders" class="navi__link">
+                            <span class="material-symbols-outlined navi__icon">
                                 package
                             </span>
 
-                            <span class="nav__name">Orders</span>
+                            <span class="navi__name">Orders</span>
                         </a>
                     </li>
 
                     <?php if (Auth::logged_in()) : ?>
-                        <li class="nav__item">
-                            <a href="<?= ROOT ?>/cart" class="nav__link">
-                                <span class="material-symbols-outlined nav__icon">
+                        <li class="navi__item">
+                            <a href="<?= ROOT ?>/cart" class="navi__link">
+                                <span class="material-symbols-outlined navi__icon">
                                     shopping_cart
                                 </span>
-                                <span class="nav__name">Cart</span>
+                                <span class="navi__name">Cart</span>
                             </a>
                         </li>
                     <?php endif; ?>
 
 
                     <?php if (Auth::logged_in()) : ?>
-                        <li class="nav__item">
-                            <a href="<?= ROOT ?>/profile" class="nav__link">
-                                <span class="material-symbols-outlined nav__icon">
+                        <li class="navi__item">
+                            <a href="<?= ROOT ?>/profile" class="navi__link">
+                                <span class="material-symbols-outlined navi__icon">
                                     account_circle
                                 </span>
-                                <span class="nav__name">Profile</span>
+                                <span class="navi__name">Profile</span>
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <?php if (!Auth::logged_in()) : ?>
-                        <li class="nav__item">
-                            <a href="<?= ROOT ?>/login" class="nav__link">
-                                <span class="material-symbols-outlined nav__icon">
+                        <li class="navi__item">
+                            <a href="<?= ROOT ?>/login" class="navi__link">
+                                <span class="material-symbols-outlined navi__icon">
                                     login
                                 </span>
 
-                                <span class="nav__name">Log In</span>
+                                <span class="navi__name">Log In</span>
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <?php if (!Auth::logged_in()) : ?>
-                        <li class="nav__item">
-                            <a href="<?= ROOT ?>/signup" class="nav__link">
-                                <span class="material-symbols-outlined nav__icon">
+                        <li class="navi__item">
+                            <a href="<?= ROOT ?>/signup" class="navi__link">
+                                <span class="material-symbols-outlined navi__icon">
                                     person_add
                                 </span>
 
-                                <span class="nav__name">Sign Up</span>
+                                <span class="navi__name">Sign Up</span>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if (Auth::logged_in()) : ?>
 
-                        <li class="nav__item">
-                            <a href="<?= ROOT ?>/logout" class="nav__link">
-                                <span class="material-symbols-outlined nav__icon">
+                        <li class="navi__item">
+                            <a href="<?= ROOT ?>/logout" class="navi__link">
+                                <span class="material-symbols-outlined navi__icon">
                                     logout
                                 </span>
 
-                                <span class="nav__name">Log Out</span>
+                                <span class="navi__name">Log Out</span>
                             </a>
                         </li>
                     <?php endif; ?>
@@ -136,7 +136,7 @@
 
         <script>
             function toggleNavIcons() {
-                var navIcons = document.querySelectorAll('.nav__icon');
+                var navIcons = document.querySelectorAll('.navi__icon');
                 if (window.innerWidth > 768) {
                     navIcons.forEach(icon => {
                         icon.style.display = 'none';
@@ -154,7 +154,7 @@
 
 
         <script>
-            const navLinks = document.querySelectorAll('.nav__link');
+            const navLinks = document.querySelectorAll('.navi__link');
             navLinks.forEach(link => {
                 link.classList.remove('active-link');
             });
@@ -163,18 +163,24 @@
             let activeLink;
 
             if (currentPath.startsWith('/wcf/products')) {
-                activeLink = document.querySelector('.nav__link[href*="products"]');
+                activeLink = document.querySelector('.navi__link[href*="products"]');
             } else if (currentPath.startsWith('/wcf/orders')) {
-                activeLink = document.querySelector('.nav__link[href*="orders"]');
+                activeLink = document.querySelector('.navi__link[href*="orders"]');
             } else if (currentPath.startsWith('/wcf/profile')) {
-                activeLink = document.querySelector('.nav__link[href*="profile"]');
+                activeLink = document.querySelector('.navi__link[href*="profile"]');
             } else if (currentPath.startsWith('/wcf/cart')) {
-                activeLink = document.querySelector('.nav__link[href*="cart"]');
+                activeLink = document.querySelector('.navi__link[href*="cart"]');
             } else {
                 activeLink = document.getElementsByClassName('homelink')[0];
             }
 
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+            });
             if (activeLink) {
                 activeLink.classList.add('active-link');
+            }
+            else {
+                document.getElementsByClassName('homelink')[0].classList.add('active-link');
             }
         </script>
