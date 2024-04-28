@@ -382,7 +382,7 @@ class Customer extends Model
                 LEFT JOIN product p ON br.product_id = p.product_id
                 LEFT JOIN product_image pi ON p.product_id = pi.product_id
                 WHERE br.user_id = :user_id
-                GROUP BY p.product_id
+                GROUP BY br.bulk_req_id
                 ORDER BY br.created_at DESC";
 
         $params = array(':user_id' => $user_id);
@@ -409,7 +409,7 @@ class Customer extends Model
                   LEFT JOIN customer c ON br.user_id = c.user_id
                   LEFT JOIN address a ON c.address_id = a.address_id
                   WHERE bod.bulk_req_id = :bulk_req_id AND br.status = 'accepted'
-                  GROUP BY p.product_id";
+                  GROUP BY bod.bulk_order_details_id";
 
         $params = array(':bulk_req_id' => $bulk_req_id);
         $db = new Database;
