@@ -16,11 +16,22 @@ class Review extends Controller
     
         $retail_products = $customerModel->getProducts($user_id, $customer_id);
         $bulk_products = $customerModel->getBulkProducts($user_id, $customer_id);
-        
-        // show($bulk_products);
 
-        $products = array_merge($retail_products, $bulk_products);
-        // show($products);
+        $products = [];
+
+        if (is_array($retail_products)) {
+
+            if (is_array($bulk_products)) {
+                $products = array_merge($retail_products, $bulk_products);
+            }
+            else{
+                $products = $retail_products;
+            }
+        }
+        else if(is_array($bulk_products)) {
+            $products = $bulk_products;
+        }
+        show($products);
     
         $toReviewProducts = [];
         $reviewedProducts = [];

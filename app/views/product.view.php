@@ -1,59 +1,55 @@
-<style>
-    .bulk-content {
-        /* margin: 20px 0px 20px 0px; */
-        /* padding: 15px 0px; */
-        border-top:1px solid var(--bg1);
-    }
+        <style>
+            .bulk-content {
+                border-top:1px solid var(--bg1);
+            }
 
-    .bulk-description {
-        font-size: 14px;
-        color: var(--bg1);
-        font-style: italic;
-    }
+            .bulk-description {
+                font-size: 14px;
+                color: var(--bg1);
+                font-style: italic;
+            }
 
-    .bulk-description:first-child {
-        margin-top: 0;
-    }
+            .bulk-description:first-child {
+                margin-top: 0;
+            }
 
-    .bulk-description:last-child {
-        margin-bottom: 0;
-    }
+            .bulk-description:last-child {
+                margin-bottom: 0;
+            }
 
-    .tab-header {
-        display: flex;
-        position: relative;
-    }
-    
-    .tab-title {
-        cursor: pointer;
-        padding: 10px 15px;
-        margin-right: 10px;
-        position: relative;
-    }
-    
-    .tab-title.active {
-        font-weight: bold;
-        color: #008000;
-    }
+            .tab-header {
+                display: flex;
+                position: relative;
+            }
+            
+            .tab-title {
+                cursor: pointer;
+                padding: 10px 15px;
+                margin-right: 10px;
+                position: relative;
+            }
+            
+            .tab-title.active {
+                font-weight: bold;
+                color: #008000;
+            }
 
-    .content-review {
-        display: none;
-    }
-    
-    .content-review.active {
-        display: block;
-    }
+            .content-review {
+                display: none;
+            }
+            
+            .content-review.active {
+                display: block;
+            }
 
             .field-edit-profile {
                 margin-top: 10px;
                 display: flex;
                 align-self: center;
-                /* padding: 10px 20px; */
             }
 
             label {
                 font-weight: bold;
-                /* padding: 10px; */
             }
 
             .input {
@@ -69,7 +65,7 @@
             .form-control {
                 border: 1px solid var(--bg2);
                 transition: border-color 0.3s ease;
-                border-radius: 10px;
+                border-radius: 20px;
                 padding: 10px;
             }
 
@@ -103,8 +99,7 @@
                 justify-content: flex-end;
                 flex-direction: column;
             }
-
-</style>
+        </style>
 
 
 <?php
@@ -205,7 +200,7 @@ if (Auth::logged_in()) {
                         <span class="discount">-40% off</span>
                     </div>
                     <p class="product-description"><?php echo $data['description'] ?></p>
-                    <p class="product-description">Looking to order in <strong style="color: #008000; font-size: 18px">Bulk ?</strong> We've got you covered!</p>
+                    <p class="product-description">Looking to order in <strong style="color: #008000; font-size: 18px"> Bulk ?</strong> We've got you covered!</p>
 
                 </div>
                 
