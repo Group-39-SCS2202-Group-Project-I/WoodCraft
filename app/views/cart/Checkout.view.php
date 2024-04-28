@@ -311,6 +311,7 @@
 
 
 <body>
+    <?php show($_SESSION);?>
 
     <?php $this->view('includes/header', $data) ?>
     <header>
@@ -323,12 +324,12 @@
             <div class="containercheckout">
                 <div class="changeaddress" onclick="toggleAddressForm()">
                     <h2><i class="material-icons">add_circle_outline</i> Change Your Address</h2>
-                    <?php if (isset($_SESSION['newAddress'])) : ?>
-                        <p><?php echo $_SESSION['newAddress']['address_line_1']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['address_line_2']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['city']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['province']; ?></p>
-                        <p><?php echo $_SESSION['newAddress']['zip_code']; ?></p>
+                    <?php if (isset($_SESSION['NEWADDRESS'])) : ?>
+                        <p><?php echo $_SESSION['NEWADDRESS']['address_line_1']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['address_line_2']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['city']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['province']; ?></p>
+                        <p><?php echo $_SESSION['NEWADDRESS']['zip_code']; ?></p>
                     <?php elseif (isset($data['customerAddress'])) : ?>
                         <p><?php echo $data['customerAddress']->address_line_1; ?></p>
                         <p><?php echo $data['customerAddress']->address_line_2 ?? ''; ?></p>

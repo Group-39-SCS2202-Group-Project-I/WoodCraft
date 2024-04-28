@@ -141,10 +141,12 @@ class Checkout extends Controller
                 // Create a new Address instance and save the new address in the Address table
                 $newAddress = new Address();
                 $newlySavedAddress = $newAddress->saveAddressD($addressData);
-    
+                  
                 // Store the new address data in the session
-                $_SESSION['newAddress'] = $addressData;
-    
+                var_dump($addressData); // Check if $addressData is populated correctly
+                $_SESSION['NEWADDRESS'] = $addressData;
+                var_dump($_SESSION['NEWADDRESS']); // Check if
+                
                 // Unset the session data after setting it
                 unset($_SESSION['newAddress']);
             } else {
