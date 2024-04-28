@@ -107,6 +107,12 @@
             .empty-star {
                 color: gold;
             }
+
+            .price-discount {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: var(--blk);
+            }
         </style>
 
 
@@ -117,6 +123,7 @@ $product_id = $data['id'];
 $url = ROOT . "/fetch/product/$product_id";
 $response1 = file_get_contents($url);
 $data = json_decode($response1, true);
+// show($data);
 
 $url2 = ROOT . "/fetch/product_images/" . $product_id;
 $response2 = file_get_contents($url2);
@@ -176,21 +183,28 @@ if (Auth::logged_in()) {
     <?php $this->view('webstore/header-section', $data) ?>
 </header>
 
+<style>
+    .white-container {
+        background-color: var(--white);
+        padding: 1rem;
+        border-radius: 10px;
+    }
+</style>
+
 <body>
     <div class="product-page">
         <div class="breadcrumbs">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                    <li class="breadcrumb-item"><a href="#">Chairs</a></li>
-                    <li class="breadcrumb-item"><a href="#">Living Room Chairs</a></li>
+                    <li class="breadcrumb-item"><a href="<?= ROOT?>">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?= ROOT?>/products">Products</a></li>
+                    <li class="breadcrumb-item"><a href="<?= ROOT?>/products/<?=$data['product_id']?>"><?=$data['name']?></a></li>
                 </ol>
             </nav>
         </div>
 
         <div class="product-info">
-            <div class="product-images">
+            <div class="product-images" style="background-color: var(--white); padding:1rem; border-radius:10px">
                 <div class="product-image-grid">
                     <img id="product-image-1" class="selected-image" src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $data['name'] . '1'; ?>">
                     <img id="product-image-2" src="<?php echo ROOT . '/' . $images[1]['image_url'] ?>" alt="<?php echo $data['name'] . '2'; ?>">
@@ -201,7 +215,7 @@ if (Auth::logged_in()) {
                     <img src="<?php echo ROOT . '/' . $images[0]['image_url'] ?>" alt="<?php echo $data['name'] . '1'; ?>">
                 </div>
             </div>
-            <div class="product-overview">
+            <div class="product-overview" style="background-color: var(--white); padding:1rem; border-radius:10px">
                 <div class="product-info-basic">
                     <h2 class="product-name"><?php echo $data['name']; ?></h2>
                     <div class="star-rating">
@@ -214,10 +228,19 @@ if (Auth::logged_in()) {
 
                     </div>
                     <div class="price-discount">
-                        <span class="original-price"><?php echo $data['price'] ?></span>
-                        <span class="sale-price">$260</span>
-                        <span class="discount">-40% off</span>
+                        <span><?php echo $data['price']. " Rs" ?></span>
                     </div>
+
+                    <div class="price-discount">
+                        <?php if($data['quantity'] > 3): ?>
+                            <span style="color: #008000;"><?php echo $data['quantity']." in stock" ?></span>
+                        <?php elseif($data['quantity'] == 0): ?>
+                            <span style="color: red;"><?php echo "No stock available" ?></span>
+                        <?php else: ?>
+                            <span style="color: red;"><?php echo "Only ". $data['quantity']." in stock" ?></span>
+                        <?php endif; ?>
+                    </div>
+
                     <p class="product-description"><?php echo $data['description'] ?></p>
                     <p class="product-description">Looking to order in<strong style="color: #008000; font-size: 18px">&nbsp;&nbsp;Bulk&nbsp;?</strong> We've got you covered!</p>
 
@@ -251,7 +274,7 @@ if (Auth::logged_in()) {
                                         <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
                                             <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
                                         <?php else :?>
-                                            <button class="add-to-cart grayout">Add to Cart</button>
+                                            <button class="add-to-cart grayout">Currently stock is unavailable</button>
                                         <?php endif?>
                                     </div>
                                 </div>
