@@ -170,7 +170,7 @@
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                            <a href="<?=ROOT?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                            <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                             <a href="<?=ROOT?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -203,7 +203,7 @@
                                             <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
-                                            <a href="<?=ROOT?>/review/<?= $product['review_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
+                                            <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -253,7 +253,7 @@
                                             <?php displayStarIcons($product['rating']); ?><br>
                                             <?= $product['review']; ?>
                                         </div>
-                                        <a href="<?=ROOT?>/review/<?= $product['review_id']; ?>"><button type="button" class="review-button">EDIT</button></a>
+                                        <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">EDIT</button></a>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
