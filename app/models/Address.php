@@ -71,6 +71,31 @@ class Address
     
         return $address;
     }
+
+    // (A)
+    // Profile Controller
+
+    public function updateCustomerAddress($id, $data)
+	{
+		$table = 'address';
+
+		$setClause = '';
+		foreach ($data as $key => $value) {
+			$setClause .= "`$key` = :$key, ";
+		}
+		$setClause = rtrim($setClause, ', ');
+
+		// Construct the full SQL query
+		$query = "UPDATE $table SET $setClause WHERE `address_id` = :id";
+
+		// Add the customer ID to the data array
+		$data['id'] = $id;
+
+		// Perform the database update
+		$db = new Database;
+		$db->query($query, $data);
+        return 1;
+	}
     
     
 }

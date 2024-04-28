@@ -25,14 +25,14 @@
                 border-radius: 10px;
             }
 
-            .form-control {
+            .form-control, .input-wrapper select {
                 border: 1px solid var(--bg2);
                 transition: border-color 0.3s ease;
                 border-radius: 10px;
                 padding: 10px;
             }
 
-            .form-control:focus {
+            .form-control:focus, .input-wrapper select:focus {
                 border-color: var(--green2);
                 outline: none;
                 box-shadow: 0 0 5px var(--green2);
@@ -71,6 +71,24 @@
                 flex-direction: column;
                 align-items:flex-end; 
                 margin-top: 60px;
+            }
+
+            .message {
+                color: var(--blk);
+                font-size: 1rem;
+                margin: 0;
+                padding: 1rem;
+                /* padding-bottom: 2rem; */
+                /* center */
+                text-align: center;
+            }
+
+            .mzg-box {
+                background-color: var(--primary);
+                border-radius: 5px;
+                margin-bottom: 1rem;
+                padding: 0.5rem 1rem;
+
             }
         </style>
 
@@ -117,12 +135,18 @@
 
         <!-- edit addressbook -->
         <div class="container">
+            <?php if (message()) : ?>
+                <div class="mzg-box">
+                    <div class="messege"><?= message('', true) ?></div>
+                </div>
+            <?php endif; ?>
+            
             <div class="title">
                 <h2>Edit Address</h2>
             </div>
 
             <div class="content-edit-profile">
-                <form method="post" action="<?= ROOT ?>/profile/updateAddress/<?= Auth::getCustomerID() ?>">  
+                <form method="post" action="<?= ROOT ?>/profile/updateAddress">  
                     <div class="field-edit-profile">
                         <label for="first_name">First Name</label>
                         <div class="input-wrapper">
@@ -143,20 +167,6 @@
                             <input type="tel" class="form-control" id="telephone" name="telephone" value="<?=get_value('telephone', $data['telephone'])?>" placeholder="Enter your mobile number">
                         </div>
                     </div>
-        
-                    <div class="field-edit-profile">
-                        <label for="city">City</label>
-                        <div class="input-wrapper">
-                            <input type="tel" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Enter your city">
-                        </div>
-                    </div>
-
-                    <div class="field-edit-profile">
-                        <label for="zip_code">Zip Code</label>
-                        <div class="input-wrapper">
-                            <input type="text" class="form-control" id="zip_code" name="zip_code" value="<?=get_value('zip_code', $data['zip_code'])?>" placeholder="Enter zipcode">
-                        </div>
-                    </div>
 
                     <div class="field-edit-profile">
                         <label for="address_line_1">Address Line 1</label>
@@ -172,9 +182,49 @@
                         </div>
                     </div>
 
+                    <div class="field-edit-profile">
+                        <label for="city">City</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="city" name="city" value="<?=get_value('city', $data['city'])?>" placeholder="Enter your city">
+                        </div>
+                    </div>
+
+                    <!-- <div class="field-edit-profile">
+                        <label for="province">Province</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="province" name="province" value="<?=get_value('province', $data['province'])?>" placeholder="Enter your province">
+                        </div>
+                    </div> -->
+
+                    <!-- Province select field -->
+                    <div class="field-edit-profile">
+                        <label for="province">Province</label>
+                        <div class="input-wrapper">
+                            <select id="province" name="province">
+                                <!-- <option disabled selected>Select province</option> -->
+                                    <option value="central" <?= ($data['province'] == 'central') ? 'selected' : '' ?>>Central</option>
+                                    <option value="eastern" <?= ($data['province'] == 'eastern') ? 'selected' : '' ?>>Eastern</option>
+                                    <option value="north_central" <?= ($data['province'] == 'north_central') ? 'selected' : '' ?>>North Central</option>
+                                    <option value="nothern" <?= ($data['province'] == 'nothern') ? 'selected' : '' ?>>Nothern</option>
+                                    <option value="north_western" <?= ($data['province'] == 'north_western') ? 'selected' : '' ?>>North Western</option>
+                                    <option value="western" <?= ($data['province'] == 'western') ? 'selected' : '' ?>>Western</option>
+                                    <option value="sabaragamuwa" <?= ($data['province'] == 'sabaragamuwa') ? 'selected' : '' ?>>Sabaragamuwa</option>
+                                    <option value="southern" <?= ($data['province'] == 'southern') ? 'selected' : '' ?>>Southern</option>
+                                    <option value="uva" <?= ($data['province'] == 'uva') ? 'selected' : '' ?>>Uva</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-edit-profile">
+                        <label for="zip_code">Zip Code</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-control" id="zip_code" name="zip_code" value="<?=get_value('zip_code', $data['zip_code'])?>" placeholder="Enter zipcode">
+                        </div>
+                    </div>
+
                     <div class="bottom-profile">
                         <button type="submit" class="save-changes-edit-profile">SAVE CHANGES</button>
-                        <a href="<?=ROOT?>/profile/myProfile/<?= Auth::getCustomerId()?>"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
+                        <a href="<?=ROOT?>/profile"><button type="button" class="cancel-edit-profile">CANCEL</button></a>
                     </div>
                 </form>
             </div>
