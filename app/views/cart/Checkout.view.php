@@ -311,7 +311,7 @@
 
 
 <body>
-    <?php show($_SESSION);?>
+   
 
     <?php $this->view('includes/header', $data) ?>
     <header>
