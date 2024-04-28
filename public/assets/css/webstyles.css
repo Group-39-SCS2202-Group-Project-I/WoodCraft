@@ -1,11 +1,11 @@
-/*=============== GOOGLE FONTS ===============*/
+/* /=============== GOOGLE FONTS ===============/ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-/*=============== VARIABLES CSS ===============*/
+/* /=============== VARIABLES CSS ===============/ */
 :root {
   --header2-height: 3rem;
 
-  /*========== Colors ==========*/
+  /* /========== Colors ==========/ */
   --hue: 174;
   --sat: 63%;
   --first-color: #6D9886;
@@ -28,13 +28,13 @@
   --processing: #D5E9C5;
   --completed: #C1E5ED;
 
-  /*========== Font and typography ==========*/
+  /* /========== Font and typography ==========/ */
   --body-font: 'Montserrat', sans-serif;
   --h1-font-size: 1.5rem;
   --normal-font-size: .938rem;
   --tiny-font-size: .625rem;
 
-  /*========== z index ==========*/
+  /* /========== z index ==========/ */
   --z-tooltip: 10;
   --z-fixed: 100;
 }
@@ -48,7 +48,7 @@
 
 }
 
-/*=============== BASE ===============*/
+/* /=============== BASE ===============/ */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -80,7 +80,7 @@ img {
   height: auto;
 }
 
-/*=============== REUSABLE CSS CLASSES ===============*/
+/* /=============== REUSABLE CSS CLASSES ===============/ */
 .section {
   padding: 4.5rem 0 2rem;
 }
@@ -96,14 +96,14 @@ img {
   height: 100vh;
 }
 
-/*=============== LAYOUT ===============*/
+/* /=============== LAYOUT ===============/ */
 .container {
   max-width: 950px;
   margin-left: 1rem;
   margin-right: 1rem;
 }
 
-/*=============== HEADER ===============*/
+/* /=============== HEADER ===============/ */
 .header2 {
   position: fixed;
   top: 0;
@@ -114,20 +114,20 @@ img {
   transition: .4s;
 }
 
-/*=============== NAV ===============*/
-.nav {
+/* /=============== NAV ===============/ */
+.navi {
   height: var(--header2-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.nav__img {
+.navi__img {
   width: 32px;
   border-radius: 50%;
 }
 
-.nav__logo {
+.navi__logo {
   color: var(--title-color);
   font-weight: 600;
   cursor: pointer;
@@ -135,10 +135,10 @@ img {
 }
 
 @media screen and (max-width: 767px) {
-  .nav {
+  .navi {
     justify-content: center;
   }
-  .nav__menu {
+  .navi__menu {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -154,12 +154,12 @@ img {
   }
 }
 
-.nav__list,
-.nav__link {
+.navi__list,
+.navi__link {
   display: flex;
 }
 
-.nav__link {
+.navi__link {
   flex-direction: column;
   align-items: center;
   row-gap: 4px;
@@ -167,21 +167,21 @@ img {
   font-weight: 500;
 }
 
-.nav__list {
+.navi__list {
   justify-content: space-around;
 }
 
-.nav__name {
+.navi__name {
   font-size: var(--tiny-font-size);
   /* display: none;*/
   /* Minimalist design, hidden labels */
 }
 
-.nav__icon {
+.navi__icon {
   font-size: 1.5rem;
 }
 
-/*Active link*/
+/* /Active link/ */
 .active-link {
   position: relative;
   color: var(--first-color);
@@ -204,31 +204,31 @@ img {
   box-shadow: 0 1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
 }
 
-/*=============== MEDIA QUERIES ===============*/
+/* /=============== MEDIA QUERIES ===============/ */
 /* For small devices */
 /* Remove if you choose, the minimalist design */
 @media screen and (max-width: 320px) {
-  .nav__name {
+  .navi__name {
     display: none;
   }
 
-  .nav__logo {
+  .navi__logo {
     display: none;
   }
 
-  .nav__logo:first-child {
+  .navi__logo:first-child {
     /* font-size: 1.5rem; */
     display: block;
   }
 
-  .nav__link:hover {
+  .navi__link:hover {
     color: var(--first-color);
   }
 }
 
 /* For medium devices */
 @media screen and (min-width: 576px) {
-  .nav__list {
+  .navi__list {
     justify-content: center;
     column-gap: 3rem;
   }
@@ -243,20 +243,20 @@ img {
     padding: 7rem 0 2rem;
   }
 
-  .nav {
+  .navi {
     height: calc(var(--header2-height) + 1.5rem);
     /* 4.5rem */
   }
 
-  .nav__img {
+  .navi__img {
     display: none;
   }
 
-  .nav__icon {
+  .navi__icon {
     display: none;
   }
 
-  .nav__name {
+  .navi__name {
     font-size: var(--normal-font-size);
     /* display: block; */
     /* Minimalist design, visible labels */
@@ -324,7 +324,7 @@ img {
   align-items: center;
 }
 
-.navl-cont:hover .nav__logo {
+.navl-cont:hover .navi__logo {
   color: var(--first-color);
 }
 
