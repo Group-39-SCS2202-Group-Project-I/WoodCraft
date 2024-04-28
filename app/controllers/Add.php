@@ -267,9 +267,19 @@ class Add extends Controller
 
         $result = $product->validate($_POST);
         // $result2 = $product_inventory->validate($_POST);
+
+        $x = $db->select('product', 'name = :name', [':name' => $_POST['name']]);
+        if ($x) {
+            // $errors['name'] = "Product already exists";
+            $product->errors['name'] = "Product already exists";
+            $result = false;
+        }
+
         $result2 = $product_measurement->validate($_POST);
 
         show($_POST);
+
+
 
         if ($result && $result2) {
 
@@ -420,12 +430,23 @@ class Add extends Controller
     public function material()
     {
         show($_POST);
+        if (empty($_POST['description'])) {
+            $_POST['description'] = "";
+        }
 
         $data['errors'] = [];
 
         $material = new Material;
 
         $result = $material->validate($_POST);
+
+        $db = new Database();
+        $x = $db->select('material', 'material_name = :material_name', [':material_name' => $_POST['name']]);
+        if ($x) {
+            // $errors['name'] = "Material already exists";
+            $material->errors['name'] = "Material already exists";
+            $result = false;
+        }
 
         show(1);
 

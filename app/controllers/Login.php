@@ -16,6 +16,24 @@ class Login extends Controller
 		$user = new User();
 
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+			if(!isset($_POST['email']) || empty($_POST['email']))
+			{
+				$data['errors']['email1'] = "Email is required";
+			}
+			else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+			{
+				$data['errors']['email1'] = "Invalid email";
+			}
+			if(!isset($_POST['password']) || empty($_POST['password']))
+			{
+				$data['errors']['password1'] = "Password is required";
+			}
+			if(count($data['errors']) > 0)
+			{
+				$this->view('login', $data);
+				return;
+			}
+
 			$row = $user->where([
 				'email' => $_POST['email']
 			]);

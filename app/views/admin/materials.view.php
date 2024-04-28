@@ -14,6 +14,8 @@ if (isset($_SESSION['errors']) && isset($_SESSION['form_data']) && isset($_SESSI
 }
 ?>
 
+
+
 <div class="table-section">
     <?php if (message()) : ?>
         <div class="mzg-box">

@@ -184,13 +184,13 @@ if ($images) {
 
 
 
-<!-- <?php if (message()) : ?>
-    <div class="message-box">
-        <div class="message"><?= message('', true) ?></div>
-    </div>
-<?php endif; ?> -->
 
 <div class="table-section" style=" padding-bottom:0">
+<?php if (message()) : ?>
+        <div class="mzg-box">
+            <div class="messege"><?= message('', true) ?></div>
+        </div>
+    <?php endif; ?>
     <h2 class="table-section__title" style=" margin-bottom:0"><?= $data['name'] ?></h2>
 </div>
 

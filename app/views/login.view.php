@@ -338,9 +338,15 @@
 
             <form method="post" id="loginForm">
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
+                <?php if (!empty($errors['email1'])) : ?>
+                    <p class="validate-mzg"><?= $errors['email1'] ?></p>
+                <?php endif; ?>
                 <input type="text" value="<?= set_value('email') ?>" name="email" placeholder="Email">
 
                 <!-- <p class="validate-mzg">this is a validate mzg</p> -->
+                <?php if (!empty($errors['password1'])) : ?>
+                    <p class="validate-mzg"><?= $errors['password1'] ?></p>
+                <?php endif; ?>
                 <input type="password" name="password" placeholder="Password">
                 <!-- <div class="remember-me">
                 <input type="checkbox" id="remember">
