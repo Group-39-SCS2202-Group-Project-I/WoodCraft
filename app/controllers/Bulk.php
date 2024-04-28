@@ -1,5 +1,7 @@
 <?php
 
+require_once 'MailService.php';
+
 class Bulk extends Controller
 {
 
@@ -97,17 +99,24 @@ class Bulk extends Controller
 
 		if ($result) {
 			$bulk_order_req->insert($_POST);
-			message('Your bulk order request added successfully');
+			// message('Your bulk order request added successfully');
 			show('Your bulk order request added successfully');
 
 			//email -> customer email
 			$to = $_POST['customer_email'];
+			$link = ROOT . "/orders/bulk";
+            $message = "Your bulk order request has been placed.<br> <br>Thank you for choosing WoodCraft Furniture Company.<br><br><a href='$link'>View</a>";
+            // email
+            // MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Accepted', $message);
+           MailService::sendEmail($to, 'Bulk Order Request Accepted', $message);
+
+			show($_POST);
 			
-			redirect('bulk');
+			redirect('orders/bulk');
 		} else {
 			message('Unable to add bulk order request');
 			show('Unable to add bulk order request');
-			redirect('bulk');
+			redirect('products/'.$_POST['product_id']);
 		}		
 	}
 }
