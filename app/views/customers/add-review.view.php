@@ -188,8 +188,10 @@
             <div class="bottom-page">
                 <a href="<?=ROOT?>/review" class="back-orders"><i class="material-icons">arrow_back</i></a>
             </div>
+
+           
             <form action="<?=ROOT?>/review/add" method="post">
-                <?php foreach ($toReviewProducts as $product) : ?>
+                    <!-- <?php show($product); ?> -->
                     <input type="hidden" name="product_id" value="<?=$product['product_id'];?>">
 
                     <div class="review-product">
@@ -284,7 +286,6 @@
                     <div class="review-buttons">
                         <button type="submit">SUBMIT REVIEW</button>
                     </div>
-                <?php endforeach ; ?>
             </form>
             
         </div>

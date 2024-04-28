@@ -23,15 +23,17 @@ class Review extends Controller
 
             if (is_array($bulk_products)) {
                 $products = array_merge($retail_products, $bulk_products);
+                // show($products);
             }
             else{
                 $products = $retail_products;
+                // show($products);
             }
         }
         else if(is_array($bulk_products)) {
             $products = $bulk_products;
+            // show($products);
         }
-        // show($products);
     
         $toReviewProducts = [];
         $reviewedProducts = [];
@@ -57,12 +59,16 @@ class Review extends Controller
             if (array_key_exists($product_id, $toReviewProducts) && !array_key_exists($product_id, $reviewedProducts)) {
                 // Product is in toReviewProducts but not in reviewedProducts, navigate to the add-review page
                 $data['product'] = $toReviewProducts[$product_id];
+
                 $this->view('customers/add-review', $data);
+
             } elseif (array_key_exists($product_id, $reviewedProducts)) {
                 // Product is in reviewedProducts, navigate to the edit-review page
                 $data['product'] = $reviewedProducts[$product_id];
                 $data['review_id'] = $reviewedProducts[$product_id]['review_id'];
+
                 $this->view('customers/edit-review', $data);
+
             } else {
                 // Product is neither in toReviewProducts nor in reviewedProducts
                 message('Product not found to review!');

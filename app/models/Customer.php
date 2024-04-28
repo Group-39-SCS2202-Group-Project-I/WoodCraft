@@ -340,7 +340,7 @@ class Customer extends Model
                 WHERE pr.product_id = :product_id AND pr.customer_id = :customer_id
                 GROUP BY p.product_id";
 
-        $params = array(':product_id' => $product_id);
+        $params = array(':product_id' => $product_id, ':customer_id'=> $customer_id);
 
         $db = new Database();
         $result = $db->query($query, $params, PDO::FETCH_ASSOC);
