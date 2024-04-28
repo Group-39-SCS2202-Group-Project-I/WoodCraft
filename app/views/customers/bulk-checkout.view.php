@@ -17,8 +17,8 @@
             align-items: center;
             border-radius: 0.5rem;
             width: 60%;
-           margin-left: 10%;
-           margin-right: 5%;
+            margin-left: 10%;
+            margin-right: 5%;
             padding-left: 10px;
             /* Add padding to the left side */
         }
@@ -55,15 +55,15 @@
 
         .summary {
             width: 25%;
-  border: 1px solid #EEEEEE;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: .5rem;
-  margin-left:3%;
-  margin-right: 15%;
-  height: 50%;
-  background-color: #F5F5F5;
- 
+            border: 1px solid #EEEEEE;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: .5rem;
+            margin-left: 3%;
+            margin-right: 15%;
+            height: 50%;
+            background-color: #F5F5F5;
+
 
         }
 
@@ -124,7 +124,7 @@
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
-           
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -190,21 +190,24 @@
             justify-content: space-around;
             margin-bottom: 5%;
         }
-   .imag-box{
-    width:100px;
-    height:80px;
-   }
+
+        .imag-box {
+            width: 100px;
+            height: 80px;
+        }
+
         .detail {
-  flex-direction: column;
-  margin-left: 10%;
-  margin-right: 10%;
-}
-       .details{
-        display: flex;
             flex-direction: column;
-            width:150px;
-    height:80px;
-       } 
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            height: 80px;
+        }
 
         .pdetails {
             flex-direction: row;
@@ -311,7 +314,7 @@
 
 
 <body>
-   
+
 
     <?php $this->view('includes/header', $data) ?>
     <header>
@@ -394,10 +397,10 @@
 
 
                     <?php
-                    
+                    // show($data);
                     if (!isset($_POST['errors'])) {
                         $errors = [];
-                    
+
                         unset($_SESSION['errors']);
                     }
 
@@ -406,52 +409,41 @@
                     $total = 0;
                     $delivery = 0;
 
-                    $cart = $data['cart'];
-                    // show($cart);
+                    // $cart = $data['cart'];
+                    // // show($cart);
 
-                    $subtotal = $cart[0]->sub_total;
-                    $discount = 0;
-                    $total = $cart[0]->total;
-                    $delivery = $cart[0]->delivery_cost;
+                    // $subtotal = $cart[0]->sub_total;
+                    // $discount = 0;
+                    // $total = $cart[0]->total;
+                    // $delivery = $cart[0]->delivery_cost;
 
                     // show($_SESSION);
 
-                    $checkoutProducts = $data['checkout_products'];
+                    $checkoutProduct = $data['checkout_products'];
                     // show($checkoutProducts);
 
-                    if (isset($checkoutProducts) && !empty($checkoutProducts)) {
-                        foreach ($checkoutProducts as $checkoutProduct) {
                     ?>
-                            <div class="smallcart">
-                                <div class="product">
-                                    <div class="imag-box">
-                                        <img class="img" src="<?php echo ROOT . '/' . $checkoutProduct['image_url'] ?>" width="80vw" height="80vw" alt="<?php echo $checkoutProduct['name']; ?>">
-                                    </div>
-                                    <div class="details">
-                                        <div class="pdetails">
-                                            <div class="product-details">
-                                                <p><?php echo $checkoutProduct['name'] ?></p>
-                                                <p><?php echo $checkoutProduct['category']?></p>
-                                                <p class="unit-price">RS.<?php echo $checkoutProduct['price'] ?></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Qdetails">
-                                        <div class="quantity">
-                                            <p><?php echo $checkoutProduct['quantity'] ?></p>
-                                        </div>
+                    <div class="smallcart">
+                        <div class="product">
+                            <div class="imag-box">
+                                <img class="img" src="<?php echo ROOT . '/' . $checkoutProduct['image_url'] ?>" width="80vw" height="80vw" alt="<?php echo $checkoutProduct['name']; ?>">
+                            </div>
+                            <div class="details">
+                                <div class="pdetails">
+                                    <div class="product-details">
+                                        <p><?php echo $checkoutProduct['name'] ?></p>
+                                        <p><?php echo $checkoutProduct['category'] ?></p>
+                                        <p class="unit-price">RS.<?php echo $checkoutProduct['price'] ?></p>
                                     </div>
                                 </div>
                             </div>
-                    <?php
-                            // $subtotal += $checkoutProduct->price; // Accumulate subtotal
-                        }
-                        // $discount = 0.2 * $subtotal; // 20% discount
-                        // $total = $subtotal - $discount + $delivery;
-                    } else {
-                        echo "<h5>Cart Is Empty</h5>";
-                    }
-                    ?>
+                            <div class="Qdetails">
+                                <div class="quantity">
+                                    <p><?php echo $checkoutProduct['quantity'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -498,133 +490,127 @@
 
 
     <script>
-  // Function to handle the "Change Address" button click in pickup mode
-function changeAddressInPickupMode() {
-    // Display a message
-    alert("You can't change the address in pickup mode.");
-}
-
-// Function to toggle the address form visibility and change the background color when pickup is selected
-function toggleAddressForm() {
-    // Get the status of the pickup option
-    var isPickupSelected = document.getElementById('pickup').checked;
-    var deliveryOption = document.getElementById('delivery');
-
-    // Get the elements related to changing the address
-    var changeAddressSection = document.querySelector('.changeaddress');
-    var addressForm = document.querySelector('.change-address-form');
-
-    // If pickup is selected, do not show the address form and change background color
-    if (isPickupSelected) {
-        var form = document.querySelector('.change-address-form');
-        form.style.display = 'none';
-        changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
-    } else {
-        // If delivery is selected, show the address form and remove background color
-        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
-        changeAddressSection.style.backgroundColor = ''; // Remove background color
-    }
-}
-
-// Attach event listener to the "Change Your Address" section
-document.querySelector('.changeaddress').addEventListener('click', function(event) {
-    // Get the status of the pickup option
-    var isPickupSelected = document.getElementById('pickup').checked;
-
-    // If pickup mode is selected, show the message
-    if (isPickupSelected) {
-        changeAddressInPickupMode();
-    } else {
-        // If delivery mode is selected, toggle the address form
-        toggleAddressForm();
-    }
-});
-
-// Function to handle cancellation of the address form
-function cancelAddressForm() {
-    var form = document.querySelector('.change-address-form');
-    form.style.display = 'none';
-}
-
-// Function to handle saving of the address
-function saveAddress() {
-    // Get the form data
-    var formData = new FormData(document.querySelector('.address-form'));
-
-    // Send the form data to the server
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'checkout/saveAddress', true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // Handle success response
-            console.log(xhr.responseText);
-            cancelAddressForm();
-            alert('Delivery address changed successfully!');
-        } else {
-            // Handle error response
-            console.error('Error:', xhr.statusText);
+        function changeAddressInPickupMode() {
+            alert("You can't change the address in pickup mode.");
         }
-    };
-    xhr.send(formData);
-}
 
-// Function to handle the delivery option selection
-function handleDeliveryOption() {
-    // Get the status of the pickup option
-    var isPickupSelected = document.getElementById('pickup').checked;
+        // Function to toggle the address form visibility and change the background color when pickup is selected
+        function toggleAddressForm() {
+            // Get the status of the pickup option
+            var isPickupSelected = document.getElementById('pickup').checked;
+            var deliveryOption = document.getElementById('delivery');
 
-    // Get the elements related to changing the address
-    var changeAddressSection = document.querySelector('.changeaddress');
-    var addressForm = document.querySelector('.change-address-form');
+            // Get the elements related to changing the address
+            var changeAddressSection = document.querySelector('.changeaddress');
+            var addressForm = document.querySelector('.change-address-form');
 
-    // If pickup is selected, hide the address form and update the style
-    if (isPickupSelected) {
-        addressForm.style.display = 'none';
-        changeAddressSection.style.backgroundColor = '#CCCCCC';
-    } else {
-        // If delivery is selected, show the address form and update the style
-        addressForm.style.display = 'none'; // Assuming address form should be visible for delivery
-        changeAddressSection.style.backgroundColor = '';
-    }
-}
+            // If pickup is selected, do not show the address form and change background color
+            if (isPickupSelected) {
+                var form = document.querySelector('.change-address-form');
+                form.style.display = 'none';
+                changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
+            } else {
+                // If delivery is selected, show the address form and remove background color
+                addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+                changeAddressSection.style.backgroundColor = ''; // Remove background color
+            }
+        }
 
-// Attach event listeners to the radio buttons for delivery options
-document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
-document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+        // Attach event listener to the "Change Your Address" section
+        document.querySelector('.changeaddress').addEventListener('click', function(event) {
+            // Get the status of the pickup option
+            var isPickupSelected = document.getElementById('pickup').checked;
 
-// Initially handle the selected delivery option
-handleDeliveryOption();
+            // If pickup mode is selected, show the message
+            if (isPickupSelected) {
+                changeAddressInPickupMode();
+            } else {
+                // If delivery mode is selected, toggle the address form
+                toggleAddressForm();
+            }
+        });
 
+        // Function to handle cancellation of the address form
+        function cancelAddressForm() {
+            var form = document.querySelector('.change-address-form');
+            form.style.display = 'none';
+        }
 
-</script>
+        var addressId = null;
+
+        // Function to handle saving of the address
+        function saveAddress() {
+            // Get the form data
+            var formData = new FormData(document.querySelector('.address-form'));
+
+            // Send the form data to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'checkout/saveAddress', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response
+                    console.log(xhr.responseText);
+                    addressId = xhr.responseText;
+                    cancelAddressForm();
+                    alert('Delivery address changed successfully!');
+                } else {
+                    // Handle error response
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(formData);
+        }
+
+        // Function to handle the delivery option selection
+        function handleDeliveryOption() {
+            // Get the status of the pickup option
+            var isPickupSelected = document.getElementById('pickup').checked;
+
+            // Get the elements related to changing the address
+            var changeAddressSection = document.querySelector('.changeaddress');
+            var addressForm = document.querySelector('.change-address-form');
+
+            // If pickup is selected, hide the address form and update the style
+            if (isPickupSelected) {
+                addressForm.style.display = 'none';
+                changeAddressSection.style.backgroundColor = '#CCCCCC';
+            } else {
+                // If delivery is selected, show the address form and update the style
+                addressForm.style.display = 'none'; // Assuming address form should be visible for delivery
+                changeAddressSection.style.backgroundColor = '';
+            }
+        }
+
+        // Attach event listeners to the radio buttons for delivery options
+        document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
+        document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
+
+        // Initially handle the selected delivery option
+        handleDeliveryOption();
+    </script>
 
 
 
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
     <script>
         function paymentGateway() {
-            // console.log("in");
             event.preventDefault();
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     alert(xhttp.responseText);
+                    console.log(xhttp.responseText);
 
                     var res = xhttp.responseText;
                     console.log(res);
                     var obj = JSON.parse(xhttp.responseText);
 
-                    // console.log(obj);
-                    // var mail = obj["mail"];
-                    // var amount = obj["amount"];
                     var order_id = obj["order_id"];
                     console.log(order_id);
 
 
-                    // Payment completed. It can be a successful failure.
                     payhere.onCompleted = function onCompleted(orderId) {
-                        // Send a request to the server to handle the completion
                         var paymentCompletedXhttp = new XMLHttpRequest();
 
                         paymentCompletedXhttp.onreadystatechange = function() {
@@ -635,14 +621,14 @@ handleDeliveryOption();
                             }
                         };
 
-                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompletePayment/'; ?>"+orderId, true);
+                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompleteBulkPayment/'; ?>" + orderId, true);
                         paymentCompletedXhttp.send();
-                        
+
                     };
 
                     // Payment window closed
                     payhere.onDismissed = function onDismissed() {
-                        
+
                         var paymentDismissedXhttp = new XMLHttpRequest();
 
                         paymentDismissedXhttp.onreadystatechange = function() {
@@ -653,13 +639,13 @@ handleDeliveryOption();
                             }
                         };
 
-                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>"+order_id, true);
+                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>" + order_id, true);
                         paymentDismissedXhttp.send();
                     };
 
                     // Error occurred
                     payhere.onError = function onError(error) {
-                        
+
                         var paymentErrorXhttp = new XMLHttpRequest();
 
                         paymentErrorXhttp.onreadystatechange = function() {
@@ -667,26 +653,25 @@ handleDeliveryOption();
                                 console.log("Payment error. OrderID:" + orderId);
                                 console.log("Error:" + error);
                                 // Redirect to the cart page
-                                window.location = "<?php echo ROOT . '/cart'; ?>";
+                                window.location = "<?php echo ROOT; ?>";
                             }
                         };
 
-                        paymentErrorXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>"+order_id, true);
+                        paymentErrorXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>" + order_id, true);
                         paymentErrorXhttp.send();
                     };
 
-                    // Put the payment variables here
                     var payment = {
                         "sandbox": true,
-                        "merchant_id": obj["merchant_id"], // Replace your Merchant ID
-                        "return_url": "<?php echo ROOT ; ?>", // Important
-                        "cancel_url": "<?php echo ROOT . '/checkout'; ?>", // Important
-                        "notify_url": "<?php echo ROOT . '/notify'; ?>", // check this
+                        "merchant_id": obj["merchant_id"],
+                        "return_url": "<?php echo ROOT; ?>",
+                        "cancel_url": "<?php echo ROOT . '/checkout/BulkPay'; ?>",
+                        "notify_url": "<?php echo ROOT . '/notify'; ?>",
                         "order_id": obj["order_id"],
                         "items": "mobile",
                         "amount": obj["amount"],
                         "currency": obj["currency"],
-                        "hash": obj["hash"], // *Replace with generated hash retrieved from backend
+                        "hash": obj["hash"],
                         "first_name": "Saman",
                         "last_name": "Perera",
                         "email": "samanp@gmail.com",
@@ -705,8 +690,15 @@ handleDeliveryOption();
                 }
             }
 
-            // console.log("in");
-            xhttp.open("GET", '<?php echo ROOT . '/payments'; ?>', true);
+
+            if (addressId == null) {
+                xhttp.open("GET", '<?php echo ROOT . '/payments/BulkPay'; ?>', true);
+            } else {
+                var type = 'delivery';
+                var url = '<?php echo ROOT . '/payments/BulkPay/'; ?>';
+                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(address_id);
+            }
+
             xhttp.send();
 
         }

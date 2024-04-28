@@ -55,6 +55,12 @@ class BulkOrderDetails extends Model
         return $this->query($query, $params);
     }
 
+    public function getBulkOrderById($bulk_order_details_id){
+        $query = "SELECT * FROM $this->table WHERE bulk_order_details_id = :bulk_order_details_id";
+        $params = [':bulk_order_details_id' => $bulk_order_details_id];
+        return $this->query($query, $params);
+    }
+
     public function updateOrderStatus($bulkOrderDetailsId, $status)
     {
         $query = "UPDATE $this->table SET status = :status WHERE bulk_order_details_id = :bulk_order_details_id";

@@ -262,26 +262,50 @@ class Payments extends Controller
 
         $userId = Auth::getUserId();
 
-        show($userId);
         $bulkOrderRequest = new BulkOrderReq();
         $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
-
 
         if (empty($bulkOrderReq)) {
             message('No bulk order requests. please make a request.');
             show('No bulk order requests. please make a request.');
-            redirect('bulk');
-        } elseif (!empty($bulkOrderReq) && $bulkOrderReq[0]->status == 'new') {
-            message('payment successful!!');
-            show('payment successful!!');
+            redirect('home');
+        } elseif (!empty($bulkOrderReq) && $bulkOrderReq[0]->status == 'accepted') {
+            // message('payment successful!!');
+            // show('payment successful!!');
+
+            $customerId = Auth::getCustomerID();
+
+            $type = 'pickup';
+
+            // Parse query parameters from the URL
+            if (isset($_GET['type'])) {
+                $type = $_GET['type'];
+            }
+            if (isset($_GET['address_id'])) {
+                $address_id = $_GET['address_id'];
+            } else {
+                $customerModel = new Customer();
+                $address_id = $customerModel->getAddressId($customerId);
+            }
+
 
             $bulkOrder = new BulkOrderDetails();
             $bulkOrderDetails = $bulkOrder->getBulkByRequestId($bulkOrderReq[0]->bulk_req_id);
 
+            // show($bulkOrderDetails);
+            $total = $bulkOrderReq[0]->total;
 
-            $amount = $bulkOrderReq[0]->total;
+            $array = [];
+
+            if($type == 'delivery'){
+                $delivery = $total*0.15;
+                $total = $total + $delivery;
+                // $array["address_id"] = $address_id;
+            }
+
+            $amount = $total;
             $merchant_id = MERCHANT_ID;
-            $order_id = $bulkOrderDetails[0]->bulk_order_id;
+            $order_id = $bulkOrderDetails[0]->bulk_order_details_id;
             $merchant_secret = MERCHANT_SECRET;
             $currency = "LKR";
 
@@ -294,8 +318,6 @@ class Payments extends Controller
                         strtoupper(md5($merchant_secret))
                 )
             );
-
-            $array = [];
 
             $array["amount"] = $amount;
             $array["merchant_id"] = $merchant_id;
@@ -317,7 +339,7 @@ class Payments extends Controller
         }
     }
 
-    public function onCompleteBulkPayment($orderId)
+    public function onCompleteBulkPayment($bulk_order_details_id)
     {
         // $orderId = $_POST['order_id'];
 
@@ -325,12 +347,13 @@ class Payments extends Controller
 
         $userId = Auth::getUserId();
         $bulkOrderDetails = new BulkOrderDetails();
-        $bulkOrder = $bulkOrderDetails->getLastbulkOrderByUserId($userId);
-        // show($bulkOrder);
-        $buulkOrderDetailsId = $bulkOrder[0]->bulk_order_details_id;
+        $bulkOrder = $bulkOrderDetails->getBulkOrderById($bulk_order_details_id);
+        // $bulkOrder = $bulkOrderDetails->getLastbulkOrderByUserId($userId);
+        show($bulkOrder);
+        // $bulkOrderDetailsId = $bulkOrder[0]->bulk_order_details_id;
 
         $payment_data = [
-            'order_details_id' => $buulkOrderDetailsId,
+            'bulk_order_details_id' => $bulk_order_details_id,
             'amount' => $bulkOrder[0]->total,
             'provider' => 'visa',
             'status' => 'success'
@@ -339,8 +362,13 @@ class Payments extends Controller
         $payment = new Payment();
         $payment->addPayment($payment_data);
 
-        $bulkOrderDetails->updateOrderStatus($buulkOrderDetailsId, 'processing');
+        $bulkOrderRequest = new BulkOrderReq();
+        $bulkOrderRequest->updateBulkRequestStatus($bulkOrder[0]->bulk_req_id, 'proceeded');
         show('done');
+    }
+
+    public function onFaliureBulkPayment() {
+        echo "faliure";
     }
 
 
@@ -353,7 +381,7 @@ class Payments extends Controller
 
         $query = "SELECT * FROM cart_products WHERE Customer_id = :customer_id AND selected = 1";
         $checkout_data['checkout_products'] = $db->query($query, [':customer_id' => $customerId]);
-        show($checkout_data);
+        // show($checkout_data);
 
         $products = [];
 

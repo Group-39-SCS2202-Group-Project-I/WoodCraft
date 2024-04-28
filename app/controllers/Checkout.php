@@ -38,9 +38,9 @@ class Checkout extends Controller
                 $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
                 $quantity = $product_inventory[0]->quantity;
 
-            
-         
-                
+
+
+
                 $product_category_id = $product[0]->product_category_id;
                 $category = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
                 if (!empty($product_inventory) || isset($product_inventory[0])) {
@@ -90,7 +90,7 @@ class Checkout extends Controller
                             'selected' => $cart_product->selected,
                             'image_url' => $product_image['image_url'],
                             'reamaing_quantity' => $product_inventory['quantity'],
-                            'category'=>$category[0]->category_name,
+                            'category' => $category[0]->category_name,
                             'error' => $error
                         ];
 
@@ -115,17 +115,59 @@ class Checkout extends Controller
         $this->view('cart/Checkout', $data);
     }
 
-    public function bulkCheckout() {
+    public function bulkCheckout()
+    {
         $data['title'] = 'Bulk Order Confirmation';
 
-        
+        $error =[];
 
+        $db = new Database();
+        $customerId = Auth::getCustomerID();
+
+        $userId = Auth::getUserId();
+
+        $bulkOrderRequest = new BulkOrderReq();
+        $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
+
+        $product_id = $bulkOrderReq[0]->product_id;
+
+        // Fetch product data for the current cart product
+        $product = $db->query("SELECT * FROM product WHERE product_id = $product_id");
+
+        // Fetch product images for the current product
+        $images = $db->query("SELECT * FROM product_image WHERE product_id = $product_id");
+        $product_image = (array) $images[0];
+
+        $product_category_id = $product[0]->product_category_id;
+        $category = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
+
+        $data['checkout_products'] = [
+            'product_id' => $product[0]->product_id,
+            'name' => $product[0]->name,
+            'description' => $product[0]->description,
+            'price' => $product[0]->price,
+            'quantity' => $bulkOrderReq[0]->quantity,
+            'selected' => 1,
+            'image_url' => $product_image['image_url'],
+            'category' => $category[0]->category_name,
+            'error' => $error
+        ];
+
+        // Fetch customer's address
+        $customerModel = new Customer();
+        $customerAddress = $customerModel->getCustomerAddress($customerId);
+        $data['customerAddress'] = $customerAddress;
+
+        // show($data);
+
+        $this->view('customers/bulk-checkout', $data);
     }
 
-    public function saveAddress() {
+    public function saveAddress()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $customerId = Auth::getCustomerID();
-    
+
             // Check if the required POST fields exist before accessing them
             if (
                 isset($_POST['address_line_1']) &&
@@ -143,7 +185,7 @@ class Checkout extends Controller
                     'zip_code' => $_POST['zip_code']
                     // Add more fields as needed
                 ];
-    
+
                 // Create a new Address instance and save the new address in the Address table
                 $newAddress = new Address();
                 $newlySavedAddress = $newAddress->saveAddressD($addressData);
@@ -154,7 +196,7 @@ class Checkout extends Controller
                 // var_dump($addressData); // Check if $addressData is populated correctly
                 $_SESSION['NEWADDRESS'] = $addressData;
                 // var_dump($_SESSION['NEWADDRESS']); // Check if
-                
+
                 // Unset the session data after setting it
                 unset($_SESSION['newAddress']);
 
@@ -168,4 +210,4 @@ class Checkout extends Controller
             echo "Invalid request method.";
         }
     }
-}    
+}

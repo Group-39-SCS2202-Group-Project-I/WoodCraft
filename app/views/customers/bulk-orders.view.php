@@ -189,7 +189,7 @@
                                     <p>Qty: <?= $bulk_order['quantity'] ?></p>
                                     <div class="status"><?= $bulk_order['request_status'] ?></div>
                                     <?php if ($bulk_order['request_status'] === 'accepted') : ?>
-                                        <small><a href="<?= ROOT ?>/orders/bulk/<?= $bulk_order['bulk_req_id'] ?>"><button type="button" class="review-button">CHECKOUT</button></a></small>
+                                        <small><button onclick="redirectToBulkCheckout()" type="button" class="review-button">CHECKOUT</button></small>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -205,6 +205,13 @@
             </div>
         </div>
     </main>
+
+    <script>
+        function redirectToBulkCheckout() {
+        var checkoutURL = "<?php echo ROOT . '/checkout/bulkCheckout'; ?>";
+        window.location.href = checkoutURL;
+    }
+    </script>
 
     <!-- <script>
     // Get the select element

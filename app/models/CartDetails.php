@@ -95,8 +95,8 @@ class CartDetails extends Model
         $query = "UPDATE cart
         SET cart_item_count = COALESCE((SELECT SUM(quantity) FROM cart_products WHERE Customer_id = :customerId AND selected = 1), 0),
             sub_total = COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0),
-            delivery_cost = 0.2 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0),
-            total = COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0) + 0.2 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0)
+            delivery_cost = 0.15 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0),
+            total = COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0) + 0.15 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0)
         WHERE customer_id = :customerId;
         ";
 
