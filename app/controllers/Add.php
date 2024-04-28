@@ -420,6 +420,9 @@ class Add extends Controller
     public function material()
     {
         show($_POST);
+        if(empty($_POST['description'])){
+            $_POST['description'] = "";
+        }
 
         $data['errors'] = [];
 

@@ -9,7 +9,7 @@ class Material extends Model
     protected $table = "material";
 
     protected $allowedColumns = [
-        "name",
+        "material_name",
         "description",
         "stock_avilable",
         "created_at",
@@ -29,6 +29,16 @@ class Material extends Model
         // }
         elseif (strlen($data['name']) < 2) {
             $this->errors['name'] = "Material name must be at least 2 characters";
+        }
+
+        else
+        {
+            $db = new Database();
+            $material = $db->select($this->table, 'material_name = :material_name', [':material_name' => $data['name']]);
+            if($material)
+            {
+                $this->errors['name'] = "Material already exists";
+            }
         }
 
         // if (empty($data['description'])) {

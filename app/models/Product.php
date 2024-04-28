@@ -33,6 +33,15 @@ class Product extends Model
         } else if (strlen($data['name']) > 100) {
             $this->errors['name'] = "Product name must be less than 100 characters";
         } 
+        else
+        {
+            $db = new Database();
+            $product = $db->select($this->table, 'name = :name', [':name' => $data['name']]);
+            if($product)
+            {
+                $this->errors['name'] = "Product name already exists";
+            }
+        }
         if (empty($data['description'])) {
             $this->errors['description'] = "Product description is required";
         }
