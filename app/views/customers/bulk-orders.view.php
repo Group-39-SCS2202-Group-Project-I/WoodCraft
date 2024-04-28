@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="order-details">
                                     <!-- <div class="product-details"> -->
-                                        <img src="<?= $bulk_order['product_image'] ?>" alt="Product Image" width="100" height="100">
+                                        <img src="<?= $bulk_order['image_url'] ?>" alt="Product Image" width="100" height="100">
                                         <p><?= $bulk_order['product_name'] ?></p>
                                     <!-- </div> -->
                                     <p>Qty: <?= $bulk_order['quantity'] ?></p>

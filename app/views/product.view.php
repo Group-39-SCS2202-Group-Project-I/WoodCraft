@@ -273,9 +273,11 @@ if (Auth::logged_in()) {
                                         <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
                                         <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
                                             <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
-                                        <?php else :?>
+                                        <?php elseif($product_inventory['quantity'] == 0) :?>
                                             <button class="add-to-cart grayout">Currently stock is unavailable</button>
-                                        <?php endif?>
+                                        <?php elseif($productFound != 0):?>
+                                            <button class="add-to-cart grayout">Already this item is in cart</button>
+                                        <?php endif ;?>
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +352,8 @@ if (Auth::logged_in()) {
                         <h3>Average Rating</h3>
                         <div class="average-info">
                             <div class="average-rating">
-                                <span class="average-value"><?php echo $product_review_count[0]['average_rating']; ?></span>
+                                <?php echo $product_review_count[0]['average_rating']; ?>
+                                <!-- <span class="average-value"><?php echo $product_review_count[0]['average_rating']; ?></span> -->
                             </div>
                             <div class="average-star-rating">
                                 <?php echo createStarRating($product_review_count[0]['average_rating']); ?>

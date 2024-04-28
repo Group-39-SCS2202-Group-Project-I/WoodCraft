@@ -67,10 +67,10 @@ class Orders extends Controller{
 		// show($bulk_orders);
 
 		$data['title'] = "bulk-orders";
-		$data['bulk_orders'] = $bulk_orders;
+		// $data['bulk_orders'] = $bulk_orders;
 
 			if ($bulk_req_id == '') {
-				$url = ROOT . "/fetch/customers/" . $bulk_req_id;
+				$url = ROOT . "/fetch/customers/" . $user_id;
 				$response = file_get_contents($url);
 				$customer = json_decode($response, true);
 
