@@ -23,7 +23,7 @@ class Products extends Controller
 			$data['product_review_count'] = $product_review_count;
 
 				// show($product_review);
-				// show($product_review_count);
+				show($product_review_count);
 
 			$this->view('product', $data);
 		}

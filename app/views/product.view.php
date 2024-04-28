@@ -223,21 +223,21 @@ if (Auth::logged_in()) {
                         <?php echo createStarRating($product_review_count[0]['average_rating']); ?>
                         <span class="rating-text">&nbsp;&nbsp;&nbsp;<?php echo $product_review_count[0]['average_rating']; ?>/5 &nbsp;&nbsp;(<?php echo $product_review_count[0]['review_count'] ?> Reviews)</span>
                     <?php else: ?>
-                        <span class="rating-text" style="color: black;">No Ratings</span>
+                        <span class="rating-text" style="color: var(--bg1); font-size:14px; font-style:italic">No Ratings</span>
                     <?php endif; ?>
 
                     </div>
                     <div class="price-discount">
-                        <span><?php echo $data['price']. " Rs" ?></span>
+                        <span><?php echo"Rs ". $data['price']?></span>
                     </div>
 
                     <div class="price-discount">
                         <?php if($data['quantity'] > 3): ?>
-                            <span style="color: #008000;"><?php echo $data['quantity']." in stock" ?></span>
+                            <span style="color: #008000; font-size:14px"><?php echo $data['quantity']." in stock" ?></span>
                         <?php elseif($data['quantity'] == 0): ?>
-                            <span style="color: red;"><?php echo "No stock available" ?></span>
+                            <span style="color: red; font-size:14px"><?php echo "No stock available" ?></span>
                         <?php else: ?>
-                            <span style="color: red;"><?php echo "Only ". $data['quantity']." in stock" ?></span>
+                            <span style="color: red; font-size:14px"><?php echo "Only ". $data['quantity']." in stock" ?></span>
                         <?php endif; ?>
                     </div>
 
