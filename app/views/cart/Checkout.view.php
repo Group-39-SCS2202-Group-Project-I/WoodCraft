@@ -414,7 +414,13 @@
                     $total = $cart[0]->total;
                     $delivery = $cart[0]->delivery_cost;
 
+                    // unset($_SESSION['done']);
+                    // unset($_SESSION['addressData']);
+                    // unset($_SESSION['result']);
+                    // unset($_SESSION['address_id']);
+                    // unset($_SESSION['newAddressId']);
                     // show($_SESSION);
+                    // echo $newAddressId;
 
                     $checkoutProducts = $data['checkout_products'];
                     // show($checkoutProducts);
@@ -546,6 +552,8 @@ function cancelAddressForm() {
     form.style.display = 'none';
 }
 
+var addressId = null;
+
 // Function to handle saving of the address
 function saveAddress() {
     // Get the form data
@@ -558,6 +566,7 @@ function saveAddress() {
         if (xhr.status === 200) {
             // Handle success response
             console.log(xhr.responseText);
+            addressId = xhr.responseText;
             cancelAddressForm();
             alert('Delivery address changed successfully!');
         } else {
@@ -705,8 +714,15 @@ handleDeliveryOption();
                 }
             }
 
+            if(addressId == null){
+                xhttp.open("GET", '<?php echo ROOT . '/payments'; ?>', true);
+            } else {
+                var type = 'delivery';
+                var url = '<?php echo ROOT . '/payments'; ?>';
+                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(address_id);
+            }
+
             // console.log("in");
-            xhttp.open("GET", '<?php echo ROOT . '/payments'; ?>', true);
             xhttp.send();
 
         }

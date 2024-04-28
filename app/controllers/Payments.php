@@ -8,16 +8,30 @@ class Payments extends Controller
     public function index()
     {
         $data['title'] = 'Payments';
-        $payment = $this->pay('delivery', 41);
+        $payment = $this->pay();
         // $payment = $this->onCompletePayment(235);
         // $this->view('cart/pay', $data);
     }
 
-    public function pay($type, $address_id)
+    public function pay()
     {
+
         $data['errors'] = [];
 
         $customerId = Auth::getCustomerID();
+
+        $type = 'pickup';
+
+        // Parse query parameters from the URL
+        if (isset($_GET['type'])) {
+            $type = $_GET['type'];
+        }
+        if (isset($_GET['address_id'])) {
+            $address_id = $_GET['address_id'];
+        } else {
+            $customerModel = new Customer();
+            $address_id = $customerModel->getAddressId($customerId);
+        }
 
         $cartProducts = new CartProduct();
         $checkout_data['checkout_products'] = $cartProducts->getSelectedItems($customerId);

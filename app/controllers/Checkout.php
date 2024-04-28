@@ -115,14 +115,7 @@ class Checkout extends Controller
         $this->view('cart/Checkout', $data);
     }
 
-    
-    public function bulkRequest() {
-        $data['title'] = 'Bulk Order Request';
-
-        
-    }
-
-    public function bulkConfirm() {
+    public function bulkCheckout() {
         $data['title'] = 'Bulk Order Confirmation';
 
         
@@ -154,14 +147,18 @@ class Checkout extends Controller
                 // Create a new Address instance and save the new address in the Address table
                 $newAddress = new Address();
                 $newlySavedAddress = $newAddress->saveAddressD($addressData);
-                  
+
+                $newAddressId = $newAddress->getLastAddressIdByAddress($addressData);
+
                 // Store the new address data in the session
-                var_dump($addressData); // Check if $addressData is populated correctly
+                // var_dump($addressData); // Check if $addressData is populated correctly
                 $_SESSION['NEWADDRESS'] = $addressData;
-                var_dump($_SESSION['NEWADDRESS']); // Check if
+                // var_dump($_SESSION['NEWADDRESS']); // Check if
                 
                 // Unset the session data after setting it
                 unset($_SESSION['newAddress']);
+
+                echo $newAddressId;
             } else {
                 // One or more required POST fields are missing
                 echo "Failed to save address. Required fields are missing.";
