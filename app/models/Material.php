@@ -31,15 +31,15 @@ class Material extends Model
             $this->errors['name'] = "Material name must be at least 2 characters";
         }
 
-        else
-        {
-            $db = new Database();
-            $material = $db->select($this->table, 'material_name = :material_name', [':material_name' => $data['name']]);
-            if($material)
-            {
-                $this->errors['name'] = "Material already exists";
-            }
-        }
+        // else
+        // {
+        //     $db = new Database();
+        //     $material = $db->select($this->table, 'material_name = :material_name', [':material_name' => $data['name']]);
+        //     if($material)
+        //     {
+        //         $this->errors['name'] = "Material already exists";
+        //     }
+        // }
 
         // if (empty($data['description'])) {
         //     $this->errors['description'] = "Material description is required";
