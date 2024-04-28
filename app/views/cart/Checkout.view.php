@@ -423,7 +423,8 @@
                                         <div class="pdetails">
                                             <div class="product-details">
                                                 <p><?php echo $checkoutProduct['name'] ?></p>
-                                                <p class="unit-price"><?php echo $checkoutProduct['price'] ?></p>
+                                                <p><?php echo $checkoutProduct['category']?></p>
+                                                <p class="unit-price">RS.<?php echo $checkoutProduct['price'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -468,11 +469,11 @@
                         <span class="delivery-option-title">Delivery</span>
                     </div>
 
-                    <h2 id="subtotal">Subtotal<span>$<?php echo $subtotal ?></span></h2>
-                    <h2 id="discount">Discount(-20%)<span>-$<?php echo $discount ?></span></h2>
-                    <h2 id="delivery">Delivery<span>-$<?php echo $delivery ?></span></h2>
+                    <h2 id="subtotal">Subtotal<span>RS.<?php echo $subtotal ?></span></h2>
+                    <h2 id="discount">Discount(-20%)<span>-RS.<?php echo $discount ?></span></h2>
+                    <h2 id="delivery">Delivery<span>RS.<?php echo $delivery ?></span></h2>
                     <hr />
-                    <h2 id="total">Total<span>$<?php echo $total ?></span></h2>
+                    <h2 id="total">Total<span>RS.<?php echo $total ?></span></h2>
                 </div>
                 <div class="confirm-button">
                     <button class="button" onclick="paymentGateway()">Pay</button>
@@ -489,23 +490,47 @@
 
 
     <script>
-   
-   function toggleAddressForm() {
-    // Get the status of the delivery option
-    var isDeliverySelected = document.getElementById('delivery').checked;
+  // Function to handle the "Change Address" button click in pickup mode
+function changeAddressInPickupMode() {
+    // Display a message
+    alert("You can't change the address in pickup mode.");
+}
+
+// Function to toggle the address form visibility and change the background color when pickup is selected
+function toggleAddressForm() {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
+    var deliveryOption = document.getElementById('delivery');
 
     // Get the elements related to changing the address
+    var changeAddressSection = document.querySelector('.changeaddress');
     var addressForm = document.querySelector('.change-address-form');
 
-    // If delivery is selected and "Change Address" button is clicked, show the address form
-    if (isDeliverySelected) {
-        addressForm.style.display = 'block';
+    // If pickup is selected, do not show the address form and change background color
+    if (isPickupSelected) {
+        var form = document.querySelector('.change-address-form');
+        form.style.display = 'none';
+        changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
     } else {
-        addressForm.style.display = 'none';
+        // If delivery is selected, show the address form and remove background color
+        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+        changeAddressSection.style.backgroundColor = ''; // Remove background color
     }
 }
 
+// Attach event listener to the "Change Your Address" section
+document.querySelector('.changeaddress').addEventListener('click', function(event) {
+    // Get the status of the pickup option
+    var isPickupSelected = document.getElementById('pickup').checked;
 
+    // If pickup mode is selected, show the message
+    if (isPickupSelected) {
+        changeAddressInPickupMode();
+    } else {
+        // If delivery mode is selected, toggle the address form
+        toggleAddressForm();
+    }
+});
 
 // Function to handle cancellation of the address form
 function cancelAddressForm() {
@@ -555,15 +580,13 @@ function handleDeliveryOption() {
     }
 }
 
-// Attach event listener to the "Change Your Address" section
-document.querySelector('.changeaddress').addEventListener('click', toggleAddressForm);
-
 // Attach event listeners to the radio buttons for delivery options
 document.getElementById('pickup').addEventListener('change', handleDeliveryOption);
 document.getElementById('delivery').addEventListener('change', handleDeliveryOption);
 
 // Initially handle the selected delivery option
 handleDeliveryOption();
+
 
 </script>
 

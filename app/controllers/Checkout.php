@@ -38,6 +38,11 @@ class Checkout extends Controller
                 $product_inventory = $db->query("SELECT * FROM product_inventory WHERE product_inventory_id = $product_inventory_id");
                 $quantity = $product_inventory[0]->quantity;
 
+            
+         
+                
+                $product_category_id = $product[0]->product_category_id;
+                $category = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
                 if (!empty($product_inventory) || isset($product_inventory[0])) {
                     if ($quantity < 1) {
                         $error[$product_id]['msg'] = "out of stock";
@@ -85,6 +90,7 @@ class Checkout extends Controller
                             'selected' => $cart_product->selected,
                             'image_url' => $product_image['image_url'],
                             'reamaing_quantity' => $product_inventory['quantity'],
+                            'category'=>$category[0]->category_name,
                             'error' => $error
                         ];
 

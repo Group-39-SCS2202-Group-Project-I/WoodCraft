@@ -91,7 +91,6 @@
   text-align: center;
 }
 .decrease{
-  border: 1px solid #F0F0F0;
   background-color: white;
   outline: none;
   border-radius: 18px 0 0 18px;
@@ -99,14 +98,15 @@
   cursor: pointer;
 }
 .increase{
-
-  border: 1px solid #F0F0F0;
-  background-color: white;
+ background-color: white;
   outline: none;
   border-radius: 0 18px 18px 0;
   padding: 8px 15px;
   cursor: pointer;
 }
+
+
+
 .imag-box {
   width: 100px; /* Set a fixed width */
   height: 80px; /* Set a fixed height */
@@ -118,16 +118,9 @@
   margin-left: 10%;
   margin-right: 10%
 }
-.checkboxe,
-.imag-box,
-.details,
-.quantity,
-.remove {
-  display: flex;
-  align-items: center;
-}
+
 .details{
-  width: 100px; /* Set a fixed width */
+  width: 180px; /* Set a fixed width */
   height: 80px; 
 }
 
@@ -136,7 +129,7 @@
   line-height: 1.5;
   margin-bottom: 5px;
   display: block;
-  font-size: 1vw;
+  font-size: .9vw;
   font-weight: lighter;
   color: #333;
 }
@@ -283,8 +276,7 @@ hr {
 .checkboxe {
   display: flex;
   align-items: center;
-  width: 100px; /* Set a fixed width */
-  height: 80px;
+
 }
 
 .checkboxe input[type="checkbox"] {
