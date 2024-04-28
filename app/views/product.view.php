@@ -205,8 +205,13 @@ if (Auth::logged_in()) {
                 <div class="product-info-basic">
                     <h2 class="product-name"><?php echo $data['name']; ?></h2>
                     <div class="star-rating">
+                    <?php if (!empty($product_review_count)): ?>
                         <?php echo createStarRating($product_review_count[0]['average_rating']); ?>
                         <span class="rating-text">&nbsp;&nbsp;&nbsp;<?php echo $product_review_count[0]['average_rating']; ?>/5 &nbsp;&nbsp;(<?php echo $product_review_count[0]['review_count'] ?> Reviews)</span>
+                    <?php else: ?>
+                        <span class="rating-text" style="color: black;">No Ratings</span>
+                    <?php endif; ?>
+
                     </div>
                     <div class="price-discount">
                         <span class="original-price"><?php echo $data['price'] ?></span>
@@ -312,6 +317,7 @@ if (Auth::logged_in()) {
 
         <hr class="section-divider">
 
+    <?php if (!empty($product_review_count)): ?>
         <div class="rating-reviews">
             <h3>Rating & Reviews</h3><br>
 
@@ -370,8 +376,10 @@ if (Auth::logged_in()) {
                 <?php endfor; ?>
             </div>
         </div>
-
         <hr class="section-divider">
+        <?php endif; ?>
+
+        
 
 
         <div class="faq-container">
