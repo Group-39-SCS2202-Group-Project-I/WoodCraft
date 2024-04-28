@@ -23,8 +23,6 @@
 
 .cart {
   width: 55%;
-  
- 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,10 +44,11 @@
 .product {
   display: flex;         
   flex-direction: row;
-
   width: 100%;
-  justify-content:space-evenly;
+  justify-content:space-between;
   margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .Qdetails {
@@ -61,6 +60,9 @@
 
 .remove{
   display: flex;
+  width: 100px; /* Set a fixed width */
+  height: 80px;
+  margin-left: 5%;
   
 }
 .remove-button:hover {
@@ -71,21 +73,18 @@
   display: flex;
   align-items: center;
   /* Add border */
-  padding: 5px; /* Optional: Add padding for better spacing */
+  padding: 5px; 
+  width: 100px; /* Set a fixed width */
+  height: 80px;/* Optional: Add padding for better spacing */
 }
 
 .quantity input {
-  /* width: 30px;
-  text-align: center;
-  border: none;
-  background-color: #EEEEEE;
-  margin-left: 1%;
-  margin-right: 1%; */
+ 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 9.75px;
-  border: none;
+  padding: 10px;
+  border:none;
   background-color:white;
   width: 40px;
   font-weight: 800;
@@ -108,21 +107,30 @@
   padding: 8px 15px;
   cursor: pointer;
 }
+.imag-box {
+  width: 100px; /* Set a fixed width */
+  height: 80px; /* Set a fixed height */
+}
 
-.details {
+
+.detail {
   flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%
 }
-
-.pdetails {
-  flex-direction: row;
-}
-
-.product-details {
+.checkboxe,
+.imag-box,
+.details,
+.quantity,
+.remove {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: start;
+  align-items: center;
 }
+.details{
+  width: 100px; /* Set a fixed width */
+  height: 80px; 
+}
+
 
 .product-details p {
   line-height: 1.5;
@@ -224,12 +232,13 @@ hr {
 
 
 .checkout {
-  width: 100%;
+  width: 90%;
   background-color: #000;
   color: #fff;
   border-radius: .5rem;
   margin-top: 1rem;
   height: 2.5rem;
+  margin-left: 5%;
 }
 
 .promocode input[type="text"] {
@@ -274,6 +283,8 @@ hr {
 .checkboxe {
   display: flex;
   align-items: center;
+  width: 100px; /* Set a fixed width */
+  height: 80px;
 }
 
 .checkboxe input[type="checkbox"] {

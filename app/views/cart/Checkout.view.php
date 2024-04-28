@@ -52,16 +52,15 @@
 
         .summary {
             width: 20%;
-            border: 1px solid #EEEEEE;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 0.5rem;
-            margin-left: 10px;
-            /* Add small left padding */
-            padding-right: 10px;
-            /* Add padding to the l
-            eft side */
-            margin-right: 10%;
+  border: 1px solid #EEEEEE;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: .5rem;
+  margin-left: 6%;
+  margin-right: 4%;
+  height: 50%;
+ 
+
         }
 
         .delivery-option {
@@ -187,10 +186,21 @@
             justify-content: space-around;
             margin-bottom: 5%;
         }
-
-        .details {
+   .imag-box{
+    width:100px;
+    height:80px;
+   }
+        .detail {
+  flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+       .details{
+        display: flex;
             flex-direction: column;
-        }
+            width:150px;
+    height:80px;
+       } 
 
         .pdetails {
             flex-direction: row;
@@ -238,6 +248,8 @@
             cursor: pointer;
             margin-bottom: 15px;
             border-radius: 0.5rem;
+            margin-left: 35%;
+            margin-top: 5%;
         }
 
         /* CSS for form buttons */
@@ -472,27 +484,23 @@
 
 
     <script>
-    // Function to handle the delivery option selection
-    // Function to toggle the address form visibility and change the background color when pickup is selected
-function toggleAddressForm() {
-    // Get the status of the pickup option
-    var isPickupSelected = document.getElementById('pickup').checked;
+   
+   function toggleAddressForm() {
+    // Get the status of the delivery option
+    var isDeliverySelected = document.getElementById('delivery').checked;
 
     // Get the elements related to changing the address
-    var changeAddressSection = document.querySelector('.changeaddress');
     var addressForm = document.querySelector('.change-address-form');
 
-    // If pickup is selected, do not show the address form and change background color
-    if (isPickupSelected) {
-        var form = document.querySelector('.change-address-form');
-        form.style.display = 'none';
-        changeAddressSection.style.backgroundColor = '#EEEEEE'; // Add background color
+    // If delivery is selected and "Change Address" button is clicked, show the address form
+    if (isDeliverySelected) {
+        addressForm.style.display = 'block';
     } else {
-        // If delivery is selected, show the address form and remove background color
-        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
-        changeAddressSection.style.backgroundColor = ''; // Remove background color
+        addressForm.style.display = 'none';
     }
 }
+
+
 
 // Function to handle cancellation of the address form
 function cancelAddressForm() {

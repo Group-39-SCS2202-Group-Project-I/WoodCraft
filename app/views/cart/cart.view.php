@@ -90,9 +90,9 @@
                           <div class="details">
                               <div class="pdetails">
                                   <div class="product-details">
-                                      <p>Name:<?php echo $cartProduct['name'] ?></p>
-                                     <p>Category:<?php echo $cartProduct['category'] ?></p>
-                                      <p class="unit-price">Price:<?php echo $cartProduct['price'] ?></p>
+                                      <p><?php echo $cartProduct['name'] ?></p>
+                                     <p><?php echo $cartProduct['category'] ?></p>
+                                      <p class="unit-price"><?php echo $cartProduct['price'] ?></p>
                                   </div>
                               </div>
                           </div>
@@ -199,11 +199,11 @@
         <h2>Order Summary</h2>
       </div>
       <div class="detail">
-        <h2 id="subtotal">Subtotal<span>$<?php echo number_format($subtotal, 2); ?></span></h2>
-        <h2 id="discount">Discount(-20%)<span>-$<?php echo number_format($discount, 2); ?></span></h2>
-        <h2 id="delivery">Delivery<span>$<?php echo number_format($delivery, 2); ?></span></h2>
+        <h2 id="subtotal">Subtotal<span>RS<?php echo number_format($subtotal, 2); ?></span></h2>
+        <h2 id="discount">Discount(-20%)<span>-RS<?php echo number_format($discount, 2); ?></span></h2>
+        <h2 id="delivery">Delivery<span>RS<?php echo number_format($delivery, 2); ?></span></h2>
         <hr>
-        <h2 id="total">Total<span>$<?php echo number_format($total, 2); ?></span></h2>
+        <h2 id="total">Total<span>RS<?php echo number_format($total, 2); ?></span></h2>
       </div>
       <!-- <div class="promo">
         <div class="promocode">
