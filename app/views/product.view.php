@@ -1,24 +1,108 @@
 <style>
     .bulk-content {
-    margin: 20px 0px 20px 0px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
+        /* margin: 20px 0px 20px 0px; */
+        /* padding: 15px 0px; */
+        border-top:1px solid var(--bg1);
+    }
 
-.bulk-description {
-    margin-bottom: 10px;
-    font-size: 16px;
-}
+    .bulk-description {
+        font-size: 14px;
+        color: var(--bg1);
+        font-style: italic;
+    }
 
-.bulk-description:first-child {
-    margin-top: 0;
-}
+    .bulk-description:first-child {
+        margin-top: 0;
+    }
 
-.bulk-description:last-child {
-    margin-bottom: 0;
-}
+    .bulk-description:last-child {
+        margin-bottom: 0;
+    }
+
+    .tab-header {
+        display: flex;
+        position: relative;
+    }
+    
+    .tab-title {
+        cursor: pointer;
+        padding: 10px 15px;
+        margin-right: 10px;
+        position: relative;
+    }
+    
+    .tab-title.active {
+        font-weight: bold;
+        color: #008000;
+    }
+
+    .content-review {
+        display: none;
+    }
+    
+    .content-review.active {
+        display: block;
+    }
+
+            .field-edit-profile {
+                margin-top: 10px;
+                display: flex;
+                align-self: center;
+                /* padding: 10px 20px; */
+            }
+
+            label {
+                font-weight: bold;
+                /* padding: 10px; */
+            }
+
+            .input {
+                display: none;
+            }
+
+            .input-wrapper {
+                width: 100%;
+                padding-top: 10px;
+                border-radius: 20px;
+            }
+
+            .form-control {
+                border: 1px solid var(--bg2);
+                transition: border-color 0.3s ease;
+                border-radius: 10px;
+                padding: 10px;
+            }
+
+            .form-control:focus {
+                border-color: #008000;
+                outline: none;
+                box-shadow: 0 0 5px #008000;
+            }
+
+            .bulk-submit {
+                background-color: var(--coal_black);
+                color: var(--white);
+                padding: 10px 20px;
+                margin-left: 10px;
+                border: none;
+                outline: none;
+                border-radius: 20px;
+                font-size: 16px;
+                cursor: pointer;
+                width: 100%;
+            }
+
+            .bulk-submit:hover {
+                background-color: var(--green1);
+            }
+
+            .buttons-profile {
+                text-align: center;
+                margin-top: 20px;
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+            }
 
 </style>
 
@@ -120,38 +204,84 @@ if (Auth::logged_in()) {
                         <span class="sale-price">$260</span>
                         <span class="discount">-40% off</span>
                     </div>
-                    <p class="product-description"><?php echo $data['description'] ?></p><br>
+                    <p class="product-description"><?php echo $data['description'] ?></p>
                     <p class="product-description">Looking to order in bulk? We've got you covered!</p>
 
                 </div>
-                <div class="product-info-selections">
-                    <div class="bulk-content">
-                        <p class="bulk-description">Please note: The minimum bulk order quantity for a product is 10 units.</p>
+                
+                    <!-- (A) -->
+                    <div class="product-info-selections">
+                        <div class="tab-header">
+                            <div class="tab-title index" data-tab="retail_tab" onclick="showTab('retail_tab')">Retail</div>
+                            <div class="tab-title" data-tab="bulk_tab" onclick="showTab('bulk_tab')">Bulk</div>
+                        </div>
 
-                        <?php $this->view('bulkprd', $data) ?>
-                    </div>
-                    <!-- <div class="color-selector">
-                        <span class="label">Select Color:</span>
+                        <div class="tab-content">
+                            <!-- Bulk Tab -->
+                            <div id="bulk_tab" class="content-review">
+                                <div class="bulk-content">
+                                    <!-- <div class="amount-selector"> -->
+                                        <?php $this->view('bulkprd', $data) ?>
+                                    <!-- </div> -->
+                                    <!-- <p class="bulk-description">Please note: The minimum bulk order quantity for a product is 10 units.</p> -->
+                                </div>
+                            </div>
 
-                        <button class="color-option" style="background-color: #f0e8d9"></button>
-                        <button class="color-option" style="background-color: #d3c7b4"></button>
-                        <button class="color-option" style="background-color: #a69c88"></button>
-                    </div> -->
-                    <div class="retail-content">
-                        <div class="amount-selector">
-                            <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
-                            <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
-                            <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
-                            <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
-                                <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
-                            <?php else :?>
-                                <button class="add-to-cart grayout">Add to Cart</button>
-                            <?php endif?>
+                            <!-- Reail Tab -->
+                            <div id="retail_tab" class="content-review active">
+                                <div class="retail-content">
+                                    <div class="amount-selector">
+                                        <button class="amount_button minus"><span class="material-icons-outlined">remove</span></button>
+                                        <input id="quantityInput" class="amount-selector-input" type="number" min="1" value="1">
+                                        <button class="amount_button plus"><span class="material-icons-outlined">add</span></button>
+                                        <?php if($product_inventory['quantity'] != 0 && $productFound == 0) : ?>
+                                            <button class="add-to-cart" onclick="addToCart(<?php echo $product_id; ?>,<?php echo Auth::getCustomerID(); ?>)">Add to Cart</button>
+                                        <?php else :?>
+                                            <button class="add-to-cart grayout">Add to Cart</button>
+                                        <?php endif?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const tabTitles = document.querySelectorAll('.tab-title');
+
+                                tabTitles.forEach(title => {
+                                    title.addEventListener('click', function () {
+                                        const tabId = this.getAttribute('data-tab');
+                                        showTab(tabId);
+                                    });
+                                });
+
+                                const overviewTabTitle = document.querySelector('.tab-title[data-tab="retail_tab"]');
+                                overviewTabTitle.classList.add('active');
+
+                                const saveChangesBtn = document.getElementById('saveChangesBtn');
+                                saveChangesBtn.addEventListener('click', function () {
+
+                                    showTab('retail_tab');
+                                });
+
+                                function showTab(tabId) {
+                                    const tabTitles = document.querySelectorAll('.tab-title');
+                                    const tabPanes = document.querySelectorAll('.content-review');
+
+                                    tabTitles.forEach(title => title.classList.remove('active'));
+                                    tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                                    const selectedTabTitle = document.querySelector(`.tab-title[data-tab="${tabId}"]`);
+                                    const selectedTabPane = document.getElementById(tabId);
+
+                                    selectedTabTitle.classList.add('active');
+                                    selectedTabPane.classList.add('active');
+                                }
+                            });
+                        </script>
 
 
         <div class="product-details">

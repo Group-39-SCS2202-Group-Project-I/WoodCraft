@@ -138,7 +138,7 @@
             </div>
 
             <div class="content-order">
-                <div class="content-show">
+                <!-- <div class="content-show">
                     <label for="row-count">Show:</label>
                     <select id="display-options">
                         <option value="last-5">Last 5 orders</option>
@@ -147,7 +147,7 @@
                         <option value="retail-orders">Retail orders</option>
                         <option value="bulk-orders">Bulk orders</option>
                     </select>
-                </div>
+                </div> -->
                 
                 <div class="content-orders">
                     <?php if (!empty($orders)) : ?>
@@ -184,7 +184,7 @@
         </div>
     </main>
 
-    <script>
+    <!-- <script>
     // Get the select element
     var selectDisplayOptions = document.getElementById("display-options");
 
@@ -223,7 +223,7 @@
             }
         }
     });
-</script>
+</script> -->
 
 </body>
 

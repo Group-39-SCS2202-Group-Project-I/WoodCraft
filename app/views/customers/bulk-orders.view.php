@@ -92,7 +92,7 @@
         .review-button {
             cursor: pointer;
             text-align: center;
-            width: 70px;
+            width: 100px;
             font-size: 14px;
             background-color: var(--coal_black);
             color: var(--white);
@@ -156,7 +156,7 @@
             </div>
 
             <div class="content-order">
-                <div class="content-show">
+                <!-- <div class="content-show">
                     <label for="row-count">Show:</label>
                     <select id="display-options">
                         <option value="last-5">Last 5 orders</option>
@@ -165,7 +165,7 @@
                         <option value="retail-orders">Retail orders</option>
                         <option value="bulk-orders">Bulk orders</option>
                     </select>
-                </div>
+                </div> -->
                 
                 <div class="content-orders">
                     <?php if (!empty($bulk_orders)) : ?>
@@ -173,7 +173,7 @@
                             <div class="order">
                                 <div class="order-header">
                                     <div class="order-info">
-                                        <p>Order <strong style="color: blue;"><?= $bulk_order['bulk_req_id'] ?></strong></p>
+                                        <p>Order <strong style="color: var(--green2);"><?= $bulk_order['bulk_req_id'] ?></strong></p>
                                         <p><small>Placed on <?= $bulk_order['created_at'] ?></small></p>
                                     </div>
                                     <?php if ($bulk_order['request_status'] === 'accepted') : ?>
@@ -189,7 +189,7 @@
                                     <p>Qty: <?= $bulk_order['quantity'] ?></p>
                                     <div class="status"><?= $bulk_order['request_status'] ?></div>
                                     <?php if ($bulk_order['request_status'] === 'accepted') : ?>
-                                        <small><a href="<?= ROOT ?>/orders/bulk/<?= $bulk_order['bulk_req_id'] ?>"><button type="button" class="review-button">EXPLORE</button></a></small>
+                                        <small><a href="<?= ROOT ?>/orders/bulk/<?= $bulk_order['bulk_req_id'] ?>"><button type="button" class="review-button">CHECKOUT</button></a></small>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -206,7 +206,7 @@
         </div>
     </main>
 
-    <script>
+    <!-- <script>
     // Get the select element
     var selectDisplayOptions = document.getElementById("display-options");
 
@@ -245,7 +245,7 @@
             }
         }
     });
-</script>
+</script> -->
 
 </body>
 
