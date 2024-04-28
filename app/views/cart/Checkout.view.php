@@ -16,8 +16,9 @@
             flex-direction: column;
             align-items: center;
             border-radius: 0.5rem;
-            width: 50%;
-            margin: auto;
+            width: 60%;
+           margin-left: 10%;
+           margin-right: 5%;
             padding-left: 10px;
             /* Add padding to the left side */
         }
@@ -33,6 +34,7 @@
             margin-right: 20px;
             /* Add small right padding */
             cursor: pointer;
+            background-color: #F5F5F5;
             /* Add cursor pointer for clickability */
         }
 
@@ -46,19 +48,21 @@
             align-items: flex-start;
             margin-left: 3%;
             margin-right: 10%;
+
             /* Align items at the top */
         }
 
 
         .summary {
-            width: 20%;
+            width: 25%;
   border: 1px solid #EEEEEE;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: .5rem;
-  margin-left: 6%;
-  margin-right: 4%;
+  margin-left:3%;
+  margin-right: 15%;
   height: 50%;
+  background-color: #F5F5F5;
  
 
         }
@@ -120,13 +124,13 @@
             padding: 10px 20px;
             margin-bottom: 20px;
             border-radius: 0.5rem;
-            margin-left: 20px;
-            margin-right: 20px;
+           
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-content: center;
             margin-top: 5%;
+            background-color: #F5F5F5;
             /* Add small left padding */
         }
 
@@ -299,6 +303,7 @@
             border-radius: 0.5rem;
             margin-left: 20px;
             margin-right: 20px;
+            background-color: #F5F5F5;
             /* Hide the form initially */
         }
     </style>
@@ -542,10 +547,10 @@ function handleDeliveryOption() {
     // If pickup is selected, hide the address form and update the style
     if (isPickupSelected) {
         addressForm.style.display = 'none';
-        changeAddressSection.style.backgroundColor = '#EEEEEE';
+        changeAddressSection.style.backgroundColor = '#CCCCCC';
     } else {
         // If delivery is selected, show the address form and update the style
-        addressForm.style.display = 'block'; // Assuming address form should be visible for delivery
+        addressForm.style.display = 'none'; // Assuming address form should be visible for delivery
         changeAddressSection.style.backgroundColor = '';
     }
 }
