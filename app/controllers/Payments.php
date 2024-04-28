@@ -23,33 +23,33 @@ class Payments extends Controller
         $checkout_data['checkout_products'] = $cartProducts->getSelectedItems($customerId);
         // show($checkout_data);
 
-        if(empty($checkout_data['checkout_products'])){
+        if (empty($checkout_data['checkout_products'])) {
             redirect('cart');
-        }else{
+        } else {
             $cartModel = new CartDetails();
-    
+
             $data['cart'] = $cartModel->getCartByCustomerId($customerId)[0];
-            $data['cart']->type= $type;
-            
-            if($type == 'delivery'){
+            $data['cart']->type = $type;
+
+            if ($type == 'delivery') {
                 $data['cart']->address_id = $address_id;
             }
             // show($data['cart']);
-            
+
             $orderDetails = new OrderDetails();
             $orderDetails->createOrder($data['cart']);
-    
+
             $userId = Auth::getUserId();
             $order = $orderDetails->getLastOrderByUserId($userId);
             $order_details_id = $order[0]->order_details_id;
             // show($order_details_id);
-    
+
             $orderItem = new OrderItem();
             $products = [];
-    
+
             foreach ($checkout_data['checkout_products'] as $checkout_product) {
                 $error = [];
-    
+
                 $product_id = $checkout_product->product_id;
 
                 $productObj = new Product();
@@ -61,54 +61,54 @@ class Payments extends Controller
                 $quantity = $product_inventory->getQuantity($product_inventory_id);
                 $quantity = $quantity[0]->quantity;
                 // show($quantity);
-    
-    
+
+
                 if ($quantity < 1) {
                     $error[$product_id]['msg'] = "out of stock";
-    
+
                     $orderDetails->deleteOrderDetails($order_details_id);
-                    if(!empty($products)){
+                    if (!empty($products)) {
                         $orderItem->deleteOrderItems($order_details_id);
 
-                        foreach($products as $order_product){
+                        foreach ($products as $order_product) {
                             $product_inventory->restockProductInventory($order_product);
                         }
                     }
 
                     $cartProducts->updateQuantity($customerId, $product_id, 0);
                     $cartProducts->updateSelectedStatus($customerId, $product_id, 0);
-    
+
                     $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
-    
+
                     $cartModel->updateCartTotals($customerId);
                     $cart = $cartModel->getCartByCustomerId($customerId);
                     $_SESSION['cart'] = $cart[0];
                     $_SESSION['error'] = $error;
-    
+
                     redirect('cart');
                     exit;
                 } elseif ($checkout_product->quantity > $quantity) {
                     $error[$product_id]['msg'] = "exceeds stock";
                     $error[$product_id]['available_quantity'] = $quantity;
-    
+
                     $orderDetails->deleteOrderDetails($order_details_id);
-                    if(!empty($products)){
+                    if (!empty($products)) {
                         $orderItem->deleteOrderItems($order_details_id);
 
-                        foreach($products as $order_product){
+                        foreach ($products as $order_product) {
                             $product_inventory->restockProductInventory($order_product);
                         }
                     }
-    
+
                     $cartProducts->updateQuantity($customerId, $product_id, $quantity);
-    
+
                     $_SESSION['cart_products'] = $cartProducts->getItemsByCustomerId($customerId);
-    
+
                     $cartModel->updateCartTotals($customerId);
                     $cart = $cartModel->getCartByCustomerId($customerId);
                     $_SESSION['cart'] = $cart[0];
                     $_SESSION['error'] = $error;
-    
+
                     redirect('cart');
                     exit;
                 } else {
@@ -126,7 +126,7 @@ class Payments extends Controller
             // show($data);
 
             $product_inventory = new ProductInventory();
-            foreach($data['order_products'] as $order_product){
+            foreach ($data['order_products'] as $order_product) {
                 // show($order_product);
                 $product_inventory->destockProductInventory($order_product);
             }
@@ -136,7 +136,7 @@ class Payments extends Controller
             $order_id = $order_details_id;
             $merchant_secret = MERCHANT_SECRET;
             $currency = "LKR";
-    
+
             $hash = strtoupper(
                 md5(
                     $merchant_id .
@@ -146,31 +146,30 @@ class Payments extends Controller
                         strtoupper(md5($merchant_secret))
                 )
             );
-    
+
             $array = [];
-    
+
             $array["amount"] = $amount;
             $array["merchant_id"] = $merchant_id;
             $array["order_id"] = $order_id;
             $array["merchant_secret"] = $merchant_secret;
             $array["currency"] = $currency;
             $array["hash"] = $hash;
-    
+
             $jsonObj = json_encode($array);
-    
+
             echo $jsonObj;
         }
-
     }
 
-    
+
     // Function for payment completion
     public function onCompletePayment($orderId)
     {
         // $orderId = $_POST['order_id'];
 
         $data['errors'] = [];
-        
+
         $orderDetails = new OrderDetails();
         $order = $orderDetails->getByOrderDetailsId($orderId);
         $order = $order[0];
@@ -182,7 +181,7 @@ class Payments extends Controller
             'provider' => 'visa',
             'status' => 'success'
         ];
-        
+
         $payment = new Payment();
         $payment->addPayment($payment_data);
 
@@ -219,7 +218,7 @@ class Payments extends Controller
         $orderItems = $orderItem->getByOrderDetailsId($orderId);
         // show($orderItems);
 
-        foreach($orderItems as $order_item){
+        foreach ($orderItems as $order_item) {
             $product_id = $order_item->product_id;
 
             $product = new Product();
@@ -230,7 +229,7 @@ class Payments extends Controller
             $data['order_inventory_id'] = $product_inventory_id;
             $data['quantity'] = $order_item->quantity;
             // show($data);
-            
+
             $product_inventory = new ProductInventory();
             $product_inventory->restockProductInventory($data);
         }
@@ -239,8 +238,95 @@ class Payments extends Controller
         // show('done');
 
         $orderDetails = new OrderDetails();
-        $orderDetails->deleteOrderDetails($orderId); 
+        $orderDetails->deleteOrderDetails($orderId);
         // show('done');       
+    }
+
+    public function BulkPay()
+    {
+        $data['errors'] = [];
+
+        $userId = Auth::getUserId();
+
+        show($userId);
+        $bulkOrderRequest = new BulkOrderReq();
+        $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
+
+
+        if (empty($bulkOrderReq)) {
+            message('No bulk order requests. please make a request.');
+            show('No bulk order requests. please make a request.');
+            redirect('bulk');
+        } elseif (!empty($bulkOrderReq) && $bulkOrderReq[0]->status == 'new') {
+            message('payment successful!!');
+            show('payment successful!!');
+
+            $bulkOrder = new BulkOrderDetails();
+            $bulkOrderDetails = $bulkOrder->getBulkByRequestId($bulkOrderReq[0]->bulk_req_id);
+
+
+            $amount = $bulkOrderReq[0]->total;
+            $merchant_id = MERCHANT_ID;
+            $order_id = $bulkOrderDetails[0]->bulk_order_id;
+            $merchant_secret = MERCHANT_SECRET;
+            $currency = "LKR";
+
+            $hash = strtoupper(
+                md5(
+                    $merchant_id .
+                        $order_id .
+                        number_format($amount, 2, '.', '') .
+                        $currency .
+                        strtoupper(md5($merchant_secret))
+                )
+            );
+
+            $array = [];
+
+            $array["amount"] = $amount;
+            $array["merchant_id"] = $merchant_id;
+            $array["order_id"] = $order_id;
+            $array["merchant_secret"] = $merchant_secret;
+            $array["currency"] = $currency;
+            $array["hash"] = $hash;
+
+            $jsonObj = json_encode($array);
+
+            echo $jsonObj;
+        } elseif (!empty($bulkOrderReq) && $bulkOrderReq[0]->status == '') {
+            message('Your Bulk order is not accepted yet.');
+            show('Your Bulk order is not accepted yet.');
+            redirect('home');
+        } else {
+            message('Your Bulk order is rejected.');
+            show('Your Bulk order is rejected.');
+        }
+    }
+
+    public function onCompleteBulkPayment($orderId)
+    {
+        // $orderId = $_POST['order_id'];
+
+        $data['errors'] = [];
+
+        $userId = Auth::getUserId();
+        $bulkOrderDetails = new BulkOrderDetails();
+        $bulkOrder = $bulkOrderDetails->getLastbulkOrderByUserId($userId);
+        // show($bulkOrder);
+        $buulkOrderDetailsId = $bulkOrder[0]->bulk_order_details_id;
+
+        $payment_data = [
+            'order_details_id' => $buulkOrderDetailsId,
+            'amount' => $bulkOrder[0]->total,
+            'provider' => 'visa',
+            'status' => 'success'
+        ];
+
+        $payment = new Payment();
+        $payment->addPayment($payment_data);
+
+        $bulkOrderDetails->updateOrderStatus($buulkOrderDetailsId, 'processing');
+        show('done');
     }
 
 
@@ -348,5 +434,4 @@ class Payments extends Controller
 
         $this->view('cart/invoice', $data);
     }
-
 }

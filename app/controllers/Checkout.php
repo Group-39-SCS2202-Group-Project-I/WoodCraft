@@ -109,6 +109,19 @@ class Checkout extends Controller
         $this->view('cart/Checkout', $data);
     }
 
+    
+    public function bulkRequest() {
+        $data['title'] = 'Bulk Order Request';
+
+        
+    }
+
+    public function bulkConfirm() {
+        $data['title'] = 'Bulk Order Confirmation';
+
+        
+
+    }
 
     public function saveAddress() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

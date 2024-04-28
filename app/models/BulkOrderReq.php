@@ -46,4 +46,11 @@ class BulkOrderReq extends Model
 
 		return false;
     }
+
+    public function getLastBulkOrderReqByUserId($userId)
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1";
+        $params = [':user_id' => $userId];
+        return $this->query($query, $params);
+    }
 }
