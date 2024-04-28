@@ -1,23 +1,26 @@
 <style>
+    .content-manage-order {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        background-color: var(--light);
+        padding: 20px;
+        border-radius: 10px;
+    }
+    
     .content-manage-order-left {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .content-manage-order {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        background-color: whitesmoke;
-        padding: 10px;
-    }
-
     .content-manage-detail {
         margin-bottom: 20px;
-        background-color: whitesmoke;
-        padding: 10px;
+        background-color: var(--light);
+        padding: 20px;
+        border-radius: 10px;
     }
 
     .content-manage-detail-mid {
@@ -25,13 +28,15 @@
         flex-direction: column;
         align-items: center;
         margin: 20px;
-        background-color: white;
-        padding: 10px;
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
     }
 
     .content-manage-detail-mid p {
-        font-size: 16px;
+        font-size: 13px;
         font-style: italic;
+        color: var(--green2);
     }
 
     .order-item {
@@ -64,10 +69,11 @@
 
     .content-manage-payment-left {
         flex: 1;
-        background-color: whitesmoke;
+        background-color: var(--light);
         margin-right: 20px;
-        padding: 10px;
+        padding: 20px;
         align-items: left;
+        border-radius: 10px;
     }
 
     .content-manage-payment-right {
@@ -110,6 +116,7 @@
         display: flex;
         flex-direction: column;
         align-items:flex-start; 
+        margin-bottom: 10px;
     }
 
     .back-orders {
@@ -125,6 +132,7 @@
     .back-orders:hover {
         background-color: var(--green1);
     }
+</style>
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -183,7 +191,7 @@
             <?php foreach ($data['bulk_order_details'] as $details) : ?>
                 <div class="content-manage-order">
                     <div class="content-manage-order-left">
-                        <p>Order <?= $details['bulk_order_details_id']; ?></p>
+                        <p>Order <strong style="color: var(--green2);"><?= $details['bulk_order_details_id']; ?></strong></p>
                         <p><small>Placed on <?= $details['created_at']; ?></small></p>
                     </div>
                     <p>Total: Rs.<?= $details['total_cost']; ?></p>
