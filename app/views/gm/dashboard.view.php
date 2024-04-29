@@ -11,8 +11,15 @@ $pxn = $data['production'];
 
 $url2 = ROOT . "/fetch/new_bulk_req";
 $response2 = file_get_contents($url2);
-$data2 = json_decode($response2, true);
-$newblkCount = count($data2);
+if($response2)
+{
+    $data2 = json_decode($response2, true);
+    $newblkCount = count($data2);
+}
+else
+{
+    $newblkCount = 0;
+}
 // show($data2);
 
 ?>
