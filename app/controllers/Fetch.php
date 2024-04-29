@@ -1982,4 +1982,15 @@ class Fetch extends Controller
 
     }
 
+    public function approved_bulk_req_count()
+    {
+        $db = new Database();
+        $q = "SELECT COUNT(*) as count FROM bulk_order_req WHERE status = 'approved'";
+        $count = $db->query($q)[0]->count;
+
+        header("Content-Type: application/json");
+        echo json_encode($count);
+
+    }
+
 }
