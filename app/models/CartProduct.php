@@ -70,6 +70,11 @@ class CartProduct extends Model
         return $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $customerId]);
     }
 
+    public function getSelectedItems($customerId)
+    {
+        return $this->select($this->table, 'customer_id = :customer_id AND selected = 1', [':customer_id' => $customerId]);
+    }
+
     public function getCartItem($customerId, $product_id)
     {
         
@@ -123,6 +128,13 @@ public function removeCartItem($customerId, $productId)
 {
     $query = "DELETE FROM $this->table WHERE product_id = :product_id AND customer_id = :customer_id";
     $params = ['product_id' => $productId, 'customer_id' => $customerId];
+    $this->query($query, $params);
+}
+
+public function removeCartItems($customerId)
+{
+    $query = "DELETE FROM $this->table WHERE customer_id = :customer_id";
+    $params = ['customer_id' => $customerId];
     $this->query($query, $params);
 }
 

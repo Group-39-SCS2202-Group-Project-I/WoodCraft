@@ -267,9 +267,19 @@ class Add extends Controller
 
         $result = $product->validate($_POST);
         // $result2 = $product_inventory->validate($_POST);
+
+        $x = $db->select('product', 'name = :name', [':name' => $_POST['name']]);
+        if ($x) {
+            // $errors['name'] = "Product already exists";
+            $product->errors['name'] = "Product already exists";
+            $result = false;
+        }
+
         $result2 = $product_measurement->validate($_POST);
 
         show($_POST);
+
+
 
         if ($result && $result2) {
 
@@ -309,11 +319,12 @@ class Add extends Controller
 
             show($product);
 
-            $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id)", $product);
-
-            $product_id = $db->query("SELECT product_id FROM product WHERE product_id = (SELECT MAX(product_id) FROM product)")[0]->product_id;
+            $db->query("INSERT INTO product (name, description, price, product_category_id, product_inventory_id, product_measurement_id,bulkmin) VALUES (:name, :description, :price, :product_category_id, :product_inventory_id, :product_measurement_id,:bulkmin)", $product);
 
             show(3);
+            $product_id = $db->query("SELECT product_id FROM product WHERE product_id = (SELECT MAX(product_id) FROM product)")[0]->product_id;
+
+            show(4);
 
             show($product_id);
 
@@ -419,12 +430,23 @@ class Add extends Controller
     public function material()
     {
         show($_POST);
+        if (empty($_POST['description'])) {
+            $_POST['description'] = "";
+        }
 
         $data['errors'] = [];
 
         $material = new Material;
 
         $result = $material->validate($_POST);
+
+        $db = new Database();
+        $x = $db->select('material', 'material_name = :material_name', [':material_name' => $_POST['name']]);
+        if ($x) {
+            // $errors['name'] = "Material already exists";
+            $material->errors['name'] = "Material already exists";
+            $result = false;
+        }
 
         show(1);
 

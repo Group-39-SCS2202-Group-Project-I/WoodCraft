@@ -66,53 +66,55 @@ $materials = json_decode($response, true);
         <input type="text" id="searchMaterials" placeholder="Search Materials..." class="table-section__search-input">
     </div> -->
 
-    <table class="table-section__table" id="material_table">
-        <thead>
-            <tr>
-                <th>Material ID</th>
-                <th>Material Name</th>
-                <th>Quantity Needed</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="material_table">
+            <thead>
+                <tr>
+                    <th>Material ID</th>
+                    <th>Material Name</th>
+                    <th>Quantity Needed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/product_materials/<?php echo $product['product_id'] ?>')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                let tableBody = document.getElementById('table-section__tbody');
-                                let table = document.getElementById('material_table');
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/product_materials/<?php echo $product['product_id'] ?>')
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    let tableBody = document.getElementById('table-section__tbody');
+                                    let table = document.getElementById('material_table');
 
-                                // Clear existing table rows
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
+                                    // Clear existing table rows
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
+                                    }
 
-                                // Insert new rows with updated data
-                                data.forEach(item => {
-                                    let row = tableBody.insertRow();
-                                    let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
+                                    // Insert new rows with updated data
+                                    data.forEach(item => {
+                                        let row = tableBody.insertRow();
+                                        let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
 
-                                    console.log(item);
+                                        console.log(item);
 
-                                    row.insertCell().innerHTML = material_id;
-                                    row.insertCell().innerHTML = item.material_name;
-                                    row.insertCell().innerHTML = item.quantity_needed;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.product_material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.product_material_id})">Delete</a>`;
+                                        row.insertCell().innerHTML = material_id;
+                                        row.insertCell().innerHTML = item.material_name;
+                                        row.insertCell().innerHTML = item.quantity_needed;
+                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.product_material_id})">Update</a><a class="table-section__button table-section__button-del" onclick="openDeletePopup(${item.product_material_id})">Delete</a>`;
+                                    });
+
                                 });
+                        }
+                        updateTable();
 
-                            });
-                    }
-                    updateTable();
-
-                });
-            </script>
-        </tbody>
-    </table>
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <?php

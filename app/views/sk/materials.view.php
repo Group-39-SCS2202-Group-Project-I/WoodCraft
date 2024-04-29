@@ -104,70 +104,95 @@
         <input type="text" id="searchMaterials" placeholder="Search Materials..." class="table-section__search-input">
     </div>
 
-    <table class="table-section__table" id="materials-table">
-        <thead>
-            <tr>
-                <th>Material ID</th>
-                <th>Material Name</th>
-                <th>Stock Available</th>
-                <!-- <th>No of Products</th> -->
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/materials')
-                            .then(response => response.json())
-                            .then(data => {
-                                // console.log(data);
-                                let table = document.getElementById('materials-table');
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="materials-table">
+            <thead>
+                <tr>
+                    <th>Material ID</th>
+                    <th>Material Name</th>
+                    <th>Stock Available</th>
+                    <!-- <th>No of Products</th> -->
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/materials')
+                                .then(response => response.json())
+                                .then(data => {
+                                    // console.log(data);
+                                    let table = document.getElementById('materials-table');
 
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
+                                    }
+                                    
+                                    data.sort((a, b) => {
+                                        return new Date(a.updated_at) - new Date(b.updated_at);
+                                    });
 
-                                data.forEach(item => {
-                                    let row = table.insertRow();
-                                    let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
-                                    row.insertCell().innerHTML = material_id;
-                                    row.insertCell().innerHTML = item.material_name;
-                                    row.insertCell().innerHTML = item.stock_available;
+                                    data.forEach(item => {
+                                        let row = table.insertRow();
+                                        let material_id = "MAT-" + String(item.material_id).padStart(3, '0');
+                                        row.insertCell().innerHTML = material_id;
+                                        row.insertCell().innerHTML = item.material_name;
+                                        row.insertCell().innerHTML = item.stock_available;
 
-                                    var mat_id = item.material_id;
-                                    // console.log(mat_id);
-                                    // console.log("x")
+                                        var mat_id = item.material_id;
+                                        // console.log(mat_id);
+                                        // console.log("x")
 
-                                    // row.insertCell().innerHTML = pc;
-                                    row.insertCell().innerHTML = item.updated_at;
-                                    row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">View</a>`;
+                                        // row.insertCell().innerHTML = pc;
+                                        row.insertCell().innerHTML = item.updated_at;
+                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${item.material_id})">View</a>`;
 
+                                    });
                                 });
-                            });
-                    }
+                        }
 
-                    updateTable();
+                        updateTable();
+
+                        const searchMaterials = document.getElementById('searchMaterials');
+                        searchMaterials.addEventListener('input', function() {
+                            let filter, table, tr, td, i, txtValue;
+                            filter = searchMaterials.value.toUpperCase();
+                            table = document.getElementById('materials-table');
+                            tr = table.getElementsByTagName('tr');
+                            for (i = 0; i < tr.length; i++) {
+                                td = tr[i].getElementsByTagName('td')[1];
+                                if (td) {
+                                    txtValue = td.textContent || td.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = '';
+                                    } else {
+                                        tr[i].style.display = 'none';
+                                    }
+                                }
+                            }
+                        });
 
 
-                });
-            </script>
+                    });
+                </script>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="approve-item-popup">
         <div class="popup-form__content">
             <form action="" method="POST" class="form">
                 <!-- <div class="popup-content styled-popup"> -->
-                    <!-- <a type="button" class="close-btn styled-close-btn" onclick="closePopup()">
+                <!-- <a type="button" class="close-btn styled-close-btn" onclick="closePopup()">
                         <span class="material-symbols-outlined styled-material-symbols">
                             cancel
                         </span>
                     </a> -->
                 <!-- </div> -->
-                <div >
+                <div>
                     <h3 id="mat-details" class="styled-details"></h3>
                     <p id="mat-quantity" class="styled-quantity"></p>
                 </div>

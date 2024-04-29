@@ -111,6 +111,10 @@ foreach ($products_without_materials as $product_without_materials) {
 }
 // show($products_without_materials_details);
 
+$url3  = ROOT . "/fetch/approved_bulk_req_count";
+$bulk_count = file_get_contents($url3);
+// show($bulk_count);
+
 ?>
 
 <style>
@@ -148,7 +152,7 @@ foreach ($products_without_materials as $product_without_materials) {
         <div class="card">
             <h3 class="card-title">Approved bulk orders</h3>
             <span class="material-icons-outlined card-icon">task_alt</span>
-            <p class="card-text">5</p>
+            <p class="card-text"><?=$bulk_count?></p>
         </div>
     </a>
 
@@ -236,6 +240,7 @@ foreach ($products_without_materials as $product_without_materials) {
         legend: {
             show: false,
         },
+        labels: ['Carpenters', 'Painters', 'Supervisors'],
         xaxis: {
             categories: ['Carpenters', 'Painters', 'Supervisors'],
         },

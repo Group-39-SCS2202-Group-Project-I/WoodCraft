@@ -16,15 +16,16 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
 }
 
-/* body {
-    background-color: #f9f9f9;
-  }
-  
-  .main {
-    margin: 0;
-  } */
+body {
+  background-color: var(--light);
+}
+
+h2 {
+  font-size: 30px;
+}
 
   .team {
     background-color: var(--green);
@@ -32,35 +33,42 @@
   }
 
   .team-title{
-    padding: 60px;
+    padding-bottom: 60px;
     text-align: center;
     font-size: 30px;
   }
 
   .team-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
   }
 
   .team-member{
-    padding: 30px;
-    height: 250px;
+    height:300px;
+    width: 300px;
     text-align: center;
-    background-color: var(--bg2);
-    border-radius: 10px;
     margin-bottom: 10px;
   }
+
+  .team-member img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 1000px;
+  }  
 
   .tab-logo-container{
     text-align: center;
     padding: 80px;
     padding-bottom: 0px;
-    background-color: var(--bg2);
+    background-color: var(--light);
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 25px;
   }
 
   .tab-container{
@@ -69,10 +77,11 @@
     align-items: baseline;
     background-color: var(--bg2);
     margin-bottom: 10px;
+    border-radius: 10px;
   }
 
   .tab-container h1{
-    font-size: 50px;
+    font-size: 40px;
   }
 
   .logo-container{
@@ -80,12 +89,12 @@
     height: auto;
     text-align: left;
     align-items: baseline;
-    background-color: var(--bg2);
     margin-bottom: 10px;
+    border-radius: 10px;
   }
 
   .logo-container img {
     max-width: 100%;
     height: auto;
-    background-color: #fff;
+    border-radius: 10px;
  }

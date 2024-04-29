@@ -2308,7 +2308,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
    * #BANNER 
    */
 
-  .banner { margin-top: 0; }
+  .banner { margin-top: 65px; }
 
   .slider-item { height: 380px; }
 
@@ -2610,7 +2610,7 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
   text-align: center;
   padding: 80px;
   padding-bottom: 0px;
-  background-color: #edebeb;
+  background-color: var(--light);
   }
   
   .tab-group-title {

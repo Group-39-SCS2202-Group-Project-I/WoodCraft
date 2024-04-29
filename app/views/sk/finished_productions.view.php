@@ -18,56 +18,81 @@
         <input type="text" id="searchFinProd" placeholder="Search Finished Productions..." class="table-section__search-input">
     </div>
 
-    <table class="table-section__table" id="finprod-table">
-        <thead>
-            <tr>
-                <th>Production ID</th>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="table-section__tbody">
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    function updateTable() {
-                        fetch('<?php echo ROOT ?>/fetch/finished_productions')
-                            .then(response => response.json())
-                            .then(data => {
+    <div id="scrollable_sec">
+        <table class="table-section__table" id="finprod-table">
+            <thead>
+                <tr>
+                    <th>Production ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-section__tbody">
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateTable() {
+                            fetch('<?php echo ROOT ?>/fetch/finished_productions')
+                                .then(response => response.json())
+                                .then(data => {
 
-                                let table = document.getElementById('finprod-table');
+                                    let table = document.getElementById('finprod-table');
 
-                                while (table.rows.length > 1) {
-                                    table.deleteRow(1);
-                                }
-
-                                data.forEach(item => {
-                                    if (item.added == "NA") {
-                                        let row = table.insertRow();
-                                        let finished_production_id = item.finished_production_id;
-                                        // let finished_production_id = "FIN-" + String(item.finished_production_id).padStart(3, '0');
-                                        let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
-                                        let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
-                                        let product_name = item.product_name;
-                                        let quantity = item.quantity;
-
-                                        row.insertCell().innerHTML = production_id;
-                                        row.insertCell().innerHTML = product_id;
-                                        row.insertCell().innerHTML = product_name;
-                                        row.insertCell().innerHTML = quantity;
-                                        row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${finished_production_id})">Add to Stock</a>`;
-
+                                    while (table.rows.length > 1) {
+                                        table.deleteRow(1);
                                     }
 
+                                    data.sort((a, b) => {
+                                        return new Date(b.updated_at) - new Date(a.updated_at);
+                                    });
+
+                                    data.forEach(item => {
+                                        if (item.added == "NA") {
+                                            let row = table.insertRow();
+                                            let finished_production_id = item.finished_production_id;
+                                            // let finished_production_id = "FIN-" + String(item.finished_production_id).padStart(3, '0');
+                                            let production_id = "PXN-" + String(item.production_id).padStart(3, '0');
+                                            let product_id = "PRD-" + String(item.product_id).padStart(3, '0');
+                                            let product_name = item.product_name;
+                                            let quantity = item.quantity;
+
+                                            row.insertCell().innerHTML = production_id;
+                                            row.insertCell().innerHTML = product_id;
+                                            row.insertCell().innerHTML = product_name;
+                                            row.insertCell().innerHTML = quantity;
+                                            row.insertCell().innerHTML = `<a class="table-section__button" onclick="openUpdatePopup(${finished_production_id})">Add to Stock</a>`;
+
+                                        }
+
+                                    });
                                 });
-                            });
-                    }
-                    updateTable();
-                });
-            </script>
-        </tbody>
-    </table>
+                        }
+                        updateTable();
+
+                        const searchFinProd = document.getElementById('searchFinProd');
+                        searchFinProd.addEventListener('keyup', function() {
+                            let filter, table, tr, td, i, txtValue;
+                            filter = searchFinProd.value.toUpperCase();
+                            table = document.getElementById('finprod-table');
+                            tr = table.getElementsByTagName('tr');
+                            for (i = 0; i < tr.length; i++) {
+                                td = tr[i].getElementsByTagName('td')[0];
+                                if (td) {
+                                    txtValue = td.textContent || td.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = '';
+                                    } else {
+                                        tr[i].style.display = 'none';
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </tbody>
+        </table>
+    </div>
 
     <div class="popup-form" id="add-to-stk-popup">
         <div class="popup-form__content">

@@ -60,13 +60,25 @@ class CartDetails extends Model
 
     public function getCartByCustomerId($customerId)
     {
-        $query = "SELECT * FROM cart WHERE customer_id = :customerId";
-        $params = [':customerId' => $customerId];
-        $this->query($query, $params);
+        // $query = "SELECT * FROM cart WHERE customer_id = :customerId";
+        // $params = [':customerId' => $customerId];
+        // $this->query($query, $params);
 
         $result = $this->select($this->table, 'customer_id = :customer_id', [':customer_id' => $customerId]);
         // show($result);
         return $result;
+    }
+
+    public function getQuantitybyProductId($productId)
+    {
+        $query = "SELECT product_inventory_id FROM product WHERE product_id = :product_id";
+        $params = [':product_id' => $productId];
+        $productInventoryId = $this->query($query, $params);
+
+        $query = "SELECT quantity FROM product_inventory WHERE product_inventory_id = :product_inventory_id";
+        $params = [':product_inventory_id' => $productInventoryId[0]->product_inventory_id];
+        $result = $this->query($query, $params);
+        return $result[0]->quantity;
     }
 
     public function createCart($customerId)
@@ -81,9 +93,10 @@ class CartDetails extends Model
     public function updateCartTotals($customerId)
     {
         $query = "UPDATE cart
-        SET cart_item_count = (SELECT SUM(quantity) FROM cart_products WHERE Customer_id = :customerId),
-            sub_total = (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId),
-            total = (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId) + 0.2 * (SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId)
+        SET cart_item_count = COALESCE((SELECT SUM(quantity) FROM cart_products WHERE Customer_id = :customerId AND selected = 1), 0),
+            sub_total = COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0),
+            delivery_cost = 0.15 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0),
+            total = COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0) + 0.15 * COALESCE((SELECT SUM(price * quantity) FROM product INNER JOIN cart_products ON product.product_id = cart_products.product_id WHERE customer_id = :customerId AND selected = 1), 0)
         WHERE customer_id = :customerId;
         ";
 
@@ -91,6 +104,5 @@ class CartDetails extends Model
         
         $params = [':customerId' => $customerId];
         $this->query($query, $params);
-        show('update_works');
     }
 }

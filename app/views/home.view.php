@@ -1,230 +1,373 @@
-<?php $this->view('includes/header', $data) ?>
-
+<?php $this->view('includes/nav2', $data) ?>
 
 <?php
 if (Auth::logged_in()) {
   $this->view('includes/chat', $data);
 }
 ?>
-<div class="overlay" data-overlay></div>
-<?php $this->view('webstore/modal', $data) ?>
-<?php $this->view('webstore/notification-toast', $data) ?>
 
-<!--
-    - HEADER
-    -->
+<style>
+  /* .swiper {
+    margin: 100px auto;
+    width: 320px;
+    height: 240px; 
+  } */
 
-<header>
-  <?php $this->view('includes/nav', $data) ?>
-  <?php $this->view('webstore/header-section', $data) ?>
-
-</header>
-
-<!--
-    - MAIN
-  -->
-
-<main>
-  <?php $this->view('webstore/banner', $data) ?>
-  <!--
-      - PRODUCT
-    -->
-
-  <div class="product-container">
-
-    <div class="container">
-      <?php $this->view('webstore/sidebar', $data) ?>
-
-
-      <div class="product-box">
-
-        <?php $this->view('webstore/product-grid', $data) ?>
-        <?php $this->view('webstore/product-featured', $data) ?>
-
-      </div>
-
-    </div>
-    <!-- testimonals -->
-    <section>
-      <div class="container2">
-      
-        <div class="sub1">
-        <div class="title">
-          <div class="details"><p><i class="fas fa-minus"></i> Testimonals</p></div>
-        </div>
-        <div class="topic">
-            <p>Our Customer</p>
-            <p>Testimonials</p>
-           </div>
-           <div class="paragraph">
-                
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
-                   aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                   dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                   deserunt mollit anim id est laborum.</p>
-                 <button type="submit" class="btn">Buy Now!</button>
-                </div>
-           </div>
-        
-         <section class="container3">
-         <div class="sub2">
-                <div class="testicontent">
-                  <div class="slide">
-                    <img src="img1/g1.jpg" alt="" class="image">
-                    <div class="about">
-                      <span class="name"> Shane Lee</span>
-                      <span class="job"> Student, Digital Marketing</p>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
-                   aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                   dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                   deserunt mollit anim id est laborum.</p>
-                  </div>
-                </div>
-               
-          
-          </div>
-
-      </div>
-         </section>
-         <style>
-          .container2{
-    margin: 3vw 0 ;
-    padding: 1vw;
-    background-color:#d6d6d6 ;
+  .swiper-slide {
     display: flex;
-    flex-direction: row ;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+  }
 
-
-}
-.sub1{
-    display: flex;
-    flex-direction: column;
-    border-radius: 1rem;
-    border: 2px solid #d6d6d6;
-    margin:10px 10px 10px 20px;
-    padding: 2vw;
-    width: 48%;
-
-}
-.sub2{
-    display: flex;
-    flex-direction:row;
-    border-radius: 1rem;
-    border: 2px solid #d6d6d6;
-    margin:10px 10px 10px 20px;
-    padding: 2vw;
-    width: 48%;
-  
-    justify-content: space-between;
-}
-/* .box {
-   
-    
-
-    width: 30%;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: 1s;
-    position: relative;
-}
-
-.box img {
+  .swiper-slide img {
     width: 100%;
-    border-radius: 10px;
-}
-
-.box:hover {
-    transform: scale(1.3);
-    z-index: 2;
-} 
-
-
-
-
-
-
-
-
- */
-.sub2{
-    position: relative;
-    max-width: 900px;
-    width: 100%;
-    background-color:white; ;
-    padding: 50px 0;
-    row-gap:30px ;
-
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: 1s;
-}
-.sub2:hover {
-    transform: scale(.8);
-    z-index: 1;
-} 
- .sub2 .image{
-    height: 170px;
-    width: 170px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 50%;
- }
- .container3{
-    height: 100vh;
-    width :100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #d6d6d6; 
+  }
 
- }
- .sub2 .slide{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
- }
- .slide p{
-    padding: 0 100px;
-    text-align: center;
-    font-weight: 500;
-    color: #333;
-    
- }
+  .swi-cont {
+    position: absolute;
+    top: 40%;
+    left: 0%;
+    /* transform: translate(-50%, -50%); */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    padding: 30px 20px;
+    padding-left: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+  }
 
- .slide .about{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
- }
- .about.name{
-    font-size: 14px;
-    font-weight: 600;
-    color: black;
- }
- .about .job{
-    font-size: 14px;
-    font-weight: 600;
-    color: #333; 
- }
- </style>
- 
+  .swi-cont h1{
+    font-size: 3.5rem;
+  }
+
+  .car-btn
+  {
+    background-color: var(--primary);
+    color: var(--light);
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+
+  .car-btn:hover
+  {
+    background-color: var(--blk);
+    color: var(--light);
+  }
+</style>
 
 
+
+
+
+
+<div class="products-section2">
+
+  <div style="display: flex; justify-content: center; align-items: center; padding:5px; padding-bottom:1rem;">
+    <div class="swiper mySwiper" style="border-radius:10px;">
+      <div class="swiper-wrapper">
+      
+      <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">Crafted Comfort</h3>
+            <h1 style="color: var(--blk);">EXPLORE OUR <br>LATEST COLLECTION</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
+        </div>
+
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 2">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">Modern Classics</h3>
+            <h1 style="color: var(--blk);">DISCOVER <span style="color:var(--primary)">WOODCRAFTS</span> 'S <br>TIMELESS COLLECTION</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
+        </div>
+
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 3">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">FIND YOUR</h3>
+            <h1 style="color: var(--blk);">EXPLORE OUR <br>PERFECT PIECE</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 
-  <div>
-    <?php $this->view('webstore/product-benefits', $data) ?>
-    <?php $this->view('webstore/product-category', $data) ?>
-    <?php $this->view('webstore/product-newsletter', $data) ?>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      speed: 2000,
+      loop: true,
+      autoplay: {
+        delay: 10000,
+        disableOnInteraction: false,
+      },
+      grabCursor: true,
+      effect: "creative",
+      creativeEffect: {
+        prev: {
+          shadow: true,
+          translate: [0, 0, -400],
+        },
+        next: {
+          translate: ["100%", 0, 0],
+        },
+      },
+    });
+  </script>
+
+  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
+
+
+  <div class="dash4">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const url = '<?= ROOT ?>/fetch/top_selling_products';
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+
+
+            var products = data;
+            products = products.filter(product => product.listed == 1);
+            const dashboard = document.querySelector('.dash4');
+
+            products.forEach(product => {
+              const product_id = product.product_id;
+              const product_name = product.name;
+              const product_price = product.price;
+              const product_category_id = product.product_category_id;
+              const product_images = product.images;
+
+              const productCard = document.createElement('div');
+              productCard.classList.add('product_card');
+
+              const cardCont = document.createElement('div');
+              cardCont.classList.add('card_cont');
+
+              const swiper2 = document.createElement('div');
+              swiper2.classList.add('swiper');
+
+              const swiperWrapper = document.createElement('div');
+              swiperWrapper.classList.add('swiper-wrapper');
+
+
+              product_images.forEach(image => {
+                const swiperSlide = document.createElement('div');
+                swiperSlide.classList.add('swiper-slide');
+
+                const img = document.createElement('img');
+                img.src = `<?= ROOT ?>/${image}`;
+                img.alt = product_name;
+
+                swiperSlide.appendChild(img);
+                swiperWrapper.appendChild(swiperSlide);
+              });
+
+              const swiperPagination = document.createElement('div');
+              swiperPagination.classList.add('swiper-pagination');
+
+              swiper2.appendChild(swiperWrapper);
+              swiper2.appendChild(swiperPagination);
+
+              const cardName = document.createElement('p');
+              cardName.classList.add('card_name');
+              cardName.textContent = product_name;
+
+              const productQty = document.createElement('p');
+              productQty.classList.add('product_qty');
+
+              if (product.quantity == null) {
+                product.quantity = 0;
+              }
+              if (product.quantity < 3) {
+                productQty.style.color = 'red';
+              } else {
+                productQty.style.color = 'green';
+              }
+              const QtyText = product.quantity == 0 ? 'Out of Stock' : product.quantity + ' in stock';
+
+
+              productQty.textContent = QtyText;
+
+              const hiddenProductId = document.createElement('p');
+              hiddenProductId.classList.add('hiddenProductId');
+              hiddenProductId.style.display = 'none';
+              hiddenProductId.textContent = product_id;
+              cardCont.appendChild(hiddenProductId);
+
+              const cardPrice = document.createElement('h4');
+              cardPrice.classList.add('card_price');
+              cardPrice.textContent = product_price + ' Rs';
+
+              const categoryID = document.createElement('p');
+              categoryID.classList.add('category_id');
+              categoryID.textContent = product_category_id;
+              categoryID.style.display = 'none';
+
+
+              cardCont.appendChild(swiper2);
+              cardCont.appendChild(cardName);
+              cardCont.appendChild(cardPrice);
+              cardCont.appendChild(productQty);
+
+              cardCont.appendChild(categoryID);
+
+              productCard.appendChild(cardCont);
+
+              const cardBtn = document.createElement('button');
+              cardBtn.classList.add('card_btn');
+              cardBtn.textContent = 'View';
+
+              productCard.appendChild(cardBtn);
+
+              dashboard.appendChild(productCard);
+
+              atag = document.createElement('a');
+              atag.href = `<?= ROOT ?>/products/${product_id}`;
+              atag.style.textDecoration = 'none';
+              atag.appendChild(productCard);
+              dashboard.appendChild(atag);
+            });
+          });
+      });
+    </script>
   </div>
+</div>
+
+<div class="products-section2">
+  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px;">New Arrivals</h2>
+
+  <div class="dash4" id="new_arrivals">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const url = '<?= ROOT ?>/fetch/new_arrivals';
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            var products = data;
+            products = products.filter(product => product.listed == 1);
+            const dashboard = document.getElementById('new_arrivals');
+
+            products.forEach(product => {
+              const product_id = product.product_id;
+              const product_name = product.name;
+              const product_price = product.price;
+              const product_category_id = product.product_category_id;
+              const product_images = product.images;
+
+              const productCard = document.createElement('div');
+              productCard.classList.add('product_card');
+
+              const cardCont = document.createElement('div');
+              cardCont.classList.add('card_cont');
+
+              const swiper2 = document.createElement('div');
+              swiper2.classList.add('swiper');
+
+              const swiperWrapper = document.createElement('div');
+              swiperWrapper.classList.add('swiper-wrapper');
+
+              product_images.forEach(image => {
+                const swiperSlide = document.createElement('div');
+                swiperSlide.classList.add('swiper-slide');
+
+                const img = document.createElement('img');
+                img.src = `<?= ROOT ?>/${image}`;
+                img.alt = product_name;
+
+                swiperSlide.appendChild(img);
+                swiperWrapper.appendChild(swiperSlide);
+              });
+
+              const swiperPagination = document.createElement('div');
+              swiperPagination.classList.add('swiper-pagination');
+
+              swiper2.appendChild(swiperWrapper);
+              swiper2.appendChild(swiperPagination);
+
+              const cardName = document.createElement('p');
+              cardName.classList.add('card_name');
+              cardName.textContent = product_name;
+
+              const productQty = document.createElement('p');
+              productQty.classList.add('product_qty');
+
+              if (product.quantity == null) {
+                product.quantity = 0;
+              }
+              if (product.quantity < 3) {
+                productQty.style.color = 'red';
+              } else {
+                productQty.style.color = 'green';
+              }
+              const QtyText = product.quantity == 0 ? 'Out of Stock' : product.quantity + ' in stock';
+
+
+              productQty.textContent = QtyText;
+
+              const hiddenProductId = document.createElement('p');
+              hiddenProductId.classList.add('hiddenProductId');
+              hiddenProductId.style.display = 'none';
+              hiddenProductId.textContent = product_id;
+              cardCont.appendChild(hiddenProductId);
+
+              const cardPrice = document.createElement('h4');
+              cardPrice.classList.add('card_price');
+              cardPrice.textContent = product_price + ' Rs';
+
+              const categoryID = document.createElement('p');
+              categoryID.classList.add('category_id');
+              categoryID.textContent = product_category_id;
+              categoryID.style.display = 'none';
+
+
+              cardCont.appendChild(swiper2);
+              cardCont.appendChild(cardName);
+              cardCont.appendChild(cardPrice);
+              cardCont.appendChild(productQty);
+
+              cardCont.appendChild(categoryID);
+
+              productCard.appendChild(cardCont);
+
+              const cardBtn = document.createElement('button');
+              cardBtn.classList.add('card_btn');
+              cardBtn.textContent = 'View';
+
+              productCard.appendChild(cardBtn);
+
+              dashboard.appendChild(productCard);
+
+              atag = document.createElement('a');
+              atag.href = `<?= ROOT ?>/products/${product_id}`;
+              atag.style.textDecoration = 'none';
+              atag.appendChild(productCard);
+              dashboard.appendChild(atag);
+            });
+          });
+      });
+    </script>
+  </div>
+</div>
 
 
 
-</main>
 
 
-<?php $this->view('includes/footer', $data) ?>
+<?php $this->view('includes/footer2', $data) ?>

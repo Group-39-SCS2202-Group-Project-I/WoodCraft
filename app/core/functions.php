@@ -66,9 +66,9 @@ function createStarRating($rating) {
 
 	for ($i = 1; $i <= 5; $i++) {
 		if ($i <= $rating) {
-			$output .= '<ion-icon name="star"></ion-icon>';
+			$output .= '<span class="material-icons-outlined">star</span>';
 		} else {
-			$output .= '<ion-icon name="star-outline"></ion-icon>';
+			$output .= '<span class="material-icons-outlined">star_outline</span>';
 		}
 	}
 
@@ -105,4 +105,9 @@ function get_value($key, $default = ''){
 // {
 //     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
 // }
+
+function getCurrentURI()
+{
+	return $_SERVER['REQUEST_URI'];
+}
 

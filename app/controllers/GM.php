@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'MailService.php';
 class GM extends Controller
 {
 
@@ -294,20 +294,36 @@ class GM extends Controller
         $url = ROOT . "/fetch/bulk_req_by_id/$id";
         $response = file_get_contents($url);
         $bulk_req = json_decode($response, true);
+        message('Bulk Order Request updated successfully');
+        show('Bulk Order Request updated successfully');
+        
 
         if($_POST['status'] == 'accepted')
         {
-            $message = "Your bulk order request has been accepted. The estimated delivery date is " . $_POST['estimated_date'] . ". The total cost is " . $_POST['total'];
+            $link = ROOT . "/orders/bulk";
+            $message = "Your bulk order request has been accepted.<br>The estimated delivery date is " . $_POST['estimated_date']. ".<br>The total cost is " . $_POST['total']. " LKR.<br>Thank you for choosing WoodCraft Furniture Company.<br><br>Navigation to the order: <a href='$link'>Proceed</a>";
             // email
+            // MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Accepted', $message);
+           MailService::sendEmail($email, 'Bulk Order Request Accepted', $message);
+           
         }
         else
         {
-            $message = "Your bulk order request has been rejected";
+            $message = "Your bulk order request has been rejected.<br>Thank you for choosing WoodCraft Furniture Company.";
             // email
+            MailService::sendEmail($email, 'Bulk Order Request Rejected', $message);
+            
         }
-
-        message('Bulk Order Request updated successfully');
-        show('Bulk Order Request updated successfully');
         redirect('gm/bulk_order_requests');
+        // if($x)
+        // {
+        //     show('Email sent successfully');
+        // }
+        // else
+        // {
+        //     show('Email not sent');
+        // }
+
+       
     }
 }

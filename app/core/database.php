@@ -120,31 +120,31 @@ class Database
 
 	// .....
 
-	private function update($table, $data, $where)
-    {
-        if (empty($data) || empty($where)) {
-            return false;
-        }
+	// private function update($table, $data, $where)
+    // {
+    //     if (empty($data) || empty($where)) {
+    //         return false;
+    //     }
 
-        $setValues = [];
-        $updateData = [];
+    //     $setValues = [];
+    //     $updateData = [];
 
-        foreach ($data as $key => $value) {
-            $setValues[] = "$key = :$key";
-            $updateData[":$key"] = sanitize($value); // Use sanitize function for each value
-        }
+    //     foreach ($data as $key => $value) {
+    //         $setValues[] = "$key = :$key";
+    //         $updateData[":$key"] = sanitize($value); // Use sanitize function for each value
+    //     }
 
-        $setClause = implode(', ', $setValues);
+    //     $setClause = implode(', ', $setValues);
 
-        $query = "UPDATE $table SET $setClause WHERE $where";
+    //     $query = "UPDATE $table SET $setClause WHERE $where";
 
-        return $this->query($query, $updateData);
-    }
+    //     return $this->query($query, $updateData);
+    // }
 
-    public function updateCustomerProfile($id, $data)
-    {
-        return $this->update('customer', $data, 'customer_id = :id', [':id' => $id]);
-    }
+    // public function updateCustomerProfile($id, $data)
+    // {
+    //     return $this->update('customer', $data, 'customer_id = :id', [':id' => $id]);
+    // }
 
 	// private function multiUpdate($tables, $data, $where)
 	// {
@@ -198,17 +198,17 @@ class Database
     //     return $this->multiUpdate('customer', $data, 'customer_id = :id', [':id' => $id]);
     // }
 
-	public function updateaddress($table, $data, $where, $params = [])
-    {
-        $setClause = '';
-        foreach ($data as $key => $value) {
-            $setClause .= "`$key` = :$key, ";
-        }
-        $setClause = rtrim($setClause, ', ');
+	// public function updateaddress($table, $data, $where, $params = [])
+    // {
+    //     $setClause = '';
+    //     foreach ($data as $key => $value) {
+    //         $setClause .= "`$key` = :$key, ";
+    //     }
+    //     $setClause = rtrim($setClause, ', ');
 
-        $query = "UPDATE $table SET $setClause WHERE $where";
+    //     $query = "UPDATE $table SET $setClause WHERE $where";
 
-        return $this->query($query, array_merge($data, $params));
-    }
+    //     return $this->query($query, array_merge($data, $params));
+    // }
 
 }

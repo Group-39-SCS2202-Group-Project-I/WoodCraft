@@ -1,4 +1,3 @@
-<!-- bulk_req_id	product_id	quantity	status -->
 <?php
 
 class BulkOrderReq extends Model
@@ -45,5 +44,27 @@ class BulkOrderReq extends Model
 		}
 
 		return false;
+    }
+
+    public function getLastBulkOrderReqByUserId($userId)
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1";
+        $params = [':user_id' => $userId];
+        $results = $this->query($query, $params);
+        return $results;
+    }
+
+    public function updateBulkRequestStatus($bulkRequestsId, $status)
+    {
+        $query = "UPDATE $this->table SET status = :status WHERE bulk_req_id = :bulk_req_id";
+        return $this->query($query, [':status' => $status, ':bulk_req_id' => $bulkRequestsId]);
+    }
+
+    public function getBulkReqDetails($bulk_req_id)
+    {
+        $query = "SELECT * FROM $this->table WHERE bulk_req_id = :bulk_req_id";
+        $params = [':bulk_req_id' => $bulk_req_id];
+        $results = $this->query($query, $params);
+        return $results;
     }
 }

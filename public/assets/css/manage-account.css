@@ -16,12 +16,70 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--light);
+}
+
+.side-bar-customer {
+    background-color: var(--white);
+    width: 250px;
+    border-radius: 10px;
+    /* height: 100%; */
+}
+
+.customer-sidebar-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.customer-sidebar-list-item {
+    padding: 15px 20px 15px 20px;
+    color: var(--blk);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.customer-sidebar-list-item>a {
+    text-decoration: none;
+    color: var(--blk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customer-sidebar-list-item:hover {
+    color: var(--light);
+    background-color: var(--green1);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.customer-sidebar-list-item:hover>a {
+    color: var(--light);
+}
+
+.customer-sidebar-list-item.selected {
+    color: var(--light);
+    background-color: var(--green1);
+    border-radius: 10px;
 }
 
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 80%;
+    margin: 0 50px;
     padding: 10px;
 }
 
@@ -32,6 +90,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.no-detail {
+    padding: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--green2);
+    background-color: var(--light);
+    text-align: center;
+    border-radius: 10px;
+    width: 60%;
+    margin-top: 100px;
+    margin-left: 100px;
 }
 
 .info-value {
@@ -75,11 +146,11 @@
     color: var(--green2);
 }
 
-.profile-info {
+/* .profile-info {
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-}
+} */
 
 .subscribe-link-manage-account {
     display: block;
@@ -104,61 +175,6 @@
     color: var(--bg1);
 }
 
-/* -- my profile -- */
-.content-profile {
-    padding: 20px;
-    background-color: var(--bg2);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0px;
-}
-
-.content-profile a {
-    text-decoration: none;
-    color: var(--green2);
-    font-size: 12px;
-}
-
-.bottom-profile {
-    padding-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-}
-
-.buttons-profile {
-    text-align: center;
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-}
-
-.buttons-profile a {
-    display: block;
-    margin-bottom: 10px;
-    width: 250px;
-    font-size: 1em;
-
-    background-color: var(--green1);
-    color: var(--white);
-    border: none;
-    border-radius: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.buttons-profile a:hover {
-    background-color: var(--coal_black);
-}
-
-.subscribe-link-profile {
-    grid-column: span 3;
-    margin-top: 10px;
-    color: var(--green2);
-    cursor: pointer;
-}
 
 /* -- address book -- */
 .new-address {
@@ -305,152 +321,3 @@
     text-decoration: none;
     color: var(--green2);
 }
-
-/* -- edit profile -- */
-.content-edit-profile {
-    padding: 20px;
-    background-color: var(--bg2);
-    height: fit-content;
-}
-
-.field-edit-profile {
-    margin-bottom: 10px;
-    width: 50%;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-}
-
-select {
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.subscribe-link-edit-profile {
-    display: block;
-    margin-top: 20px;
-    color: var(--green2);
-    cursor: pointer;
-    font-size: 12px;
-    padding-top: 20px;
-    padding-bottom: 10px;
-}
-
-.content-edit-profile a {
-    text-decoration: none;
-}
-
-.save-changes-edit-profile,.cancel-edit-profile {
-    background-color: var(--green1);
-    color: var(--white);
-    border: none;
-    border-radius: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 200px;
-    margin: 10px;
-    /* margin-bottom: 10px; */
-}
-
-.save-changes-edit-profile:hover, .cancel-edit-profile:hover {
-    background-color: var(--coal_black);
-}
-
-/* -- change password -- */
-.content-change-password {
-    padding: 20px;
-    background-color: var(--bg2);
-}
-
-.field-change-password {
-    margin-bottom: 20px;
-    width: 50%;
-}
-
-.label-with-eye {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.label-with-eye .input-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.label-with-eye .eye-icon {
-    cursor: pointer;
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.eye-icon {
-    cursor: pointer;
-}
-
-.eye-icon .material-icons {
-    font-size: 20px;
-    color: #ccc;
-}
-
-.save-changes-change-password,.cancel-change-password {
-    background-color: var(--green1);
-    color: var(--white);
-    border: none;
-    border-radius: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 200px;
-    margin-top: 20px; 
-    margin-right: 10px;
-}
-
-.save-changes-change-password:hover, .cancel-change-password:hover {
-    background-color: var(--coal_black);
-}
-
-/* .error-message {
-    color: red;
-    margin-top: 5px;
-} */

@@ -154,6 +154,7 @@ $pxn_count = json_decode($pxn_count_response, true);
                         fetch(url)
                             .then(response => response.json())
                             .then(data => {
+                                console.log(data)
                                 data.forEach(record => {
                                     let chat_record = document.createElement('a');
                                     chat_record.href = "<?= ROOT . '/osr/inquiries/' ?>" + record.customer_user_id;
@@ -198,7 +199,8 @@ $pxn_count = json_decode($pxn_count_response, true);
                                     chat_records.appendChild(chat_record);
 
                                     if (record.resp == 1) {
-                                        chat_record.style.display = "none"; //hide respnded
+                                        chat_record.style.display = "none"; 
+                                        //hide respnded
                                     }
 
                                     //count unresponded
@@ -212,14 +214,14 @@ $pxn_count = json_decode($pxn_count_response, true);
                                     mzg_box.appendChild(messege);
 
                                     mzgtbl = document.getElementById('mzgtbl');
-                                    nonew = document.getElementById('nonew');
+                                    // nonew = document.getElementById('nonew');
 
                                     if (unresponded_count == 0) {
                                         mzgtbl.style.display = "none";
-                                        nonew.style.display = "block";
+                                        // nonew.style.display = "block";
                                     } else {
                                         mzgtbl.style.display = "block";
-                                        nonew.style.display = "none";
+                                        // nonew.style.display = "none";
                                     }
                                 });
                             });
@@ -236,14 +238,13 @@ $pxn_count = json_decode($pxn_count_response, true);
                             .then(data => {
                                 console.log(data);
                                 if (data != last_chat_record_id) {
-
                                     last_chat_record_id = data;
                                     let chat_records = document.getElementById('chat-records');
                                     chat_records.innerHTML = "";
                                     updateInq();
                                 }
                             });
-                    }, 1000);
+                    }, 100);
 
 
                 });
