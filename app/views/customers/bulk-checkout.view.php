@@ -48,8 +48,7 @@
             align-items: flex-start;
             margin-left: 3%;
             margin-right: 10%;
-
-            /* Align items at the top */
+            padding-top: 3%;
         }
 
 
@@ -314,12 +313,9 @@
 
 
 <body>
-
-
     <?php $this->view('includes/header', $data) ?>
     <header>
         <?php $this->view('includes/nav', $data) ?>
-        <?php $this->view('webstore/header-section', $data) ?>
     </header>
 
     <div class="contentcheckout">
@@ -412,15 +408,15 @@
                     // $cart = $data['cart'];
                     // // show($cart);
 
-                    // $subtotal = $cart[0]->sub_total;
-                    // $discount = 0;
-                    // $total = $cart[0]->total;
-                    // $delivery = $cart[0]->delivery_cost;
+                    $checkoutProduct = $data['checkout_product'];
+                    // show($checkoutProducts);
+
+                    $subtotal = ($checkoutProduct['price'])*($checkoutProduct['quantity']);
+                    $delivery = $subtotal * 0.15;
+                    $total = $subtotal + $delivery;
 
                     // show($_SESSION);
 
-                    $checkoutProduct = $data['checkout_products'];
-                    // show($checkoutProducts);
 
                     ?>
                     <div class="smallcart">
@@ -494,6 +490,8 @@
             alert("You can't change the address in pickup mode.");
         }
 
+        var type = 'pickup';
+
         // Function to toggle the address form visibility and change the background color when pickup is selected
         function toggleAddressForm() {
             // Get the status of the pickup option
@@ -536,7 +534,7 @@
             form.style.display = 'none';
         }
 
-        var addressId = null;
+        var addressId = <?php echo isset($data['customerAddress']) ? $data['customerAddress']->address_id : 'null'; ?>;
 
         // Function to handle saving of the address
         function saveAddress() {
@@ -575,6 +573,7 @@
                 addressForm.style.display = 'none';
                 changeAddressSection.style.backgroundColor = '#CCCCCC';
             } else {
+                type = 'delivery';
                 // If delivery is selected, show the address form and update the style
                 addressForm.style.display = 'none'; // Assuming address form should be visible for delivery
                 changeAddressSection.style.backgroundColor = '';
@@ -635,7 +634,7 @@
                             if (paymentDismissedXhttp.readyState == 4 && paymentDismissedXhttp.status == 200) {
                                 //console.log("Payment dismissed. OrderID:" + order_id);
                                 // Redirect to the cart page
-                                window.location = "<?php echo ROOT . '/cart'; ?>";
+                                window.location = "<?php echo ROOT . '/orders/bulk'; ?>";
                             }
                         };
 
@@ -653,7 +652,7 @@
                                 console.log("Payment error. OrderID:" + orderId);
                                 console.log("Error:" + error);
                                 // Redirect to the cart page
-                                window.location = "<?php echo ROOT; ?>";
+                                window.location = "<?php echo ROOT.'/orders/bulk'; ?>";
                             }
                         };
 
@@ -691,12 +690,11 @@
             }
 
 
-            if (addressId == null) {
+            if (type == 'pickup') {
                 xhttp.open("GET", '<?php echo ROOT . '/payments/BulkPay'; ?>', true);
             } else {
-                var type = 'delivery';
                 var url = '<?php echo ROOT . '/payments/BulkPay/'; ?>';
-                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(address_id);
+                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(addressId);
             }
 
             xhttp.send();

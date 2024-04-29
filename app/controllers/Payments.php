@@ -207,10 +207,7 @@ class Payments extends Controller
         $cartModel = new CartDetails();
         $cartModel->updateCartTotals($customerId);
 
-
-        $userId = Auth::getUserId();
-        $order = $orderDetails->getOrderByUserId($userId);
-        $order_details_id = $order[0]->order_details_id;
+        $order_details_id = $order->order_details_id;
         $orderDetails->updateOrderStatus($order_details_id, 'processing');
         // show('done');
 
@@ -264,6 +261,7 @@ class Payments extends Controller
 
         $bulkOrderRequest = new BulkOrderReq();
         $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
+        // show($bulkOrderReq);
 
         if (empty($bulkOrderReq)) {
             message('No bulk order requests. please make a request.');
@@ -288,8 +286,9 @@ class Payments extends Controller
                 $address_id = $customerModel->getAddressId($customerId);
             }
 
-
             $bulkOrder = new BulkOrderDetails();
+            $bulkOrder->createBulkOrder($bulkOrderReq[0]->bulk_req_id);
+            // show($bulkOrder);
             $bulkOrderDetails = $bulkOrder->getBulkByRequestId($bulkOrderReq[0]->bulk_req_id);
 
             // show($bulkOrderDetails);
@@ -339,9 +338,10 @@ class Payments extends Controller
         }
     }
 
-    public function onCompleteBulkPayment($bulk_order_details_id)
+    public function onCompleteBulkPayment()
     {
         // $orderId = $_POST['order_id'];
+        $bulk_order_details_id = 10;
 
         $data['errors'] = [];
 

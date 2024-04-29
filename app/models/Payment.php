@@ -54,7 +54,6 @@ class Payment extends Model
             ':created_at' => date('Y-m-d H:i:s'),
             ':updated_at' => date('Y-m-d H:i:s')
         ];
-        show($params);
         $this->query($query, $params);
     }
 
