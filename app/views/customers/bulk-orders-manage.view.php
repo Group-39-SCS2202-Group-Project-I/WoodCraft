@@ -5,7 +5,7 @@
         align-items: center;
         margin-bottom: 20px;
         margin-top: 30px;
-        background-color: var(--light);
+        background-color: var(--white);
         padding: 20px;
         border-radius: 10px;
     }
@@ -18,7 +18,7 @@
 
     .content-manage-detail {
         margin-bottom: 20px;
-        background-color: var(--light);
+        background-color: var(--white);
         padding: 20px;
         border-radius: 10px;
     }
@@ -28,7 +28,7 @@
         flex-direction: column;
         align-items: center;
         margin: 20px;
-        background-color: var(--white);
+        background-color: var(--light);
         padding: 20px;
         border-radius: 10px;
     }
@@ -69,7 +69,7 @@
 
     .content-manage-payment-left {
         flex: 1;
-        background-color: var(--light);
+        background-color: var(--white);
         margin-right: 20px;
         padding: 20px;
         align-items: left;
@@ -78,7 +78,7 @@
 
     .content-manage-payment-right {
         flex: 1;
-        background-color: var(--light);
+        background-color: var(--white);
         padding: 20px;
         border-radius: 10px;
     }
@@ -120,7 +120,7 @@
     }
 
     .back-orders {
-        background-color: var(--light);
+        background-color: var(--bg2);
         border: none;
         border-radius: 20px;
         padding: 4px;
@@ -229,7 +229,7 @@
 
                         <div class="order-item">
                             <!-- <div class="order-item-image"> -->
-                                <img src="<?= $details['image_url']; ?>" alt="Product Image" width="100" height="100">
+                                <img src="<?= ROOT."/".$details['image_url']; ?>" alt="Product Image" width="100" height="100">
                                 <p><?= $details['product_name']; ?></p>
                             <!-- </div> -->
                             <p>Rs. <?= $details['price']; ?></p>

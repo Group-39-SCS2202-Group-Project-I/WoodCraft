@@ -2,7 +2,7 @@
             /* -- edit profile -- */
             .content-edit-profile {
                 padding: 30px;
-                background-color: var(--bg2);
+                background-color: var(--white);
                 border-radius: 20px;
                 padding-top: 50px;
                 margin-left: 60px;
@@ -15,14 +15,14 @@
 
             label {
                 font-weight: bold;
-                width: 20%;
+                width: 15%;
                 padding: 10px;
             }
 
             .input-wrapper {
                 /* background-color: var(--light); */
                 width: 70%;
-                border-radius: 10px;
+                /* border-radius: 10px; */
             }
 
             .form-control {
@@ -30,6 +30,7 @@
                 transition: border-color 0.3s ease;
                 border-radius: 10px;
                 padding: 10px;
+                background-color: var(--light);
             }
 
             .form-control:focus {
@@ -143,7 +144,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
-                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">

@@ -2,7 +2,7 @@
             /* -- edit address -- */
             .content-edit-profile {
                 padding: 30px;
-                background-color: var(--bg2);
+                background-color: var(--white);
                 border-radius: 20px;
                 padding-top: 50px;
                 margin-left: 60px;
@@ -30,6 +30,7 @@
                 transition: border-color 0.3s ease;
                 border-radius: 10px;
                 padding: 10px;
+                background-color: var(--light);
             }
 
             .form-control:focus, .input-wrapper select:focus {
@@ -124,7 +125,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
-                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
@@ -201,7 +202,7 @@
                         <label for="province">Province</label>
                         <div class="input-wrapper">
                             <select id="province" name="province">
-                                <!-- <option disabled selected>Select province</option> -->
+                                <option disabled selected>Select province</option>
                                     <option value="central" <?= ($data['province'] == 'central') ? 'selected' : '' ?>>Central</option>
                                     <option value="eastern" <?= ($data['province'] == 'eastern') ? 'selected' : '' ?>>Eastern</option>
                                     <option value="north_central" <?= ($data['province'] == 'north_central') ? 'selected' : '' ?>>North Central</option>
