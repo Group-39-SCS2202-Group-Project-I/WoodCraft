@@ -30,15 +30,34 @@ if (Auth::logged_in()) {
 
   .swi-cont {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
+    top: 40%;
+    left: 0%;
+    /* transform: translate(-50%, -50%); */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    padding: 30px 20px;
+    padding-left: 40px;
     border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
+  }
+
+  .swi-cont h1{
+    font-size: 3.5rem;
+  }
+
+  .car-btn
+  {
+    background-color: var(--primary);
+    color: var(--light);
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+
+  .car-btn:hover
+  {
+    background-color: var(--blk);
+    color: var(--light);
   }
 </style>
 
@@ -52,16 +71,34 @@ if (Auth::logged_in()) {
   <div style="display: flex; justify-content: center; align-items: center; padding:5px; padding-bottom:1rem;">
     <div class="swiper mySwiper" style="border-radius:10px;">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
-          <div class="swi-cont">Hello</div>
+      
+      <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">Crafted Comfort</h3>
+            <h1>EXPLORE OUR <br>LATEST COLLECTION</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
         </div>
-        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 1">
-          <div class="swi-cont">Hello</div>
+
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 2">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">Modern Classics</h3>
+            <h1>DISCOVER <span style="color:var(--primary)">WOODCRAFTS</span> 'S <br>TIMELESS COLLECTION</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
         </div>
-        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 1">
-          <div class="swi-cont">Hello</div>
+
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 3">
+          <div class="swi-cont">
+            <h3 style="color:var(--primary)">FIND YOUR</h3>
+            <h1>EXPLORE OUR <br>PERFECT PIECE</h1>
+            <br>
+            <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
