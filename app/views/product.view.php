@@ -392,7 +392,7 @@
                                         <div class="rating">
                                             <?php echo $filledStarsHTML . $emptyStarsHTML; ?>&nbsp;&nbsp;&nbsp;
                                             <div class="rating-bar bar-<?php echo $rating; ?>" style="width: <?php echo $filledPercentage; ?>%;"></div>
-                                            <div class="rating-bar-remaining bar-<?php echo $rating; ?>-remaining" style="width: <?php echo (100 - $filledPercentage); ?>%;"></div>&nbsp;&nbsp;
+                                            <div class="rating-bar-remaining bar-<?php echo $rating; ?>-remaining" style="width: <?php echo (100 - $filledPercentage); ?>%; background-color:var(--bg2)"></div>&nbsp;&nbsp;
                                             <span class="rating-count"><?php echo $ratingCount; ?></span>
                                         </div>
                                     <?php } ?>
