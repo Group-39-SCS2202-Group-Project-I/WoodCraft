@@ -367,7 +367,7 @@ $available_workers_count = count($available_workers);
             // document.getElementById('now').setAttribute('min', 0);
             // document.getElementById('now').setAttribute('max', awc);
 
-            document.getElementById('nocar').setAttribute('min', 0);
+            document.getElementById('nocar').setAttribute('min', 1);
             document.getElementById('nocar').setAttribute('max', awcar);
 
             document.getElementById('nopain').setAttribute('min', 0);
