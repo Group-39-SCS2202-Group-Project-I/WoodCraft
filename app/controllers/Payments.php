@@ -359,8 +359,6 @@ class Payments extends Controller
 
     public function onCompleteBulkPayment($bulk_order_details_id = '')
     {
-        show('in');
-        $bulk_order_details_id = 5;
 
         $data['errors'] = [];
 
