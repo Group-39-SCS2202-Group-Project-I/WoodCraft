@@ -300,7 +300,7 @@ class GM extends Controller
 
         if($_POST['status'] == 'accepted')
         {
-            $link = ROOT . "/bulk/$id";
+            $link = ROOT . "/orders/bulk";
             $message = "Your bulk order request has been accepted.<br>The estimated delivery date is " . $_POST['estimated_date']. ".<br>The total cost is " . $_POST['total']. " LKR.<br>Thank you for choosing WoodCraft Furniture Company.<br><br>Navigation to the order: <a href='$link'>Proceed</a>";
             // email
             // MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Accepted', $message);

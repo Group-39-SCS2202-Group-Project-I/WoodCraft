@@ -115,7 +115,7 @@ class Checkout extends Controller
         $this->view('cart/Checkout', $data);
     }
 
-    public function bulkCheckout()
+    public function bulkCheckout($bulk_req_id)
     {
         $data['title'] = 'Bulk Order Confirmation';
 
@@ -124,10 +124,10 @@ class Checkout extends Controller
         $db = new Database();
         $customerId = Auth::getCustomerID();
 
-        $userId = Auth::getUserId();
+        // $userId = Auth::getUserId();
 
         $bulkOrderRequest = new BulkOrderReq();
-        $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
+        $bulkOrderReq = $bulkOrderRequest->getBulkReqDetails($bulk_req_id);
 
         $product_id = $bulkOrderReq[0]->product_id;
 
