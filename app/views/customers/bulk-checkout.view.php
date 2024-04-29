@@ -634,7 +634,7 @@
                             if (paymentDismissedXhttp.readyState == 4 && paymentDismissedXhttp.status == 200) {
                                 //console.log("Payment dismissed. OrderID:" + order_id);
                                 // Redirect to the cart page
-                                window.location = "<?php echo ROOT . '/cart'; ?>";
+                                window.location = "<?php echo ROOT . '/orders/bulk'; ?>";
                             }
                         };
 
@@ -652,7 +652,7 @@
                                 console.log("Payment error. OrderID:" + orderId);
                                 console.log("Error:" + error);
                                 // Redirect to the cart page
-                                window.location = "<?php echo ROOT; ?>";
+                                window.location = "<?php echo ROOT.'/orders/bulk'; ?>";
                             }
                         };
 
@@ -690,11 +690,11 @@
             }
 
 
-            if (addressId == null) {
+            if (type == 'pickup') {
                 xhttp.open("GET", '<?php echo ROOT . '/payments/BulkPay'; ?>', true);
             } else {
                 var url = '<?php echo ROOT . '/payments/BulkPay/'; ?>';
-                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(address_id);
+                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(addressId);
             }
 
             xhttp.send();
