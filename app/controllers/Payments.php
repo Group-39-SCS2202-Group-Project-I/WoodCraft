@@ -1,8 +1,6 @@
 <?php
 
-/**
- * products class
- */
+require_once 'MailService.php';
 class Payments extends Controller
 {
     public function index()
@@ -210,6 +208,14 @@ class Payments extends Controller
         $order_details_id = $order->order_details_id;
         $orderDetails->updateOrderStatus($order_details_id, 'processing');
         // show('done');
+
+        // email
+        $email = AUTH::getCustomerEmail();
+        $link = ROOT . "/orders";
+        $message = "Your bulk order has been placed.<br>Thank you for choosing WoodCraft Furniture Company.<br><br><a href='$link'>View</a>";
+        // email
+        // MailService::sendEmail('lasithmrana@gmail.com', 'Bulk Order Request Accepted', $message);
+       MailService::sendEmail($email, 'Bulk Order Request Accepted', $message);
 
         unset($_SESSION['cart']);
         unset($_SESSION['cart_products']);
