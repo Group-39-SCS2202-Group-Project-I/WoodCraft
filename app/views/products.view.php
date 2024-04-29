@@ -63,7 +63,7 @@ if (Auth::logged_in()) {
 </script>
 
 <div class="products-section">
-  <h2 class="page-title">Products</h2>
+<h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Products</h2>
   <div class="cont2">
     <input type="text" id="" placeholder="Search Products..." class="searchbar">
   </div>

@@ -240,6 +240,7 @@ $bulk_count = file_get_contents($url3);
         legend: {
             show: false,
         },
+        labels: ['Carpenters', 'Painters', 'Supervisors'],
         xaxis: {
             categories: ['Carpenters', 'Painters', 'Supervisors'],
         },

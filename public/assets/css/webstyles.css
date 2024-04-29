@@ -586,7 +586,7 @@ img {
 /* home */
 .products-section2
 {
-  padding-top: 3%;
+  margin-top: calc(var(--header2-height) + 1.5rem);
   padding-left: 50px;
   padding-right: 50px;
 }

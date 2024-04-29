@@ -1,5 +1,4 @@
-<?php $this->view('includes/header', $data) ?>
-
+<?php $this->view('includes/nav2', $data) ?>
 
 <?php
 if (Auth::logged_in()) {
@@ -7,25 +6,96 @@ if (Auth::logged_in()) {
 }
 ?>
 
-<!--
-    - HEADER
-    -->
-<header>
-      <link rel="stylesheet" href="<?= ROOT ?>/assets/css/webstyles.css">
-</header>
+<style>
+  /* .swiper {
+    margin: 100px auto;
+    width: 320px;
+    height: 240px; 
+  } */
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .swi-cont {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+  }
+</style>
 
 
-<?php $this->view('includes/nav2', $data) ?>
 
-<?php $this->view('webstore/banner', $data) ?>
+
 
 
 <div class="products-section2">
 
-<h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
+  <div style="display: flex; justify-content: center; align-items: center; padding:5px; padding-bottom:1rem;">
+    <div class="swiper mySwiper" style="border-radius:10px;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
+          <div class="swi-cont">Hello</div>
+        </div>
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 1">
+          <div class="swi-cont">Hello</div>
+        </div>
+        <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 1">
+          <div class="swi-cont">Hello</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-  <div class="dash4" >
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      speed: 2000,
+      loop: true,
+      autoplay: {
+        delay: 10000,
+        disableOnInteraction: false,
+      },
+      grabCursor: true,
+      effect: "creative",
+      creativeEffect: {
+        prev: {
+          shadow: true,
+          translate: [0, 0, -400],
+        },
+        next: {
+          translate: ["100%", 0, 0],
+        },
+      },
+    });
+  </script>
+
+  <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px">Top Selling Furnitures</h2>
+
+
+  <div class="dash4">
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const url = '<?= ROOT ?>/fetch/top_selling_products';
@@ -57,6 +127,7 @@ if (Auth::logged_in()) {
 
               const swiperWrapper = document.createElement('div');
               swiperWrapper.classList.add('swiper-wrapper');
+
 
               product_images.forEach(image => {
                 const swiperSlide = document.createElement('div');
@@ -141,7 +212,7 @@ if (Auth::logged_in()) {
   </div>
 </div>
 
-<div class="products-section2" >
+<div class="products-section2">
   <h2 class="page-title" style="width: 100%; background-color:var(--webback) ; border-radius:10px;">New Arrivals</h2>
 
   <div class="dash4" id="new_arrivals">
