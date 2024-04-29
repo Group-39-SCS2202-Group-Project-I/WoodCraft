@@ -58,11 +58,13 @@ class Review extends Controller
                 // Product is in toReviewProducts but not in reviewedProducts, navigate to the add-review page
                 $data['product'] = $toReviewProducts[$product_id];
                 $this->view('customers/add-review', $data);
+
             } elseif (array_key_exists($product_id, $reviewedProducts)) {
                 // Product is in reviewedProducts, navigate to the edit-review page
                 $data['product'] = $reviewedProducts[$product_id];
                 $data['review_id'] = $reviewedProducts[$product_id]['review_id'];
                 $this->view('customers/edit-review', $data);
+
             } else {
                 // Product is neither in toReviewProducts nor in reviewedProducts
                 message('Product not found to review!');
@@ -112,12 +114,12 @@ class Review extends Controller
         $success = $customerModel->updateReview($review_id, $updatedData);
     
         if ($success) {
-            message('Review updated successfully');
+            message('Review updated successfully!');
             redirect('review');
         } 
         else {
-            message('Failed to update review. Please try again.');
-            redirect('review/editReview');
+            message('Failed to update review. Please try again!');
+            redirect('review/edit-review');
         }
     }
 }

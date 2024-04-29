@@ -15,12 +15,15 @@ class Orders extends Controller{
 
 		// Group orders by order_details_id
 		$groupedOrders = [];
-		foreach ($orders as $order) {
-			$orderDetailsId = $order['order_details_id'];
-			if (!isset($groupedOrders[$orderDetailsId])) {
-				$groupedOrders[$orderDetailsId] = [];
+
+		if (is_array($orders)) {
+			foreach ($orders as $order) {
+				$orderDetailsId = $order['order_details_id'];
+				if (!isset($groupedOrders[$orderDetailsId])) {
+					$groupedOrders[$orderDetailsId] = [];
+				}
+				$groupedOrders[$orderDetailsId][] = $order;
 			}
-			$groupedOrders[$orderDetailsId][] = $order;
 		}
 
 		$data['title'] = "orders";
@@ -36,6 +39,7 @@ class Orders extends Controller{
 			// $data = $customer;
 			$data = array_merge($data, $customer ?? []);
         	$data['orders'] = $orders;
+
 			$this->view('customers/orders', $data);
 		}
 		else{

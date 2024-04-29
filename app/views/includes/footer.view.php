@@ -17,13 +17,14 @@ function toggleFooter() {
 
     <style>
         .toggle-button {
-            background-color: var(--light);
-            border: 0.5px solid var(--coal_black);
-            border-radius: 20px;
-            padding: 5px 10px;
+            background-color: var(--coal_black);
+            /* border: 0.5px solid var(--light); */
+            /* border-radius: 20px; */
+            padding: 2px 15px;
             cursor: pointer;
-            margin: 10px 40px;
+            margin: 0px 40px;
             float: right;
+            color: var(--light);
         }
 
         .arrow-icon {

@@ -83,7 +83,7 @@ class Profile extends Controller
 	
 		if (!$customerModel->validate($updatedData)) {
 			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs.');
+			message('Validation failed. Please check your inputs!');
 			redirect('profile/editProfile');
 		}
 		else{
@@ -91,90 +91,90 @@ class Profile extends Controller
 			$success = $customerModel->updateCustomerProfile($id, $updatedData);
 
 			if ($success) {
-				message('Profile updated successfully');
-				redirect('profile/myProfile');
+				message('Profile updated successfully!');
+				redirect('profile');
 			} 
 			else {
-				message('Failed to update profile. Please try again.');
+				message('Failed to update profile. Please try again!');
 				redirect('customers/editProfile');
 			}
 		}	
 	}
 
-	public function password()
-	{
-		if (!Auth::logged_in()) {
-			message('Please login!!');
-			redirect('login');
-		}
+	// public function password()
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login!!');
+	// 		redirect('login');
+	// 	}
 
-		$id = Auth::getCustomerID();
-		$data['title'] = "change-password";
-		// $customer = []; 
+	// 	$id = Auth::getCustomerID();
+	// 	$data['title'] = "change-password";
+	// 	// $customer = []; 
 
-		if ($id != '') {
-			$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
+	// 	if ($id != '') {
+	// 		$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
 
-			$data = $customer;
-			$this->view('customers/change-password', $data);
-		}
-    }
+	// 		$data = $customer;
+	// 		$this->view('customers/change-password', $data);
+	// 	}
+    // }
 
-	public function editPW()
-	{
-		if (!Auth::logged_in()) {
-			message('Please login to update your profile');
-			redirect('login');
-		}
+	// public function editPW()
+	// {
+	// 	if (!Auth::logged_in()) {
+	// 		message('Please login to update your profile');
+	// 		redirect('login');
+	// 	}
 
-		$id = Auth::getID();
-		$userModel = new User();
+	// 	$id = Auth::getID();
+	// 	$userModel = new User();
 
-		// Get the current user's information
-		// $currentUser = $userModel->getUserByID($id);
-		$url = ROOT . "/fetch/customers/" . $id;
-			$response = file_get_contents($url);
-			$customer = json_decode($response, true);
+	// 	// Get the current user's information
+	// 	// $currentUser = $userModel->getUserByID($id);
+	// 	$url = ROOT . "/fetch/customers/" . $id;
+	// 		$response = file_get_contents($url);
+	// 		$customer = json_decode($response, true);
 
-			$data = $customer;
+	// 		$data = $customer;
 
-		// Check if the entered current password matches the stored hashed password
-		if (!password_verify($_POST['current_password'], $data->password)) {
-			message('Current password is incorrect. Please try again.');
-			show('2');
-			// redirect('profile/password');
-		}
+	// 	// Check if the entered current password matches the stored hashed password
+	// 	if (!password_verify($_POST['current_password'], $data->password)) {
+	// 		message('Current password is incorrect. Please try again.');
+	// 		show('2');
+	// 		// redirect('profile/password');
+	// 	}
 
-		// Validate form data
-		$updatedData = [
-			'password' => $_POST['new_password'],
-		];
+	// 	// Validate form data
+	// 	$updatedData = [
+	// 		'password' => $_POST['new_password'],
+	// 	];
 
-		if (!$userModel->validate($updatedData)) {
-			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs.');
-			show('3');
-			// redirect('profile/password');
-		} else {
-			// Hash the new password
-			$hashedPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+	// 	if (!$userModel->validate($updatedData)) {
+	// 		// Validation failed, redirect back to the edit profile page with errors
+	// 		message('Validation failed. Please check your inputs.');
+	// 		show('3');
+	// 		// redirect('profile/password');
+	// 	} else {
+	// 		// Hash the new password
+	// 		$hashedPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
 
-			// Perform the database update
-			$success = $userModel->updatePW($id, $hashedPassword);
+	// 		// Perform the database update
+	// 		$success = $userModel->updatePW($id, $hashedPassword);
 
-			if ($success) {
-				message('Password updated successfully');
-				show('4');
-				// redirect('profile/myProfile');
-			} else {
-				message('Failed to update password. Please try again.');
-				show('5');
-				// redirect('profile/password');
-			}
-		}
-	}
+	// 		if ($success) {
+	// 			message('Password updated successfully');
+	// 			show('4');
+	// 			// redirect('profile/myProfile');
+	// 		} else {
+	// 			message('Failed to update password. Please try again.');
+	// 			show('5');
+	// 			// redirect('profile/password');
+	// 		}
+	// 	}
+	// }
 
     // public function addressbook($id = '')
 	// {
@@ -312,26 +312,42 @@ class Profile extends Controller
 			'address_line_1' => $_POST['address_line_1'],
 			'address_line_2' => $_POST['address_line_2'],
 			'city' => $_POST['city'],
+			'province' => $_POST['province'],
 			'zip_code' => $_POST['zip_code'],
 		];
 
-		if ((!$customerModel->validate($updatedCustomerData))&&(!$addressModel->validate($updatedAddressData))) {
-				// Validation failed, redirect back to the edit profile page with errors
-				message('Validation failed. Please check your inputs.');
-				redirect('profile/editAddress');
-		}
-		else{
+		// show($updatedAddressData);
+
+		$result1 = $customerModel-> validate($updatedCustomerData);
+		$result2 = $addressModel -> validate($updatedAddressData);
+
+		// show($result1);
+		// show('***');
+		// show($result2);
+
+		// if (!$result1 && $result2){
+		// 		// Validation failed, redirect back to the edit profile page with errors
+		// 		message('Validation failed. Please check your inputs!');
+		// 		redirect('profile/editAddress');
+		// }
+
+		if($result1 && $result2){
 			// Perform the database update
 			$customerSuccess = $customerModel->updateCustomerProfile($id, $updatedCustomerData);
-			$addressSuccess = $customerModel->updateCustomerAddress($addressId, $updatedAddressData);
+			$addressSuccess = $addressModel->updateCustomerAddress($addressId, $updatedAddressData);
 
 			if ($customerSuccess && $addressSuccess) {
-				message('Customer address updated successfully');
-				redirect('profile/myProfile');
+				message('Customer address updated successfully!');
+				redirect('profile');
 			} else {
-				message('Failed to update customer address. Please try again.');
+				message('Failed to update customer address. Please try again!');
 				redirect('profile/editAddress');
 			}
+		}
+		else{
+			// Validation failed, redirect back to the edit profile page with errors
+			message('Validation failed. Please check your inputs!');
+			redirect('profile/editAddress');
 		}	
 	}
 }

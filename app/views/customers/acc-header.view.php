@@ -4,7 +4,7 @@
 <?php $this->view('includes/header', $data) ?>
 
 <head>
-    <?php $this->view('includes/nav', $data) ?>
+    <?php $this->view('customers/acc-nav', $data) ?>
     <!-- <?php $this->view('webstore/header-section', $data) ?> -->
 
     <meta charset="UTF-8">

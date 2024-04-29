@@ -69,6 +69,24 @@
                 cursor: pointer;
                 width: 220px;
             } */
+
+            .message {
+                color: var(--blk);
+                font-size: 1rem;
+                margin: 0;
+                padding: 1rem;
+                /* padding-bottom: 2rem; */
+                /* center */
+                text-align: center;
+            }
+
+            .mzg-box {
+                background-color: var(--primary);
+                border-radius: 5px;
+                margin-bottom: 1rem;
+                padding: 0.5rem 1rem;
+
+            }
         </style>
 
 
@@ -115,6 +133,12 @@
 
         <!-- my profile -->
         <div class="container">
+            <?php if (message()) : ?>
+                <div class="mzg-box">
+                    <div class="messege"><?= message('', true) ?></div>
+                </div>
+            <?php endif; ?>
+            
             <div class="title">
                 <h2>My Profile</h2>
             </div>
@@ -139,6 +163,10 @@
                 <div class="profile-info">
                     <span class="info-label">City</span>
                     <span class="info-value"><?= $data['city'] ?></span>
+                </div>
+                <div class="profile-info">
+                    <span class="info-label">Province</span>
+                    <span class="info-value"><?= $data['province'] ?></span>
                 </div>
                 <div class="profile-info">
                     <span class="info-label">Zip Code</span>

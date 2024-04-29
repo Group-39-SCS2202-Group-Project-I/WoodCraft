@@ -132,7 +132,24 @@
     .back-orders:hover {
         background-color: var(--green1);
     }
-</style>
+
+    .message {
+        color: var(--blk);
+        font-size: 1rem;
+        margin: 0;
+        padding: 1rem;
+        /* padding-bottom: 2rem; */
+        /* center */
+        text-align: center;
+    }
+
+    .mzg-box {
+        background-color: var(--primary);
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+
+    }
 </style>
 
 <?php $this->view('customers/acc-header', $data) ?>
@@ -178,6 +195,12 @@
 
     <!-- orders -->
     <div class="container">
+        <?php if (message()) : ?>
+                <div class="mzg-box">
+                    <div class="messege"><?= message('', true) ?></div>
+                </div>
+            <?php endif; ?>
+
         <div class="title">
             <h2>Bulk Order Details</h2>
         </div>
