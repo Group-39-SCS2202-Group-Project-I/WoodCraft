@@ -55,16 +55,14 @@
 
         .summary {
             width: 25%;
-  border: 1px solid #EEEEEE;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: .5rem;
-  margin-left:3%;
-  margin-right: 15%;
-  height: 50%;
-  background-color: #F5F5F5;
- 
-
+            border: 1px solid #EEEEEE;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: .5rem;
+            margin-left:3%;
+            margin-right: 15%;
+            height: 50%;
+            background-color: #F5F5F5;
         }
 
         .delivery-option {
@@ -315,8 +313,7 @@
 
     <?php $this->view('includes/header', $data) ?>
     <header>
-        <?php $this->view('includes/nav', $data) ?>
-        <?php $this->view('webstore/header-section', $data) ?>
+        <?php $this->view('customers/acc-nav', $data) ?>
     </header>
 
     <div class="contentcheckout">

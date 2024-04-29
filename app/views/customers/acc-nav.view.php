@@ -46,7 +46,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
   }
 
   .nav__item {
-    margin: 10px 15px;
+    margin: 10px 25px;
   }
 
   .nav__name {
@@ -129,18 +129,18 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
         <li class="nav__item">
           <a href="<?= ROOT ?>" class="nav__link">
             <span class="material-symbols-outlined nav__icon">
-                storefront
+                chair
             </span>
-            <span class="nav__name">Shop</span>
+            <span class="nav__name">Products</span>
           </a>
         </li>
 
         <li class="nav__item">
-          <a href="<?php echo ROOT ?>/about" class="nav__link">
+          <a href="<?php echo ROOT ?>/orders" class="nav__link">
             <span class="material-symbols-outlined nav__icon">
-                    info
+                package
             </span>
-            <span class="nav__name">About Us</span>
+            <span class="nav__name">Orders</span>
           </a>
         </li>
 

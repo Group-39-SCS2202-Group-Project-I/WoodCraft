@@ -266,4 +266,4 @@
 
 
 
-<?php $this->view('includes/footer2', $data) ?>
+<?php $this->view('includes/footer', $data) ?>
