@@ -691,10 +691,9 @@
 
 
             if (type == 'pickup') {
-                xhttp.open("GET", '<?php echo ROOT . '/payments/BulkPay'; ?>', true);
+                xhttp.open("GET", '<?php echo ROOT . '/payments/BulkPay/'; ?><?php echo $checkoutProduct['bulk_req_id']?>', true);
             } else {
                 var url = '<?php echo ROOT . '/payments/BulkPay/'; ?>';
-                url += '?type=' + encodeURIComponent(type) + '&address_id=' + encodeURIComponent(addressId);
             }
 
             xhttp.send();

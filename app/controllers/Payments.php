@@ -259,54 +259,67 @@ class Payments extends Controller
         // show('done');       
     }
 
-    public function BulkPay()
+    public function BulkPay($bulk_req_id, $type = 'pickup', $address_id = '')
     {
         $data['errors'] = [];
 
         $userId = Auth::getUserId();
 
         $bulkOrderRequest = new BulkOrderReq();
-        $bulkOrderReq = $bulkOrderRequest->getLastBulkOrderReqByUserId($userId);
+        $bulkOrderReq = $bulkOrderRequest->getBulkReqDetails($bulk_req_id);
+        $bulkOrderReq = $bulkOrderReq[0];
         // show($bulkOrderReq);
 
         if (empty($bulkOrderReq)) {
             message('No bulk order requests. please make a request.');
             show('No bulk order requests. please make a request.');
             redirect('home');
-        } elseif (!empty($bulkOrderReq) && $bulkOrderReq[0]->status == 'accepted') {
+        } elseif (!empty($bulkOrderReq) && $bulkOrderReq->status == 'accepted') {
             // message('payment successful!!');
             // show('payment successful!!');
 
             $customerId = Auth::getCustomerID();
 
-            $type = 'pickup';
-
+            $type = 'delivery';
+            $address_id = '';
             // Parse query parameters from the URL
-            if (isset($_GET['type'])) {
-                $type = $_GET['type'];
-            }
-            if (isset($_GET['address_id'])) {
-                $address_id = $_GET['address_id'];
+            if ($type == 'pickup') {
+                $total = $bulkOrderReq->total;
+                $bulkDetails = [
+                    'bulk_req_id' => $bulk_req_id,
+                    'user_id' => $userId,
+                    'total' => $total,
+                    'type' => $type,
+                    'status' => 'pending'
+                ];
             } else {
-                $customerModel = new Customer();
-                $address_id = $customerModel->getAddressId($customerId);
+                if($address_id == '') {
+                    $customerModel = new Customer();
+                    $address_id = $customerModel->getAddressId($customerId);
+                }
+                
+                $delivery_cost = ($bulkOrderReq->total)*0.15;
+                $total = ($bulkOrderReq->total) + $delivery_cost;
+
+                $bulkDetails = [
+                    'bulk_req_id' => $bulk_req_id,
+                    'user_id' => $userId,
+                    'delivery_cost' => $delivery_cost,
+                    'delivery_address_id' => $address_id,
+                    'total' => $total,
+                    'type' => $type,
+                    'status' => 'pending'
+                ];
             }
 
             $bulkOrder = new BulkOrderDetails();
-            $bulkOrder->createBulkOrder($bulkOrderReq[0]->bulk_req_id);
-            // show($bulkOrder);
-            $bulkOrderDetails = $bulkOrder->getBulkByRequestId($bulkOrderReq[0]->bulk_req_id);
+            $bulkOrder->createBulkOrder($bulkDetails);
+            // show('done');
+            $bulkOrderDetails = $bulkOrder->getBulkByRequestId($bulk_req_id);
 
             // show($bulkOrderDetails);
-            $total = $bulkOrderReq[0]->total;
 
             $array = [];
-
-            if($type == 'delivery'){
-                $delivery = $total*0.15;
-                $total = $total + $delivery;
-                // $array["address_id"] = $address_id;
-            }
 
             $amount = $total;
             $merchant_id = MERCHANT_ID;

@@ -61,14 +61,17 @@ class BulkOrderDetails extends Model
         return $this->query($query, $params);
     }
 
-    public function createBulkOrder($bulk_req_id)
+    public function createBulkOrder($bulkDetails)
     {
-        $userId = Auth::getUserId();
-        $query = "INSERT INTO $this->table (bulk_req_id, user_id, status) VALUES (:bulk_req_id, :user_id, :status)";
+        $query = "INSERT INTO $this->table (bulk_req_id, user_id, delivery_cost, delivery_address_id, total_cost, type, status) VALUES (:bulk_req_id, :user_id, :delivery_cost, :delivery_address_id, :total_cost, :type, :status)";
         $params = [
-            ':bulk_req_id' => $bulk_req_id,
-            ':user_id' => $userId,
-            ':status' => 'pending',
+            ':bulk_req_id' => $bulkDetails['bulk_req_id'],
+            ':user_id' => $bulkDetails['user_id'],
+            ':delivery_cost' => $bulkDetails['delivery_cost'],
+            ':delivery_address_id' => $bulkDetails['delivery_address_id'],
+            ':total_cost' => $bulkDetails['total'],
+            ':type' => $bulkDetails['type'],
+            ':status' => 'pending'
         ];
         $this->query($query, $params);
     }

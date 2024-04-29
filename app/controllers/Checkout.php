@@ -142,6 +142,7 @@ class Checkout extends Controller
         $category = $db->query("SELECT category_name FROM product_category WHERE product_category_id = $product_category_id");
 
         $data['checkout_product'] = [
+            'bulk_req_id' => $bulk_req_id,
             'product_id' => $product[0]->product_id,
             'name' => $product[0]->name,
             'description' => $product[0]->description,
