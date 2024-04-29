@@ -109,13 +109,8 @@
 
     }
 </style>
-<?php $this->view('includes/nav2', $data) ?>
 
-<link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/manage-account.css">
-<link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/icons.css">
-
-
-<div style="margin-top:calc(var(--header2-height) + 2.5rem);">
+<?php $this->view('customers/acc-header', $data) ?>
 
     <div class="main-container">
 
