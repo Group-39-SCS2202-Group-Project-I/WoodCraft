@@ -28,7 +28,7 @@
         <nav class="navi container">
 
             <div class="navl-cont">
-                <a href="<?= ROOT ?>" class="naiv_logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="navi_logo" style="padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
+                <a href="<?= ROOT ?>" class="naiv_logo material-icons-outlined" style="font-size: 30px; font-weight: 400; color: var(--primary);"> living </a> <a class="navi_logo" style=" font-weight: 600;padding-left: 5px ;color: var(--primary);"> WoodCraft Furnitures </a>
             </div>
 
 

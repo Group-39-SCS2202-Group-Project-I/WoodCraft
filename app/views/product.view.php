@@ -183,7 +183,6 @@
     <header>
         <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/product.css">
         <?php $this->view('includes/nav2', $data) ?>
-        <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/footer.css">
     </header>
 
     <style>

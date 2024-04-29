@@ -75,7 +75,7 @@ if (Auth::logged_in()) {
       <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-1.jpg" alt="image 1">
           <div class="swi-cont">
             <h3 style="color:var(--primary)">Crafted Comfort</h3>
-            <h1>EXPLORE OUR <br>LATEST COLLECTION</h1>
+            <h1 style="color: var(--blk);">EXPLORE OUR <br>LATEST COLLECTION</h1>
             <br>
             <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
           </div>
@@ -84,7 +84,7 @@ if (Auth::logged_in()) {
         <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-2.jpg" alt="image 2">
           <div class="swi-cont">
             <h3 style="color:var(--primary)">Modern Classics</h3>
-            <h1>DISCOVER <span style="color:var(--primary)">WOODCRAFTS</span> 'S <br>TIMELESS COLLECTION</h1>
+            <h1 style="color: var(--blk);">DISCOVER <span style="color:var(--primary)">WOODCRAFTS</span> 'S <br>TIMELESS COLLECTION</h1>
             <br>
             <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
           </div>
@@ -93,7 +93,7 @@ if (Auth::logged_in()) {
         <div class="swiper-slide"><img src="<?= ROOT ?>/assets/images/banner-3.jpg" alt="image 3">
           <div class="swi-cont">
             <h3 style="color:var(--primary)">FIND YOUR</h3>
-            <h1>EXPLORE OUR <br>PERFECT PIECE</h1>
+            <h1 style="color: var(--blk);">EXPLORE OUR <br>PERFECT PIECE</h1>
             <br>
             <a class="car-btn" href="<?= ROOT ?>/products">SHOP NOW</a>
           </div>
