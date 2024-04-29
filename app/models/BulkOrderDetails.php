@@ -84,4 +84,9 @@ class BulkOrderDetails extends Model
         return $this->query($query, [':status' => $status, ':bulk_order_details_id' => $bulkOrderDetailsId]);
     }
 
+    public function deleteBulkOrder($bulk_order_details_id){
+        $query = "DELETE FROM $this->table WHERE bulk_order_details_id = :bulk_order_details_id";
+        $this->query($query, [':bulk_order_details_id' => $bulk_order_details_id]);
+    }
+
 }

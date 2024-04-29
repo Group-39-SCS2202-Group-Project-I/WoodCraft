@@ -11,7 +11,7 @@ class Payments extends Controller
         // $this->view('cart/pay', $data);
     }
 
-    public function pay()
+    public function pay($type = 'pickup', $address_id = '')
     {
 
         $data['errors'] = [];
@@ -357,37 +357,40 @@ class Payments extends Controller
         }
     }
 
-    public function onCompleteBulkPayment()
+    public function onCompleteBulkPayment($bulk_order_details_id = '')
     {
-        // $orderId = $_POST['order_id'];
-        $bulk_order_details_id = 10;
+        show('in');
+        $bulk_order_details_id = 5;
 
         $data['errors'] = [];
 
         $userId = Auth::getUserId();
         $bulkOrderDetails = new BulkOrderDetails();
         $bulkOrder = $bulkOrderDetails->getBulkOrderById($bulk_order_details_id);
-        // $bulkOrder = $bulkOrderDetails->getLastbulkOrderByUserId($userId);
+
         show($bulkOrder);
         // $bulkOrderDetailsId = $bulkOrder[0]->bulk_order_details_id;
 
         $payment_data = [
             'bulk_order_details_id' => $bulk_order_details_id,
-            'amount' => $bulkOrder[0]->total,
+            'amount' => $bulkOrder[0]->total_cost,
             'provider' => 'visa',
             'status' => 'success'
         ];
 
         $payment = new Payment();
-        $payment->addPayment($payment_data);
+        $payment->addBulkPayment($payment_data);
+        show('done');
 
         $bulkOrderRequest = new BulkOrderReq();
         $bulkOrderRequest->updateBulkRequestStatus($bulkOrder[0]->bulk_req_id, 'proceeded');
         show('done');
     }
 
-    public function onFaliureBulkPayment() {
-        echo "faliure";
+    public function onFaliureBulkPayment($bulk_order_details_id) {
+        $bulkOrder = new BulkOrderDetails();
+        $bulkOrder->deleteBulkOrder($bulk_order_details_id);
+        show('done');
     }
 
 

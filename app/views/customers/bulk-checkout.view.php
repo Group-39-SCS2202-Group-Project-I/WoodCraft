@@ -605,22 +605,20 @@
                     console.log(res);
                     var obj = JSON.parse(xhttp.responseText);
 
-                    var order_id = obj["order_id"];
-                    console.log(order_id);
+                    var bulk_order_details_id = obj["order_id"];
 
-
-                    payhere.onCompleted = function onCompleted(orderId) {
+                    payhere.onCompleted = function onCompleted(bulk_order_details_id) {
                         var paymentCompletedXhttp = new XMLHttpRequest();
 
                         paymentCompletedXhttp.onreadystatechange = function() {
                             if (paymentCompletedXhttp.readyState == 4 && paymentCompletedXhttp.status == 200) {
-                                console.log("Payment completed. OrderID:" + orderId);
+                                console.log("Payment completed. OrderID:" + bulk_order_details_id);
                                 // Redirect to the invoice page
                                 window.location = "<?php echo ROOT . '/invoice'; ?>";
                             }
                         };
 
-                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompleteBulkPayment/'; ?>" + orderId, true);
+                        paymentCompletedXhttp.open("GET", "<?php echo ROOT . '/payments/onCompleteBulkPayment/'; ?>" + bulk_order_details_id, true);
                         paymentCompletedXhttp.send();
 
                     };
@@ -632,13 +630,12 @@
 
                         paymentDismissedXhttp.onreadystatechange = function() {
                             if (paymentDismissedXhttp.readyState == 4 && paymentDismissedXhttp.status == 200) {
-                                //console.log("Payment dismissed. OrderID:" + order_id);
-                                // Redirect to the cart page
+                                console.log("Payment dismissed. BulkID:" + bulk_order_details_id);
                                 window.location = "<?php echo ROOT . '/orders/bulk'; ?>";
                             }
                         };
 
-                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>" + order_id, true);
+                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliureBulkPayment/'; ?>" + bulk_order_details_id, true);
                         paymentDismissedXhttp.send();
                     };
 
@@ -649,22 +646,22 @@
 
                         paymentErrorXhttp.onreadystatechange = function() {
                             if (paymentErrorXhttp.readyState == 4 && paymentErrorXhttp.status == 200) {
-                                console.log("Payment error. OrderID:" + orderId);
+                                console.log("Payment error. BulkID:" + bulk_order_details_id);
                                 console.log("Error:" + error);
                                 // Redirect to the cart page
                                 window.location = "<?php echo ROOT.'/orders/bulk'; ?>";
                             }
                         };
 
-                        paymentErrorXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliurePayment/'; ?>" + order_id, true);
-                        paymentErrorXhttp.send();
+                        paymentDismissedXhttp.open("GET", "<?php echo ROOT . '/payments/onFaliureBulkPayment/'; ?>" + bulk_order_details_id, true);
+                        paymentDismissedXhttp.send();
                     };
 
                     var payment = {
                         "sandbox": true,
                         "merchant_id": obj["merchant_id"],
-                        "return_url": "<?php echo ROOT; ?>",
-                        "cancel_url": "<?php echo ROOT . '/checkout/BulkPay'; ?>",
+                        "return_url": "<?php echo ROOT.'/orders/bulk'; ?>",
+                        "cancel_url": "<?php echo ROOT .'/orders/bulk'; ?>",
                         "notify_url": "<?php echo ROOT . '/notify'; ?>",
                         "order_id": obj["order_id"],
                         "items": "mobile",

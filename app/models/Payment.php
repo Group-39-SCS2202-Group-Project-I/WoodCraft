@@ -57,6 +57,20 @@ class Payment extends Model
         $this->query($query, $params);
     }
 
+    public function addBulkPayment($data)
+    {
+        $query = "INSERT INTO payment (bulk_order_details_id, amount, provider, status, created_at, updated_at) VALUES (:bulk_order_details_id, :amount, :provider, :status, :created_at, :updated_at)";
+        $params = [
+            ":bulk_order_details_id" => $data['bulk_order_details_id'],
+            ":amount" => $data['amount'],
+            ":provider" => $data['provider'],
+            ":status" => $data['status'],
+            ':created_at' => date('Y-m-d H:i:s'),
+            ':updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->query($query, $params);
+    }
+
     // public function updatePayment($data, $id)
     // {
     //     $query = "UPDATE payment SET  amount = :amount, provider = :provider, status = :status WHERE payment_id = :payment_id";
