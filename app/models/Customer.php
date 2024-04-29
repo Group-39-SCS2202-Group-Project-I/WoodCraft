@@ -168,7 +168,7 @@ class Customer extends Model
         $query = "SELECT od.order_details_id, od.status, od.created_at, 
 						oi.quantity, 
 						p.name as product_name, 
-						pi.image_url as product_image_url
+						pi.image_url
 				FROM order_details od
 				LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
 				LEFT JOIN product p ON oi.product_id = p.product_id
@@ -205,7 +205,7 @@ class Customer extends Model
     public function getOrderItems($order_id)
     {
         $query = "SELECT oi.quantity, p.name AS product_name, p.price, 
-						pi.image_url as product_image_url 
+						pi.image_url
 					FROM order_item oi
 					LEFT JOIN product p ON oi.product_id = p.product_id
 					LEFT JOIN product_image pi ON p.product_id = pi.product_id
@@ -231,7 +231,7 @@ class Customer extends Model
         $query = "SELECT od.user_id, od.created_at,
                      oi.product_id,
                      p.name AS product_name,
-                     pi.image_url AS product_image,
+                     pi.image_url,
                      pr.customer_id, pr.review_id, pr.review, pr.rating
               FROM order_details od
               LEFT JOIN order_item oi ON od.order_details_id = oi.order_details_id
@@ -254,7 +254,7 @@ class Customer extends Model
         $query = "SELECT bod.bulk_order_details_id, bod.created_at,
                      br.bulk_req_id, br.product_id,
                      p.name AS product_name,
-                     pi.image_url AS product_image,
+                     pi.image_url,
                      pr.customer_id, pr.review_id, pr.review, pr.rating
               FROM bulk_order_details bod
               LEFT JOIN bulk_order_req br ON bod.bulk_req_id = br.bulk_req_id
@@ -293,7 +293,7 @@ class Customer extends Model
 
     // public function getProductDetails($product_id){
     //     $query = "SELECT p.product_id, p.name AS product_name,
-    //                      pi.image_url AS product_image
+    //                      pi.image_url
     //             FROM product p
     //             LEFT JOIN product_image pi ON p.product_id = pi.product_id
     //             WHERE p.product_id = :product_id
@@ -307,24 +307,24 @@ class Customer extends Model
     //     return $result;
     // }
 
-    public function getReviewDetails($product_id, $customer_id)
-    {
-        $query = "SELECT pr.review_id, pr.product_id, pr.rating, pr.review,
-                        p.name AS product_name,
-                        pi.image_url AS product_image
-                FROM product_review pr
-                LEFT JOIN product p ON pr.product_id = p.product_id
-                LEFT JOIN product_image pi ON p.product_id = pi.product_id
-                WHERE pr.product_id = :product_id AND pr.customer_id = :customer_id
-                GROUP BY p.product_id";
+    // public function getReviewDetails($product_id, $customer_id)
+    // {
+    //     $query = "SELECT pr.review_id, pr.product_id, pr.rating, pr.review,
+    //                     p.name AS product_name,
+    //                     pi.image_url
+    //             FROM product_review pr
+    //             LEFT JOIN product p ON pr.product_id = p.product_id
+    //             LEFT JOIN product_image pi ON p.product_id = pi.product_id
+    //             WHERE pr.product_id = :product_id AND pr.customer_id = :customer_id
+    //             GROUP BY p.product_id";
 
-        $params = array(':product_id' => $product_id);
+    //     $params = array(':product_id' => $product_id, ':customer_id'=> $customer_id);
 
-        $db = new Database();
-        $result = $db->query($query, $params, PDO::FETCH_ASSOC);
+    //     $db = new Database();
+    //     $result = $db->query($query, $params, PDO::FETCH_ASSOC);
 
-        return $result;
-    }
+    //     return $result;
+    // }
 
     public function updateReview($id, $data)
     {
@@ -355,7 +355,7 @@ class Customer extends Model
     {
         $query = "SELECT br.bulk_req_id, br.status AS request_status, br.quantity, br.created_at, br.updated_at,
                         p.name AS product_name,
-                        pi.image_url AS product_image
+                        pi.image_url
                 FROM bulk_order_req br
                 LEFT JOIN product p ON br.product_id = p.product_id
                 LEFT JOIN product_image pi ON p.product_id = pi.product_id
@@ -400,7 +400,7 @@ class Customer extends Model
     //     $query = "SELECT bod.bulk_order_details_id,
     //                     br.bulk_req_id, br.product_id,
     //                     p.name AS product_name,
-    //                     pi.image_url AS product_image,
+    //                     pi.image_url,
     //                     FROM bulk_order_details bod
     //                     LEFT JOIN bulk_order_req br ON bod.bulk_req_id = br.bulk_req_id
     //                     ";

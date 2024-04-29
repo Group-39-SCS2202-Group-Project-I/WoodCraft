@@ -217,7 +217,7 @@
                     <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
 
                     <div class="review-product">
-                        <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
+                        <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                         <p><?= $product['product_name']; ?></p>
                     </div>
 

@@ -61,7 +61,7 @@
         margin: 0;
     }
 
-    .order-info small {
+    .order-info small, .order-details small {
         font-size: 14px;
     }
 
@@ -149,7 +149,7 @@
                     <a href="<?= ROOT ?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                 </li>
                 <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
-                    <a href="<?= ROOT ?>/orders/bulkOrders"><span style="margin-left: 5px;">My Bulk Orders</span></a>
+                    <a href="<?= ROOT ?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                 </li>
                 <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
                     <a href="<?= ROOT ?>/review"><span style="margin-left: 5px;">My Reviews</span></a>
@@ -170,7 +170,7 @@
             </div>
 
             <div class="content-order">
-                <div class="content-show">
+                <!-- <div class="content-show">
                     <label for="row-count">Show:</label>
                     <select id="display-options">
                         <option value="last-5">Last 5 orders</option>
@@ -179,7 +179,7 @@
                         <option value="retail-orders">Retail orders</option>
                         <option value="bulk-orders">Bulk orders</option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="content-orders">
                     <?php if (!empty($orders)) : ?>
@@ -192,16 +192,26 @@
                                     </div>
                                     <a href="<?= ROOT ?>/orders/<?= $orderDetailsId ?>">View</a>
                                 </div>
-                                <?php foreach ($orderItems as $orderItem) : ?>
-                                    <div class="order-details">
-                                        <!-- <div class="product-details"> -->
-                                        <img src="<?= $orderItem['product_image_url'] ?>" alt="Product Image" width="100" height="100">
-                                        <p><?= $orderItem['product_name'] ?></p>
-                                        <!-- </div> -->
-                                        <p>Qty: <?= $orderItem['quantity'] ?></p>
-                                        <div class="status"><?= $orderItem['status'] ?></div>
-                                        <p><small>Updated on <?= $orderItem['created_at'] ?></small></p>
-                                    </div>
+                                <?php foreach ($orderItems as $key => $orderItem) : ?>
+                                    <!-- Display status and updated on details only for the first item -->
+                                    <?php if ($key === 0) : ?>
+                                        <div class="order-details">
+                                            <img src="<?= $orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
+                                            <p><?= $orderItem['product_name'] ?></p>
+                                            <p>Qty: <?= $orderItem['quantity'] ?></p>
+                                            <div class="status"><?= $orderItem['status'] ?></div>
+                                            <p><small>Updated on <?= $orderItem['created_at'] ?></small></p>
+                                        </div>
+                                    <?php else : ?>
+                                        <!-- For subsequent items, only display product details -->
+                                        <div class="order-details">
+                                            <img src="<?= $orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
+                                            <p><?= $orderItem['product_name'] ?></p>
+                                            <p>Qty: <?= $orderItem['quantity'] ?></p>
+                                            <div><pre>                                     </pre></div>
+                                            <div><pre>                                     </pre></div>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </div>
                         <?php } ?>
@@ -218,7 +228,7 @@
 </div>
 
 
-<script>
+<!-- <script>
     // Get the select element
     var selectDisplayOptions = document.getElementById("display-options");
 
@@ -257,7 +267,7 @@
             }
         }
     });
-</script>
+</script> -->
 
 
 

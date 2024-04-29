@@ -224,7 +224,7 @@
                                             <small>Placed on <?= $product['created_at']; ?></small>
                                         </div>
                                         <div class="to-review-item">
-                                            <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
+                                            <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
                                             <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
@@ -269,7 +269,7 @@
                                             <small>Placed on <?= $product['created_at']; ?></small>
                                         </div>
                                         <div class="to-review-item">
-                                            <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>">
+                                            <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
                                         </div>
                                         <div class="history-to-review-item">

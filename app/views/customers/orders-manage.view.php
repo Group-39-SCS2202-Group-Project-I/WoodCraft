@@ -211,6 +211,7 @@
             </div>
 
             <?php foreach ($data['order_details'] as $details) : ?>
+
                 <div class="content-manage-order">
                     <div class="content-manage-order-left">
                         <p>Order <strong style="color: var(--green2);"><?= $details['order_details_id']; ?></strong></p>
@@ -229,7 +230,7 @@
                         <?php foreach ($data['order_items'] as $item) : ?>
                             <div class="order-item">
                                 <!-- <div class="order-item-image"> -->
-                                    <img src="<?= $item['product_image_url']; ?>" alt="Product Image" width="100" height="100">
+                                    <img src="<?= $item['image_url']; ?>" alt="Product Image" width="100" height="100">
                                     <p><?= $item['product_name']; ?></p>
                                 <!-- </div> -->
                                 <p>Rs. <?= $item['price']; ?></p>
