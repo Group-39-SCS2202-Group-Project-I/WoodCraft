@@ -32,7 +32,7 @@
     .review-item {
         padding: 20px;
         border-radius: 10px;
-        background-color: var(--light);
+        background-color: var(--white);
         margin-bottom: 30px;
         transition: box-shadow 0.3s;
     }
@@ -51,7 +51,7 @@
     }
 
     .review-date small {
-        color: var(--bg1);
+        color: var(--bg2);
         font-size: 12px;
     }
 
@@ -101,7 +101,7 @@
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
-        background-color: var(--light);
+        background-color: var(--white);
         transition: box-shadow 0.3s;
     }
 
@@ -187,7 +187,7 @@
                         <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                             <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                         </li>
-                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                        <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
                             <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                         </li>
                         <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
@@ -224,7 +224,7 @@
                                             <small>Placed on <?= $product['created_at']; ?></small>
                                         </div>
                                         <div class="to-review-item">
-                                            <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
+                                            <img src="<?= ROOT."/".$product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
 
                                             <a href="<?=ROOT?>/review/<?= $product['product_id']; ?>"><button type="button" class="review-button">REVIEW</button></a>
@@ -269,7 +269,7 @@
                                             <small>Placed on <?= $product['created_at']; ?></small>
                                         </div>
                                         <div class="to-review-item">
-                                            <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
+                                            <img src="<?= ROOT."/".$product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                                             <p><?= $product['product_name']; ?></p>
                                         </div>
                                         <div class="history-to-review-item">

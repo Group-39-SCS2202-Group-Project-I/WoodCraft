@@ -7,7 +7,7 @@
     .review-product, .rating, .update, 
         .written-review, .button-review {
         border-radius: 10px;
-        background-color: var(--light);
+        background-color: var(--white);
         width: 100%;
         margin-bottom: 20px;
         padding: 30px;
@@ -131,7 +131,7 @@
     }
 
     .back-orders {
-        background-color: var(--light);
+        background-color: var(--bg2);
         border: none;
         border-radius: 20px;
         padding: 4px;
@@ -186,7 +186,7 @@
             <li class="customer-sidebar-list-item main-title <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                 <a href="<?=ROOT?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
             </li>
-            <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+            <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
                 <a href="<?=ROOT?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
             </li>
             <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
@@ -217,7 +217,7 @@
                     <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
 
                     <div class="review-product">
-                        <img src="<?= $product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
+                        <img src="<?= ROOT."/".$product['image_url']; ?>" alt="<?= $product['product_name']; ?>">
                         <p><?= $product['product_name']; ?></p>
                     </div>
 

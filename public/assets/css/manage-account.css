@@ -26,10 +26,11 @@ h2 {
 .main-container {
     display: flex;
     min-height: 100vh;
+    background-color: var(--light);
 }
 
 .side-bar-customer {
-    background-color: var(--light);
+    background-color: var(--white);
     width: 250px;
     border-radius: 10px;
     /* height: 100%; */

@@ -23,7 +23,7 @@
         padding: 20px;
         width: 100%;
         position: relative;
-        background-color: var(--light);
+        background-color: var(--white);
         transition: box-shadow 0.3s;
     }
 
@@ -32,7 +32,7 @@
     }
 
     .status {
-        background-color: var(--bg2);
+        background-color: var(--light);
         color: black;
         padding: 5px 10px;
         border-radius: 10px;
@@ -148,7 +148,7 @@
                 <li class="customer-sidebar-list-item main-title selected <?= isCurrentPage('orders') ? 'selected' : '' ?>" id="orders-nav">
                     <a href="<?= ROOT ?>/orders"><span style="margin-left: 5px;">My Orders</span></a>
                 </li>
-                <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulkOrders') ? 'selected' : '' ?>" id="bulk-nav">
+                <li class="customer-sidebar-list-item main-title <?= isCurrentPage('bulk') ? 'selected' : '' ?>" id="bulk-nav">
                     <a href="<?= ROOT ?>/orders/bulk"><span style="margin-left: 5px;">My Bulk Orders</span></a>
                 </li>
                 <li class="customer-sidebar-list-item main-title <?= isCurrentPage('review') ? 'selected' : '' ?>" id="review-nav">
@@ -196,7 +196,7 @@
                                     <!-- Display status and updated on details only for the first item -->
                                     <?php if ($key === 0) : ?>
                                         <div class="order-details">
-                                            <img src="<?= $orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
+                                            <img src="<?= ROOT."/".$orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
                                             <p><?= $orderItem['product_name'] ?></p>
                                             <p>Qty: <?= $orderItem['quantity'] ?></p>
                                             <div class="status"><?= $orderItem['status'] ?></div>
@@ -205,7 +205,7 @@
                                     <?php else : ?>
                                         <!-- For subsequent items, only display product details -->
                                         <div class="order-details">
-                                            <img src="<?= $orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
+                                            <img src="<?= ROOT."/".$orderItem['image_url'] ?>" alt="Product Image" width="100" height="100">
                                             <p><?= $orderItem['product_name'] ?></p>
                                             <p>Qty: <?= $orderItem['quantity'] ?></p>
                                             <div><pre>                                     </pre></div>

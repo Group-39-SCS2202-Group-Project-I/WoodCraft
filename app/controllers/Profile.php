@@ -83,7 +83,7 @@ class Profile extends Controller
 	
 		if (!$customerModel->validate($updatedData)) {
 			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs!');
+			message('Failed to update. Please try again!');
 			redirect('profile/editProfile');
 		}
 		else{
@@ -91,11 +91,11 @@ class Profile extends Controller
 			$success = $customerModel->updateCustomerProfile($id, $updatedData);
 
 			if ($success) {
-				message('Profile updated successfully!');
+				message('Updated successfully!');
 				redirect('profile');
 			} 
 			else {
-				message('Failed to update profile. Please try again!');
+				message('Failed to update. Please try again!');
 				redirect('customers/editProfile');
 			}
 		}	
@@ -337,16 +337,16 @@ class Profile extends Controller
 			$addressSuccess = $addressModel->updateCustomerAddress($addressId, $updatedAddressData);
 
 			if ($customerSuccess && $addressSuccess) {
-				message('Customer address updated successfully!');
+				message('Updated successfully!');
 				redirect('profile');
 			} else {
-				message('Failed to update customer address. Please try again!');
+				message('Failed to update. Please try again!');
 				redirect('profile/editAddress');
 			}
 		}
 		else{
 			// Validation failed, redirect back to the edit profile page with errors
-			message('Validation failed. Please check your inputs!');
+			message('Failed to update. Please try again!');
 			redirect('profile/editAddress');
 		}	
 	}
