@@ -110,7 +110,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
 </style>
 
 <header class="header" id="header">
-  <nav class="nav container"> 
+  <nav style="width:100%" class="nav container"> 
     <div class="navl-cont">
       <img src="<?php echo ROOT ?>/assets/images/Logo_green.png">
     </div>
@@ -146,8 +146,8 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
 
         <li class="nav__item">
           <a href="<?php echo ROOT ?>/cart" class="nav__link">
-            <span class="material-symbols-outlined nav__icon">shopping_cart <span class="cart-count"><?php echo $cartItemCount ?></span></span>
-            <span class="nav__name">Cart <span class="cart-count"><?php echo $cartItemCount ?></span>
+            <span class="material-symbols-outlined nav__icon">shopping_cart</span>
+            <span class="nav__name">Cart</span>
           </a>
         </li>
 
@@ -176,7 +176,7 @@ $cartItemCount = $_SESSION['cart']->cart_item_count;
                 <span class="material-symbols-outlined nav__icon">
                     account_circle
                 </span>
-              <span class="nav__name">Hi! <?=Auth::getCustomerName()?></span>
+              <span class="nav__name">Profile</span>
             </a>
           </li>
 
