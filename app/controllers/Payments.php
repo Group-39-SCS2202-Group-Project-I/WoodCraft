@@ -207,10 +207,7 @@ class Payments extends Controller
         $cartModel = new CartDetails();
         $cartModel->updateCartTotals($customerId);
 
-
-        $userId = Auth::getUserId();
-        $order = $orderDetails->getOrderByUserId($userId);
-        $order_details_id = $order[0]->order_details_id;
+        $order_details_id = $order->order_details_id;
         $orderDetails->updateOrderStatus($order_details_id, 'processing');
         // show('done');
 
