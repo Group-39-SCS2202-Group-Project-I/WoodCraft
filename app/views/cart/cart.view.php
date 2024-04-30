@@ -200,9 +200,6 @@
       </div>
       <div class="detail">
         <h2 id="subtotal">Subtotal<span>RS.<?php echo number_format($subtotal, 2); ?></span></h2>
-        <h2 id="delivery">Delivery<span>RS.<?php echo number_format($delivery, 2); ?></span></h2>
-        <hr>
-        <h2 id="total">Total<span>RS.<?php echo number_format($total, 2); ?></span></h2>
       </div>
       <!-- <div class="promo">
         <div class="promocode">
@@ -515,6 +512,7 @@
                 $('#loader').hide();
                 $('.alert').show();
                 $('#result').html(response);
+                window.location.reload();
             });
         }
 
@@ -533,6 +531,7 @@
                 $('#loader').hide();
                 $('.alert').show();
                 $('#result').html(response);
+                window.location.reload();
             });
         }
     });
@@ -559,9 +558,11 @@
                 $('#loader').hide();
                 $('.alert').show();
                 $('#result').html(response);
+                window.location.reload();
             },
             error: function (xhr, status, error) {
                 console.error(error);
+                window.location.reload();
             }
         });
     }
